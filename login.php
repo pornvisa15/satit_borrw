@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: pages/homepages.php");
         ob_end_flush(); // ปิด output buffering
         exit;
+        
     } else {
         echo "<script>alert('Username หรือ Password ไม่ถูกต้อง'); window.location.href = 'login.html';</script>";
         exit;
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    
+
 
 }
 ?>
