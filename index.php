@@ -11,6 +11,10 @@
 <body>
 
     <div class="login-container">
+        <div>
+    <img src="img/1.png" alt="Image not found" class="img-fluid">
+</div>
+
         <h2>เข้าสู่ระบบ</h2>
         <form action="login.php" method="POST">
             <div class="mb-3">
