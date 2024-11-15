@@ -10,7 +10,33 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<h3>ระบบยืมคืนอุปกรณ์</h3>
+
+<?php
+session_start();
+if($_SESSION['priv']== 1){
+    ?>
+    <div>บุคลากร</div>
+<?php
+
+}
+elseif($_SESSION['priv']== 2){
+?>
+
+<div>นักเรียน</div>
+
+<?php
+}
+
+elseif($_SESSION['priv']== 3){
+    ?>
+
+    <div>เจ้าหน้าที่</div>
+    
+    <?php
+}
+?>
+
+
     
 </body>
 </html>

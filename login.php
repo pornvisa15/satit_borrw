@@ -22,7 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass = $conn->real_escape_string($pass);
 
     // สอบถามข้อมูลจากฐานข้อมูล
-    $sql = "SELECT * FROM studentsatit.detail_std WHERE std_id = '$user' AND std_ipasspass = '$pass'";
+    // $sql = "SELECT * FROM studentsatit.detail_std WHERE std_id = '$user' AND std_ipasspass = '$pass'";
+     $sql = "SELECT * FROM studentsatit.detail_std WHERE std_id = '$user'";
     $result = $conn->query($sql);
 
     // ตรวจสอบผลลัพธ์
@@ -32,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ตั้งค่า session
         $_SESSION['std_name'] = $row['std_name'];
         $_SESSION['std_surname'] = $row['std_surname'];
+        $_SESSION['priv'] = 2;
 
         // เปลี่ยนหน้าไปยัง homepages.php
         header("Location: pages/homepages.php");
