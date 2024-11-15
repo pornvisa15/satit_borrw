@@ -3,6 +3,8 @@
 ob_start(); // เปิดการใช้งาน output buffering
 session_start();
 
+
+
 // ตรวจสอบว่ามีการเชื่อมต่อฐานข้อมูลหรือไม่
 include 'connect/mysql_studentsatit.php';
 
