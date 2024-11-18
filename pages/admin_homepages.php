@@ -24,8 +24,6 @@
     <div class="container-fluid">
         <ul class="nav col-10 col-lg-auto me-lg-auto mb-3 justify-content-center mb-md-0 text-white fw-bold">
             <li><a href="#" class="nav-link px-2 text-white">หน้าหลัก</a></li>
-
-            <!-- Dropdown menu สำหรับ คลังอุปกรณ์ -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,23 +43,44 @@
     </div>
 </nav>
 <!-- แถบที่3 ขาว -->
-<nav class="navbar navbar-dark" style="background-white">
-    <div class="container-fluid mb-4">
+<nav class="navbar navbar-dark" style="background-color: #ffffff;">
+    <div class="container-fluid">
+        <ul class="nav col-10 col-lg-auto me-lg-auto mb-3 justify-content-center mb-md-0 text-black fw-bold">
+            <li><a href="#" class="nav-link px-2 text-white"></a></li>
 
+        </ul>
     </div>
 </nav>
 
 <!-- แถบที่4  เทา-->
-<nav class="navbar navbar-dark" style="background-color: #f3f3f7;">
+<nav class="navbar navbar-dark" style="background-color:#c3cedc; border: 2px solid #616e8a; padding: 20px;">
     <div class="container-fluid">
-        <span class="navbar-brand text-uppercase">Navbar 5</span>
+        <span class="navbar-brand text-uppercase fw-bold fs-5" style="color: black;">รายละเอียดอุปกรณ์</span>
+    </div>
+</nav>
+
+<!-- แถบที่5 ขาว -->
+<nav class="navbar navbar-dark" style="background-color: #ffffff;">
+    <div class="container-fluid">
+        <ul class="nav col-10 col-lg-auto me-lg-auto mb-3 justify-content-center mb-md-0 text-black fw-bold">
+            <li><a href="#" class="nav-link px-2 text-white"></a></li>
+        </ul>
     </div>
 </nav>
 
 <!-- Navbar ที่ 6 -->
-<nav class="navbar navbar-dark" style="background-color: #007468;">
+<nav class="navbar navbar-dark" style="background-color: #5AC9E4;">
     <div class="container-fluid">
-        <span class="navbar-brand text-uppercase">Navbar 6</span>
+        <ul class="nav col-10 col-lg-auto me-lg-auto mb-3 justify-content-center mb-md-0 text-white fw-bold">
+            <li><a href="#" class="nav-link px-6 text-white">ลำดับ</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">เลขพัสดุ/ครุภัณฑ์</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">ชื่ออุปกรณ์</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">วันที่ยืม</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">วันที่คืน</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">ผู้ยืม</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">สถานะ</a></li>
+            <li><a href="#" class="nav-link px-6 text-white">รายละเอียด</a></li>
+        </ul>
     </div>
 </nav>
 
