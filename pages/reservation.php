@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +75,49 @@
                     </button>
                 </div>
             </div>
+            
+    <div class="row g-4 mt-5 justify-content-center">
+        <!-- Computer Equipment Card 1 -->
+        <div class="col-3">
+            <div class="card shadow-sm">
+                <div class="text-center mb-4">
+                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
+                </div>
+                <div class="card-body">
+                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
+                    <p class="card-text">สถานะ: ว่าง</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Computer Equipment Card 2 -->
+        <div class="col-3">
+            <div class="card shadow-sm">
+                <div class="text-center mb-4">
+                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
+                </div>
+                <div class="card-body">
+                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
+                    <p class="card-text">สถานะ: ว่าง</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Computer Equipment Card 3 -->
+        <div class="col-3">
+            <div class="card shadow-sm">
+                <div class="text-center mb-4">
+                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
+                </div>
+                <div class="card-body">
+                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
+                    <p class="card-text">สถานะ: ว่าง</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
         </div>
 
     </div>
