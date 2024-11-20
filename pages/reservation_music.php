@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,14 +55,14 @@
                         </div>
                     </li>
 
-                    
+               
                     <li><a href="#" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="#" class="nav-link text-light">ประวัติการยืม</a></li>
                     <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
                 </ul>
             </div>
         </div>
-
+        
         <!-- กล่องทางขวา (เนื้อหา) -->
         <div class="col-md-9 col-lg-10">
             <div class="p-3 bg-light border rounded shadow-sm">
@@ -73,7 +74,146 @@
                         Search
                     </button>
                 </div>
+                <div class="row">
+    <div class="col-12 text-end mt-5">
+        <h5 class="card-title">อุปกรณ์ดนตรี</h5>
+    </div>
+</div>
+<div class="row g-4 mt-5 justify-content-center">
+    <!-- Computer Equipment Card 1 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+                <!-- คลิกลิงก์ที่รูปภาพ -->
+                <a href="#">
+                    <img src="/satit_borrw/img/9.jpg" alt="Mouse Image" class="img-fluid" style="max-width: 150px;">
+                </a>
             </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กลองเล็ก</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 2 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/8.jpg" alt="Laptop Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กีต้าร์ไฟฟ้า</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 3 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/9.jpg" alt="Laptop Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กลองเล็ก</h6>
+                <p class="card-text">สถานะ: ไม่ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 4 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/8.jpg" alt="Mouse Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กีต้าร์ไฟฟ้า</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-4 mt-5 justify-content-center">
+    <!-- Computer Equipment Card 1 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+                <!-- คลิกลิงก์ที่รูปภาพ -->
+                <a href="#">
+                    <img src="/satit_borrw/img/9.jpg" alt="Mouse Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กลองเล็ก</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 2 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/8.jpg" alt="Laptop Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กีต้าร์ไฟฟ้า</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 3 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/9.jpg" alt="Laptop Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กลองเล็ก</h6>
+                <p class="card-text">สถานะ: ไม่ว่าง</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Computer Equipment Card 4 -->
+    <div class="col-3">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+            <div class="text-center mb-4">
+            <a href="#">
+                    <img src="/satit_borrw/img/8.jpg" alt="Mouse Image" class="img-fluid" style="max-width: 150px;">
+                </a>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : กีต้าร์ไฟฟ้า</h6>
+                <p class="card-text">สถานะ: ว่าง</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</div>
+    </div>
+    
+</div>
+
+
         </div>
 
     </div>
@@ -94,6 +234,17 @@
 
 <!-- Custom CSS -->
 <style>
+    /* ทำให้การ์ดมีขนาดเท่ากัน */
+.card {
+    height: 100%;
+}
+
+/* กำหนดรูปภาพให้มีขนาดคงที่ */
+.card img {
+    max-height: 150px;
+    object-fit: cover;
+}
+
     /* เปลี่ยนสีเมนูเมื่อ hover */
     .nav-link:hover {
         background-color: #005a3d; /* สีเข้มขึ้นเมื่อ hover */

@@ -47,22 +47,21 @@
                         <div class="collapse" id="borrowSection">
                             <div class="card card-body border-0">
                                 <ul class="list-unstyled">
-                                    <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์คอมพิวเตอร์</a></li>
-                                    <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์วิทยาศาสตร์</a></li>
-                                    <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a></li>
+                                    <li><a href="reservation_com.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์คอมพิวเตอร์</a></li>
+                                    <li><a href="reservation_science.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์วิทยาศาสตร์</a></li>
+                                    <li><a href="reservation_music.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
 
-                    <li><a href="#" class="nav-link text-light">ข้อมูลเจ้าหน้าที่</a></li>
                     <li><a href="#" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="#" class="nav-link text-light">ประวัติการยืม</a></li>
                     <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
                 </ul>
             </div>
         </div>
-
+        
         <!-- กล่องทางขวา (เนื้อหา) -->
         <div class="col-md-9 col-lg-10">
             <div class="p-3 bg-light border rounded shadow-sm">
@@ -74,49 +73,97 @@
                         Search
                     </button>
                 </div>
-            </div>
-            
-    <div class="row g-4 mt-5 justify-content-center">
-        <!-- Computer Equipment Card 1 -->
-        <div class="col-3">
-            <div class="card shadow-sm">
-                <div class="text-center mb-4">
-                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
-                </div>
-                <div class="card-body">
-                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
-                    <p class="card-text">สถานะ: ว่าง</p>
-                </div>
-            </div>
-        </div>
+                <div class="row">
+    <div class="col-12 text-end mt-5">
+        <h5 class="card-title">อุปกรณ์คอมพิวเตอร์</h5>
+    </div>
+</div>
 
-        <!-- Computer Equipment Card 2 -->
-        <div class="col-3">
-            <div class="card shadow-sm">
-                <div class="text-center mb-4">
-                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
-                </div>
-                <div class="card-body">
-                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
-                    <p class="card-text">สถานะ: ว่าง</p>
-                </div>
-            </div>
-        </div>
+<div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="max-width: 900px;">
+    <div class="d-flex align-items-center">
+        <!-- Larger Rectangular Image on the left -->
+        <img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;">
 
-        <!-- Computer Equipment Card 3 -->
-        <div class="col-3">
-            <div class="card shadow-sm">
-                <div class="text-center mb-4">
-                    <img src="/satit_borrw/img/4.jpg" alt="Logo" class="img-fluid" style="max-width: 150px;">
-                </div>
-                <div class="card-body">
-                    <h7 class="card-title">ชื่ออุปกรณ์ :คอมพิวเตอร์</h7>
-                    <p class="card-text">สถานะ: ว่าง</p>
-                </div>
+        <!-- Content on the right -->
+        <div class="ms-auto">
+            <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: ตัวอย่างอุปกรณ์</h5>
+            <div class="mb-2">
+                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> 12345</p>
+                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> หน้าจอแสดงผลขนาด 16.0" ระดับ FHD IPS WUXGA
+                หน่วยประมวลผล Intel Core i3-1215U Processor หน่วยประมวลผลกราฟิก Intel UHD Graphics (Integrated)</p>
+                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เจ้าของอุปกรณ์:</strong> นางสาวพรวิสาข์ ปรีชา</p>
+                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>สถานะการใช้งาน:</strong> ไม่ว่าง</p>
             </div>
+            <!-- Button for booking -->
+            <div class="text-end">
+    <!-- Link to another page when the button is clicked -->
+    <a href="your-target-page.html">
+    <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
+</a>
+
+</div>
+
         </div>
     </div>
 </div>
+
+
+
+<div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 900px;">
+    <!-- Title Section -->
+    <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">ประวัติการยืม</h5>
+
+    <!-- Table Section -->
+    <table class="table table-hover table-bordered">
+        <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+            <tr>
+               
+                <th scope="col">ผู้ยืม</th>
+                <th scope="col">วันที่ยืม</th>
+                <th scope="col">วันที่คืน</th>
+                <th scope="col">เวลาคืน</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 0.8rem;">
+            <tr>
+                
+                <td>นางสาวพรวิสาข์ ปรีชา</td>
+                <td>2024-11-18</td>
+                <td>2024-11-25</td>
+                <td>15:30</td>
+            </tr>
+            <tr>
+                
+                <td>นายอภิชาติ จิตรานนท์</td>
+                <td>2024-11-10</td>
+                <td>2024-11-15</td>
+                <td>14:45</td>
+            </tr>
+            <tr>
+                
+                <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
+                <td>2024-11-05</td>
+                <td>2024-11-12</td>
+                <td>09:00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+   
+</div>
+
 
         </div>
 
@@ -138,6 +185,17 @@
 
 <!-- Custom CSS -->
 <style>
+    /* ทำให้การ์ดมีขนาดเท่ากัน */
+.card {
+    height: 100%;
+}
+
+/* กำหนดรูปภาพให้มีขนาดคงที่ */
+.card img {
+    max-height: 150px;
+    object-fit: cover;
+}
+
     /* เปลี่ยนสีเมนูเมื่อ hover */
     .nav-link:hover {
         background-color: #005a3d; /* สีเข้มขึ้นเมื่อ hover */

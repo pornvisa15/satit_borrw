@@ -9,7 +9,7 @@
     <style>
         /* ขอบสีฟ้าด้านบน */
         body {
-           border-top: 100px solid #5AC9E4; /* เพิ่มขอบฟ้าขนาด 100px */
+           border-top: 30px solid #5AC9E4; /* เพิ่มขอบฟ้าขนาด 100px */
             margin: 0; /* ลบ margin ของ body */
             height: 100vh; /* ทำให้ body มีความสูง 100vh */
             overflow: hidden; /* ห้ามเลื่อนหน้าจอ */
