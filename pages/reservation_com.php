@@ -85,7 +85,7 @@
         <div class="card h-100 shadow-sm d-flex flex-column">
             <div class="text-center mb-4">
                 <!-- คลิกลิงก์ที่รูปภาพ -->
-                <a href="reservation1_com.php">
+                <a href="reservation1yes_com.php">
                     <img src="/satit_borrw/img/6.jpg" alt="Mouse Image" class="img-fluid" style="max-width: 150px;">
                 </a>
             </div>
@@ -100,7 +100,7 @@
     <div class="col-3">
         <div class="card h-100 shadow-sm d-flex flex-column">
             <div class="text-center mb-4">
-            <a href="#">
+            <a href="reservation1no_com.php">
                     <img src="/satit_borrw/img/2.jpg" alt="Laptop Image" class="img-fluid" style="max-width: 150px;">
                 </a>
             </div>

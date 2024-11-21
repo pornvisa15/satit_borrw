@@ -65,51 +65,49 @@
         <!-- กล่องทางขวา (เนื้อหา) -->
         <div class="col-md-9 col-lg-10">
             <div class="p-3 bg-light border rounded shadow-sm">
-                <h4>Search</h4>
-                <!-- กล่องค้นหา -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="ค้นหาอุปกรณ์" aria-label="Search" aria-describedby="button-search">
-                    <button class="btn text-light" type="button" id="button-search" style="background-color: #007468; border-color: #007468;">
-                        Search
-                    </button>
+            <div class="row">
+                <div class="col-2 text-end mt-3">
+                <h5 class="card-title" 
+            
+    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468;"onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';"> อุปกรณ์คอมพิวเตอร์
+</h5>
+               
+</div>
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
+        <div class="d-flex align-items-center">
+            <!-- Larger Rectangular Image on the left -->
+            <img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;">
+
+            <!-- Content on the right -->
+            <div class="ms-auto">
+                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: เมาส์</h5>
+                <div class="mb-2">
+                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> M0001234</p>
+                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> หน้าจอแสดงผลขนาด 16.0" ระดับ FHD IPS WUXGA
+                    หน่วยประมวลผล Intel Core i3-1215U Processor หน่วยประมวลผลกราฟิก Intel UHD Graphics (Integrated)</p>
+                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เจ้าของอุปกรณ์:</strong> นางสาวพรวิสาข์ ปรีชา</p>
+                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
+                    <strong>สถานะการใช้งาน:</strong> <span style="color: red;">ไม่ว่าง</span>
+                    </p>
                 </div>
-                <div class="row">
-    <div class="col-12 text-end mt-5">
-        <h5 class="card-title">อุปกรณ์คอมพิวเตอร์</h5>
-    </div>
-</div>
-
-<div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="max-width: 900px;">
-    <div class="d-flex align-items-center">
-        <!-- Larger Rectangular Image on the left -->
-        <img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;">
-
-        <!-- Content on the right -->
-        <div class="ms-auto">
-            <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: ตัวอย่างอุปกรณ์</h5>
-            <div class="mb-2">
-                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> 12345</p>
-                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> หน้าจอแสดงผลขนาด 16.0" ระดับ FHD IPS WUXGA
-                หน่วยประมวลผล Intel Core i3-1215U Processor หน่วยประมวลผลกราฟิก Intel UHD Graphics (Integrated)</p>
-                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เจ้าของอุปกรณ์:</strong> นางสาวพรวิสาข์ ปรีชา</p>
-                <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>สถานะการใช้งาน:</strong> ไม่ว่าง</p>
+                <!-- Button for booking -->
+                <div class="text-end">
+                    <!-- Link to another page when the button is clicked -->
+                    <a href="reservation1_book_com.php">
+                        <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
+                    </a>
+                </div>
             </div>
-            <!-- Button for booking -->
-            <div class="text-end">
-    <!-- Link to another page when the button is clicked -->
-    <a href="your-target-page.html">
-    <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
-</a>
-
-</div>
-
         </div>
     </div>
 </div>
 
 
 
-<div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 900px;">
+
+<div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
     <!-- Title Section -->
     <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">ประวัติการยืม</h5>
 
