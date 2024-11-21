@@ -92,7 +92,7 @@
         <form style="margin-top: -10px;">
             <div class="form-group" style="margin-bottom: 10px; margin-top: -10px; display: flex; align-items: center;">
                 <label for="deviceName" class="font-weight-bold text-success" style="font-size: 16px; color: #007468; margin-right: 10px; white-space: nowrap;">ชื่ออุปกรณ์ :</label>
-                <input type="text" class="form-control" id="deviceName" value="เมาส์" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6;">
+                <input type="text" class="form-control" id="deviceName" value="โน๊ตบุ๊ค" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6;">
             </div>
 
             <div class="form-group row" style="margin-bottom: 10px;">
@@ -196,7 +196,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Bootstrap JS (Optional for interactive components) -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

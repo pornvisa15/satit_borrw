@@ -1,30 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>เข้าสู่ระบบ</title>
+    <!-- ใช้ Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <title>Login</title>
     <style>
-        /* ขอบสีฟ้าด้านบน */
-        body {
-           border-top: 30px solid #5AC9E4; /* เพิ่มขอบฟ้าขนาด 100px */
-            margin: 0; /* ลบ margin ของ body */
-            height: 100vh; /* ทำให้ body มีความสูง 100vh */
-            overflow: hidden; /* ห้ามเลื่อนหน้าจอ */
+        /* สไตล์สำหรับการแสดงฟอร์มให้เด้งขึ้นจากด้านล่าง */
+        .login-container {
+            animation: slideUp 0.8s ease-out;
+            border-top: 5px solid #5AC9E4; /* เพิ่มขอบสีฟ้าที่ด้านบน */
+            margin-top: 60px; /* ปรับให้ฟอร์มล็อกอินไม่ชนกับขอบฟ้า */
         }
-        html {
-            height: 100%; /* ทำให้ html มีความสูง 100% */
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px); /* เริ่มต้นจากด้านล่าง */
+                opacity: 0; /* ความโปร่งใสเริ่มต้น */
+            }
+            to {
+                transform: translateY(0); /* ปลายทางที่ตำแหน่งปกติ */
+                opacity: 1; /* ความโปร่งใสที่ 100% */
+            }
+        }
+
+        /* สไตล์สำหรับขอบฟ้า */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #5AC9E4;
+            border-bottom: 5px solid #5AC9E4;
+            z-index: 1050;
+            padding: 10px 0;
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
 
+    <!-- ขอบฟ้า (Header) ที่จะอยู่ที่ด้านบนสุดของหน้า -->
+    <div class="header">
+       
+    </div>
+
     <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="login-container p-4 rounded shadow" style="background-color: #f8f9fa; width: 100%; max-width: 400px;">
             <div class="text-center mb-4">
-                <img src="img/1.png" alt="Logo" class="img-fluid" style="width: 150px;">
+                <img src="img/1.png" alt="Logo" class="img-fluid" style="width: 160px;">
             </div>
             <h4 class="text-center mb-4">ระบบ ยืม-คืน อุปกรณ์</h4>
             <h5 class="text-center mb-2">เข้าสู่ระบบ</h5>
@@ -41,9 +69,9 @@
 
                 <!-- Input for Password with Icon -->
                 <div class="mb-3">
-                    <div class="input-group">
+                    <div class="input-group col-6 mx-auto"> <!-- กำหนดให้ input อยู่ตรงกลาง -->
                         <span class="input-group-text" id="password-icon">
-                            <i class="bi bi-eye" id="toggle-password" style="cursor: pointer;"></i> <!-- ไอคอนสำหรับแสดง/ซ่อนรหัสผ่าน -->
+                            <i class="bi bi-eye" id="toggle-password" style="cursor: pointer;"></i>
                         </span>
                         <input type="password" id="password" name="password" class="form-control" placeholder="รหัสผ่าน" required>
                     </div>
@@ -68,10 +96,14 @@
                     });
                 </script>
 
-                <div class="d-grid gap-2">
-                    <input type="submit" class="btn btn-primary shadow" value="Login" style="background-color: #5AC9E4; border-color: #5AC9E4; color: white; font-size: 1rem; font-weight: 500; padding: 10px 20px; border-radius: 5px; transition: all 0.3s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <!-- Submit Button -->
+                <div class="d-grid gap-2 col-3 mx-auto" style="margin-top: 20px;">
+                    <input type="submit" class="btn btn-primary shadow" value="Login" 
+                        style="background-color: #5AC9E4; border-color: #5AC9E4; color: white; font-size: 1rem; font-weight: 500; 
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;" 
+                        onmouseover="this.style.backgroundColor='#4FB8D4'; this.style.borderColor='#4FB8D4'; this.style.boxShadow='0 4px 6px rgba(0, 0, 0, 0.15)';"
+                        onmouseout="this.style.backgroundColor='#5AC9E4'; this.style.borderColor='#5AC9E4'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1)';">
                 </div>
-
             </form>
 
             <!-- ข้อความข้อกำหนดอยู่ทางซ้ายมือ -->
@@ -81,9 +113,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS (Optional for interactive components) -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-
+    <!-- Bootstrap JS (include this at the end of your body tag) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

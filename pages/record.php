@@ -9,7 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
+
+
 <body class="d-flex flex-column min-vh-100">
 
 <!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
@@ -63,80 +68,121 @@
         </div>
         
         <!-- กล่องทางขวา (เนื้อหา) -->
-        <div class="col-md-9 col-lg-10">
+        <div class="col-md-9 col-lg-10 mb-5">
             <div class="p-3 bg-light border rounded shadow-sm">
-            <div class="row">
-                <div class="col-2 text-end mt-3">
-                <h5 class="card-title" 
-            
-    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468;"onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';"> อุปกรณ์คอมพิวเตอร์
-</h5>
                
-</div>
-
-<div class="d-flex justify-content-center mt-5 mb-5">
-    <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
-        <div class="d-flex align-items-center">
-            <!-- Larger Rectangular Image on the left -->
-            <!-- รูปภาพที่จะแสดงในหน้าเว็บ -->
-<img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;" data-bs-toggle="modal" data-bs-target="#zoomModal">
-
-<!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
-<div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <!-- รูปภาพที่จะแสดงในโหมดซูม -->
-                <img src="/satit_borrw/img/6.jpg" class="img-fluid" alt="Zoomed Image" style="max-width: 100%; height: auto;">
-            </div>
-        </div>
-    </div>
-</div>
-  
-
-
-            <!-- Content on the right -->
-            <div class="ms-auto">
-                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: เมาส์</h5>
-                <div class="mb-2">
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> A0001234</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> เมาส์ไร้สาย Anitech Bluetooth and Wireless Mouse Sanrio KU-W239-BK Black</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เจ้าของอุปกรณ์:</strong> นางสาวพรวิสาข์ ปรีชา</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                    <strong>สถานะการใช้งาน:</strong> <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                    </p>
-                </div>
-                <!-- Button for booking -->
-                <div class="text-end">
-                    <!-- Link to another page when the button is clicked -->
-                    <a href="reservation1_book_com.php">
-                        <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-</div>
-    </div>
+            <div class="row">
    
 </div>
 
+<div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px; margin-bottom: 30px;">
+    <h1 class="text-center mb-4" style="color: #007468; font-size: 20px; font-weight: bold;">ประวัติการยืม-คืน</h1>
+
+    <ul class="list-group list-group-flush">
+        <!-- Example Borrowing History Item -->
+        <li class="list-group-item d-flex justify-content-between align-items-center" 
+            style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;" 
+            onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
+            onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+            <div>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">Notebook CC</span>
+                <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 10 พ.ย. 67 - วันที่ 15 พ.ย. 67</div>
+                <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+            </div>
+            <span class="badge bg-success d-flex align-items-center" 
+                style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
+                onmouseover="this.style.backgroundColor='#28a745';" 
+                onmouseout="this.style.backgroundColor='#198754';">
+                <i class="bi bi-check-circle-fill me-1"></i> คืนแล้ว
+            </span>
+        </li>
+
+        <!-- Another Borrowing History Item -->
+        <li class="list-group-item d-flex justify-content-between align-items-center" 
+            style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;" 
+            onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
+            onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+            <div>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">Notebook FF</span>
+                <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 1 พ.ย. 67 - วันที่ 7 พ.ย. 67</div>
+                <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+            </div>
+            <span class="badge bg-success d-flex align-items-center" 
+                style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
+                onmouseover="this.style.backgroundColor='#28a745';" 
+                onmouseout="this.style.backgroundColor='#198754';">
+                <i class="bi bi-check-circle-fill me-1"></i> คืนแล้ว
+            </span>
+        </li>
+
+        <!-- Another Borrowing History Item -->
+        <li class="list-group-item d-flex justify-content-between align-items-center" 
+            style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;" 
+            onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
+            onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+            <div>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">pH Meter</span>
+                <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 10 ต.ค. 67 - วันที่ 12 ต.ค. 67</div>
+                <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+            </div>
+            <span class="badge bg-success d-flex align-items-center" 
+                style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
+                onmouseover="this.style.backgroundColor='#28a745';" 
+                onmouseout="this.style.backgroundColor='#198754';">
+                <i class="bi bi-check-circle-fill me-1"></i> คืนแล้ว
+            </span>
+        </li>
+
+        <!-- Pending Item Example -->
+        <li class="list-group-item d-flex justify-content-between align-items-center" 
+            style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;" 
+            onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
+            onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+            <div>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">เครื่องวัดความหนาโลหะ</span>
+                <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 16 พ.ย. 67 - วันที่ 20 พ.ย. 67</div>
+                <div style="font-size: 12px; color: #6c757d;">สถานะ: กำลังยืม</div>
+            </div>
+            <span class="badge bg-warning d-flex align-items-center" 
+                style="transition: background-color 0.3s ease; background-color: #ffc107; font-size: 12px;" 
+                onmouseover="this.style.backgroundColor='#e0a800';" 
+                onmouseout="this.style.backgroundColor='#ffc107';">
+                <i class="bi bi-exclamation-circle-fill me-1"></i> กำลังยืม
+            </span>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+
 
         </div>
-
     </div>
 </div>
+
+
+
+           
+        </div>
+</body>
+</html>
+
+
+
+   
+   
+
+
+
+        
+
+   
+
 
 <!-- Footer -->
 <footer style="background-color: #495057;" class="text-light py-3 mt-4">
@@ -145,15 +191,11 @@
     </div>
 </footer>
 
-<!-- Bootstrap JS และ Popper.js (จำเป็นต้องใช้ในการทำงานของ modal) -->
-
-
-
 
 <!-- Bootstrap JS (Optional for interactive components) -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Custom CSS -->
 <style>
     /* ทำให้การ์ดมีขนาดเท่ากัน */

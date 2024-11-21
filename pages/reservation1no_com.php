@@ -55,8 +55,8 @@
                         </div>
                     </li>
 
-                    <li><a href="#" class="nav-link text-light">แจ้งเตือน</a></li>
-                    <li><a href="#" class="nav-link text-light">ประวัติการยืม</a></li>
+                    <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
+                    <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
                     <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
                 </ul>
             </div>
@@ -74,15 +74,34 @@
                
 </div>
 
-<div class="d-flex justify-content-center mt-5">
+<div class="d-flex justify-content-center mt-5 mb-5">
     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
         <div class="d-flex align-items-center">
             <!-- Larger Rectangular Image on the left -->
-            <img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;">
+            <!-- รูปภาพที่จะแสดงในหน้าเว็บ -->
+<img src="/satit_borrw/img/2.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;" data-bs-toggle="modal" data-bs-target="#zoomModal">
+
+<!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
+<div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <!-- รูปภาพที่จะแสดงในโหมดซูม -->
+                <img src="/satit_borrw/img/2.jpg" class="img-fluid" alt="Zoomed Image" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
             <!-- Content on the right -->
             <div class="ms-auto">
-                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: เมาส์</h5>
+                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: โน๊ตบุ๊ค</h5>
                 <div class="mb-2">
                     <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> M0001234</p>
                     <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> หน้าจอแสดงผลขนาด 16.0" ระดับ FHD IPS WUXGA
@@ -95,7 +114,7 @@
                 <!-- Button for booking -->
                 <div class="text-end">
                     <!-- Link to another page when the button is clicked -->
-                    <a href="reservation1_book_com.php">
+                    <a href="reservation1.1_book_com.php">
                         <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
                     </a>
                 </div>
@@ -175,12 +194,15 @@
     </div>
 </footer>
 
+<!-- Bootstrap JS และ Popper.js (จำเป็นต้องใช้ในการทำงานของ modal) -->
+
+
 
 
 <!-- Bootstrap JS (Optional for interactive components) -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Custom CSS -->
 <style>
     /* ทำให้การ์ดมีขนาดเท่ากัน */
