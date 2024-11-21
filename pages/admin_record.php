@@ -63,7 +63,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="admin_record.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ประวัติการใช้อุปกรณ์
                 </a>
@@ -95,14 +95,11 @@
 
 
 
-
         <div class="card shadow-sm mt-5">
             <div class="card-header"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">รายการอุปกรณ์</h4>
+                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
             </div>
-
-
 
             <div class="card-body">
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
@@ -111,73 +108,59 @@
                             <th>ลำดับ</th>
                             <th>เลขพัสดุ /ครุภัณฑ์</th>
                             <th>ชื่ออุปกรณ์</th>
+                            <th>ผู้ยืม</th>
                             <th>วันที่ยืม</th>
                             <th>วันที่คืน</th>
-                            <th>ผู้ยืม</th>
-                            <th>สถานะ</th>
-                            <th>หมายเหตุ</th>
+                            <th>เวลาคืน</th>
                             <th>รายละเอียด</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>3</td>
-                            <td>B0000003</td>
-                            <td>Notebook BBB</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นางธรรมนารถ เพชรพล</td>
-                            <td><span class="badge bg-danger"
-                                    style="border-radius: 12px; padding: 5px 10px;">ไม่อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อส่งงาน ROV</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
-
-                        </tr>
-                        <tr>
                             <td>1</td>
                             <td>A0000001</td>
                             <td>Notebook Acer</td>
+                            <td>นางสาวพรวิสาข์ ปรีชา</td>
                             <td>04/11/2024</td>
                             <td>07/11/2024</td>
-                            <td>นางสาวพรวิสาข์ ปรีชา</td>
-                            <td><span class="badge bg-warning text-dark"
-                                    style="border-radius: 12px; padding: 5px 10px;">รอตรวจสอบ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อสอบนักเรียนชั้น ม.3/5</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
+                            <td>14:00 น.</td>
+                            <td><button class="btn btn-sm"
                                     style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
                                     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</button>
                             </td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>B0000002</td>
                             <td>Notebook BBB</td>
+                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
                             <td>05/11/2024</td>
                             <td>08/11/2024</td>
-                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
-                            <td><span class="badge bg-success"
-                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.4/5</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
+                            <td>15:30 น.</td>
+                            <td><button class="btn btn-sm"
                                     style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
                                     onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</button>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td>3</td>
+                            <td>B0000003</td>
+                            <td>Notebook BBB</td>
+                            <td>นางธรรมนารถ เพชรพล</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>16:00 น.</td>
+                            <td><button class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-
-
         </div>
 
     </div>

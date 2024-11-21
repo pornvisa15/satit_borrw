@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin</title>
+    <title>Admin คลังอุปกรณ์คอมพิวเตอร์</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,9 +20,10 @@
     <div class="d-flex flex-column text-white p-4"
         style="width: 250px; min-height: 100vh; background-color: #466da7;  margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
         <h3 class="mb-4 text-center"
-            style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;">
+            style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px; ">
             Admin
         </h3>
+
 
         <ul class="nav flex-column">
             <li class="nav-item mb-3">
@@ -40,7 +41,7 @@
                 </a>
                 <div class="collapse mt-2" id="borrowSection">
                     <ul class="list-unstyled">
-                        <li><a href="admin_equipment_com.php"
+                        <li><a href="equipment_com.php"
                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>
@@ -63,7 +64,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="admin_record.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ประวัติการใช้อุปกรณ์
                 </a>
@@ -93,15 +94,11 @@
             </div>
         </div>
 
-
-
-
         <div class="card shadow-sm mt-5">
             <div class="card-header"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">รายการอุปกรณ์</h4>
+                <h4 class="mb-0" style="font-size: 22px;">อุปกรณ์คอมพิวเตอร์</h4>
             </div>
-
 
 
             <div class="card-body">
@@ -111,74 +108,91 @@
                             <th>ลำดับ</th>
                             <th>เลขพัสดุ /ครุภัณฑ์</th>
                             <th>ชื่ออุปกรณ์</th>
-                            <th>วันที่ยืม</th>
-                            <th>วันที่คืน</th>
-                            <th>ผู้ยืม</th>
+                            <th>สิทธิ์การเข้าถึง</th>
+                            <th>วันที่ซื้อ</th>
+                            <th>ราคา</th>
+                            <th>จำนวนครั้ง/การยืม</th>
                             <th>สถานะ</th>
-                            <th>หมายเหตุ</th>
-                            <th>รายละเอียด</th>
+                            <th>ไฟล์ภาพ</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>3</td>
-                            <td>B0000003</td>
-                            <td>Notebook BBB</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นางธรรมนารถ เพชรพล</td>
-                            <td><span class="badge bg-danger"
-                                    style="border-radius: 12px; padding: 5px 10px;">ไม่อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อส่งงาน ROV</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
-
-                        </tr>
-                        <tr>
                             <td>1</td>
                             <td>A0000001</td>
                             <td>Notebook Acer</td>
-                            <td>04/11/2024</td>
-                            <td>07/11/2024</td>
-                            <td>นางสาวพรวิสาข์ ปรีชา</td>
+                            <td>นักเรียน</td>
+                            <td>01/01/2023</td>
+                            <td>25,000 บาท</td>
+                            <td>15 ครั้ง</td>
                             <td><span class="badge bg-warning text-dark"
                                     style="border-radius: 12px; padding: 5px 10px;">รอตรวจสอบ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อสอบนักเรียนชั้น ม.3/5</td>
                             <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                                <i class="bi bi-file-earmark-image" style="font-size: 20px; color: #4fb05a;"></i>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #ff9800; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #f44336; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>2</td>
-                            <td>B0000002</td>
-                            <td>Notebook BBB</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
-                            <td><span class="badge bg-success"
-                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.4/5</td>
+                            <td>1</td>
+                            <td>F0000001</td>
+                            <td>Notebook Acer</td>
+                            <td>บุคลากร</td>
+                            <td>01/01/2023</td>
+                            <td>80,000 บาท</td>
+                            <td>5 ครั้ง</td>
+                            <td><span class="badge bg-warning text-dark"
+                                    style="border-radius: 12px; padding: 5px 10px;">รอตรวจสอบ</span></td>
                             <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                                <i class="bi bi-file-earmark-image" style="font-size: 20px; color: #4fb05a;"></i>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #ff9800; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #f44336; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </td>
                         </tr>
-
+                        <!-- สามารถเพิ่ม row ใหม่ตามรูปแบบนี้ -->
                     </tbody>
                 </table>
             </div>
-
-
         </div>
+
+
+
+
+
+
+
+
+    </div>
 
     </div>
 
