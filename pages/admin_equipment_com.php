@@ -41,7 +41,7 @@
                 </a>
                 <div class="collapse mt-2" id="borrowSection">
                     <ul class="list-unstyled">
-                        <li><a href="equipment_com.php"
+                        <li><a href="admin_equipment_com.php"
                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>

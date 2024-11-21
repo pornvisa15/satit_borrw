@@ -121,24 +121,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>3</td>
-                            <td>B0000003</td>
-                            <td>Notebook BBB</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นางธรรมนารถ เพชรพล</td>
-                            <td><span class="badge bg-danger"
-                                    style="border-radius: 12px; padding: 5px 10px;">ไม่อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อส่งงาน ROV</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
-
-                        </tr>
-                        <tr>
                             <td>1</td>
                             <td>A0000001</td>
                             <td>Notebook Acer</td>
@@ -157,6 +139,25 @@
                         </tr>
                         <tr>
                             <td>2</td>
+                            <td>B0000003</td>
+                            <td>Notebook BBB</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>นางธรรมนารถ เพชรพล</td>
+                            <td><span class="badge bg-danger"
+                                    style="border-radius: 12px; padding: 5px 10px;">ไม่อนุมัติ</span></td>
+                            <td>ยืมคอมพิวเตอร์เพื่อส่งงาน ROV</td>
+                            <td>
+                                <a href="adminhome_details.php" class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
                             <td>B0000002</td>
                             <td>Notebook BBB</td>
                             <td>05/11/2024</td>
@@ -173,6 +174,24 @@
                             </td>
                         </tr>
 
+                        <tr>
+                            <td>4</td>
+                            <td>B0000045</td>
+                            <td>Notebook BPP</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>นายพรชัย เคลิ้มฝัน</td>
+                            <td><span class="badge bg-success" style="border-radius: 12px; padding: 5px 10px;"></span>
+                            </td>
+                            <td>ยืมคอมพิวเตอร์เพื่อทำวิจัย</td>
+                            <td>
+                                <a href="adminhome_details.php" class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -181,6 +200,8 @@
         </div>
 
     </div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
