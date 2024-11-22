@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin รายละเอียด2</title>
+    <title>Admin รายละเอียด</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -40,15 +40,16 @@
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <div class="collapse mt-2" id="borrowSection">
-                    <ul class="list-unstyled" style="color: #052659;">
+                    <ul class="list-unstyled">
                         <li><a href="admin_equipment_com.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์คอมพิวเตอร์</a>
+                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>
-                        <li><a href="reservation_science.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์วิทยาศาสตร์</a>
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์วิทยาศาสตร์</a>
                         </li>
-                        <li><a href="reservation_music.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์ดนตรี</a>
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์ดนตรี</a>
                         </li>
 
                     </ul>
@@ -195,7 +196,7 @@
                             <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
                             <div class="col-sm-6" style="padding-right: 5px; width: 100%">
                                 <label for="purpose" class="font-weight-bold "
-                                    style="margin-top 5px; font-size: 16px; ">
+                                    style="margin-top :5px; font-size: 16px; ">
                                     หมายเหตุ :</label>
                                 <textarea class="form-control" id="purpose"
                                     style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>

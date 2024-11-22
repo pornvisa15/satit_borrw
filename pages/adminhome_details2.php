@@ -279,7 +279,7 @@
                             <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
                             <div class="col-sm-6" style="padding-right: 5px; width: 100%">
                                 <label for="purpose" class="font-weight-bold "
-                                    style="margin-top 5px; font-size: 16px; ">
+                                    style="margin-top :5px; font-size: 16px; ">
                                     หมายเหตุ :</label>
                                 <textarea class="form-control" id="purpose"
                                     style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
@@ -288,12 +288,33 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                        <!-- ลิงก์ "ตกลง" ที่เชื่อมไปยัง Modal ยืนยัน -->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmDamageModal">ตกลง</button>
+                            data-bs-target="#confirmModal">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">ยืนยันการทำรายการ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>คุณต้องการบันทึกรายการนี้หรือไม่?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- ปุ่มยกเลิก -->
+                        <button type="button" class="btn btn-danger" onclick="window.location.reload();">ยกเลิก</button>
+                        <!-- ปุ่มตกลง (นำไปหน้า admin_homepages.php) -->
+                        <a href="admin_homepages.php" class="btn btn-success">ตกลง</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Modal สำหรับ "ค่าเสียหาย" -->
 

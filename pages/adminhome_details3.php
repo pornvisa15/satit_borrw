@@ -255,7 +255,8 @@
                         <form id="damageForm" action="/บันทึกรายการชำรุด" method="POST">
                             <div class="mb-3">
                                 <label for="damageCondition" class="form-label">เลือกสถานะ:</label>
-                                <select class="form-select" id="damageCondition" name="damageCondition" required>
+                                <select class="form-select" id="damageCondition" name="damageCondition" required
+                                    onchange="showRemarkField()">
                                     <option value="สภาพสมบูรณ์">สภาพสมบูรณ์</option>
                                     <option value="สภาพไม่สมบูรณ์">สภาพไม่สมบูรณ์</option>
                                     <option value="ครบถ้วนสมบูรณ์">ครบถ้วนสมบูรณ์</option>
@@ -264,6 +265,13 @@
                                     <option value="ชดใช้เป็นพัสดุ">ชดใช้เป็นพัสดุ</option>
                                     <option value="ชดใช้ค่าเสียหาย">ชดใช้ค่าเสียหาย</option>
                                 </select>
+                            </div>
+
+                            <!-- ช่องกรอกหมายเหตุจะถูกซ่อนไว้โดยค่าเริ่มต้น -->
+                            <div class="mb-3" id="damageRemarkField" style="display: none;">
+                                <label for="damageRemark" class="form-label">หมายเหตุ:</label>
+                                <textarea class="form-control" id="damageRemark" rows="4"
+                                    placeholder="กรอกหมายเหตุสำหรับการชดใช้ค่าเสียหาย"></textarea>
                             </div>
                         </form>
                     </div>
@@ -295,14 +303,19 @@
                 </div>
             </div>
         </div>
-        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
+
         <script>
-            var returnModal = document.getElementById('returnModal');
-            returnModal.addEventListener('show.bs.modal', function () {
-                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
-                document.getElementById('returnOnly').checked = true;
-            });
+            function showRemarkField() {
+                var damageCondition = document.getElementById('damageCondition').value;
+                var remarkField = document.getElementById('damageRemarkField');
+                if (damageCondition === 'ชดใช้ค่าเสียหาย') {
+                    remarkField.style.display = 'block';  // แสดงช่องกรอกหมายเหตุ
+                } else {
+                    remarkField.style.display = 'none';  // ซ่อนช่องกรอกหมายเหตุ
+                }
+            }
         </script>
+
 
 
     </div>

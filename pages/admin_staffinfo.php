@@ -56,7 +56,7 @@
                 </div>
             </li>
             <li class="nav-item mb-3">
-                <a href="admin_equipment_com.php" class="nav-link text-white"
+                <a href="admin_staffinfo.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ข้อมูลเจ้าหน้าที่
                 </a>
@@ -112,24 +112,54 @@
                         <tr>
                             <td>1</td>
                             <td>สมชาย ใจดี</td>
-                            <td>ฝ่ายไอที</td>
+                            <td>ฝ่ายวิชาการวิทยาศาสตร์</td>
                             <td>
+                                <!-- ปุ่มแก้ไข -->
                                 <button class="btn btn-sm"
                                     style="background-color: #ff9800; color: white; border-radius: 8px;"
                                     onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                                    onclick="window.location.href='adminstaff_editdetails.php';">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             </td>
                             <td>
+                                <!-- ปุ่มลบ -->
                                 <button class="btn btn-sm"
                                     style="background-color: #f44336; color: white; border-radius: 8px;"
                                     onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                                    onclick="confirmDelete(1, 'สมชาย ใจดี')">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </td>
                         </tr>
+
+                        <script>
+                            function confirmDelete(id, name) {
+                                if (confirm(`คุณต้องการลบเจ้าหน้าที่ ${name} หรือไม่?`)) {
+                                    // ส่งคำขอไปยัง Backend เพื่อลบข้อมูล
+                                    fetch(`delete_staff.php?id=${id}`, {
+                                        method: 'POST',
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                alert('ลบข้อมูลสำเร็จ');
+                                                // รีเฟรชหน้าเว็บเพื่ออัปเดตตาราง
+                                                location.reload();
+                                            } else {
+                                                alert('เกิดข้อผิดพลาด: ' + data.message);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            alert('ไม่สามารถลบข้อมูลได้');
+                                        });
+                                }
+                            }
+                        </script>
+
                         <tr>
                             <td>2</td>
                             <td>แมว ใจดี</td>
@@ -159,10 +189,12 @@
             <button class="btn"
                 style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 12px; font-size: 14px; border-color: #4CAF50; color: white;"
                 onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                onclick="window.location.href='adminstaff_details.php';">
                 <i class="bi bi-person-plus"></i> เพิ่มเจ้าหน้าที่
             </button>
         </div>
+
 
 
     </div>
