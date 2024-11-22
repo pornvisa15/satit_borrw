@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin รายละเอียด</title>
+    <title>Admin รายละเอียด2</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -169,11 +169,12 @@
             </div>
         </div>
         <!-- สิ้นสุดฟอร์มค่าาาาาาาาาา -->
+        <!-- Modal สำหรับสถานะการยืม -->
         <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="approveModalLabel">สถานการณ์ยืม</h5>
+                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -190,6 +191,16 @@
                                     value="disapprove">
                                 <label class="form-check-label" for="disapprove">ไม่อนุมัติ</label>
                             </div>
+
+                            <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
+                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
+                                <label for="purpose" class="font-weight-bold "
+                                    style="margin-top 5px; font-size: 16px; ">
+                                    หมายเหตุ :</label>
+                                <textarea class="form-control" id="purpose"
+                                    style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                            </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -201,6 +212,14 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            // ฟังก์ชันสำหรับลบข้อความในฟิลด์หมายเหตุ
+            function clearRemarks() {
+                document.getElementById('remarks').value = '';  // ล้างข้อความใน textarea
+            }
+        </script>
+
 
         <!-- Modal ยืนยันการทำรายการ -->
         <!-- Modal ยืนยันการทำรายการ -->

@@ -40,15 +40,16 @@
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <div class="collapse mt-2" id="borrowSection">
-                    <ul class="list-unstyled" style="color: #052659;">
+                    <ul class="list-unstyled">
                         <li><a href="admin_equipment_com.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์คอมพิวเตอร์</a>
+                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>
-                        <li><a href="reservation_science.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์วิทยาศาสตร์</a>
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์วิทยาศาสตร์</a>
                         </li>
-                        <li><a href="reservation_music.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์ดนตรี</a>
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                                style="color: #466da7;">อุปกรณ์ดนตรี</a>
                         </li>
 
                     </ul>

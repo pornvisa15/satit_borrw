@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin รายละเอียด2</title>
+    <title>Admin รายละเอียด3</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -193,17 +193,6 @@
                                     value="returnAndBorrow">
                                 <label class="form-check-label" for="returnAndBorrow">คืน</label>
                             </div>
-
-                            <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
-                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-                                <label for="purpose" class="font-weight-bold "
-                                    style="margin-top 5px; font-size: 16px; ">
-                                    หมายเหตุ :</label>
-                                <textarea class="form-control" id="purpose"
-                                    style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
-                            </div>
-
-
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -250,6 +239,8 @@
 
 
 
+
+        <!-- Modal สำหรับ "ชำรุด/สูญหาย" -->
         <!-- Modal สำหรับสถานะการชำรุด/สูญหาย -->
         <div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -264,8 +255,7 @@
                         <form id="damageForm" action="/บันทึกรายการชำรุด" method="POST">
                             <div class="mb-3">
                                 <label for="damageCondition" class="form-label">เลือกสถานะ:</label>
-                                <select class="form-select" id="damageCondition" name="damageCondition" required
-                                    onchange="checkDamageStatus()">
+                                <select class="form-select" id="damageCondition" name="damageCondition" required>
                                     <option value="สภาพสมบูรณ์">สภาพสมบูรณ์</option>
                                     <option value="สภาพไม่สมบูรณ์">สภาพไม่สมบูรณ์</option>
                                     <option value="ครบถ้วนสมบูรณ์">ครบถ้วนสมบูรณ์</option>
@@ -274,15 +264,6 @@
                                     <option value="ชดใช้เป็นพัสดุ">ชดใช้เป็นพัสดุ</option>
                                     <option value="ชดใช้ค่าเสียหาย">ชดใช้ค่าเสียหาย</option>
                                 </select>
-                            </div>
-
-                            <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
-                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-                                <label for="purpose" class="font-weight-bold "
-                                    style="margin-top 5px; font-size: 16px; ">
-                                    หมายเหตุ :</label>
-                                <textarea class="form-control" id="purpose"
-                                    style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
                             </div>
                         </form>
                     </div>
@@ -295,9 +276,33 @@
             </div>
         </div>
 
-        <!-- Modal สำหรับ "ค่าเสียหาย" -->
-
-
+        <!-- Modal ยืนยันการชำรุด/สูญหาย -->
+        <div class="modal fade" id="confirmDamageModal" tabindex="-1" aria-labelledby="confirmDamageModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDamageModalLabel">ยืนยันการทำรายการชำรุด/สูญหาย</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>คุณต้องการบันทึกรายการชำรุด/สูญหายนี้หรือไม่?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" onclick="window.location.reload();">ยกเลิก</button>
+                        <a href="admin_homepages.php" class="btn btn-success">ตกลง</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
+        <script>
+            var returnModal = document.getElementById('returnModal');
+            returnModal.addEventListener('show.bs.modal', function () {
+                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
+                document.getElementById('returnOnly').checked = true;
+            });
+        </script>
 
 
     </div>

@@ -44,12 +44,10 @@
                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>
-                        <li><a href="reservation_science.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์วิทยาศาสตร์</a>
                         </li>
-                        <li><a href="reservation_music.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์ดนตรี</a>
                         </li>
 
@@ -139,6 +137,41 @@
                         </tr>
                         <tr>
                             <td>2</td>
+                            <td>B0000002</td>
+                            <td>Notebook BBB</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
+                            <td><span class="badge bg-success"
+                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
+                            <td>ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.4/5</td>
+                            <td>
+                                <a href="adminhome_details2.php" class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>B0000045</td>
+                            <td>Notebook BPP</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>นายพรชัย เคลิ้มฝัน</td>
+                            <td><span class="badge bg-success"
+                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
+                            <td>ยืมคอมพิวเตอร์เพื่อทำวิจัย</td>
+                            <td>
+                                <a href="adminhome_details3.php" class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
                             <td>B0000003</td>
                             <td>Notebook BBB</td>
                             <td>05/11/2024</td>
@@ -156,41 +189,7 @@
 
                         </tr>
 
-                        <tr>
-                            <td>3</td>
-                            <td>B0000002</td>
-                            <td>Notebook BBB</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
-                            <td><span class="badge bg-success"
-                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.4/5</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
-                        </tr>
 
-                        <tr>
-                            <td>4</td>
-                            <td>B0000045</td>
-                            <td>Notebook BPP</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นายพรชัย เคลิ้มฝัน</td>
-                            <td><span class="badge bg-success" style="border-radius: 12px; padding: 5px 10px;"></span>
-                            </td>
-                            <td>ยืมคอมพิวเตอร์เพื่อทำวิจัย</td>
-                            <td>
-                                <a href="adminhome_details.php" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
-                        </tr>
 
                     </tbody>
                 </table>
