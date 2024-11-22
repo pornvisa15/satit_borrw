@@ -240,82 +240,145 @@
 
 
 
-        <!-- Modal สำหรับ "ชำรุด/สูญหาย" -->
-        <!-- Modal สำหรับสถานะการชำรุด/สูญหาย -->
-        <div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="damageModalLabel">สถานะชำรุด</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>เลือกสถานะการชำรุดของอุปกรณ์</p>
-                        <!-- ฟอร์มสำหรับเลือกสถานะการชำรุด/สูญหาย -->
-                        <form id="damageForm" action="/บันทึกรายการชำรุด" method="POST">
-                            <div class="mb-3">
-                                <label for="damageCondition" class="form-label">เลือกสถานะ:</label>
-                                <select class="form-select" id="damageCondition" name="damageCondition" required
-                                    onchange="showRemarkField()">
-                                    <option value="สภาพสมบูรณ์">สภาพสมบูรณ์</option>
-                                    <option value="สภาพไม่สมบูรณ์">สภาพไม่สมบูรณ์</option>
-                                    <option value="ครบถ้วนสมบูรณ์">ครบถ้วนสมบูรณ์</option>
-                                    <option value="ไม่ครบถ้วนสมบูรณ์">ไม่ครบถ้วนสมบูรณ์</option>
-                                    <option value="ผู้ยืมซ่อมแซม">ผู้ยืมซ่อมแซม</option>
-                                    <option value="ชดใช้เป็นพัสดุ">ชดใช้เป็นพัสดุ</option>
-                                    <option value="ชดใช้ค่าเสียหาย">ชดใช้ค่าเสียหาย</option>
-                                </select>
-                            </div>
+<div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="damageModalLabel">สถานะชำรุด</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>เลือกสถานะการชำรุดของอุปกรณ์</p>
+                <form id="damageForm" action="/บันทึกรายการชำรุด" method="POST">
+                    <select class="form-select" id="damageCondition" name="damageCondition" required onchange="togglePriceInput()">
+                        <option value="สภาพสมบูรณ์">สภาพสมบูรณ์</option>
+                        <option value="สภาพไม่สมบูรณ์">สภาพไม่สมบูรณ์</option>
+                        <option value="ครบถ้วนสมบูรณ์">ครบถ้วนสมบูรณ์</option>
+                        <option value="ไม่ครบถ้วนสมบูรณ์">ไม่ครบถ้วนสมบูรณ์</option>
+                        <option value="ผู้ยืมซ่อมแซม">ผู้ยืมซ่อมแซม</option>
+                        <option value="ชดใช้เป็นพัสดุ">ชดใช้เป็นพัสดุ</option>
+                        <option value="ชดใช้ค่าเสียหาย">ชดใช้ค่าเสียหาย</option>
+                    </select>
 
-                            <!-- ช่องกรอกหมายเหตุจะถูกซ่อนไว้โดยค่าเริ่มต้น -->
-                            <div class="mb-3" id="damageRemarkField" style="display: none;">
-                                <label for="damageRemark" class="form-label">หมายเหตุ:</label>
-                                <textarea class="form-control" id="damageRemark" rows="4"
-                                    placeholder="กรอกหมายเหตุสำหรับการชดใช้ค่าเสียหาย"></textarea>
-                            </div>
-                        </form>
+                    <!-- ฟิลด์สำหรับกรอกราคา -->
+                    <div id="priceInputContainer" style="display: none; margin-top: 10px;">
+                        <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
+                        <input type="number" class="form-control" id="damagePrice" name="damagePrice" placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmDamageModal">ตกลง</button>
+
+                    <div class="col-sm-6" style="padding-right: 5px; width: 100%; margin-top: 10px;">
+                        <label for="purpose" class="font-weight-bold" style="font-size: 16px;">หมายเหตุ:</label>
+                        <textarea class="form-control" id="purpose" name="purpose" style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
                     </div>
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" id="confirmDamageButton" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmDamageModal">ตกลง</button>
+                <!-- ปุ่ม "ถัดไป" ที่จะปรากฏเมื่อกรอกจำนวนเงิน -->
+                <button type="button" id="nextButton" class="btn btn-primary" style="display: none;" onclick="showCompletionModal()">ถัดไป</button>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Modal ยืนยันการชำรุด/สูญหาย -->
-        <div class="modal fade" id="confirmDamageModal" tabindex="-1" aria-labelledby="confirmDamageModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDamageModalLabel">ยืนยันการทำรายการชำรุด/สูญหาย</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>คุณต้องการบันทึกรายการชำรุด/สูญหายนี้หรือไม่?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="window.location.reload();">ยกเลิก</button>
-                        <a href="admin_homepages.php" class="btn btn-success">ตกลง</a>
-                    </div>
-                </div>
+<!-- โมดัลการบันทึกเสร็จสิ้น -->
+<div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ชื่ออุปกรณ์</th>
+                            <th scope="col">ราคา</th>
+                            <th scope="col">ในสต็อก</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Notebook Acer</td>
+                            <td><span id="priceInModal">0</span> บาท</td>
+                            <td><button class="btn btn-info">ดาวน์โหลดไฟล์</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ตกลง</button>
             </div>
         </div>
+    </div>
+</div>
 
+<script>
+    // ฟังก์ชันที่แสดงโมดัลการบันทึกเสร็จสิ้น
+    function showCompletionModal() {
+        // ดึงราคาที่กรอกไว้ในฟอร์ม
+        var damagePrice = document.getElementById('damagePrice').value;
+        
+        // แสดงราคานี้ในโมดัล
+        document.getElementById('priceInModal').innerText = damagePrice;
+
+        // ซ่อนโมดัลที่เปิดอยู่ก่อนหน้า (หากมี) ก่อนแสดงโมดัลใหม่
+        var modalBackdrop = document.querySelector('.modal-backdrop');
+        if (modalBackdrop) {
+            modalBackdrop.remove(); // ลบภาพพื้นหลังของโมดัล
+        }
+
+        // แสดงโมดัล "บันทึกเสร็จสิ้น"
+        var myModal = new bootstrap.Modal(document.getElementById('completionModal'));
+        myModal.show();
+    }
+
+    function togglePriceInput() {
+        var damageCondition = document.getElementById('damageCondition').value;
+        var priceInputContainer = document.getElementById('priceInputContainer');
+        var damagePriceInput = document.getElementById('damagePrice');
+        var noteField = document.getElementById('purpose'); // หมายเหตุ
+        var noteFieldContainer = noteField.parentElement; // Container ของหมายเหตุ
+        var confirmDamageButton = document.getElementById('confirmDamageButton');  // ปุ่ม "ตกลง"
+        var nextButton = document.getElementById('nextButton');  // ปุ่ม "ถัดไป"
+
+        if (damageCondition === "ชดใช้ค่าเสียหาย") {
+            priceInputContainer.style.display = "block";
+            damagePriceInput.required = true;
+            noteFieldContainer.style.display = "none"; // ซ่อนฟิลด์หมายเหตุ
+            noteField.required = false; // ยกเลิกการเป็นฟิลด์บังคับ
+            noteField.value = ""; // ล้างค่าที่กรอกไว้ในฟิลด์หมายเหตุ
+
+            // ซ่อนปุ่ม "ตกลง" และแสดงปุ่ม "ถัดไป"
+            confirmDamageButton.style.display = "none";
+            nextButton.style.display = "block";
+        } else {
+            priceInputContainer.style.display = "none";
+            damagePriceInput.required = false;
+            damagePriceInput.value = ""; // ล้างค่าที่กรอกไว้ในฟิลด์ราคา
+            noteFieldContainer.style.display = "block"; // แสดงฟิลด์หมายเหตุ
+            noteField.required = true; // ตั้งเป็นฟิลด์บังคับ
+
+            // แสดงปุ่ม "ตกลง" และซ่อนปุ่ม "ถัดไป"
+            confirmDamageButton.style.display = "block";
+            nextButton.style.display = "none";
+        }
+    }
+</script>
+
+
+
+
+        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
         <script>
-            function showRemarkField() {
-                var damageCondition = document.getElementById('damageCondition').value;
-                var remarkField = document.getElementById('damageRemarkField');
-                if (damageCondition === 'ชดใช้ค่าเสียหาย') {
-                    remarkField.style.display = 'block';  // แสดงช่องกรอกหมายเหตุ
-                } else {
-                    remarkField.style.display = 'none';  // ซ่อนช่องกรอกหมายเหตุ
-                }
-            }
-        </script> 
-
+            var returnModal = document.getElementById('returnModal');
+            returnModal.addEventListener('show.bs.modal', function () {
+                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
+                document.getElementById('returnOnly').checked = true;
+            });
+        </script>
 
 
     </div>
