@@ -40,7 +40,7 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="#" class="nav-link text-light">สำหรับการยืม</a>
+                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
                     </li>
 
                     <li>
@@ -183,16 +183,78 @@
         </li>
     </ul>
 </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" 
+            style="border-radius: 8px; font-size: 16px; background-color: #FF0303; border: none; color: white;">
+        ปิด
+    </button>
+    <button type="button" class="btn btn-primary" id="continueButton" 
+            style="border-radius: 8px; font-size: 16px; background-color: #78C756; border: none;">
+        ดำเนินการต่อ
+    </button>
+</div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 8px; font-size: 16px;">ปิด</button>
-                <button type="button" class="btn btn-primary" 
-        style="border-radius: 8px; font-size: 16px; background-color: #78C756; border: none;">
-    ดำเนินการต่อ
-</button>
 
 
+<!-- Modal ยืนยัน -->
+<div class="modal fade" id="confirmSaveModal" tabindex="-1" aria-labelledby="confirmSaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSaveModalLabel">ยืนยันการบันทึก</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                คุณต้องการบันทึกข้อมูลนี้หรือไม่?
+            </div>
+            <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" 
+            style="border-radius: 8px; font-size: 16px; background-color: #FF0303; border: none; color: white;">
+        ยกเลิก
+    </button>
+    <button type="button" class="btn btn-primary" id="saveButton" 
+            style="border-radius: 8px; font-size: 16px; background-color: #78C756; border: none;">
+        บันทึก
+    </button>
+</div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // เมื่อกด "ดำเนินการต่อ" ให้แสดง Modal ยืนยัน
+    document.getElementById('continueButton').addEventListener('click', function () {
+        const confirmSaveModal = new bootstrap.Modal(document.getElementById('confirmSaveModal'));
+        confirmSaveModal.show();
+    });
+
+    // เมื่อกด "บันทึก" ใน Modal ยืนยัน
+    document.getElementById('saveButton').addEventListener('click', function () {
+        alert('ข้อมูลถูกบันทึกเรียบร้อยแล้ว!');
+
+        // ปิด Modal ยืนยัน
+        const confirmSaveModal = bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal'));
+        confirmSaveModal.hide();
+
+        // เพิ่มโค้ดสำหรับการบันทึกข้อมูล เช่น การส่งข้อมูลไปยังเซิร์ฟเวอร์
+        // Example:
+        // fetch('/save-endpoint', {
+        //     method: 'POST',
+        //     body: JSON.stringify({ data: yourData }),
+        // }).then(response => {
+        //     if (response.ok) {
+        //         console.log('บันทึกสำเร็จ');
+        //     } else {
+        //         console.log('บันทึกไม่สำเร็จ');
+        //     }
+        // });
+
+        // นำผู้ใช้ไปที่หน้า homepages.php
+        window.location.href = "homepages.php";
+    });
+</script>
+
         </div>
     </div>
 </div>

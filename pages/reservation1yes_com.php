@@ -35,7 +35,7 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="#" class="nav-link text-light">สำหรับการยืม</a>
+                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
                     </li>
 
                     <li>

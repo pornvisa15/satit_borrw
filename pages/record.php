@@ -40,7 +40,7 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="#" class="nav-link text-light">สำหรับการยืม</a>
+                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
                     </li>
 
                     <li>
@@ -85,9 +85,11 @@
             onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
             onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
             <div>
-                <span class="fw-bold" style="font-size: 14px; color: #007468;">Notebook CC</span>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">โน๊ตบุ๊ค </span>
                 <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 10 พ.ย. 67 - วันที่ 15 พ.ย. 67</div>
                 <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+                <!-- เพิ่มจำนวนครั้งที่ยืม -->
+                <div style="font-size: 12px; color: #6c757d;">ยืมไปแล้ว 3 ครั้ง</div>
             </div>
             <span class="badge bg-success d-flex align-items-center" 
                 style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
@@ -103,9 +105,11 @@
             onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
             onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
             <div>
-                <span class="fw-bold" style="font-size: 14px; color: #007468;">Notebook FF</span>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">บีกเกอร์</span>
                 <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 1 พ.ย. 67 - วันที่ 7 พ.ย. 67</div>
                 <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+                <!-- เพิ่มจำนวนครั้งที่ยืม -->
+                <div style="font-size: 12px; color: #6c757d;">ยืมไปแล้ว 2 ครั้ง</div>
             </div>
             <span class="badge bg-success d-flex align-items-center" 
                 style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
@@ -121,9 +125,11 @@
             onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
             onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
             <div>
-                <span class="fw-bold" style="font-size: 14px; color: #007468;">pH Meter</span>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">กีต้าร์ไฟฟ้า</span>
                 <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 10 ต.ค. 67 - วันที่ 12 ต.ค. 67</div>
                 <div style="font-size: 12px; color: #6c757d;">สถานะ: คืนแล้ว</div>
+                <!-- เพิ่มจำนวนครั้งที่ยืม -->
+                <div style="font-size: 12px; color: #6c757d;">ยืมไปแล้ว 5 ครั้ง</div>
             </div>
             <span class="badge bg-success d-flex align-items-center" 
                 style="transition: background-color 0.3s ease; background-color: #198754; font-size: 12px;" 
@@ -139,9 +145,11 @@
             onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';" 
             onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
             <div>
-                <span class="fw-bold" style="font-size: 14px; color: #007468;">เครื่องวัดความหนาโลหะ</span>
+                <span class="fw-bold" style="font-size: 14px; color: #007468;">กลองเล็ก</span>
                 <div style="font-size: 12px; color: #6c757d;">วันที่ยืม 16 พ.ย. 67 - วันที่ 20 พ.ย. 67</div>
                 <div style="font-size: 12px; color: #6c757d;">สถานะ: กำลังยืม</div>
+                <!-- เพิ่มจำนวนครั้งที่ยืม -->
+                <div style="font-size: 12px; color: #6c757d;">ยืมไปแล้ว 1 ครั้ง</div>
             </div>
             <span class="badge bg-warning d-flex align-items-center" 
                 style="transition: background-color 0.3s ease; background-color: #ffc107; font-size: 12px;" 

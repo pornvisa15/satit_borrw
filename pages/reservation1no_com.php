@@ -35,7 +35,7 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="#" class="nav-link text-light">สำหรับการยืม</a>
+                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
                     </li>
 
                     <li>
@@ -115,7 +115,7 @@
                 <div class="text-end">
                     <!-- Link to another page when the button is clicked -->
                     <a href="reservation1.1_book_com.php">
-                        <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
+                        <button class="btn btn-sm" style="background-color: #78C756; color: white;">จอง</button>
                     </a>
                 </div>
             </div>

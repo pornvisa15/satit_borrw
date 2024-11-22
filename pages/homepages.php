@@ -34,7 +34,7 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="#" class="nav-link text-light">สำหรับการยืม</a>
+                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
                     </li>
 
                     <li>
@@ -55,7 +55,7 @@
                     </li>
 
                     
-                    <li><a href="" class="nav-link text-light">แจ้งเตือน</a></li>
+                    <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
                     <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
                 </ul>
