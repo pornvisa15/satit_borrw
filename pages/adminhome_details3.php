@@ -314,7 +314,7 @@
                     remarkField.style.display = 'none';  // ซ่อนช่องกรอกหมายเหตุ
                 }
             }
-        </script>
+        </script> 
 
 
 
