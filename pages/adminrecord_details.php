@@ -15,8 +15,6 @@
 
 <body class="d-flex bg-light">
 
-
-
     <div class="d-flex flex-column text-white p-4"
         style="width: 250px; min-height: 100vh; background-color: #466da7;  margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
         <h3 class="mb-4 text-center"
@@ -85,54 +83,83 @@
                 <i class="bi bi-person-circle"
                     style="font-size: 25px; color: #3b5681; border-radius: 50%; background-color: #ffffff;"></i>
                 <span class="ms-2"
-                    style="color: #05142d; font-size: 14px; font-weight: 500; letter-spacing: 0.3px;">แอดมิน: วิลเลี่ยม
+                    style="color: #05142d; font-size: 14px; font-weight: 500; letter-spacing: 0.3px;">แอดมิน:
+                    วิลเลี่ยม
                     เชคสเปียร์</span>
             </div>
         </div>
 
         <!-- การ์ดแสดงตาราง -->
 
-        <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-            <!-- Title Section -->
-            <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
-                ประวัติการยืม</h5>
 
-            <!-- Table Section -->
-            <table class="table table-hover table-bordered">
-                <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
-                    <tr>
+        <div class="card shadow-sm mt-5">
+            <div class="card-header"
+                style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
+                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
+            </div>
 
-                        <th scope="col">ผู้ยืม</th>
-                        <th scope="col">วันที่ยืม</th>
-                        <th scope="col">วันที่คืน</th>
-                        <th scope="col">เวลาคืน</th>
-                    </tr>
-                </thead>
-                <tbody style="font-size: 0.8rem;">
-                    <tr>
+            <div class="p-5 bg-white border rounded shadow-sm mt-4 mx-auto"
+                style="max-width: 100%; min-height: 300px; margin-bottom: 40px; ">
+                <!-- Title Section -->
+                <h5 class="text-align: right; mb-4 font-weight-bold" style="font-size: 18px; ">
+                    A0000001
+                </h5>
 
-                        <td>นางสาวพรวิสาข์ ปรีชา</td>
-                        <td>2024-11-18</td>
-                        <td>2024-11-25</td>
-                        <td>15:30</td>
-                    </tr>
-                    <tr>
+                <!-- Table Section -->
+                <table class="table table-hover table-bordered text-center">
+                    <thead class="text-white" style="background-color:#537bb7;">
+                        <tr>
+                            <th scope="col" style="font-size: 14px; color: white;">ผู้ยืม</th>
+                            <th scope="col" style="font-size: 14px; color: white;">วันที่ยืม</th>
+                            <th scope="col" style="font-size: 14px; color: white;">วันที่คืน</th>
+                            <th scope="col" style="font-size: 14px; color: white;">เวลาคืน</th>
+                            <th scope="col" style="font-size: 14px; color: white;">จำนวนครั้ง/ยืม</th>
+                            <th scope="col" style="font-size: 14px; color: white;">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size: 13px;">
+                        <tr>
+                            <td>นางสาวพรวิสาข์ ปรีชา</td>
+                            <td>2024-11-18</td>
+                            <td>2024-11-25</td>
+                            <td>15:30</td>
+                            <td>20</td>
+                            <td class="text-danger">ไม่ครบถ้วนสมบูรณ์</td>
+                        </tr>
+                        <tr>
+                            <td>นายอภิชาติ จิตรานนท์</td>
+                            <td>2024-11-10</td>
+                            <td>2024-11-15</td>
+                            <td>14:45</td>
+                            <td>19</td>
+                            <td class="text-warning">สภาพไม่สมบูรณ์</td>
+                        </tr>
+                        <tr>
+                            <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
+                            <td>2024-11-05</td>
+                            <td>2024-11-12</td>
+                            <td>09:00</td>
+                            <td>18</td>
+                            <td class="text-success">ครบถ้วนสมบูรณ์</td>
+                        </tr>
+                        <tr>
+                            <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
+                            <td>2024-11-05</td>
+                            <td>2024-11-12</td>
+                            <td>09:00</td>
+                            <td>18</td>
+                            <td class="text-success">ครบถ้วนสมบูรณ์</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                        <td>นายอภิชาติ จิตรานนท์</td>
-                        <td>2024-11-10</td>
-                        <td>2024-11-15</td>
-                        <td>14:45</td>
-                    </tr>
-                    <tr>
 
-                        <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
-                        <td>2024-11-05</td>
-                        <td>2024-11-12</td>
-                        <td>09:00</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            </div>
         </div>
+
+
+
 
 
 
@@ -142,5 +169,6 @@
 
 
 </body>
+
 
 </html>

@@ -89,10 +89,10 @@
                     เชคสเปียร์</span>
             </div>
         </div>
-<?php
-include '../connect/myspl_das_satit.php';
+        <?php
+        include '../connect/myspl_das_satit.php';
 
-?>
+        ?>
         <!-- การ์ดแสดงตาราง -->
         <div class="card shadow-sm mt-5">
             <div class="card-header"
@@ -112,82 +112,32 @@ include '../connect/myspl_das_satit.php';
                         </tr>
                     </thead>
                     <tbody>
-<<<<<<< Updated upstream
-                        <tr>
-                            <td>1</td>
-                            <td>สมชาย ใจดี</td>
-                            <td>ฝ่ายวิชาการวิทยาศาสตร์</td>
-                            <td>
-                                <!-- ปุ่มแก้ไข -->
-                                <button class="btn btn-sm"
-                                    style="background-color: #ff9800; color: white; border-radius: 8px;"
-                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                                    onclick="window.location.href='adminstaff_details2.php';">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                            </td>
-                            <td>
-                                <!-- ปุ่มลบ -->
-                                <button class="btn btn-sm"
-                                    style="background-color: #f44336; color: white; border-radius: 8px;"
-                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                                    onclick="confirmDelete(1, 'สมชาย ใจดี')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
 
-                        <script>
-                            function confirmDelete(id, name) {
-                                if (confirm(`คุณต้องการลบเจ้าหน้าที่ ${name} หรือไม่?`)) {
-                                    // ส่งคำขอไปยัง Backend เพื่อลบข้อมูล
-                                    fetch(`delete_staff.php?id=${id}`, {
-                                        method: 'POST',
-                                    })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                alert('ลบข้อมูลสำเร็จ');
-                                                // รีเฟรชหน้าเว็บเพื่ออัปเดตตาราง
-                                                location.reload();
-                                            } else {
-                                                alert('เกิดข้อผิดพลาด: ' + data.message);
-                                            }
-                                        })
-                                        .catch(error => {
-                                            console.error('Error:', error);
-                                            alert('ไม่สามารถลบข้อมูลได้');
-                                        });
-                                }
-=======
-                      
-                           <?php
-                           include '../connect/myspl_das_satit.php';
-                           include '../connect/mysql_borrow.php' ;
-                           $i=1;
-                           $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-                           $result = $conn->query( $sq_officer);
-                           if ($result->num_rows > 0) {
+                        <?php
+                        include '../connect/myspl_das_satit.php';
+                        include '../connect/mysql_borrow.php';
+                        $i = 1;
+                        $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
+                        $result = $conn->query($sq_officer);
+                        if ($result->num_rows > 0) {
                             // output data of each row
-                            while($rowofficer = $result->fetch_assoc()) {
-                             ?>
+                            while ($rowofficer = $result->fetch_assoc()) {
+                                ?>
                                 <tr>
-                             <td><?php echo $i ?></td>
-                             <td><?php echo $rowofficer['praname'].$rowofficer['name']." ".$rowofficer['surname'] ?></td>
-                             <td><?php echo $rowofficer['officer_Right']?></td>
-                             <td>แก้ไข</td>
-                             <td><a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id'] ?>" class=" btn btn-info">ลบ</a></td>
-                             </tr>
-                             <?php
->>>>>>> Stashed changes
+                                    <td><?php echo $i ?></td>
+                                    <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname'] ?></td>
+                                    <td><?php echo $rowofficer['officer_Right'] ?></td>
+                                    <td>แก้ไข</td>
+                                    <td><a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id'] ?>"
+                                            class=" btn btn-info">ลบ</a></td>
+                                </tr>
+                                <?php
                             }
                             $i++;
                         }
-                           
-                           ?>
-                     
+
+                        ?>
+
 
                     </tbody>
                 </table>

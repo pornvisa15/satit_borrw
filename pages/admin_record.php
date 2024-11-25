@@ -93,65 +93,68 @@
             </div>
         </div>
 
-
-
         <div class="card shadow-sm mt-5">
             <div class="card-header"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
+                <h4 class="mb-0" style="font-size: 22px;">รายชื่อเจ้าหน้าที่</h4>
             </div>
-
-            <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                <!-- Title Section -->
-                <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
-                    ประวัติการยืม</h5>
-
-                <!-- Table Section -->
-                <table class="table table-hover table-bordered">
-                    <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+            <div class="card-body">
+                <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+                    <thead class="table-light">
                         <tr>
-
-                            <th scope="col">ผู้ยืม</th>
-                            <th scope="col">วันที่ยืม</th>
-                            <th scope="col">วันที่คืน</th>
-                            <th scope="col">เวลาคืน</th>
+                            <th>ลำดับ</th>
+                            <th>เลขพัสดุ /ครุภัณฑ์</th>
+                            <th>ชื่ออุปกรณ์</th>
+                            <th>ผู้ยืม</th>
+                            <th>วันที่ยืม</th>
+                            <th>วันที่คืน</th>
+                            <th>เวลาคืน</th>
+                            <th>รายละเอียด</th>
                         </tr>
                     </thead>
-                    <tbody style="font-size: 0.8rem;">
+                    <tbody>
                         <tr>
-
+                            <td>1</td>
+                            <td>A0000001</td>
+                            <td>Notebook Acer</td>
                             <td>นางสาวพรวิสาข์ ปรีชา</td>
-                            <td>2024-11-18</td>
-                            <td>2024-11-25</td>
-                            <td>15:30</td>
+                            <td>04/11/2024</td>
+                            <td>07/11/2024</td>
+                            <td>14:00 น.</td>
+                            <td>
+                                <a href="adminrecord_details.php?item_id=A0000001" class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                                    รายละเอียด
+                                </a>
+                            </td>
                         </tr>
                         <tr>
-
-                            <td>นายอภิชาติ จิตรานนท์</td>
-                            <td>2024-11-10</td>
-                            <td>2024-11-15</td>
-                            <td>14:45</td>
-                        </tr>
-                        <tr>
-
-                            <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
-                            <td>2024-11-05</td>
-                            <td>2024-11-12</td>
-                            <td>09:00</td>
+                            <td>2</td>
+                            <td>B0000002</td>
+                            <td>Notebook BBB</td>
+                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
+                            <td>05/11/2024</td>
+                            <td>08/11/2024</td>
+                            <td>15:30 น.</td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
+                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'"
+                                    onclick="redirectToDetails('B0000002')">
+                                    รายละเอียด
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
 
-
-
-        </div>
-    </div>
-
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 
 </body>
