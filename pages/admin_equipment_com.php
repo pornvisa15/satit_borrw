@@ -185,7 +185,15 @@
             </div>
         </div>
 
-
+        <div class="d-flex justify-content-start p-3">
+            <button class="btn"
+                style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 12px; font-size: 14px; border-color: #4CAF50; color: white;"
+                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                onclick="window.location.href='admin_equipment_in_com.php';">
+                <i class="bi bi-person-plus"></i> เพิ่มอุปกรณ์
+            </button>
+        </div>
 
 
 
