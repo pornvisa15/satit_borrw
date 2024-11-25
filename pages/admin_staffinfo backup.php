@@ -112,7 +112,6 @@ include '../connect/myspl_das_satit.php';
                         </tr>
                     </thead>
                     <tbody>
-<<<<<<< Updated upstream
                         <tr>
                             <td>1</td>
                             <td>สมชาย ใจดี</td>
@@ -123,7 +122,7 @@ include '../connect/myspl_das_satit.php';
                                     style="background-color: #ff9800; color: white; border-radius: 8px;"
                                     onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
                                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                                    onclick="window.location.href='adminstaff_details2.php';">
+                                    onclick="window.location.href='adminstaff_editdetails.php';">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             </td>
@@ -161,34 +160,30 @@ include '../connect/myspl_das_satit.php';
                                             alert('ไม่สามารถลบข้อมูลได้');
                                         });
                                 }
-=======
-                      
-                           <?php
-                           include '../connect/myspl_das_satit.php';
-                           include '../connect/mysql_borrow.php' ;
-                           $i=1;
-                           $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-                           $result = $conn->query( $sq_officer);
-                           if ($result->num_rows > 0) {
-                            // output data of each row
-                            while($rowofficer = $result->fetch_assoc()) {
-                             ?>
-                                <tr>
-                             <td><?php echo $i ?></td>
-                             <td><?php echo $rowofficer['praname'].$rowofficer['name']." ".$rowofficer['surname'] ?></td>
-                             <td><?php echo $rowofficer['officer_Right']?></td>
-                             <td>แก้ไข</td>
-                             <td><a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id'] ?>" class=" btn btn-info">ลบ</a></td>
-                             </tr>
-                             <?php
->>>>>>> Stashed changes
                             }
-                            $i++;
-                        }
-                           
-                           ?>
-                     
+                        </script>
 
+                        <tr>
+                            <td>2</td>
+                            <td>แมว ใจดี</td>
+                            <td>ฝ่ายวิทชาการคอมพิวเตอร์</td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #ff9800; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    style="background-color: #f44336; color: white; border-radius: 8px;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

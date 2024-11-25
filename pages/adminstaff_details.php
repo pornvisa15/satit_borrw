@@ -101,23 +101,50 @@
                 <h5 class="text-center mb-4">เพิ่มข้อมูลเจ้าหน้าที่</h5>
 
                 <!-- ชื่อ-นามสกุล -->
+                <!-- <div class="mb-4">
+                    <label for="fullname" class="font-weight-bold"
+                        style="font-size: 16px; color: black;">ชื่อ-นามสกุล:</label>
+                    <input type = "text" class="form-control" name="fullname" placeholder="กรอกชื่อ-นามสกุล" required
+                        style="margin-top :5px; padding: 10px; font-size: 16px; height: 45px; resize: none; overflow: hidden; border: 1px solid #ced4da; border-radius: 5px;"></ร>
+                </div> -->
+                <form action="../connect/officer/insert.php" method="POST" >
                 <div class="mb-4">
                     <label for="fullname" class="font-weight-bold"
                         style="font-size: 16px; color: black;">ชื่อ-นามสกุล:</label>
-                    <textarea class="form-control" id="fullname" placeholder="กรอกชื่อ-นามสกุล"
-                        style="margin-top :5px; padding: 10px; font-size: 16px; height: 45px; resize: none; overflow: hidden; border: 1px solid #ced4da; border-radius: 5px;"></textarea>
+                        <select class="form-select" name="useripass"  required
+                        style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                        <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+                        <?php
+                        include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
+                        $sql = "SELECT * FROM das_satit.das_admin WHERE das_admin.statuson = 1";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+                          // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                           ?>
+                            <option value="<?php echo $row['useripass'] ?>"><?php echo $row['praname'].$row['name']." ".$row['surname'] ?></option>
+                           <?php
+                          }}
+
+                        ?>
+                        
+                        
+                    </select>
                 </div>
 
                 <!-- เจ้าหน้าที่ฝ่าย -->
                 <div class="mb-4">
                     <label for="department" class="font-weight-bold"
                         style="font-size: 16px; color: black;">เจ้าหน้าที่ฝ่าย:</label>
-                    <select class="form-select" id="department"
+                    <select class="form-select" name="officer_Right"  required
                         style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                         <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
                         <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
                         <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
                         <option value="ฝ่ายดนตรี">ฝ่ายดนตรี</option>
+                        <option value="ฝ่ายพัสดุ">ฝ่ายพัสดุ</option>
+                        <option value="แอดมิน">แอดมิน</option>
                     </select>
                 </div>
                 <div class="text-center d-flex justify-content-center gap-3">
@@ -135,9 +162,9 @@
                         <i class="bi bi-check-circle"></i> บันทึกข้อมูล
                     </button>
                 </div>
-
+                </form>
                 <!-- Modal ยืนยัน -->
-                <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
+                <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -150,15 +177,15 @@
                                 <p>คุณต้องการบันทึกรายการนี้หรือไม่?</p>
                             </div>
                             <div class="modal-footer">
-                                <!-- ปุ่มยกเลิก -->
-                                <button type="button" class="btn btn-danger"
-                                    onclick="window.location.reload();">ยกเลิก</button>
+                                 ปุ่มยกเลิก -->
+                                <!-- <button type="button" class="btn btn-danger"
+                                    onclick="window.location.reload();">ยกเลิก</button> -->
                                 <!-- ปุ่มตกลง (นำไปหน้า admin_homepages.php) -->
-                                <a href="admin_staffinfo.php" class="btn btn-success">ตกลง</a>
-                            </div>
+                                <!-- <a href="admin_staffinfo.php" class="btn btn-success">ตกลง</a> -->
+                            <!-- </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
 
