@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin</title>
+    <title>Admin ข้อมูลเจ้าหน้าที่</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,9 +20,10 @@
     <div class="d-flex flex-column text-white p-4"
         style="width: 250px; min-height: 100vh; background-color: #466da7;  margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
         <h3 class="mb-4 text-center"
-            style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;">
+            style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px; ">
             Admin
         </h3>
+
 
         <ul class="nav flex-column">
             <li class="nav-item mb-3">
@@ -44,12 +45,10 @@
                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์คอมพิวเตอร์</a>
                         </li>
-                        <li><a href="reservation_science.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์วิทยาศาสตร์</a>
                         </li>
-                        <li><a href="reservation_music.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
+                        <li><a href="#" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6"
                                 style="color: #466da7;">อุปกรณ์ดนตรี</a>
                         </li>
 
@@ -78,8 +77,6 @@
     </div>
 
 
-
-
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
             <div class="d-flex align-items-center p-2"
@@ -93,65 +90,55 @@
             </div>
         </div>
 
+        <!-- การ์ดแสดงตาราง -->
 
+        <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
+            <!-- Title Section -->
+            <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
+                ประวัติการยืม</h5>
 
-        <div class="card shadow-sm mt-5">
-            <div class="card-header"
-                style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
-            </div>
+            <!-- Table Section -->
+            <table class="table table-hover table-bordered">
+                <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+                    <tr>
 
-            <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                <!-- Title Section -->
-                <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
-                    ประวัติการยืม</h5>
+                        <th scope="col">ผู้ยืม</th>
+                        <th scope="col">วันที่ยืม</th>
+                        <th scope="col">วันที่คืน</th>
+                        <th scope="col">เวลาคืน</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 0.8rem;">
+                    <tr>
 
-                <!-- Table Section -->
-                <table class="table table-hover table-bordered">
-                    <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
-                        <tr>
+                        <td>นางสาวพรวิสาข์ ปรีชา</td>
+                        <td>2024-11-18</td>
+                        <td>2024-11-25</td>
+                        <td>15:30</td>
+                    </tr>
+                    <tr>
 
-                            <th scope="col">ผู้ยืม</th>
-                            <th scope="col">วันที่ยืม</th>
-                            <th scope="col">วันที่คืน</th>
-                            <th scope="col">เวลาคืน</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size: 0.8rem;">
-                        <tr>
+                        <td>นายอภิชาติ จิตรานนท์</td>
+                        <td>2024-11-10</td>
+                        <td>2024-11-15</td>
+                        <td>14:45</td>
+                    </tr>
+                    <tr>
 
-                            <td>นางสาวพรวิสาข์ ปรีชา</td>
-                            <td>2024-11-18</td>
-                            <td>2024-11-25</td>
-                            <td>15:30</td>
-                        </tr>
-                        <tr>
-
-                            <td>นายอภิชาติ จิตรานนท์</td>
-                            <td>2024-11-10</td>
-                            <td>2024-11-15</td>
-                            <td>14:45</td>
-                        </tr>
-                        <tr>
-
-                            <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
-                            <td>2024-11-05</td>
-                            <td>2024-11-12</td>
-                            <td>09:00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
+                        <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
+                        <td>2024-11-05</td>
+                        <td>2024-11-12</td>
+                        <td>09:00</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
 
 </body>

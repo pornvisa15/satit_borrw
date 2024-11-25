@@ -119,7 +119,7 @@
                                     style="background-color: #ff9800; color: white; border-radius: 8px;"
                                     onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
                                     onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                                    onclick="window.location.href='adminstaff_editdetails.php';">
+                                    onclick="window.location.href='adminstaff_details2.php';">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             </td>
