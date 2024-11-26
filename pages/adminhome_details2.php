@@ -33,26 +33,10 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a class="nav-link text-white d-flex align-items-center" data-bs-toggle="collapse" href="#borrowSection"
-                    role="button" aria-expanded="false" aria-controls="borrowSection"
+                <a href="admin_equipment.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     คลังอุปกรณ์
-                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <div class="collapse mt-2" id="borrowSection">
-                    <ul class="list-unstyled" style="color: #052659;">
-                        <li><a href="admin_equipment_com.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์คอมพิวเตอร์</a>
-                        </li>
-                        <li><a href="reservation_science.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์วิทยาศาสตร์</a>
-                        </li>
-                        <li><a href="reservation_music.php"
-                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6">อุปกรณ์ดนตรี</a>
-                        </li>
-
-                    </ul>
-                </div>
             </li>
             <li class="nav-item mb-3">
                 <a href="admin_equipment_com.php" class="nav-link text-white"
