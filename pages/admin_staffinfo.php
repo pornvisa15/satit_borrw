@@ -90,7 +90,7 @@
             </div>
         </div>
         <?php
-        include '../connect/myspl_das_satit.php';
+        include '../connect/myspl_das_satit.php';  
 
         ?>
         <!-- การ์ดแสดงตาราง -->
@@ -112,16 +112,6 @@
                         </tr>
                     </thead>
                     <tbody>
-<<<<<<< Updated upstream
-
-                        <?php
-                        include '../connect/myspl_das_satit.php';
-                        include '../connect/mysql_borrow.php';
-                        $i = 1;
-                        $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-                        $result = $conn->query($sq_officer);
-                        if ($result->num_rows > 0) {
-=======
                       
                            <?php
                            include '../connect/myspl_das_satit.php';
@@ -130,29 +120,17 @@
                            $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
                            $result = $conn->query( $sq_officer);
                            if ($result->num_rows > 0) {
->>>>>>> Stashed changes
                             // output data of each row
                             while ($rowofficer = $result->fetch_assoc()) {
                                 ?>
                                 <tr>
-<<<<<<< Updated upstream
-                                    <td><?php echo $i ?></td>
-                                    <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname'] ?></td>
-                                    <td><?php echo $rowofficer['officer_Right'] ?></td>
-                                    <td>แก้ไข</td>
-                                    <td><a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id'] ?>"
-                                            class=" btn btn-info">ลบ</a></td>
-                                </tr>
-                                <?php
-=======
                              <td><?php echo $i ?></td>
                              <td><?php echo $rowofficer['praname'].$rowofficer['name']." ".$rowofficer['surname'] ?></td>
                              <td><?php echo $rowofficer['officer_Right']?></td>
                              <td>แก้ไข</td>
                              <td><a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id'] ?>" class=" btn btn-info">ลบ</a></td>
                              </tr>
-                             <?php
->>>>>>> Stashed changes
+                             <?php  
                             }
                             $i++;
                         }
