@@ -150,11 +150,11 @@
                                     </td>
                                     <td><?php echo $rowofficer['officer_Right']; ?></td>
                                     <td>
-                                        <a href="edit_officer.php?officerl_Id=<?php echo $rowofficer['officerl_Id']; ?>"
+                                        <a href="../connect/officer/update.php?officerl_Id=<?php echo $rowofficer['officerl_Id']; ?>"
                                             class="btn btn-warning">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                    </td>
+                                    </td> 
                                     <td>
                                         <a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id']; ?>"
                                             class="btn btn-danger">
@@ -171,6 +171,9 @@
                 </table>
             </div>
 
+
+
+            
             <script>
                 // ฟังก์ชันการค้นหาผ่านชื่อเจ้าหน้าที่
                 document.getElementById('searchEquipment').addEventListener('input', function () {

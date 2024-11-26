@@ -7,10 +7,9 @@ $sql = "INSERT INTO `officer_staff`(`useripass`, `officer_Right`)
 VALUES ('$useripass','$officer_Right')";
 
 if ($conn->query($sql) === TRUE) {
-  echo "location.href = '../../pages/admin_staffinfo.php'";
-
+  echo "<script>alert('เพิ่มรายชื่อเจ้าหน้าที่สำเร็จ'); location.href = '../../pages/admin_staffinfo.php';</script>";
 } else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+  echo "<script>alert('เกิดข้อผิดพลาด: " . $conn->error . "');</script>";
 }
 
 $conn->close();

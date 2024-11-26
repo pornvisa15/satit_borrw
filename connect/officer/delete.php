@@ -2,13 +2,25 @@
 include '../mysql_borrow.php';
 
 $officerl_Id = $_REQUEST['officerl_Id'];
-$sql = "DELETE FROM `officer_staff` WHERE officerl_Id = '$officerl_Id'";
-if ($conn->query($sql) === TRUE) {
-    echo "location.href = '../../pages/admin_staffinfo.php'";
-  } else {
-    echo "Error deleting record: " . $conn->error;
-  }
-  
-  $conn->close();
 
+// SQL สำหรับลบข้อมูล
+$sql = "DELETE FROM `officer_staff` WHERE officerl_Id = '$officerl_Id'";
+
+// ตรวจสอบผลลัพธ์
+if ($conn->query($sql) === TRUE) {
+    // ใช้ JavaScript เพื่อเปลี่ยนเส้นทาง
+    echo "<script>
+        alert('ลบข้อมูลสำเร็จ');
+        window.location.href = '../../../satit_borrw/pages/admin_staffinfo.php';
+    </script>";
+} else {
+    // แสดงข้อผิดพลาดในกรณีที่ลบไม่สำเร็จ
+    echo "<script>
+        alert('เกิดข้อผิดพลาด: " . $conn->error . "');
+        window.location.href = '../../../satit_borrw/pages/admin_staffinfo.php';
+    </script>";
+}
+
+// ปิดการเชื่อมต่อ
+$conn->close();
 ?>

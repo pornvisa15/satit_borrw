@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="admin_staffinfo.php" class="nav-link text-white"
+                <a href="admin_equipment_com.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ข้อมูลเจ้าหน้าที่
                 </a>
@@ -82,7 +82,7 @@
 
             <!-- ฟอร์มด้านในจ้าาาาาาาาาาา -->
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
-                <h5 class="text-center mb-4">เพิ่มข้อมูลเจ้าหน้าที่</h5>
+                <h5 class="text-center mb-4">แก้ไขข้อมูลเจ้าหน้าที่</h5>
 
                 <!-- ชื่อ-นามสกุล -->
                 <!-- <div class="mb-4">
@@ -91,13 +91,13 @@
                     <input type = "text" class="form-control" name="fullname" placeholder="กรอกชื่อ-นามสกุล" required
                         style="margin-top :5px; padding: 10px; font-size: 16px; height: 45px; resize: none; overflow: hidden; border: 1px solid #ced4da; border-radius: 5px;"></ร>
                 </div> -->
-                <form action="../connect/officer/insert.php" method="POST">
+                <form action="../connect/officer/update.php" method="POST">
                     <div class="mb-4">
                         <label for="fullname" class="font-weight-bold"
                             style="font-size: 16px; color: black;">ชื่อ-นามสกุล:</label>
                         <select class="form-select" name="useripass" required
                             style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                            <option value="" selected disabled>กรุณาเลือกชื่อ-นามสกุล</option>
+                            <option value="" selected disabled>กรุณาชื่อ-นามสกุล</option>
                             <?php
                             include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
                             $sql = "SELECT * FROM das_satit.das_admin WHERE das_admin.statuson = 1";
