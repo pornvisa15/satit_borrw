@@ -77,9 +77,18 @@
         <div class="card shadow-sm mt-5">
             <div class="card-header"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">รายชื่อเจ้าหน้าที่</h4>
+                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
             </div>
+
             <div class="card-body">
+            <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
+            <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่ออุปกรณ์"
+                aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;">
+            <button class="btn text-light" type="button" id="button-search"
+                style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
+                ค้นหา
+            </button>
+        </div>
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
                     <thead class="table-light">
                         <tr>

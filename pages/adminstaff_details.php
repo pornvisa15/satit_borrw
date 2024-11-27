@@ -60,7 +60,7 @@
             </li>
         </ul>
     </div>
-
+ 
 
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
@@ -149,41 +149,15 @@
                         </button>
                     </div>
                 </form>
-                <!-- Modal ยืนยัน -->
-                <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmModalLabel">ยืนยันการทำรายการ</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>คุณต้องการบันทึกรายการนี้หรือไม่?</p>
-                            </div>
-                            <div class="modal-footer">
-                                 ปุ่มยกเลิก -->
-                <!-- <button type="button" class="btn btn-danger"
-                                    onclick="window.location.reload();">ยกเลิก</button> -->
-                <!-- ปุ่มตกลง (นำไปหน้า admin_homepages.php) -->
-                <!-- <a href="admin_staffinfo.php" class="btn btn-success">ตกลง</a> -->
-                <!-- </div>
-                        </div>
-                    </div>
-                </div> -->
-
-
-
-
                 <script>
-                    function submitForm() {
-                        // ตัวอย่างการดำเนินการเมื่อกด "ยืนยัน"
-                        alert("บันทึกข้อมูลสำเร็จ!");
-                        // ตัวเลือก: เปลี่ยนเส้นทาง
-                        window.location.href = "admin_staffinfo.php";
-                    }
-                </script>
+    function submitForm() {
+        // ตัวอย่างการดำเนินการเมื่อกด "ยืนยัน"
+        alert("บันทึกการแก้ไข");
+        return true; // ให้ฟอร์มส่งข้อมูล
+    }
+</script>
+
+
 
 
 

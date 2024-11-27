@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin รายละเอียด</title>
+    <title>Admin รายละเอียด3</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -39,7 +39,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="admin_equipment_com.php" class="nav-link text-white"
+                <a href="admin_staffinfo.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ข้อมูลเจ้าหน้าที่
                 </a>
@@ -77,7 +77,57 @@
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
                 <h4 class="mb-0" style="font-size: 22px;">รายละเอียดอุปกรณ์</h4>
             </div>
+            <!-- Modal สำหรับสถานะการยืม -->
+            <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
+                            <!-- ฟอร์มสำหรับเลือกการอนุมัติ -->
+                            <form id="approvalForm" action="/บันทึกรายการ" method="POST">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="approval" id="approve"
+                                        value="approve" required>
+                                    <label class="form-check-label" for="approve">อนุมัติ</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="approval" id="disapprove"
+                                        value="disapprove">
+                                    <label class="form-check-label" for="disapprove">ไม่อนุมัติ</label>
+                                </div>
 
+                                <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
+                                <div class="col-sm-6" style="padding-right: 5px; width: 100%">
+                                    <label for="purpose" class="font-weight-bold "
+                                        style="margin-top :5px; font-size: 16px; ">
+                                        หมายเหตุ :</label>
+                                    <textarea class="form-control" id="purpose"
+                                        style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                            <!-- ลิงก์ "ตกลง" ที่เชื่อมไปยัง Modal ยืนยัน -->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#confirmModal">ตกลง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // ฟังก์ชันสำหรับลบข้อความในฟิลด์หมายเหตุ
+                function clearRemarks() {
+                    document.getElementById('remarks').value = '';  // ล้างข้อความใน textarea
+                }
+            </script>
             <!-- ฟอร์มด้านในจ้าาาาาาาาาาา -->
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 700px; margin-bottom: 60px;">
                 <h5 class="text-center">รายละเอียดการทำรายการ</h5>
@@ -103,7 +153,7 @@
                         style="font-size: 16px; margin-right: 10px; white-space: nowrap; color: black !important;">
                         ชื่ออุปกรณ์ :
                     </label>
-                    <input type="text" class="form-control" id="deviceName" value="Notebook Acer" readonly
+                    <input type="text" class="form-control" id="deviceName" value="Notebook BBB" readonly
                         style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
                 </div>
 
@@ -124,7 +174,7 @@
                         <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">
                             สถานะ :
                         </label>
-                        <input type="text" class="form-control" id="deviceName" value="รอตรวจสอบ" readonly
+                        <input type="text" class="form-control" id="deviceName" value="อนุมัติ" readonly
                             style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
                         <!-- <textarea class="form-control" id="location"
                             style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
@@ -135,7 +185,7 @@
                         <label for="purpose" class="font-weight-bold " style="font-size: 16px; color: black;">
                             เพื่อไปใช้งาน :</label>
                         <input type="text" class="form-control" id="deviceName"
-                            value="ยืมคอมพิวเตอร์เพื่อสอบนักเรียนชั้น ม.3/5" readonly
+                            value="ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.3/5" readonly
                             style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
                         <!-- <textarea class="form-control" id="purpose"
                             style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
@@ -144,7 +194,7 @@
                     <div class="col-sm-6" style="padding-left: 5px;">
                         <label for="location" class="font-weight-bold " style="font-size: 16px; color: black;">
                             สถานที่นำไปใช้ :</label>
-                        <input type="text" class="form-control" id="deviceName" value="ห้องสมุด" readonly
+                        <input type="text" class="form-control" id="deviceName" value="ห้องเรียน ม.3/5" readonly
                             style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
                         <!-- <textarea class="form-control" id="location"
                             style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
@@ -153,65 +203,49 @@
             </div>
         </div>
         <!-- สิ้นสุดฟอร์มค่าาาาาาาาาา -->
-        <!-- Modal สำหรับสถานะการยืม -->
-        <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+
+        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
+                        <h5 class="modal-title" id="returnModalLabel">สถานะการรับคืน</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <!-- ฟอร์มสำหรับเลือกการอนุมัติ -->
-                        <form id="approvalForm" action="/บันทึกรายการ" method="POST">
+                        <!-- ฟอร์มสำหรับเลือกการทำรายการ -->
+                        <form id="returnForm" action="/บันทึกรายการรับคืน" method="POST">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="approve"
-                                    value="approve" required>
-                                <label class="form-check-label" for="approve">อนุมัติ</label>
+                                <!-- ยืม: ตั้งเป็นค่าเริ่มต้น -->
+                                <input class="form-check-input" type="radio" name="returnOption" id="returnOnly"
+                                    value="returnOnly" checked required>
+                                <label class="form-check-label" for="returnOnly">ยืม</label>
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="disapprove"
-                                    value="disapprove">
-                                <label class="form-check-label" for="disapprove">ไม่อนุมัติ</label>
+                                <!-- คืน -->
+                                <input class="form-check-input" type="radio" name="returnOption" id="returnAndBorrow"
+                                    value="returnAndBorrow">
+                                <label class="form-check-label" for="returnAndBorrow">คืน</label>
                             </div>
-
-                            <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
-                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-                                <label for="purpose" class="font-weight-bold "
-                                    style="margin-top :5px; font-size: 16px; ">
-                                    หมายเหตุ :</label>
-                                <textarea class="form-control" id="purpose"
-                                    style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
-                            </div>
-
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
                         <!-- ลิงก์ "ตกลง" ที่เชื่อมไปยัง Modal ยืนยัน -->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmModal">ตกลง</button>
+                            data-bs-target="#confirmReturnModal">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script>
-            // ฟังก์ชันสำหรับลบข้อความในฟิลด์หมายเหตุ
-            function clearRemarks() {
-                document.getElementById('remarks').value = '';  // ล้างข้อความใน textarea
-            }
-        </script>
-
-
-        <!-- Modal ยืนยันการทำรายการ -->
-        <!-- Modal ยืนยันการทำรายการ -->
-        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <!-- Modal ยืนยันการรับคืน -->
+        <div class="modal fade" id="confirmReturnModal" tabindex="-1" aria-labelledby="confirmReturnModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="confirmModalLabel">ยืนยันการทำรายการ</h5>
+                        <h5 class="modal-title" id="confirmReturnModalLabel">ยืนยันการทำรายการ</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -227,14 +261,12 @@
             </div>
         </div>
 
-
-        <!-- JavaScript เพิ่มเติมที่ใช้รีเซ็ตฟอร์มเมื่อเปิด Modal -->
+        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
         <script>
-            // รีเซ็ตฟอร์มเมื่อ Modal เปิด
-            var approveModal = document.getElementById('approveModal');
-            approveModal.addEventListener('show.bs.modal', function () {
-                // รีเซ็ตฟอร์มเมื่อ Modal เปิด
-                document.getElementById('approvalForm').reset();
+            var returnModal = document.getElementById('returnModal');
+            returnModal.addEventListener('show.bs.modal', function () {
+                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
+                document.getElementById('returnOnly').checked = true;
             });
         </script>
 
@@ -242,30 +274,153 @@
 
 
 
-        <!-- Modal สำหรับ "ชำรุด/สูญหาย" -->
         <div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="damageModalLabel">ชำรุด/สูญหาย</h5>
+                        <h5 class="modal-title" id="damageModalLabel">สถานะชำรุด</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>คุณต้องการแจ้งว่าอุปกรณ์ชำรุดหรือสูญหายหรือไม่?</p>
+                        <p>เลือกสถานะการชำรุดของอุปกรณ์</p>
+                        <form id="damageForm" action="/บันทึกรายการชำรุด" method="POST">
+                            <select class="form-select" id="damageCondition" name="damageCondition" required
+                                onchange="togglePriceInput()">
+                                <option value="สภาพสมบูรณ์">สภาพสมบูรณ์</option>
+                                <option value="สภาพไม่สมบูรณ์">สภาพไม่สมบูรณ์</option>
+                                <option value="ครบถ้วนสมบูรณ์">ครบถ้วนสมบูรณ์</option>
+                                <option value="ไม่ครบถ้วนสมบูรณ์">ไม่ครบถ้วนสมบูรณ์</option>
+                                <option value="ผู้ยืมซ่อมแซม">ผู้ยืมซ่อมแซม</option>
+                                <option value="ชดใช้เป็นพัสดุ">ชดใช้เป็นพัสดุ</option>
+                                <option value="ชดใช้ค่าเสียหาย">ชดใช้ค่าเสียหาย</option>
+                            </select>
+
+                            <!-- ฟิลด์สำหรับกรอกราคา -->
+                            <div id="priceInputContainer" style="display: none; margin-top: 10px;">
+                                <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
+                                <input type="number" class="form-control" id="damagePrice" name="damagePrice"
+                                    placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
+                            </div>
+
+                            <div class="col-sm-6" style="padding-right: 5px; width: 100%; margin-top: 10px;">
+                                <label for="purpose" class="font-weight-bold" style="font-size: 16px;">หมายเหตุ:</label>
+                                <textarea class="form-control" id="purpose" name="purpose"
+                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-danger">ชำรุด/สูญหาย</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" id="confirmDamageButton" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#confirmDamageModal">ตกลง</button>
+                        <!-- ปุ่ม "ถัดไป" ที่จะปรากฏเมื่อกรอกจำนวนเงิน -->
+                        <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
+                            onclick="showCompletionModal()">ถัดไป</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- โมดัลการบันทึกเสร็จสิ้น -->
+        <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ชื่ออุปกรณ์</th>
+                                    <th scope="col">ราคา</th>
+                                    <th scope="col">ในสต็อก</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Notebook Acer</td>
+                                    <td><span id="priceInModal">0</span> บาท</td>
+                                    <td><button class="btn btn-info">ดาวน์โหลดไฟล์</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ฟังก์ชันที่แสดงโมดัลการบันทึกเสร็จสิ้น
+            function showCompletionModal() {
+                // ดึงราคาที่กรอกไว้ในฟอร์ม
+                var damagePrice = document.getElementById('damagePrice').value;
+
+                // แสดงราคานี้ในโมดัล
+                document.getElementById('priceInModal').innerText = damagePrice;
+
+                // ซ่อนโมดัลที่เปิดอยู่ก่อนหน้า (หากมี) ก่อนแสดงโมดัลใหม่
+                var modalBackdrop = document.querySelector('.modal-backdrop');
+                if (modalBackdrop) {
+                    modalBackdrop.remove(); // ลบภาพพื้นหลังของโมดัล
+                }
+
+                // แสดงโมดัล "บันทึกเสร็จสิ้น"
+                var myModal = new bootstrap.Modal(document.getElementById('completionModal'));
+                myModal.show();
+            }
+
+            function togglePriceInput() {
+                var damageCondition = document.getElementById('damageCondition').value;
+                var priceInputContainer = document.getElementById('priceInputContainer');
+                var damagePriceInput = document.getElementById('damagePrice');
+                var noteField = document.getElementById('purpose'); // หมายเหตุ
+                var noteFieldContainer = noteField.parentElement; // Container ของหมายเหตุ
+                var confirmDamageButton = document.getElementById('confirmDamageButton');  // ปุ่ม "ตกลง"
+                var nextButton = document.getElementById('nextButton');  // ปุ่ม "ถัดไป"
+
+                if (damageCondition === "ชดใช้ค่าเสียหาย") {
+                    priceInputContainer.style.display = "block";
+                    damagePriceInput.required = true;
+                    noteFieldContainer.style.display = "none"; // ซ่อนฟิลด์หมายเหตุ
+                    noteField.required = false; // ยกเลิกการเป็นฟิลด์บังคับ
+                    noteField.value = ""; // ล้างค่าที่กรอกไว้ในฟิลด์หมายเหตุ
+
+                    // ซ่อนปุ่ม "ตกลง" และแสดงปุ่ม "ถัดไป"
+                    confirmDamageButton.style.display = "none";
+                    nextButton.style.display = "block";
+                } else {
+                    priceInputContainer.style.display = "none";
+                    damagePriceInput.required = false;
+                    damagePriceInput.value = ""; // ล้างค่าที่กรอกไว้ในฟิลด์ราคา
+                    noteFieldContainer.style.display = "block"; // แสดงฟิลด์หมายเหตุ
+                    noteField.required = true; // ตั้งเป็นฟิลด์บังคับ
+
+                    // แสดงปุ่ม "ตกลง" และซ่อนปุ่ม "ถัดไป"
+                    confirmDamageButton.style.display = "block";
+                    nextButton.style.display = "none";
+                }
+            }
+        </script>
 
 
 
-    </div>
-    </div>
+
+        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
+        <script>
+            var returnModal = document.getElementById('returnModal');
+            returnModal.addEventListener('show.bs.modal', function () {
+                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
+                document.getElementById('returnOnly').checked = true;
+            });
+        </script>
+
+
     </div>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
