@@ -95,10 +95,9 @@
                     </div>
 
                     <div class="form-group mb-4" style="margin-bottom: 15px;">
-                        <label for="usageFor" class="font-weight-bold" style="font-size: 16px; color: black;">ประเภท
-                            :</label>
-                        <select id="device_Type" class="form-select"
-                            style="width: 100%; font-size: 14px; margin-top: 5px;">
+                        <label for="device_Type">ประเภท:</label>
+                        <select id="device_Type" name="device_Type" class="form-select"
+                            style="width: 100%; font-size: 14px; margin-top: 5px;" required>
                             <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
                             <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
                             <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
@@ -107,6 +106,7 @@
                             <option value="แอดมิน">แอดมิน</option>
                         </select>
                     </div>
+
 
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Date" style="margin-bottom: 7px; font-size: 16px; color: black;">วันที่ซื้อ
@@ -148,59 +148,22 @@
                         </div>
                     </div>
 
-                    <tbody id="officerTable">
-                        <?php
 
-                        include '../connect/mysql_borrow.php';
-                        // $i = 1;  // เริ่มจาก 1
-                        // $sq_officer = "SELECT * FROM das_satit.das_admin INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-                        // $result = $conn->query($sq_officer);
-                        if ($result->num_rows > 0) {
-                            // output data of each row
-                            while ($rowofficer = $result->fetch_assoc()) {
-                                ?>
-                                <tr class="officerRow" data-department="<?php echo $rowofficer['officer_Right']; ?>"
-                                    data-name="<?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']; ?>">
-                                    <td><?php echo $i; ?></td>
-                                    <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']; ?>
-                                    </td>
-                                    <td><?php echo $rowofficer['officer_Right']; ?></td>
-                                    <td>
-                                        <a href="../connect/officer/update.php?officerl_Id=<?php echo $rowofficer['officerl_Id']; ?>"
-                                            class="btn btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $rowofficer['officerl_Id']; ?>"
-                                            class="btn btn-danger">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php
-                                $i++;  // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
-                            }
-                        }
-                        ?>
-                    </tbody>
-                    <td>
-                        <!-- <a href="../connect/borrow/update.php?device_Id=<?php echo $rowofficer['device_Id']; ?>"
-                            class="btn btn-warning">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="../connect/officer/delete.php?device_Id=<?php echo $rowofficer['device_Id']; ?>"
-                            class="btn btn-danger">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>s
-                    </td> -->
 
-                        <!-- <div class="form-group mb-4" style="margin-bottom: 15px;">
-                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal"
-                            data-bs-target="#confirmModal">บันทึกข้อมูล</button>
-                    </div> -->
+                    <div class="row">
+
+                        <div class="col-md-6 ps-2">
+                            <a href="admin_equipment.php" class="btn btn-danger w-100">
+                                ยกเลิก
+                            </a>
+                        </div>
+                        <div class="col-md-6 pe-2">
+                            <button type="submit" class="btn btn-success w-100">
+                                ตกลง
+                            </button>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
