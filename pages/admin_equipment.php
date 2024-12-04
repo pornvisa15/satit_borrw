@@ -11,6 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 
 <body class="d-flex bg-light">
@@ -77,7 +81,10 @@
             </div>
         </div>
 
-
+        <?php
+        include '../connect/myspl_das_satit.php';
+        include '../connect/mysql_borrow.php';
+        ?>
 
 
 
@@ -133,11 +140,15 @@
                         <thead class="table-light">
                             <tr>
                                 <th>ลำดับ</th>
+
                                 <th>เลขพัสดุ /ครุภัณฑ์</th>
+
+
                                 <th>ชื่ออุปกรณ์</th>
                                 <th>สิทธิ์การเข้าถึง</th>
                                 <th>วันที่ซื้อ</th>
                                 <th>ราคา</th>
+                                <th>รายละเอียด</th>
                                 <th>จำนวนครั้ง/การยืม</th>
                                 <th>สถานะ</th>
                                 <th>ไฟล์ภาพ</th>
@@ -145,9 +156,68 @@
                                 <th>ลบ</th>
                             </tr>
                         </thead>
-                        <tbody id="equipmentTableBody">
-                            <!-- ข้อมูลแถวจะถูกเพิ่มผ่าน JavaScript -->
+                        <tbody id="equipmentTable">
+                            <?php
+                            $i = 1;  // เริ่มจาก 1
+                            $sq_equipment = "SELECT * FROM borrow.device_information";
+                            $result = $conn->query($sq_equipment);
+                            if ($result->num_rows > 0) {
+                                // output data of each row
+                                while ($rowequipment = $result->fetch_assoc()) {
+                                    $device_Id = urlencode($rowequipment['device_Id']);
+                                    $device_Numder = htmlspecialchars($rowequipment['device_Numder']);
+                                    $device_device_Name = htmlspecialchars($rowequipment['device_Name']);
+                                    $device_Type = htmlspecialchars($rowequipment['device_Access']);
+                                    $device_Date = htmlspecialchars($rowequipment['device_Date']);
+                                    $device_Price = htmlspecialchars($rowequipment['device_Price']);
+                                    $device_Other = htmlspecialchars($rowequipment['device_Other']);
+                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //จำนวนครั้งที่ยืม
+                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //สถานะ
+                                    $device_Image = htmlspecialchars($rowequipment['device_Image']);
+
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i; ?></td> <!-- ลำดับ -->
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Access']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
+                                        <td>
+                                            <?php
+                                            $device_Image = $rowequipment['device_Image']; // รับชื่อไฟล์จากฐานข้อมูล
+                                            if (!empty($device_Image) && file_exists('uploads/' . $device_Image)) {
+                                                echo '<img src="uploads/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
+                                            } else {
+                                                echo 'ไม่มีรูปภาพ';
+                                            }
+                                            ?>
+                                        </td>
+
+
+                                        <td>
+                                            <a href="admin_equipment_edit.php?device_Id=<?php echo $device_Id; ?>"
+                                                class="btn btn-warning">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="../connect/equipment/delete.php?device_Id=<?php echo $device_Id; ?>"
+                                                class="btn btn-danger">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    <?php
+                                    $i++;
+                                }
+                            }
+
+                            ?>
                         </tbody>
+
                     </table>
                 </div>
 
@@ -159,76 +229,6 @@
         </div>
 
         <script>
-            // // ข้อมูลตัวอย่างของอุปกรณ์
-            // const equipmentData = {
-            //     computer: [
-            //         { id: 1, code: 'A0000001', name: 'Notebook Acer', access: 'นักเรียน', date: '01/01/2023', price: '25,000 บาท', borrowCount: 15, status: 'รอตรวจสอบ' },
-            //         { id: 2, code: 'A0000002', name: 'Desktop PC', access: 'บุคลากร', date: '15/03/2022', price: '30,000 บาท', borrowCount: 20, status: 'ใช้งาน' },
-            //         { id: 3, code: 'A0000003', name: 'Laptop Dell', access: 'นักเรียน', date: '10/12/2021', price: '28,000 บาท', borrowCount: 5, status: 'รอตรวจสอบ' },
-            //         { id: 4, code: 'A0000004', name: 'MacBook Pro', access: 'บุคลากร', date: '05/08/2022', price: '60,000 บาท', borrowCount: 12, status: 'ใช้งาน' },
-            //         { id: 5, code: 'A0000005', name: 'Chromebook', access: 'นักเรียน', date: '07/09/2022', price: '12,000 บาท', borrowCount: 10, status: 'รอตรวจสอบ' },
-            //         { id: 6, code: 'A0000006', name: 'Asus Gaming Laptop', access: 'บุคลากร', date: '22/04/2021', price: '35,000 บาท', borrowCount: 18, status: 'ใช้งาน' },
-            //         { id: 7, code: 'A0000007', name: 'HP Spectre x360', access: 'นักเรียน', date: '15/03/2023', price: '45,000 บาท', borrowCount: 4, status: 'รอตรวจสอบ' },
-            //         { id: 8, code: 'A0000008', name: 'Microsoft Surface Pro', access: 'บุคลากร', date: '12/01/2020', price: '50,000 บาท', borrowCount: 9, status: 'ใช้งาน' },
-            //         { id: 9, code: 'A0000009', name: 'Lenovo ThinkPad', access: 'นักเรียน', date: '25/11/2021', price: '22,000 บาท', borrowCount: 7, status: 'รอตรวจสอบ' },
-            //         { id: 10, code: 'A0000010', name: 'Acer Predator Helios', access: 'บุคลากร', date: '20/07/2022', price: '55,000 บาท', borrowCount: 2, status: 'ใช้งาน' },
-            //         { id: 11, code: 'A0000011', name: 'Alienware M15', access: 'นักเรียน', date: '10/06/2021', price: '75,000 บาท', borrowCount: 16, status: 'รอตรวจสอบ' },
-            //         { id: 12, code: 'A0000012', name: 'Razer Blade Stealth', access: 'บุคลากร', date: '18/05/2020', price: '40,000 บาท', borrowCount: 13, status: 'ใช้งาน' },
-            //         { id: 13, code: 'A0000013', name: 'Microsoft Surface Laptop 4', access: 'นักเรียน', date: '03/04/2023', price: '38,000 บาท', borrowCount: 8, status: 'รอตรวจสอบ' },
-            //         { id: 14, code: 'A0000014', name: 'Gigabyte Aero', access: 'บุคลากร', date: '22/02/2021', price: '45,000 บาท', borrowCount: 6, status: 'ใช้งาน' },
-            //         { id: 15, code: 'A0000015', name: 'MacBook Air M1', access: 'นักเรียน', date: '13/09/2022', price: '32,000 บาท', borrowCount: 3, status: 'รอตรวจสอบ' },
-            //         { id: 16, code: 'A0000016', name: 'HP Envy x360', access: 'บุคลากร', date: '07/06/2020', price: '28,000 บาท', borrowCount: 14, status: 'ใช้งาน' },
-            //         { id: 17, code: 'A0000017', name: 'Asus ZenBook', access: 'นักเรียน', date: '29/01/2021', price: '36,000 บาท', borrowCount: 11, status: 'รอตรวจสอบ' },
-            //         { id: 18, code: 'A0000018', name: 'Lenovo Legion 5', access: 'บุคลากร', date: '21/10/2022', price: '49,000 บาท', borrowCount: 9, status: 'ใช้งาน' },
-            //         { id: 19, code: 'A0000019', name: 'Toshiba Satellite', access: 'นักเรียน', date: '02/12/2021', price: '18,000 บาท', borrowCount: 5, status: 'รอตรวจสอบ' },
-            //         { id: 20, code: 'A0000020', name: 'Samsung Notebook 9', access: 'บุคลากร', date: '11/07/2023', price: '40,000 บาท', borrowCount: 4, status: 'ใช้งาน' }
-            //     ],
-            //     science: [
-            //         { id: 1, code: 'S0000001', name: 'กล้องจุลทรรศน์', access: 'นักเรียน', date: '10/10/2023', price: '10,000 บาท', borrowCount: 5, status: 'รอตรวจสอบ' },
-            //         { id: 2, code: 'S0000002', name: 'เครื่องวัดแสง', access: 'บุคลากร', date: '20/06/2021', price: '8,000 บาท', borrowCount: 12, status: 'ใช้งาน' },
-            //         { id: 3, code: 'S0000003', name: 'เครื่องวัดอุณหภูมิ', access: 'นักเรียน', date: '18/04/2022', price: '5,000 บาท', borrowCount: 8, status: 'รอตรวจสอบ' },
-            //         { id: 4, code: 'S0000004', name: 'แล็บทดลองเคมี', access: 'บุคลากร', date: '02/01/2023', price: '15,000 บาท', borrowCount: 7, status: 'ใช้งาน' },
-            //         { id: 5, code: 'S0000005', name: 'เครื่องดูดฝุ่นห้องทดลอง', access: 'นักเรียน', date: '13/07/2022', price: '3,500 บาท', borrowCount: 4, status: 'รอตรวจสอบ' },
-            //         { id: 6, code: 'S0000006', name: 'กล้องถ่ายภาพดิจิตอล', access: 'บุคลากร', date: '11/11/2021', price: '18,000 บาท', borrowCount: 10, status: 'ใช้งาน' },
-            //         { id: 7, code: 'S0000007', name: 'เครื่องวัดความดัน', access: 'นักเรียน', date: '06/06/2023', price: '12,000 บาท', borrowCount: 6, status: 'รอตรวจสอบ' },
-            //         { id: 8, code: 'S0000008', name: 'เครื่องวัดปริมาณแสง', access: 'บุคลากร', date: '08/09/2020', price: '9,000 บาท', borrowCount: 5, status: 'ใช้งาน' },
-            //         { id: 9, code: 'S0000009', name: 'เครื่องกลั่นน้ำ', access: 'นักเรียน', date: '15/12/2021', price: '7,000 บาท', borrowCount: 9, status: 'รอตรวจสอบ' },
-            //         { id: 10, code: 'S0000010', name: 'เครื่องวัดการสั่นสะเทือน', access: 'บุคลากร', date: '30/03/2022', price: '14,000 บาท', borrowCount: 11, status: 'ใช้งาน' },
-            //         { id: 11, code: 'S0000011', name: 'เครื่องผสมสารเคมี', access: 'นักเรียน', date: '20/11/2020', price: '20,000 บาท', borrowCount: 6, status: 'รอตรวจสอบ' },
-            //         { id: 12, code: 'S0000012', name: 'เครื่องหมุนเหวี่ยง', access: 'บุคลากร', date: '17/02/2023', price: '25,000 บาท', borrowCount: 8, status: 'ใช้งาน' },
-            //         { id: 13, code: 'S0000013', name: 'เตาอบอุตสาหกรรม', access: 'นักเรียน', date: '23/06/2022', price: '30,000 บาท', borrowCount: 5, status: 'รอตรวจสอบ' },
-            //         { id: 14, code: 'S0000014', name: 'เครื่องปั่นผสม', access: 'บุคลากร', date: '10/09/2021', price: '13,000 บาท', borrowCount: 7, status: 'ใช้งาน' },
-            //         { id: 15, code: 'S0000015', name: 'เครื่องทดสอบแรงดึง', access: 'นักเรียน', date: '19/08/2020', price: '35,000 บาท', borrowCount: 4, status: 'รอตรวจสอบ' },
-            //         { id: 16, code: 'S0000016', name: 'เครื่องวัดความหนืด', access: 'บุคลากร', date: '15/05/2023', price: '18,000 บาท', borrowCount: 9, status: 'ใช้งาน' },
-            //         { id: 17, code: 'S0000017', name: 'เครื่องทดสอบการกัดกร่อน', access: 'นักเรียน', date: '10/02/2022', price: '22,000 บาท', borrowCount: 6, status: 'รอตรวจสอบ' },
-            //         { id: 18, code: 'S0000018', name: 'เครื่องวัดระดับเสียง', access: 'บุคลากร', date: '01/11/2021', price: '16,000 บาท', borrowCount: 11, status: 'ใช้งาน' },
-            //         { id: 19, code: 'S0000019', name: 'เครื่องวัดความชื้น', access: 'นักเรียน', date: '17/03/2023', price: '8,000 บาท', borrowCount: 9, status: 'รอตรวจสอบ' },
-            //         { id: 20, code: 'S0000020', name: 'เครื่องวัดการไหลของน้ำ', access: 'บุคลากร', date: '12/07/2020', price: '19,000 บาท', borrowCount: 8, status: 'ใช้งาน' }
-            //     ],
-            //     music: [
-            //         { id: 1, code: 'M0000001', name: 'กีต้าร์ไฟฟ้า', access: 'นักเรียน', date: '01/01/2024', price: '15,000 บาท', borrowCount: 3, status: 'รอตรวจสอบ' },
-            //         { id: 2, code: 'M0000002', name: 'เปียโน', access: 'บุคลากร', date: '12/12/2022', price: '50,000 บาท', borrowCount: 8, status: 'ใช้งาน' },
-            //         { id: 3, code: 'M0000003', name: 'กลองชุด', access: 'นักเรียน', date: '10/10/2023', price: '25,000 บาท', borrowCount: 12, status: 'รอตรวจสอบ' },
-            //         { id: 4, code: 'M0000004', name: 'ไวโอลิน', access: 'บุคลากร', date: '20/07/2021', price: '35,000 บาท', borrowCount: 6, status: 'ใช้งาน' },
-            //         { id: 5, code: 'M0000005', name: 'กีต้าร์โปร่ง', access: 'นักเรียน', date: '03/03/2022', price: '8,000 บาท', borrowCount: 9, status: 'รอตรวจสอบ' },
-            //         { id: 6, code: 'M0000006', name: 'เครื่องเป่าแตร', access: 'บุคลากร', date: '14/06/2020', price: '12,000 บาท', borrowCount: 5, status: 'ใช้งาน' },
-            //         { id: 7, code: 'M0000007', name: 'แซ็กโซโฟน', access: 'นักเรียน', date: '11/11/2021', price: '20,000 บาท', borrowCount: 7, status: 'รอตรวจสอบ' },
-            //         { id: 8, code: 'M0000008', name: 'เครื่องเคาะจังหวะ', access: 'บุคลากร', date: '09/09/2022', price: '18,000 บาท', borrowCount: 6, status: 'ใช้งาน' },
-            //         { id: 9, code: 'M0000009', name: 'ออร์แกน', access: 'นักเรียน', date: '01/08/2023', price: '30,000 บาท', borrowCount: 10, status: 'รอตรวจสอบ' },
-            //         { id: 10, code: 'M0000010', name: 'ไมโครโฟน', access: 'บุคลากร', date: '05/04/2021', price: '5,000 บาท', borrowCount: 3, status: 'ใช้งาน' },
-            //         { id: 11, code: 'M0000011', name: 'เบสไฟฟ้า', access: 'นักเรียน', date: '12/10/2021', price: '22,000 บาท', borrowCount: 8, status: 'รอตรวจสอบ' },
-            //         { id: 12, code: 'M0000012', name: 'คีย์บอร์ด', access: 'บุคลากร', date: '07/07/2022', price: '10,000 บาท', borrowCount: 5, status: 'ใช้งาน' },
-            //         { id: 13, code: 'M0000013', name: 'กีต้าร์คลาสสิก', access: 'นักเรียน', date: '23/12/2020', price: '18,000 บาท', borrowCount: 4, status: 'รอตรวจสอบ' },
-            //         { id: 14, code: 'M0000014', name: 'แอคคูสติกกีต้าร์', access: 'บุคลากร', date: '10/02/2021', price: '25,000 บาท', borrowCount: 6, status: 'ใช้งาน' },
-            //         { id: 15, code: 'M0000015', name: 'ไวโอลินไฟฟ้า', access: 'นักเรียน', date: '01/09/2023', price: '40,000 บาท', borrowCount: 2, status: 'รอตรวจสอบ' },
-            //         { id: 16, code: 'M0000016', name: 'เครื่องดนตรีไทย', access: 'บุคลากร', date: '04/06/2022', price: '18,000 บาท', borrowCount: 7, status: 'ใช้งาน' },
-            //         { id: 17, code: 'M0000017', name: 'กีต้าร์เบส', access: 'นักเรียน', date: '13/03/2021', price: '28,000 บาท', borrowCount: 9, status: 'รอตรวจสอบ' },
-            //         { id: 18, code: 'M0000018', name: 'ฟลุต', access: 'บุคลากร', date: '20/04/2022', price: '15,000 บาท', borrowCount: 4, status: 'ใช้งาน' },
-            //         { id: 19, code: 'M0000019', name: 'ออร์แกนไฟฟ้า', access: 'นักเรียน', date: '02/09/2021', price: '38,000 บาท', borrowCount: 11, status: 'รอตรวจสอบ' },
-            //         { id: 20, code: 'M0000020', name: 'ขิม', access: 'บุคลากร', date: '09/08/2023', price: '50,000 บาท', borrowCount: 8, status: 'ใช้งาน' }
-            //     ]
-            // };
-
 
             let currentPage = 1;
             const itemsPerPage = 15;

@@ -77,7 +77,7 @@
             </div>
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
                 <h5 class="text-center mb-4">เพิ่มข้อมูลอุปกรณ์</h5>
-                <form action="../connect/pages/admin_equipment.php" method="post" enctype="multipart/form-data"
+                <form action="../connect/equipment/insert.php" method="post" enctype="multipart/form-data"
                     id="equipmentForm">
                     <!-- ช่องกรอกชื่ออุปกรณ์ -->
                     <div class="form-group" style="margin-bottom: 15px;">
@@ -122,46 +122,53 @@
                             placeholder="กรอกราคา (บาท)" min="0" step="1" required
                             style="font-size: 14px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: textfield;">
                     </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="device_Duty" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ
+                            :</label>
+                        <input type="text" class="form-control" id="device_Duty" name="device_Duty"
+                            placeholder="กรอกชื่อผู้รับผิดชอบ" required style="font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด
+                            :</label>
+                        <textarea class="form-control" id="device_Other" name="device_Other"
+                            placeholder="กรอกรายละเอียดในอุปกรณ์" required
+                            style="font-size: 14px; height: 100px; resize: none;"></textarea>
+                    </div>
 
                     <div class="form-group mb-4" style="margin-bottom: 15px;">
                         <label for="device_Image" style="margin-bottom: 7px; font-size: 16px; color: black;">รูปภาพ
-                            อุปกรณ์ :</label>
-                        <input type="file" class="form-control" id="device_Image" name="device_Image" required
+                            :</label>
+                        <input type="file" class="form-control" id="device_Image" name="device_Image"
                             style="font-size: 14px;">
                     </div>
                     <div class="form-group mb-4" style="margin-bottom: 15px;">
                         <label for="device_Access" class="font-weight-bold"
                             style="font-size: 16px; color: black;">ใช้สำหรับ :</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="studentCheckbox" name="device_Access[]"
-                                value="นักเรียน">
-                            <label class="form-check-label" for="studentCheckbox">
-                                นักเรียน
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="staffCheckbox" name="device_Access[]"
-                                value="บุคลากร">
-                            <label class="form-check-label" for="staffCheckbox">
-                                บุคลากร
-                            </label>
-                        </div>
+                        <select id="device_Access" name="device_Access" class="form-select"
+                            style="font-size: 14px; margin-top: 5px;" required>
+                            <option value="" selected disabled>กรุณาเลือก</option>
+                            <option value="บุคลากร">บุคลากร</option>
+                            <option value="บุคลากรและนักเรียน">บุคลากรและนักเรียน</option>
+                        </select>
                     </div>
 
 
 
-                    <div class="row">
+                    <div class="text-center d-flex justify-content-center gap-3">
+                        <!-- ปุ่มยกเลิก -->
+                        <button class="btn btn-danger"
+                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                            onclick="window.history.back();">
+                            <i class="bi bi-x-circle"></i> ยกเลิก
+                        </button>
 
-                        <div class="col-md-6 ps-2">
-                            <a href="admin_equipment.php" class="btn btn-danger w-100">
-                                ยกเลิก
-                            </a>
-                        </div>
-                        <div class="col-md-6 pe-2">
-                            <button type="submit" class="btn btn-success w-100">
-                                ตกลง
-                            </button>
-                        </div>
+                        <!-- ปุ่มบันทึก -->
+                        <button class="btn btn-success"
+                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+                            data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            <i class="bi bi-check-circle"></i> บันทึกข้อมูล
+                        </button>
                     </div>
 
                 </form>

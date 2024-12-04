@@ -74,131 +74,137 @@
                     เชคสเปียร์</span>
             </div>
         </div>
-       
+
         <?php
-include '../connect/myspl_das_satit.php';
-include '../connect/mysql_borrow.php';
-?>
+        include '../connect/myspl_das_satit.php';
+        include '../connect/mysql_borrow.php';
+        ?>
 
-<!-- การ์ดแสดงตาราง -->
-<div class="card shadow-sm mt-5">
-    <div class="card-header" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-        <h4 class="mb-0" style="font-size: 22px;">รายชื่อเจ้าหน้าที่</h4>
-    </div>
+        <!-- การ์ดแสดงตาราง -->
+        <div class="card shadow-sm mt-5">
+            <div class="card-header"
+                style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
+                <h4 class="mb-0" style="font-size: 22px;">รายชื่อเจ้าหน้าที่</h4>
+            </div>
 
-    <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <!-- เลือกประเภทอุปกรณ์ -->
-        <div class="me-3">
-            <select id="equipmentType" class="form-select" style="width: 220px; font-size: 14px;">
-                <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
-                <option value="">ทั้งหมด</option>
-                <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
-                <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
-                <option value="ฝ่ายดนตรี">ฝ่ายดนตรี</option>
-                <option value="ฝ่ายพัสดุ">ฝ่ายพัสดุ</option>
-                <option value="แอดมิน">แอดมิน</option>
-            </select>
-        </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- เลือกประเภทอุปกรณ์ -->
+                    <div class="me-3">
+                        <select id="equipmentType" class="form-select" style="width: 220px; font-size: 14px;">
+                            <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+                            <option value="">ทั้งหมด</option>
+                            <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
+                            <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
+                            <option value="ฝ่ายดนตรี">ฝ่ายดนตรี</option>
+                            <option value="ฝ่ายพัสดุ">ฝ่ายพัสดุ</option>
+                            <option value="แอดมิน">แอดมิน</option>
+                        </select>
+                    </div>
 
-        <!-- ปุ่มเพิ่มอุปกรณ์ -->
-        <div class="ms-3">
-            <button class="btn" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 15px; font-size: 14px; border-color: #4CAF50; color: white;"
-                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
-                onclick="window.location.href='adminstaff_details.php';">
-                <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
-            </button>
-        </div>
-    </div>
+                    <!-- ปุ่มเพิ่มอุปกรณ์ -->
+                    <div class="ms-3">
+                        <button class="btn"
+                            style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 15px; font-size: 14px; border-color: #4CAF50; color: white;"
+                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';"
+                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                            onclick="window.location.href='adminstaff_details.php';">
+                            <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
+                        </button>
+                    </div>
+                </div>
 
-    <!-- กล่องค้นหาพร้อมปุ่ม -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อเจ้าหน้าที่"
-            aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;">
-        <button class="btn text-light" type="button" id="button-search"
-            style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
-            ค้นหา
-        </button>
-    </div>
+                <!-- กล่องค้นหาพร้อมปุ่ม -->
+                <div class="input-group mb-3">
+                    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อเจ้าหน้าที่"
+                        aria-label="Search" aria-describedby="button-search"
+                        style="font-size: 14px; padding: 9px 12px;">
+                    <button class="btn text-light" type="button" id="button-search"
+                        style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
+                        ค้นหา
+                    </button>
+                </div>
 
-    <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-        <thead class="table-light">
-            <tr>
-                <th>ลำดับ</th>
-                <th>ชื่อ-นามสกุล</th>
-                <th>เจ้าหน้าที่ฝ่าย</th>
-                <th>แก้ไข</th>
-                <th>ลบ</th>
-            </tr>
-        </thead>
-        <tbody id="officerTable">
-        <?php
-        $i = 1;  // เริ่มจาก 1
-        $sq_officer = "SELECT * FROM das_satit.das_admin 
+                <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>เจ้าหน้าที่ฝ่าย</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="officerTable">
+                        <?php
+                        $i = 1;  // เริ่มจาก 1
+                        $sq_officer = "SELECT * FROM das_satit.das_admin 
                     INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-        $result = $conn->query($sq_officer);
+                        $result = $conn->query($sq_officer);
 
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while ($rowofficer = $result->fetch_assoc()) {
-                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
-                $officer_id = urlencode($rowofficer['officerl_Id']);
-        ?>
-        <tr class="officerRow" 
-            data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>" 
-            data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
-            <td><?php echo $i; ?></td>
-            <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']; ?></td>
-            <td><?php echo $officer_right; ?></td>
-            <td>
-                <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-warning">
-                    <i class="fas fa-edit"></i>
-                </a>
-            </td>
-            <td>
-                <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-        </tr>
-        <?php
-        $i++;  // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
-            }
-        }
-        ?>
-        </tbody>
-    </table>
-</div>
+                        if ($result->num_rows > 0) {
+                            // output data of each row
+                            while ($rowofficer = $result->fetch_assoc()) {
+                                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
+                                $officer_id = urlencode($rowofficer['officerl_Id']);
+                                ?>
+                                <tr class="officerRow"
+                                    data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
+                                    data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
+                                    <td><?php echo $i; ?></td>
+                                    <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']; ?>
+                                    </td>
+                                    <td><?php echo $officer_right; ?></td>
+                                    <td>
+                                        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>"
+                                            class="btn btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>"
+                                            class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php
+                                $i++;  // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
-<script>
-    // ฟังก์ชันการค้นหาผ่านชื่อเจ้าหน้าที่และกรองตามฝ่าย
-    document.getElementById('searchEquipment').addEventListener('input', filterRows);
-    document.getElementById('equipmentType').addEventListener('change', filterRows);
+            <script>
+                // ฟังก์ชันการค้นหาผ่านชื่อเจ้าหน้าที่และกรองตามฝ่าย
+                document.getElementById('searchEquipment').addEventListener('input', filterRows);
+                document.getElementById('equipmentType').addEventListener('change', filterRows);
 
-    function filterRows() {
-        let searchValue = document.getElementById('searchEquipment').value.toLowerCase().trim();
-        let selectedDepartment = document.getElementById('equipmentType').value.toLowerCase().trim();
-        let rows = document.querySelectorAll('.officerRow');
+                function filterRows() {
+                    let searchValue = document.getElementById('searchEquipment').value.toLowerCase().trim();
+                    let selectedDepartment = document.getElementById('equipmentType').value.toLowerCase().trim();
+                    let rows = document.querySelectorAll('.officerRow');
 
-        rows.forEach(function (row) {
-            let name = row.getAttribute('data-name').toLowerCase().trim();
-            let department = row.getAttribute('data-department').toLowerCase().trim();
+                    rows.forEach(function (row) {
+                        let name = row.getAttribute('data-name').toLowerCase().trim();
+                        let department = row.getAttribute('data-department').toLowerCase().trim();
 
-            if (
-                (searchValue === "" || name.includes(searchValue)) &&
-                (selectedDepartment === "" || department.includes(selectedDepartment))
-            ) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-</script>
+                        if (
+                            (searchValue === "" || name.includes(searchValue)) &&
+                            (selectedDepartment === "" || department.includes(selectedDepartment))
+                        ) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
 
 
-</div>
+        </div>
 
 
     </div>
