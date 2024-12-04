@@ -58,7 +58,7 @@
                   
                     <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                    <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
+                    <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
                 </ul>
             </div>
         </div>
@@ -79,146 +79,38 @@
         <h5 class="card-title">อุปกรณ์คอมพิวเตอร์</h5>
     </div>
 </div>
-<div class="row g-4 mt-5  justify-content-center">
-    <!-- Computer Equipment Card 1 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <!-- คลิกลิงก์ที่รูปภาพ -->
-                <a href="reservation1yes_com.php">
-                    <img src="/satit_borrw/img/6.jpg" alt="Mouse Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์: เมาส์</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
+<?php
+// ตัวอย่างข้อมูลอุปกรณ์ที่ดึงมาจากฐานข้อมูล
 
-    <!-- Computer Equipment Card 2 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="reservation1no_com.php">
-                    <img src="/satit_borrw/img/2.jpg" alt="Laptop Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : โน๊ตบุ๊ค</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #FF090D; font-weight: bold;">ไม่ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Computer Equipment Card 3 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="#">
-                    <img src="/satit_borrw/img/2.jpg" alt="Laptop Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : โน๊ตบุ๊ค</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #FF090D; font-weight: bold;">ไม่ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Computer Equipment Card 4 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="#">
-                    <img src="/satit_borrw/img/6.jpg" alt="Mouse Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : เมาส์</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+?>
+<?php
+// ตัวอย่างข้อมูลอุปกรณ์ที่ดึงมาจากฐานข้อมูล
+$equipment = [
+    ['name' => 'เมาส์', 'status' => 'ว่าง', 'image' => '/satit_borrw/img/6.jpg'],
+    ['name' => 'โน๊ตบุ๊ค', 'status' => 'ไม่ว่าง', 'image' => '/satit_borrw/img/2.jpg'],
+    ['name' => 'โน๊ตบุ๊ค', 'status' => 'ไม่ว่าง', 'image' => '/satit_borrw/img/2.jpg'],
+    ['name' => 'เมาส์', 'status' => 'ว่าง', 'image' => '/satit_borrw/img/6.jpg'],
+];
+?>
 
 <div class="row g-4 mt-5 justify-content-center">
-    <!-- Computer Equipment Card 1 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <!-- คลิกลิงก์ที่รูปภาพ -->
-                <a href="#">
-                    <img src="/satit_borrw/img/6.jpg" alt="Mouse Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์: เมาส์</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Computer Equipment Card 2 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="#">
-                    <img src="/satit_borrw/img/2.jpg" alt="Laptop Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : โน๊ตบุ๊ค</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #FF090D; font-weight: bold;">ไม่ว่าง</span>
-                </p>
+    <?php foreach ($equipment as $item): ?>
+        <div class="col-3">
+            <div class="card h-100 shadow-sm d-flex flex-column">
+                <div class="text-center mb-4">
+                    <a href="<?= $item['status'] === 'ว่าง' ? 'reservation1yes_com.php' : 'reservation1no_com.php'; ?>">
+                        <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image" class="img-fluid card-img" style="max-width: 150px;">
+                    </a>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-auto">ชื่ออุปกรณ์: <?= $item['name']; ?></h6>
+                    <p class="card-text">
+                        สถานะ: <span style="color: <?= $item['status'] === 'ว่าง' ? '#78C756' : '#FF090D'; ?>; font-weight: bold;"><?= $item['status']; ?></span>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Computer Equipment Card 3 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="#">
-                    <img src="/satit_borrw/img/2.jpg" alt="Laptop Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : โน๊ตบุ๊ค</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #FF090D; font-weight: bold;">ไม่ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Computer Equipment Card 4 -->
-    <div class="col-3">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-            <div class="text-center mb-4">
-                <a href="#">
-                    <img src="/satit_borrw/img/6.jpg" alt="Mouse Image" class="img-fluid card-img" style="max-width: 150px;">
-                </a>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <h6 class="card-title mb-auto">ชื่ออุปกรณ์ : เมาส์</h6>
-                <p class="card-text">
-                    สถานะ: <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                </p>
-            </div>
-        </div>
-    </div>
+    <?php endforeach; ?>
 </div>
 
 <style>

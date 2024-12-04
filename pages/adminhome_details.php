@@ -300,10 +300,10 @@
                     </select>
 
                     <!-- ฟิลด์สำหรับกรอกราคา -->
-                    <ท iv id="priceInputContainer" style="display: none; margin-top: 10px;">
+                    <div id="priceInputContainer" style="display: none; margin-top: 10px;">
                         <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
                         <input type="number" class="form-control" id="damagePrice" name="damagePrice" placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
-                    </ท>
+                    </div>
 
                     <!-- หมายเหตุ -->
                     <div id="purpose-container" style="margin-top: 10px;">
@@ -321,6 +321,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    function togglePriceInput() {
+        const damageCondition = document.getElementById('damageCondition').value;
+        const priceInputContainer = document.getElementById('priceInputContainer');
+        const nextButton = document.getElementById('nextButton');
+        
+        // Show price input if "ชดใช้ค่าเสียหาย" is selected
+        if (damageCondition === "ชดใช้ค่าเสียหาย") {
+            priceInputContainer.style.display = "block";
+            nextButton.style.display = "inline-block"; // Show "Next" button
+        } else {
+            priceInputContainer.style.display = "none";
+            nextButton.style.display = "none"; // Hide "Next" button
+        }
+    }
+</script>
+
 <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow rounded-4 border-0">
@@ -403,7 +421,7 @@
         const purposeContainer = document.getElementById('purpose-container');
         const confirmDamageButton = document.getElementById('confirmDamageButton');
         const nextButton = document.getElementById('nextButton');
-
+ 
         if (damageCondition === "ชดใช้ค่าเสียหาย") {
             // แสดงฟิลด์ราคา
             priceInputContainer.style.display = "block";

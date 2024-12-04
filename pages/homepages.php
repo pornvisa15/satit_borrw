@@ -57,10 +57,18 @@
                     
                     <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                    <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
+                    <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
+
+
+
+
+
                 </ul>
             </div>
         </div>
+        <?php
+
+?>
 
         <!-- กล่องทางขวา (เนื้อหา) -->
         <div class="col-md-9 col-lg-10">

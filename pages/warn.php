@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>หน้าแรก</title>  
+    <title>แจ้งเตือน</title>  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -62,7 +62,7 @@
 
                     <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                     <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                    <li><a href="#" class="nav-link text-light">ออกจากระบบ</a></li>
+                    <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
                 </ul>
             </div>
         </div>
