@@ -275,10 +275,6 @@
             });
         </script>
 
-
-
-
-
 <div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

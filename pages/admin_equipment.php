@@ -184,16 +184,16 @@
                                             <?php
                                             $device_Image = $rowequipment['device_Image'];
 
-                                            if (!empty($device_Image) && file_exists('equipment/img/' . $device_Image)) {
+                                            if (!empty($device_Image) && file_exists('../connect/equipment/equipment/img/' . $device_Image)) {
 
-                                                echo '<img src="equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
+                                                echo '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
                                             } else {
                                                 echo 'ไม่มีรูปภาพ';
                                             }
                                             if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] == 0) {
                                                 $deviceImage = $_FILES['device_Image'];
                                                 if (!empty($deviceImage['name'])) {
-                                                    $uploadDir = 'equipment/img/';
+                                                    $uploadDir = '../connect/equipment/equipment/img/';
                                                     $uploadFile = $uploadDir . basename($deviceImage['name']);
                                                     if (!file_exists($uploadFile)) {
                                                         move_uploaded_file($deviceImage['tmp_name'], $uploadFile);
