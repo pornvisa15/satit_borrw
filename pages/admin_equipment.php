@@ -136,21 +136,16 @@
 
                 <!-- ตารางแสดงข้อมูลอุปกรณ์ -->
                 <div class="table-responsive mt-3">
-                    <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+                    <table class="table table-bordered table-striped text-center" style="font-size: 14px; ">
                         <thead class="table-light">
                             <tr>
                                 <th>ลำดับ</th>
-
                                 <th>เลขพัสดุ /ครุภัณฑ์</th>
-
-
                                 <th>ชื่ออุปกรณ์</th>
                                 <th>สิทธิ์การเข้าถึง</th>
                                 <th>วันที่ซื้อ</th>
                                 <th>ราคา</th>
-                                <th>รายละเอียด</th>
-                                <th>จำนวนครั้ง/การยืม</th>
-                                <th>สถานะ</th>
+                                <th style="width: 13%;">รายละเอียด</th>
                                 <th>ไฟล์ภาพ</th>
                                 <th>แก้ไข</th>
                                 <th>ลบ</th>
@@ -172,29 +167,45 @@
                                     $device_Price = htmlspecialchars($rowequipment['device_Price']);
                                     $device_Other = htmlspecialchars($rowequipment['device_Other']);
                                     // $device_Date = htmlspecialchars($rowequipment['device_Date']); //จำนวนครั้งที่ยืม
-                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //สถานะ
+                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //สถานะ ทำยังนะ
                                     $device_Image = htmlspecialchars($rowequipment['device_Image']);
 
                                     ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td> <!-- ลำดับ -->
+                                        <td><?php echo $i; ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Access']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
+
                                         <td>
                                             <?php
-                                            $device_Image = $rowequipment['device_Image']; // รับชื่อไฟล์จากฐานข้อมูล
-                                            if (!empty($device_Image) && file_exists('uploads/' . $device_Image)) {
-                                                echo '<img src="uploads/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
+                                            $device_Image = $rowequipment['device_Image'];
+
+                                            if (!empty($device_Image) && file_exists('equipment/img/' . $device_Image)) {
+
+                                                echo '<img src="equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
                                             } else {
                                                 echo 'ไม่มีรูปภาพ';
                                             }
+                                            if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] == 0) {
+                                                $deviceImage = $_FILES['device_Image'];
+                                                if (!empty($deviceImage['name'])) {
+                                                    $uploadDir = 'equipment/img/';
+                                                    $uploadFile = $uploadDir . basename($deviceImage['name']);
+                                                    if (!file_exists($uploadFile)) {
+                                                        move_uploaded_file($deviceImage['tmp_name'], $uploadFile);
+
+                                                        echo 'อัปโหลดไฟล์สำเร็จ';
+                                                    } else {
+                                                        echo 'ไฟล์นี้มีอยู่แล้ว';
+                                                    }
+                                                }
+                                            }
                                             ?>
                                         </td>
-
 
                                         <td>
                                             <a href="admin_equipment_edit.php?device_Id=<?php echo $device_Id; ?>"

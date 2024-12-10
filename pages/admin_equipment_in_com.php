@@ -140,7 +140,8 @@
                         <label for="device_Image" style="margin-bottom: 7px; font-size: 16px; color: black;">รูปภาพ
                             :</label>
                         <input type="file" class="form-control" id="device_Image" name="device_Image"
-                            style="font-size: 14px;">
+                            accept="image/jpeg, image/png" style="font-size: 14px;">
+
                     </div>
                     <div class="form-group mb-4" style="margin-bottom: 15px;">
                         <label for="device_Access" class="font-weight-bold"

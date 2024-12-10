@@ -1,10 +1,10 @@
 <?php
 include '../mysql_borrow.php';
 
-$device_Numder = $_REQUEST['device_Numder'];
+$device_Id = $_REQUEST['device_Id'];
 
 // SQL สำหรับลบข้อมูล
-$sql = "DELETE FROM `device_information` WHERE officerl_Id = '$device_Numder'";
+$sql = "DELETE FROM `device_information` WHERE device_Id = '$device_Id'";
 
 // ตรวจสอบผลลัพธ์
 if ($conn->query($sql) === TRUE) {
