@@ -118,7 +118,16 @@
 
                         </select>
                     </div>
-
+                    <div class="mb-4">
+                        <label for="department" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">สิทธิการเข้าใช้:</label>
+                        <select class="form-select" name="officer_Cotton" required
+                            style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                            <option value="" selected disabled>กรุณาเลือกสิทธิ</option>
+                            <option value="3">เจ้าหน้าที่</option>
+                            <option value="4">แอดมิน</option>
+                        </select>
+                    </div>
                     <!-- เจ้าหน้าที่ฝ่าย -->
                     <div class="mb-4">
                         <label for="department" class="font-weight-bold"

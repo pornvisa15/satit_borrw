@@ -13,11 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-</head>
 
 <body class="d-flex bg-light">
-
-
 
     <div class="d-flex flex-column text-white p-4"
         style="width: 250px; min-height: 100vh; background-color: #466da7;  margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
@@ -25,7 +22,6 @@
             style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px; ">
             Admin
         </h3>
-
 
         <ul class="nav flex-column">
             <li class="nav-item mb-3">
@@ -61,7 +57,6 @@
         </ul>
     </div>
 
-
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
             <div class="d-flex align-items-center p-2"
@@ -92,13 +87,13 @@
                     <!-- เลือกประเภทอุปกรณ์ -->
                     <div class="me-3">
                         <select id="equipmentType" class="form-select" style="width: 220px; font-size: 14px;">
-                            <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+                            <option value="" selected disabled>กรุณาเลือกเจ้าหน้าที่ฝ่าย</option>
                             <option value="">ทั้งหมด</option>
-                            <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
-                            <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
-                            <option value="ฝ่ายดนตรี">ฝ่ายดนตรี</option>
-                            <option value="ฝ่ายพัสดุ">ฝ่ายพัสดุ</option>
-                            <option value="แอดมิน">แอดมิน</option>
+                            <option value="1">ฝ่ายวิชาการคอมพิวเตอร์</option>
+                            <option value="2">ฝ่ายวิชาการวิทยาศาสตร์</option>
+                            <option value="3">ฝ่ายดนตรี</option>
+                            <option value="4">ฝ่ายพัสดุ</option>
+                            <option value="5">แอดมิน</option>
                         </select>
                     </div>
 
@@ -126,55 +121,83 @@
                 </div>
 
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ลำดับ</th>
-                            <th>ชื่อ-นามสกุล</th>
-                            <th>เจ้าหน้าที่ฝ่าย</th>
-                            <th>แก้ไข</th>
-                            <th>ลบ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="officerTable">
-                        <?php
-                        $i = 1;  // เริ่มจาก 1
-                        $sq_officer = "SELECT * FROM das_satit.das_admin 
-                    INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-                        $result = $conn->query($sq_officer);
+    <thead class="table-light">
+        <tr>
+            <th>ลำดับ</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>สิทธิการเข้าใช้</th>
+            <th>เจ้าหน้าที่ฝ่าย</th>
+            <th>แก้ไข</th>
+            <th>ลบ</th>
+        </tr>
+    </thead>
+    <tbody id="officerTable">
+        <?php
+        $i = 1; // เริ่มจาก 1
+        $sq_officer = "SELECT * FROM das_satit.das_admin 
+            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
+        $result = $conn->query($sq_officer);
 
-                        if ($result->num_rows > 0) {
-                            // output data of each row
-                            while ($rowofficer = $result->fetch_assoc()) {
-                                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
-                                $officer_id = urlencode($rowofficer['officerl_Id']);
-                                ?>
-                                <tr class="officerRow"
-                                    data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
-                                    data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
-                                    <td><?php echo $i; ?></td>
-                                    <td><?php echo $rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']; ?>
-                                    </td>
-                                    <td><?php echo $officer_right; ?></td>
-                                    <td>
-                                        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>"
-                                            class="btn btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>"
-                                            class="btn btn-danger">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php
-                                $i++;  // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($rowofficer = $result->fetch_assoc()) {
+                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
+                $officer_cotton = htmlspecialchars($rowofficer['officer_Cotton']);
+                $officer_id = urlencode($rowofficer['officerl_Id']);
+                ?>
+               <tr class="officerRow"
+                        data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
+                        data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
+                        <td>
+                            <?php
+                            if ($rowofficer['officer_Cotton'] == 3) {
+                                echo "เจ้าหน้าที่";
+                            } else if ($rowofficer['officer_Cotton'] == 4) {
+                                echo "แอดมิน";
+                            } else {
+                                echo "ไม่ทราบ";
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </td> <!-- สิทธิการเข้าใช้ -->
+                        <td>
+                            <?php
+                            if ($rowofficer['officer_Right'] == 1) {
+                                echo "ฝ่ายวิชาการคอมพิวเตอร์";
+                            } else if ($rowofficer['officer_Right'] == 2) {
+                                echo "ฝ่ายวิชาการวิทยาศาสตร์";
+                            } else if ($rowofficer['officer_Right'] == 3) {
+                                echo "ฝ่ายดนตรี";
+                            } else if ($rowofficer['officer_Right'] == 4) {
+                                echo "ฝ่ายพัสดุ";
+                            } else if ($rowofficer['officer_Right'] == 5) {
+                                echo "แอดมิน";
+                            } else {
+                                echo "ไม่ทราบ";
+                            }
+                            ?>
+                        </td> <!-- เจ้าหน้าที่ฝ่าย -->
+                        <td>
+        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+    </td>
+    <td>
+        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </td>
+</tr>
+
+                <?php
+                $i++; // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
+            }
+        }
+        ?>
+    </tbody>
+</table>
+
             </div>
 
             <script>
@@ -184,16 +207,16 @@
 
                 function filterRows() {
                     let searchValue = document.getElementById('searchEquipment').value.toLowerCase().trim();
-                    let selectedDepartment = document.getElementById('equipmentType').value.toLowerCase().trim();
+                    let selectedDepartment = document.getElementById('equipmentType').value.trim();
                     let rows = document.querySelectorAll('.officerRow');
 
                     rows.forEach(function (row) {
                         let name = row.getAttribute('data-name').toLowerCase().trim();
-                        let department = row.getAttribute('data-department').toLowerCase().trim();
+                        let department = row.getAttribute('data-department').trim();
 
                         if (
                             (searchValue === "" || name.includes(searchValue)) &&
-                            (selectedDepartment === "" || department.includes(selectedDepartment))
+                            (selectedDepartment === "" || department === selectedDepartment)
                         ) {
                             row.style.display = '';
                         } else {
