@@ -12,10 +12,10 @@ $device_Price = $_POST['device_Price'];  //	ราคา
 $device_Duty = $_POST['device_Duty'];  //	หน้าที่1=คอมพิวเตอร์ 2=วิทยาศาสตร์ 3=ดนตรี 4=พัสดุ	
 $device_Other = $_POST['device_Other']; //รายละเอียดเพิ่มเติมจ้ะ
 $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
-$device_Access = $_POST['device_Access']; //การเข้าถึง 1=บุคลากร 2=นักเรียน
+$device_Access = $_POST['device_Access']; //การเข้าถึง 1=บุคลากร 2=บุคลากรนักเรียน
 $device_Con = 1; // ค่าเริ่มต้น = ปกติ
 
-$officerl_Id = 'ploy'; //ข้อมูลเจ้าหน้าที่นะ
+$officerl_Id = $_POST['officerl_Id']; //ข้อมูลเจ้าหน้าที่นะ
 
 $target_dir = "equipment/img/";
 $target_file = $target_dir . basename($device_Image);

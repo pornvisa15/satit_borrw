@@ -143,6 +143,7 @@
                                 <th>ลำดับ</th>
                                 <th>เลขพัสดุ /ครุภัณฑ์</th>
                                 <th>ชื่ออุปกรณ์</th>
+                                <th>ผู้รับผิดชอบ</th>
                                 <th>สิทธิ์การเข้าถึง</th>
                                 <th>วันที่ซื้อ</th>
                                 <th>ราคา</th>
@@ -164,18 +165,18 @@
                                     $device_Numder = htmlspecialchars($rowequipment['device_Numder']); // 	เลขพัสดุ/ครุภัณฑ์
                                     $device_device_Name = htmlspecialchars($rowequipment['device_Name']); // ชื่ออุปกรณ์
                                     $device_Type = htmlspecialchars($rowequipment['device_Access']); // ใช้สำกหรับ
+                                    $officerl_Id = htmlspecialchars($rowequipment['officerl_Id']); // ชื่อเจ้าหน้าที ชื่อนะพลอยชื่อผู้นรับผิดชอบไม่ได้
                                     $device_Date = htmlspecialchars($rowequipment['device_Date']); // 	วัน
                                     $device_Price = htmlspecialchars($rowequipment['device_Price']); // 	ราคา
-                                    $device_Other = htmlspecialchars($rowequipment['device_Other']);// 	อื่นๆ
-                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //จำนวนครั้งที่ยืม
-                                    // $device_Date = htmlspecialchars($rowequipment['device_Date']); //สถานะ ทำยังนะ
-                                    $device_Image = htmlspecialchars($rowequipment['device_Image']);
-
+                                    $device_Other = htmlspecialchars($rowequipment['device_Other']);// 	รายละเอียด
+                                    $device_Image = htmlspecialchars($rowequipment['device_Image']); //รูป
+                            
                                     ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
+                                        <td><?php echo htmlspecialchars($rowequipment['officerl_Id']); ?></td>
                                         <td>
                                             <?php
                                             if ($rowequipment['device_Access'] == 1) {
@@ -192,6 +193,8 @@
                                         <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
+
+
 
                                         <td style="text-align: center; vertical-align: middle;">
                                             <?php
