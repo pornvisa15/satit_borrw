@@ -125,9 +125,26 @@
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Duty" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ
                             :</label>
-                        <input type="text" class="form-control" id="device_Duty" name="device_Duty"
-                            placeholder="กรอกชื่อผู้รับผิดชอบ" required style="font-size: 14px;">
+                        <select class="form-select" name="useripass" required
+                            style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
+                            <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
+                            <?php
+                            include "../connect/myspl_das_satit.php";
+                            $sql = "SELECT * FROM das_satit.das_admin WHERE das_admin.statuson = 1";
+                            $result = $conn->query($sql);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                    <option value="<?php echo $row['useripass'] ?>">
+                                        <?php echo $row['praname'] . $row['name'] . " " . $row['surname'] ?>
+                                    </option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
+
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด
                             :</label>
@@ -149,8 +166,8 @@
                         <select id="device_Access" name="device_Access" class="form-select"
                             style="font-size: 14px; margin-top: 5px;" required>
                             <option value="" selected disabled>กรุณาเลือก</option>
-                            <option value="บุคลากร">บุคลากร</option>
-                            <option value="บุคลากรและนักเรียน">บุคลากรและนักเรียน</option>
+                            <option value="1">บุคลากร</option>
+                            <option value="2">บุคลากรและนักเรียน</option>
                         </select>
                     </div>
 

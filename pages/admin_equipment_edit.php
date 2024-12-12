@@ -73,6 +73,40 @@
                     เชคสเปียร์</span>
             </div>
         </div>
+        <?php
+        include '../connect/myspl_das_satit.php';
+        include '../connect/mysql_borrow.php';
+
+        // รับค่า officerl_Id จาก URL
+        if (isset($_GET['device_Id'])) {
+            $device_Id = $_GET['device_Id'];
+
+            // ดึงข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข
+            $sq_equipment = "SELECT * FROM borrow.device_information 
+            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
+            WHERE officer_staff.officerl_Id = '$officerl_Id'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $name = $row['praname'] . $row['name'] . " " . $row['surname'];
+                $department = $row['officer_Right'];
+            } else {
+                echo "ไม่พบข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข";
+                exit();
+            }
+        } else {
+            echo "ข้อมูลไม่ถูกต้อง";
+            exit();
+        }
+
+        ?>
+
+
+
+
+
+
 
         <div class="card shadow-sm border-0" style="margin-top: 49px;">
             <div class="card-header text-white"

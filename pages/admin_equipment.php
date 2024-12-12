@@ -83,6 +83,7 @@
 
         <?php
         include '../connect/myspl_das_satit.php';
+        include '../connect/mysql_studentsatit.php';
         include '../connect/mysql_borrow.php';
         ?>
 
@@ -157,15 +158,15 @@
                             $sq_equipment = "SELECT * FROM borrow.device_information";
                             $result = $conn->query($sq_equipment);
                             if ($result->num_rows > 0) {
-                                // output data of each row
+
                                 while ($rowequipment = $result->fetch_assoc()) {
-                                    $device_Id = urlencode($rowequipment['device_Id']);
-                                    $device_Numder = htmlspecialchars($rowequipment['device_Numder']);
-                                    $device_device_Name = htmlspecialchars($rowequipment['device_Name']);
-                                    $device_Type = htmlspecialchars($rowequipment['device_Access']);
-                                    $device_Date = htmlspecialchars($rowequipment['device_Date']);
-                                    $device_Price = htmlspecialchars($rowequipment['device_Price']);
-                                    $device_Other = htmlspecialchars($rowequipment['device_Other']);
+                                    $device_Id = urlencode($rowequipment['device_Id']);  // ลำดับ
+                                    $device_Numder = htmlspecialchars($rowequipment['device_Numder']); // 	เลขพัสดุ/ครุภัณฑ์
+                                    $device_device_Name = htmlspecialchars($rowequipment['device_Name']); // ชื่ออุปกรณ์
+                                    $device_Type = htmlspecialchars($rowequipment['device_Access']); // ใช้สำกหรับ
+                                    $device_Date = htmlspecialchars($rowequipment['device_Date']); // 	วัน
+                                    $device_Price = htmlspecialchars($rowequipment['device_Price']); // 	ราคา
+                                    $device_Other = htmlspecialchars($rowequipment['device_Other']);// 	อื่นๆ
                                     // $device_Date = htmlspecialchars($rowequipment['device_Date']); //จำนวนครั้งที่ยืม
                                     // $device_Date = htmlspecialchars($rowequipment['device_Date']); //สถานะ ทำยังนะ
                                     $device_Image = htmlspecialchars($rowequipment['device_Image']);
@@ -175,21 +176,34 @@
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Access']); ?></td>
+                                        <td>
+                                            <?php
+                                            if ($rowequipment['device_Access'] == 1) {
+                                                echo "บุคลากร";
+                                            } else if ($rowequipment['device_Access'] == 2) {
+                                                echo "บุคลากรและนักเรียน";
+                                            } else {
+                                                echo "ไม่ทราบ";
+                                            }
+                                            ?>
+                                        </td>
+
+
                                         <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
 
-                                        <td>
+                                        <td style="text-align: center; vertical-align: middle;">
                                             <?php
                                             $device_Image = $rowequipment['device_Image'];
 
                                             if (!empty($device_Image) && file_exists('../connect/equipment/equipment/img/' . $device_Image)) {
-
-                                                echo '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: auto;">';
+                                                // แสดงรูปภาพโดยตั้งขนาดเท่ากัน และอยู่กลาง
+                                                echo '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: 100px; object-fit: cover;">';
                                             } else {
                                                 echo 'ไม่มีรูปภาพ';
                                             }
+
                                             if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] == 0) {
                                                 $deviceImage = $_FILES['device_Image'];
                                                 if (!empty($deviceImage['name'])) {
@@ -197,7 +211,6 @@
                                                     $uploadFile = $uploadDir . basename($deviceImage['name']);
                                                     if (!file_exists($uploadFile)) {
                                                         move_uploaded_file($deviceImage['tmp_name'], $uploadFile);
-
                                                         echo 'อัปโหลดไฟล์สำเร็จ';
                                                     } else {
                                                         echo 'ไฟล์นี้มีอยู่แล้ว';
@@ -206,6 +219,7 @@
                                             }
                                             ?>
                                         </td>
+
 
                                         <td>
                                             <a href="admin_equipment_edit.php?device_Id=<?php echo $device_Id; ?>"
