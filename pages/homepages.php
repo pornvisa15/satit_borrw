@@ -10,6 +10,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <?php
+    session_start()
+?>
 
 <!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
 <div class="position-relative">
@@ -34,7 +37,16 @@
 
                 <ul class="nav flex-column mt-3">
                     <li>
-                        <a href="homepages.php" class="nav-link text-light">สำหรับการยืม</a>
+                        <?php
+                        if( $_SESSION['priv'] ==1){
+                        echo"<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";       
+                        }elseif( $_SESSION['priv'] == 2){
+                            echo"<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";       
+                        }else{echo"ไม่มี";
+                        }
+                        
+                        ?>
+                        
                     </li>
 
                     <li>
@@ -85,6 +97,20 @@
         </div>
 
     </div>
+
+    <?php
+                        if( $_SESSION['priv'] ==1){
+                        ?>
+   
+                          <?php
+                        }elseif( $_SESSION['priv'] == 2){
+                        ?>
+            
+                               <?php
+                        }else{echo"ไม่มี";
+                        }
+                        
+                        ?>
 </div>
 
 <!-- Footer -->
