@@ -152,10 +152,10 @@
                         <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
                         <td>
                             <?php
-                            if ($rowofficer['officer_Cotton'] == 3) {
-                                echo "เจ้าหน้าที่";
-                            } else if ($rowofficer['officer_Cotton'] == 4) {
+                            if ($rowofficer['officer_Right'] == 3) {
                                 echo "แอดมิน";
+                            } else if ($rowofficer['officer_Right'] == 4) {
+                                echo "เจ้าหน้าที่";
                             } else {
                                 echo "ไม่ทราบ";
                             }
@@ -163,15 +163,15 @@
                         </td> <!-- สิทธิการเข้าใช้ -->
                         <td>
                             <?php
-                            if ($rowofficer['officer_Right'] == 1) {
+                            if ($rowofficer['officer_Cotton'] == 1) {
                                 echo "ฝ่ายวิชาการคอมพิวเตอร์";
-                            } else if ($rowofficer['officer_Right'] == 2) {
+                            } else if ($rowofficer['officer_Cotton'] == 2) {
                                 echo "ฝ่ายวิชาการวิทยาศาสตร์";
-                            } else if ($rowofficer['officer_Right'] == 3) {
+                            } else if ($rowofficer['officer_Cotton'] == 3) {
                                 echo "ฝ่ายดนตรี";
-                            } else if ($rowofficer['officer_Right'] == 4) {
+                            } else if ($rowofficer['officer_Cotton'] == 4) {
                                 echo "ฝ่ายพัสดุ";
-                            } else if ($rowofficer['officer_Right'] == 5) {
+                            } else if ($rowofficer['officer_Cotton'] == 5) {
                                 echo "แอดมิน";
                             } else {
                                 echo "ไม่ทราบ";

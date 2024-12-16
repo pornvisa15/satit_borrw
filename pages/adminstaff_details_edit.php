@@ -120,15 +120,15 @@ if (isset($_GET['officerl_Id'])) {
     </div>
     <div class="mb-3">
         <label for="department" class="form-label">สิทธิการเข้าใช้:</label>
-        <select class="form-select"  name="officer_Cotton" required>
-            <option value="3" <?php echo ($department == "เจ้าหน้าที่") ? 'selected' : ''; ?>>เจ้าหน้าที่</option>
-            <option value="4" <?php echo ($department == "แอดมิน") ? 'selected' : ''; ?>>แอดมิน</option>
+        <select class="form-select"  name="officer_Right" required>
+           <option value="3" <?php echo ($department == "แอดมิน") ? 'selected' : ''; ?>>แอดมิน</option>
+           <option value="4" <?php echo ($department == "เจ้าหน้าที่") ? 'selected' : ''; ?>>เจ้าหน้าที่</option>
         </select>
     </div>
 
     <div class="mb-3">
         <label for="department" class="form-label">เจ้าหน้าที่ฝ่าย:</label>
-        <select class="form-select"  name="officer_Right" required>
+        <select class="form-select"  name="officer_Cotton" required>
             <option value="1" <?php echo ($department == "ฝ่ายวิชาการคอมพิวเตอร์") ? 'selected' : ''; ?>>ฝ่ายวิชาการคอมพิวเตอร์</option>
             <option value="2" <?php echo ($department == "ฝ่ายวิชาการวิทยาศาสตร์") ? 'selected' : ''; ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
             <option value="3" <?php echo ($department == "ฝ่ายดนตรี") ? 'selected' : ''; ?>>ฝ่ายดนตรี</option>

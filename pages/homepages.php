@@ -36,18 +36,22 @@
                 </div>
 
                 <ul class="nav flex-column mt-3">
-                    <li>
-                        <?php
-                        if( $_SESSION['priv'] ==1){
-                        echo"<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";       
-                        }elseif( $_SESSION['priv'] == 2){
-                            echo"<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";       
-                        }else{echo"ไม่มี";
-                        }
-                        
-                        ?>
-                        
-                    </li>
+                <li>
+    <?php
+    if (isset($_SESSION['officer_Right'])) {
+        if ($_SESSION['officer_Right'] == 'student') {  // ใช้ == แทน =
+            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";
+        } elseif ($_SESSION['officer_Right'] == 'staff') {  // ใช้ == แทน =
+            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";
+        } else {
+            echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
+        }
+    } else {
+        echo "<span class='text-light'>ไม่มีข้อมูลสิทธิ์</span>";
+    }
+    ?>
+</li>
+
 
                     <li>
                         <a class="nav-link text-light d-flex align-items-center" data-bs-toggle="collapse" href="#borrowSection" role="button" aria-expanded="false" aria-controls="borrowSection">
@@ -98,19 +102,7 @@
 
     </div>
 
-    <?php
-                        if( $_SESSION['priv'] ==1){
-                        ?>
-   
-                          <?php
-                        }elseif( $_SESSION['priv'] == 2){
-                        ?>
-            
-                               <?php
-                        }else{echo"ไม่มี";
-                        }
-                        
-                        ?>
+    
 </div>
 
 <!-- Footer -->
