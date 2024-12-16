@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['surname'] = $row['md5'];
         $_SESSION['officer_Right'] = 'officer_Cotton';
 
-        header("Location: pages/officer_homepages.php");
+        header("Location: pages/admin_homepages.php");
         exit;
     }
 
