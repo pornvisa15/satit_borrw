@@ -137,6 +137,7 @@
                                 <th>เลขพัสดุ /ครุภัณฑ์</th>
                                 <th>ชื่ออุปกรณ์</th>
                                 <th>ผู้รับผิดชอบ</th>
+                                
                                 <th>ฝ่าย</th>
                                 <th>สิทธิ์การเข้าถึง</th>
                                 <th>วันที่ซื้อ</th>
@@ -168,10 +169,35 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
+                                        <td><?php echo htmlspecialchars(string: $rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['officerl_Id']); ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Duty']); ?></td>
+                                        
+                                        <td>
+    <?php 
+    // แปลง device_Duty เป็นข้อความ
+    switch ($rowequipment['device_Duty']) {
+        case 1:
+            echo "ฝ่ายวิชาการคอมพิวเตอร์";
+            break;
+        case 2:
+            echo "ฝ่ายวิชาการวิทยาศาสตร์";
+            break;
+        case 3:
+            echo "ฝ่ายดนตรี";
+            break;
+        case 4:
+            echo "ฝ่ายพัสดุ";
+            break;
+        case 5:
+            echo "แอดมิน";
+            break;
+        default:
+            echo "ไม่ทราบ";
+            break;
+    }
+    ?>
+</td>
 
                                         <td>
                                             <?php

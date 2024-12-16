@@ -14,9 +14,8 @@ $device_Other = $_POST['device_Other']; //รายละเอียดเพ�
 $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
 $device_Access = $_POST['device_Access']; //การเข้าถึง 1=บุคลากร 2=บุคลากรนักเรียน
 $device_Con = 1; // ค่าเริ่มต้น = ปกติ
-
-// $officerl_Id = 'ploy'; //ข้อมูลเจ้าหน้าที่นะ
-// $device_Duty = 'mo';ห
+$useripass = $_REQUEST['useripass'];
+$device_Duty = $_POST['device_Duty'];
 
 $target_dir = "equipment/img/";
 $target_file = $target_dir . basename($device_Image);

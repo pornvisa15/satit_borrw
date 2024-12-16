@@ -94,18 +94,29 @@
                             placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required style="font-size: 14px;">
                     </div>
 
-                    <div class="form-group mb-4" style="margin-bottom: 15px;">
-                        <label for="device_Type">ประเภท:</label>
-                        <select id="device_Type" name="device_Type" class="form-select"
-                            style="width: 100%; font-size: 14px; margin-top: 5px;" required>
-                            <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
-                            <option value="ฝ่ายวิชาการคอมพิวเตอร์">ฝ่ายวิชาการคอมพิวเตอร์</option>
-                            <option value="ฝ่ายวิชาการวิทยาศาสตร์">ฝ่ายวิชาการวิทยาศาสตร์</option>
-                            <option value="ฝ่ายดนตรี">ฝ่ายดนตรี</option>
-                            <option value="ฝ่ายพัสดุ">ฝ่ายพัสดุ</option>
-                            <option value="แอดมิน">แอดมิน</option>
-                        </select>
-                    </div>
+                    <?php
+// ตรวจสอบค่าที่ส่งมาจากฟอร์มและกำหนดค่าให้กับตัวแปร $department
+$department = ""; // กำหนดค่าเริ่มต้นให้กับตัวแปร
+if (isset($_POST['device_Duty'])) {
+    $department = $_POST['device_Duty'];
+}
+?>
+
+<div class="mb-4">
+    <label for="department" class="font-weight-bold" style="font-size: 16px; color: black;">
+        ประเภท:
+    </label>
+    <select class="form-select" name="device_Duty" required 
+            style="margin-top: 5px; font-size: 14px; padding: 10px; border-radius: 4px; border: 1px solid #ced4da;">
+        <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+        <option value="1" <?php echo ($department == "1") ? 'selected' : ''; ?>>ฝ่ายวิชาการคอมพิวเตอร์</option>
+        <option value="2" <?php echo ($department == "2") ? 'selected' : ''; ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
+        <option value="3" <?php echo ($department == "3") ? 'selected' : ''; ?>>ฝ่ายดนตรี</option>
+        <option value="4" <?php echo ($department == "4") ? 'selected' : ''; ?>>ฝ่ายพัสดุ</option>
+        <option value="5" <?php echo ($department == "5") ? 'selected' : ''; ?>>แอดมิน</option>
+    </select>
+</div>
+
 
 
                     <div class="form-group" style="margin-bottom: 15px;">

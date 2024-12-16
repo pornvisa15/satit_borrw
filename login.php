@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt4->execute();
     $result4 = $stmt4->get_result();
 
-    if ($result4 && $result4->num_rows == 1) {
+    if ($result4 && $result4->num_rows == 1) {   
         $row = $result4->fetch_assoc();
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['md5'];

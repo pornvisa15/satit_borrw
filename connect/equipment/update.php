@@ -12,7 +12,9 @@ if (isset($_POST['device_Id'])) {
     $device_Other = $_POST['device_Other'];
     $device_Image = $_POST['device_Image'];
     $device_Access = $_POST['device_Access'];
-
+    $useripass = $_REQUEST['useripass'];
+    $device_Duty = $_POST['device_Duty'];
+    
     // ตรวจสอบค่าที่ได้รับ
     // if (empty($officerl_Id) || empty($name) || empty($department)) {
     //     echo "ข้อมูลไม่ครบถ้วน!";
