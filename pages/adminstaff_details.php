@@ -53,14 +53,14 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="../logout.php" class="nav-link text-white"
                     style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ออกจากระบบ
                 </a>
             </li>
         </ul>
     </div>
- 
+
 
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
@@ -108,7 +108,8 @@
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
                                     <option value="<?php echo $row['useripass'] ?>">
-                                        <?php echo $row['praname'] . $row['name'] . " " . $row['surname'] ?></option>
+                                        <?php echo $row['praname'] . $row['name'] . " " . $row['surname'] ?>
+                                    </option>
                                     <?php
                                 }
                             }
@@ -159,12 +160,12 @@
                     </div>
                 </form>
                 <script>
-    function submitForm() {
-        // ตัวอย่างการดำเนินการเมื่อกด "ยืนยัน"
-        alert("บันทึกการแก้ไข");
-        return true; // ให้ฟอร์มส่งข้อมูล
-    }
-</script>
+                    function submitForm() {
+                        // ตัวอย่างการดำเนินการเมื่อกด "ยืนยัน"
+                        alert("บันทึกการแก้ไข");
+                        return true; // ให้ฟอร์มส่งข้อมูล
+                    }
+                </script>
 
 
 

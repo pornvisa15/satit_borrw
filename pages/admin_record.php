@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="../logout.php" class="nav-link text-white"
                     style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ออกจากระบบ
                 </a>
@@ -81,14 +81,15 @@
             </div>
 
             <div class="card-body">
-            <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
-            <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่ออุปกรณ์"
-                aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;">
-            <button class="btn text-light" type="button" id="button-search"
-                style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
-                ค้นหา
-            </button>
-        </div>
+                <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
+                    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่ออุปกรณ์"
+                        aria-label="Search" aria-describedby="button-search"
+                        style="font-size: 14px; padding: 9px 12px;">
+                    <button class="btn text-light" type="button" id="button-search"
+                        style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
+                        ค้นหา
+                    </button>
+                </div>
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
                     <thead class="table-light">
                         <tr>

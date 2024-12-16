@@ -49,7 +49,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="../logout.php" class="nav-link text-white"
                     style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ออกจากระบบ
                 </a>
@@ -121,82 +121,85 @@
                 </div>
 
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-    <thead class="table-light">
-        <tr>
-            <th>ลำดับ</th>
-            <th>ชื่อ-นามสกุล</th>
-            <th>สิทธิการเข้าใช้</th>
-            <th>เจ้าหน้าที่ฝ่าย</th>
-            <th>แก้ไข</th>
-            <th>ลบ</th>
-        </tr>
-    </thead>
-    <tbody id="officerTable">
-        <?php
-        $i = 1; // เริ่มจาก 1
-        $sq_officer = "SELECT * FROM das_satit.das_admin 
+                    <thead class="table-light">
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>สิทธิการเข้าใช้</th>
+                            <th>เจ้าหน้าที่ฝ่าย</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="officerTable">
+                        <?php
+                        $i = 1; // เริ่มจาก 1
+                        $sq_officer = "SELECT * FROM das_satit.das_admin 
             INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
-        $result = $conn->query($sq_officer);
+                        $result = $conn->query($sq_officer);
 
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while ($rowofficer = $result->fetch_assoc()) {
-                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
-                $officer_cotton = htmlspecialchars($rowofficer['officer_Cotton']);
-                $officer_id = urlencode($rowofficer['officerl_Id']);
-                ?>
-               <tr class="officerRow"
-                        data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
-                        data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
-                        <td><?php echo $i; ?></td>
-                        <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
-                        <td>
-                            <?php
-                            if ($rowofficer['officer_Right'] == 3) {
-                                echo "แอดมิน";
-                            } else if ($rowofficer['officer_Right'] == 4) {
-                                echo "เจ้าหน้าที่";
-                            } else {
-                                echo "ไม่ทราบ";
-                            }
-                            ?>
-                        </td> <!-- สิทธิการเข้าใช้ -->
-                        <td>
-                            <?php
-                            if ($rowofficer['officer_Cotton'] == 1) {
-                                echo "ฝ่ายวิชาการคอมพิวเตอร์";
-                            } else if ($rowofficer['officer_Cotton'] == 2) {
-                                echo "ฝ่ายวิชาการวิทยาศาสตร์";
-                            } else if ($rowofficer['officer_Cotton'] == 3) {
-                                echo "ฝ่ายดนตรี";
-                            } else if ($rowofficer['officer_Cotton'] == 4) {
-                                echo "ฝ่ายพัสดุ";
-                            } else if ($rowofficer['officer_Cotton'] == 5) {
-                                echo "แอดมิน";
-                            } else {
-                                echo "ไม่ทราบ";
-                            }
-                            ?>
-                        </td> <!-- เจ้าหน้าที่ฝ่าย -->
-                        <td>
-        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-warning">
-            <i class="fas fa-edit"></i>
-        </a>
-    </td>
-    <td>
-        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-danger">
-            <i class="fas fa-trash-alt"></i>
-        </a>
-    </td>
-</tr>
+                        if ($result->num_rows > 0) {
+                            // output data of each row
+                            while ($rowofficer = $result->fetch_assoc()) {
+                                $officer_right = htmlspecialchars($rowofficer['officer_Right']);
+                                $officer_cotton = htmlspecialchars($rowofficer['officer_Cotton']);
+                                $officer_id = urlencode($rowofficer['officerl_Id']);
+                                ?>
+                                <tr class="officerRow"
+                                    data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
+                                    data-department="<?php echo htmlspecialchars($rowofficer['officer_Right']); ?>">
+                                    <td><?php echo $i; ?></td>
+                                    <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        if ($rowofficer['officer_Right'] == 3) {
+                                            echo "แอดมิน";
+                                        } else if ($rowofficer['officer_Right'] == 4) {
+                                            echo "เจ้าหน้าที่";
+                                        } else {
+                                            echo "ไม่ทราบ";
+                                        }
+                                        ?>
+                                    </td> <!-- สิทธิการเข้าใช้ -->
+                                    <td>
+                                        <?php
+                                        if ($rowofficer['officer_Cotton'] == 1) {
+                                            echo "ฝ่ายวิชาการคอมพิวเตอร์";
+                                        } else if ($rowofficer['officer_Cotton'] == 2) {
+                                            echo "ฝ่ายวิชาการวิทยาศาสตร์";
+                                        } else if ($rowofficer['officer_Cotton'] == 3) {
+                                            echo "ฝ่ายดนตรี";
+                                        } else if ($rowofficer['officer_Cotton'] == 4) {
+                                            echo "ฝ่ายพัสดุ";
+                                        } else if ($rowofficer['officer_Cotton'] == 5) {
+                                            echo "แอดมิน";
+                                        } else {
+                                            echo "ไม่ทราบ";
+                                        }
+                                        ?>
+                                    </td> <!-- เจ้าหน้าที่ฝ่าย -->
+                                    <td>
+                                        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>"
+                                            class="btn btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>"
+                                            class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
 
-                <?php
-                $i++; // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
-            }
-        }
-        ?>
-    </tbody>
-</table>
+                                <?php
+                                $i++; // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
 
             </div>
 

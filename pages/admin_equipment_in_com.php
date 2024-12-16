@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="#" class="nav-link text-white"
+                <a href="../logout.php" class="nav-link text-white"
                     style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     ออกจากระบบ
                 </a>
@@ -133,7 +133,7 @@
                             include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
                             $sql = "SELECT * FROM borrow.officer_staff 
                             INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass 
-                            WHERE officer_staff.officer_Right IN (5, 3)";
+                            WHERE officer_staff.officer_Right IN (3, 4)";
 
                             $result = $conn->query($sql);
 
