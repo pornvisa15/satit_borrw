@@ -129,10 +129,16 @@
                             style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
                             <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
                             <?php
-                            include "../connect/myspl_das_satit.php";
-                            $sql = "SELECT * FROM das_satit.das_admin WHERE das_admin.statuson = 1";
+                            include "../connect/mysql_borrow.php";
+                            include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
+                            $sql = "SELECT * FROM borrow.officer_staff 
+                            INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass 
+                            WHERE officer_staff.officer_Right IN (5, 3)";
+
                             $result = $conn->query($sql);
+
                             if ($result->num_rows > 0) {
+                                // output data of each row
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
                                     <option value="<?php echo $row['useripass'] ?>">

@@ -176,8 +176,18 @@
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['officerl_Id']); ?></td>
                                         <td>
+                                            <?php
+                                            if ($rowofficer['officer_Cotton'] == 3) {
+                                                echo "เจ้าหน้าที่";
+                                            } else if ($rowofficer['officer_Cotton'] == 4) {
+                                                echo "แอดมิน";
+                                            } else {
+                                                echo "ไม่ทราบ";
+                                            }
+                                            ?>
+                                        </td>
+                                        < <td>
                                             <?php
                                             if ($rowequipment['device_Access'] == 1) {
                                                 echo "บุคลากร";
@@ -187,55 +197,55 @@
                                                 echo "ไม่ทราบ";
                                             }
                                             ?>
-                                        </td>
+                                            </td>
 
 
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
-                                        <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
+                                            <td><?php echo htmlspecialchars($rowequipment['device_Date']); ?></td>
+                                            <td><?php echo htmlspecialchars($rowequipment['device_Price']); ?></td>
+                                            <td><?php echo htmlspecialchars($rowequipment['device_Other']); ?></td>
 
 
 
-                                        <td style="text-align: center; vertical-align: middle;">
-                                            <?php
-                                            $device_Image = $rowequipment['device_Image'];
+                                            <td style="text-align: center; vertical-align: middle;">
+                                                <?php
+                                                $device_Image = $rowequipment['device_Image'];
 
-                                            if (!empty($device_Image) && file_exists('../connect/equipment/equipment/img/' . $device_Image)) {
-                                                // แสดงรูปภาพโดยตั้งขนาดเท่ากัน และอยู่กลาง
-                                                echo '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: 100px; object-fit: cover;">';
-                                            } else {
-                                                echo 'ไม่มีรูปภาพ';
-                                            }
+                                                if (!empty($device_Image) && file_exists('../connect/equipment/equipment/img/' . $device_Image)) {
+                                                    // แสดงรูปภาพโดยตั้งขนาดเท่ากัน และอยู่กลาง
+                                                    echo '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($device_Image) . '" alt="device_Image" style="width: 100px; height: 100px; object-fit: cover;">';
+                                                } else {
+                                                    echo 'ไม่มีรูปภาพ';
+                                                }
 
-                                            if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] == 0) {
-                                                $deviceImage = $_FILES['device_Image'];
-                                                if (!empty($deviceImage['name'])) {
-                                                    $uploadDir = '../connect/equipment/equipment/img/';
-                                                    $uploadFile = $uploadDir . basename($deviceImage['name']);
-                                                    if (!file_exists($uploadFile)) {
-                                                        move_uploaded_file($deviceImage['tmp_name'], $uploadFile);
-                                                        echo 'อัปโหลดไฟล์สำเร็จ';
-                                                    } else {
-                                                        echo 'ไฟล์นี้มีอยู่แล้ว';
+                                                if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] == 0) {
+                                                    $deviceImage = $_FILES['device_Image'];
+                                                    if (!empty($deviceImage['name'])) {
+                                                        $uploadDir = '../connect/equipment/equipment/img/';
+                                                        $uploadFile = $uploadDir . basename($deviceImage['name']);
+                                                        if (!file_exists($uploadFile)) {
+                                                            move_uploaded_file($deviceImage['tmp_name'], $uploadFile);
+                                                            echo 'อัปโหลดไฟล์สำเร็จ';
+                                                        } else {
+                                                            echo 'ไฟล์นี้มีอยู่แล้ว';
+                                                        }
                                                     }
                                                 }
-                                            }
-                                            ?>
-                                        </td>
+                                                ?>
+                                            </td>
 
 
-                                        <td>
-                                            <a href="admin_equipment_edit.php?device_Id=<?php echo $device_Id; ?>"
-                                                class="btn btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="../connect/equipment/delete.php?device_Id=<?php echo $device_Id; ?>"
-                                                class="btn btn-danger">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </a>
-                                        </td>
+                                            <td>
+                                                <a href="admin_equipment_edit.php?device_Id=<?php echo $device_Id; ?>"
+                                                    class="btn btn-warning">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="../connect/equipment/delete.php?device_Id=<?php echo $device_Id; ?>"
+                                                    class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </td>
                                     </tr>
 
                                     <?php
