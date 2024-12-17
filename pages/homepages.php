@@ -13,7 +13,7 @@
     <?php
     session_start()
 ?>
-
+<?php  include 'sidebar.php' ?>
 <!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
 <div class="position-relative">
     <img src="/satit_borrw/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">

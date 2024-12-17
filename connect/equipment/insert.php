@@ -1,7 +1,7 @@
 <?php
 // เชื่อมต่อฐานข้อมูล
 include '../mysql_borrow.php';
-
+session_start();
 // รับค่าจากฟอร์ม
 
 $device_Numder = $_POST['device_Numder']; //	เลขพัสดุ/ครุภัณฑ์
@@ -14,8 +14,9 @@ $device_Other = $_POST['device_Other']; //รายละเอียดเพ�
 $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
 $device_Access = $_POST['device_Access']; //การเข้าถึง 1=บุคลากร 2=บุคลากรนักเรียน
 $device_Con = 1; // ค่าเริ่มต้น = ปกติ
-$useripass = $_REQUEST['useripass'];
-$device_Duty = $_POST['device_Duty'];
+$useripass = $_SESSION['useripass'];
+$cotton_Id = $_POST['cotton_Id'];
+
 
 $target_dir = "equipment/img/";
 $target_file = $target_dir . basename($device_Image);
@@ -26,8 +27,8 @@ if (!is_dir($target_dir)) {
 
 if (move_uploaded_file($_FILES['device_Image']['tmp_name'], $target_file)) {
     // เพิ่มข้อมูลลงในฐานข้อมูล
-    $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Type, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, officerl_Id, device_Duty)
-            VALUES ('$device_Numder', '$device_Name', '$device_Type', '$deviหหce_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$officerl_Id', '$device_Duty')";
+    $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Type, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, cotton_Id)
+            VALUES ('$device_Numder', '$device_Name', '$device_Type', '$deviหหce_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$cotton_Id' )";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";

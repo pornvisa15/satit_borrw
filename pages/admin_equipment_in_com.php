@@ -14,48 +14,11 @@
 </head>
 
 <body class="d-flex bg-light">
-
-    <div class="d-flex flex-column text-white p-4"
-        style="width: 250px; min-height: 100vh; background-color: #466da7; margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">
-        <h3 class="mb-4 text-center"
-            style="background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;">
-            Admin
-        </h3>
-
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3">
-                <a href="admin_homepages.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    หน้าหลัก
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_equipment.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    คลังอุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_staffinfo.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ข้อมูลเจ้าหน้าที่
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_record.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ประวัติการใช้อุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="../logout.php" class="nav-link text-white"
-                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ออกจากระบบ
-                </a>
-            </li>
-        </ul>
-    </div>
-
+<?php
+    session_start()
+?>
+      <?php  include 'sidebar.php' ?>
+     
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
             <div class="d-flex align-items-center p-2"
@@ -102,21 +65,6 @@ if (isset($_POST['device_Duty'])) {
 }
 ?>
 
-<div class="mb-4">
-    <label for="department" class="font-weight-bold" style="font-size: 16px; color: black;">
-        ประเภท:
-    </label>
-    <select class="form-select" name="device_Duty" required 
-            style="margin-top: 5px; font-size: 14px; padding: 10px; border-radius: 4px; border: 1px solid #ced4da;">
-        <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
-        <option value="1" <?php echo ($department == "1") ? 'selected' : ''; ?>>ฝ่ายวิชาการคอมพิวเตอร์</option>
-        <option value="2" <?php echo ($department == "2") ? 'selected' : ''; ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
-        <option value="3" <?php echo ($department == "3") ? 'selected' : ''; ?>>ฝ่ายดนตรี</option>
-        <option value="4" <?php echo ($department == "4") ? 'selected' : ''; ?>>ฝ่ายพัสดุ</option>
-        <option value="5" <?php echo ($department == "5") ? 'selected' : ''; ?>>แอดมิน</option>
-    </select>
-</div>
-
 
 
                     <div class="form-group" style="margin-bottom: 15px;">
@@ -133,18 +81,17 @@ if (isset($_POST['device_Duty'])) {
                             placeholder="กรอกราคา (บาท)" min="0" step="1" required
                             style="font-size: 14px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: textfield;">
                     </div>
+                    
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="device_Duty" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ
+                        <label for="officerl_Id" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ
                             :</label>
-                        <select class="form-select" name="useripass" required
+                        <select class="form-select" name="cotton_Id" required
                             style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
                             <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
                             <?php
                             include "../connect/mysql_borrow.php";
                             include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
-                            $sql = "SELECT * FROM borrow.officer_staff 
-                            INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass 
-                            WHERE officer_staff.officer_Right IN (3, 4)";
+                            $sql = "SELECT * FROM  borrow.cotton";
 
                             $result = $conn->query($sql);
 
@@ -152,8 +99,8 @@ if (isset($_POST['device_Duty'])) {
                                 // output data of each row
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
-                                    <option value="<?php echo $row['useripass'] ?>">
-                                        <?php echo $row['praname'] . $row['name'] . " " . $row['surname'] ?>
+                                    <option value="<?php echo $row['cotton_Id'] ?>">
+                                        <?php echo  $row['cotton_Name']  ?>
                                     </option>
                                     <?php
                                 }
@@ -161,7 +108,6 @@ if (isset($_POST['device_Duty'])) {
                             ?>
                         </select>
                     </div>
-
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด
                             :</label>

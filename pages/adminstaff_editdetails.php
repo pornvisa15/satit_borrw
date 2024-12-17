@@ -16,8 +16,10 @@
 <body class="d-flex bg-light">
 
 
-
-
+<?php
+    session_start()
+?>
+ <?php  include 'sidebar.php' ?>
 
     <div class="d-flex flex-column text-white p-4"
         style="width: 250px; min-height: 100vh; background-color: #466da7;  margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);">

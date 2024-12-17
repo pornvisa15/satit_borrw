@@ -10,8 +10,8 @@ include 'connect/mysql_borrow.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // รับค่าจากฟอร์ม
     $user = trim($_POST['username']);
-    $pass = trim($_POST['password']);
-
+    $pass = trim ($_POST['password']);
+//$pass = md5(md5(md5($_POST['password']))); ใส่ก่อนลงเซฟเวอร์
     // ตรวจสอบว่าค่าที่ได้รับไม่ว่าง
     if (empty($user) || empty($pass)) {
         echo "<script>alert('กรุณาใส่ Username และ Password'); window.location.href = 'index.php';</script>";
@@ -49,8 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result3->fetch_assoc();
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['md5'];
-        $_SESSION['officer_Right'] = 'officer_Right';
-
+        $_SESSION['officer_Cotton'] = $row['officer_Cotton'];
+        $_SESSION['officer_Right'] = $row['officer_Right'];
+        $_SESSION['useripass'] = $row['useripass'];
         header("Location: pages/admin_homepages.php");
         exit;
     }
@@ -66,30 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['md5'];
         $_SESSION['officer_Right'] = 'staff';
-
+        $_SESSION['useripass'] = $row['useripass'];
         header("Location: pages/homepages.php");
         exit;
     }
-     // เจ้าหน้าที่
-     $stmt4 = $conn->prepare(
-        "SELECT * FROM das_satit.das_admin 
-         INNER JOIN borrow.officer_staff 
-         ON das_admin.useripass = officer_staff.useripass 
-         WHERE das_admin.useripass = ? AND das_admin.md5 = ?"
-    );
-    $stmt4->bind_param("ss", $user, $pass);
-    $stmt4->execute();
-    $result4 = $stmt4->get_result();
-
-    if ($result4 && $result4->num_rows == 1) {   
-        $row = $result4->fetch_assoc();
-        $_SESSION['name'] = $row['name'];
-        $_SESSION['surname'] = $row['md5'];
-        $_SESSION['officer_Right'] = 'officer_Cotton';
-
-        header("Location: pages/admin_homepages.php");
-        exit;
-    }
+     
 
     // หากไม่พบข้อมูล
     echo "<script>alert('Username หรือ Password ไม่ถูกต้อง'); window.location.href = 'index.php';</script>";
