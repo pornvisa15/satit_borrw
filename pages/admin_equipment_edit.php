@@ -13,11 +13,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="d-flex bg-light">  
-<?php
+<body class="d-flex bg-light">
+    <?php
     session_start()
-?>
-      <?php  include 'sidebar.php' ?>
+        ?>
+    <?php include 'sidebar.php' ?>
 
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
@@ -34,31 +34,39 @@
         include '../connect/myspl_das_satit.php';
         include '../connect/mysql_borrow.php';
 
-        // รับค่า officerl_Id จาก URL
+        // รับค่า device_Id จาก URL
         if (isset($_GET['device_Id'])) {
             $device_Id = $_GET['device_Id'];
 
-            // ดึงข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข
-            $sq_equipment = "SELECT * FROM borrow.device_information 
-            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
-            WHERE officer_staff.officerl_Id = '$officerl_Id'";
+            // ดึงข้อมูลอุปกรณ์ที่ต้องการแก้ไข
+            $sql = "SELECT * FROM borrow.device_information 
+            INNER JOIN borrow.cotton ON device_information.cotton_Id = cotton.cotton_Id 
+            WHERE device_information.device_Id = '$device_Id'";  // เพิ่มเงื่อนไข WHERE เพื่อระบุอุปกรณ์ที่ต้องการแก้ไข
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                $name = $row['praname'] . $row['name'] . " " . $row['surname'];
-                $department = $row['officer_Right'];
+
+                // กำหนดค่าตัวแปร
+                $device_Name = $row['device_Name'];
+                $device_Type = $row['device_Type'];
+                $device_Date = $row['device_Date'];
+                $device_Price = $row['device_Price'];
+                $device_Other = $row['device_Other'];
+                $device_Access = $row['device_Access'];
+                $device_Con = $row['device_Con'];
+                $cotton_Id = $row['cotton_Id'];
+                $useripass = $row['useripass'];
+                $department = $row['device_Id']; // ถ้าต้องการดึง department ให้เลือก column ที่เกี่ยวข้อง
             } else {
-                echo "ไม่พบข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข";
+                echo "ไม่พบข้อมูลอุปกรณ์ที่ต้องการแก้ไข";
                 exit();
             }
         } else {
             echo "ข้อมูลไม่ถูกต้อง";
             exit();
         }
-
         ?>
-
 
 
 
@@ -68,7 +76,7 @@
         <div class="card shadow-sm border-0" style="margin-top: 49px;">
             <div class="card-header text-white"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ข้อมูลอุปกรณ์</h4>
+                <h4 class="mb-0" style="font-size: 22px;">แก้ไขข้อมูลอุปกรณ์</h4>
             </div>
 
             <!-- ฟอร์มด้านในจ้าาาาาาาาาาา -->
@@ -76,72 +84,73 @@
                 <h5 class="text-center mb-4">แก้ไขข้อมูลอุปกรณ์</h5>
 
 
-                <div class="mb-4">
-                    <label for="equipmentName" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">ชื่ออุปกรณ์:</label>
-                    <input type="text" id="equipmentName" name="equipmentName" class="form-control"
-                        placeholder="กรอกชื่ออุปกรณ์" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                </div>
+                <form action="../connect/equipment/update.php" method="post" onsubmit="return submitForm()">
+                    <input type="hidden" name="cotton_Id" value="<?php echo $cotton_Id; ?>">
+                    <div class="mb-4">
+                        <label for="device_Name" class="form-label"
+                            style="font-size: 16px; color: black;">ชื่ออุปกรณ์:</label>
+                        <input type="text" id="device_Name" name="device_Name" class="form-control"
+                            value="<?php echo isset($row['device_Name']) ? $row['device_Name'] : ''; ?>"
+                            placeholder="กรอกชื่ออุปกรณ์" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="assetNumber" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์:</label>
-                    <input type="text" id="assetNumber" name="assetNumber" class="form-control"
-                        placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                </div>
-                <div class="mb-4">
-                    <label for="usageFor" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">ประเภท:</label>
-                    <select id="usageFor" name="usageFor" class="form-select" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                        <option value="" disabled selected>ประเภท</option>
-                        <option value="นักเรียน">อุปกรณ์คอมพิวเตอร์</option>
-                        <option value="บุคลากร">อุปกรณ์วิทยาศาสตร์</option>
-                        <option value="นักเรียน">อุปกรณ์ดนตรี </option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="purchaseDate" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
-                    <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                </div>
 
-                <div class="mb-4 ">
-                    <label for="price" class="font-weight-bold" style="font-size: 16px; color: black;">ราคา:</label>
-                    <input type="number" id="price" name="price" class="form-control" placeholder="กรอกราคา (บาท)"
-                        min="0" step="0.01" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                </div>
+                    <div class="mb-4">
+                        <label for="assetNumber" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์:</label>
+                        <input type="text" id="assetNumber" name="assetNumber" class="form-control"
+                            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="details" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">รายละเอียด:</label>
-                    <textarea id="details" name="details" class="form-control" placeholder="กรอกรายละเอียดเพิ่มเติม"
-                        rows="4" required style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; 
+                    <div class="mb-4">
+                        <label for="purchaseDate" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
+                        <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
+
+                    <div class="mb-4 ">
+                        <label for="price" class="font-weight-bold" style="font-size: 16px; color: black;">ราคา:</label>
+                        <input type="number" id="price" name="price" class="form-control" placeholder="กรอกราคา (บาท)"
+                            min="0" step="0.01" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="details" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">รายละเอียด:</label>
+                        <textarea id="details" name="details" class="form-control" placeholder="กรอกรายละเอียดเพิ่มเติม"
+                            rows="4" required style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; 
                height: 150px; overflow-y: auto;"></textarea>
-                </div>
+                    </div>
 
 
-                <div class="mb-4">
-                    <label for="fileUpload" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">อัปโหลดไฟล์รูปภาพ:</label>
-                    <input type="file" id="fileUpload" name="fileUpload" class="form-control" accept="image/*" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                </div>
+                    <div class="mb-4">
+                        <label for="fileUpload" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">อัปโหลดไฟล์รูปภาพ:</label>
+                        <input type="file" id="fileUpload" name="fileUpload" class="form-control" accept="image/*"
+                            required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
 
-                <div class="mb-4">
-                    <label for="usageFor" class="font-weight-bold"
-                        style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
-                    <select id="usageFor" name="usageFor" class="form-select" required
-                        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                        <option value="" disabled selected>เลือกผู้ใช้งาน</option>
-                        <option value="นักเรียน">นักเรียน</option>
-                        <option value="บุคลากร">บุคลากร</option>
-                    </select>
-                </div>
+                    <div class="mb-4">
+                        <label for="usageFor" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
+                        <select id="usageFor" name="usageFor" class="form-select" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                            <option value="" disabled selected>เลือกผู้ใช้งาน</option>
+                            <option value="นักเรียน">นักเรียน</option>
+                            <option value="บุคลากร">บุคลากร</option>
+                        </select>
+                    </div>
+
+
+
+
+                </form>
+
 
 
 

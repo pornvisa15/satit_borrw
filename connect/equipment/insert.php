@@ -28,7 +28,7 @@ if (!is_dir($target_dir)) {
 if (move_uploaded_file($_FILES['device_Image']['tmp_name'], $target_file)) {
     // เพิ่มข้อมูลลงในฐานข้อมูล
     $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Type, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, cotton_Id)
-            VALUES ('$device_Numder', '$device_Name', '$device_Type', '$deviหหce_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$cotton_Id' )";
+            VALUES ('$device_Numder', '$device_Name', '$device_Type', '$device_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$cotton_Id' )";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";

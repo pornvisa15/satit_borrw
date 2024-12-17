@@ -19,12 +19,12 @@
 
 <body class="d-flex bg-light">
 
-<?php
+    <?php
     session_start()
-?>
+        ?>
 
-      <?php  include 'sidebar.php' ?>
-     
+    <?php include 'sidebar.php' ?>
+
 
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
@@ -95,8 +95,6 @@
                                 <th>เลขพัสดุ /ครุภัณฑ์</th>
                                 <th>ชื่ออุปกรณ์</th>
                                 <th>ผู้รับผิดชอบ</th>
-                                
-                            
                                 <th>สิทธิ์การเข้าถึง</th>
                                 <th>วันที่ซื้อ</th>
                                 <th>ราคา</th>
@@ -118,7 +116,7 @@
                                     $device_Numder = htmlspecialchars($rowequipment['device_Numder']); // 	เลขพัสดุ/ครุภัณฑ์
                                     $device_device_Name = htmlspecialchars($rowequipment['device_Name']); // ชื่ออุปกรณ์
                                     $device_Type = htmlspecialchars($rowequipment['device_Access']); // สำหรับ
-                                    $cotton_Name= htmlspecialchars($rowequipment['cotton_Name']); // ชื่อผู้รับผิดชอบ                           
+                                    $cotton_Name = htmlspecialchars($rowequipment['cotton_Name']); // ชื่อผู้รับผิดชอบ                           
                                     $device_Price = htmlspecialchars($rowequipment['device_Price']); // 	ราคา
                                     $device_Other = htmlspecialchars($rowequipment['device_Other']);// 	รายละเอียด
                                     $device_Image = htmlspecialchars($rowequipment['device_Image']); //รูป
@@ -128,34 +126,34 @@
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo htmlspecialchars(string: $rowequipment['device_Numder']); ?></td>
                                         <td><?php echo htmlspecialchars($rowequipment['device_Name']); ?></td>
-                                        
-                                        
-                                        
-                                             <td>
-                                        <?php                                
-                                       
-                                        switch ($rowequipment['cotton_Id']) {
-                                            case 1:
-                                                echo "ฝ่ายวิชาการคอมพิวเตอร์";
-                                                break;
-                                            case 2:
-                                                echo "ฝ่ายวิชาการวิทยาศาสตร์";
-                                                break;
-                                            case 3:
-                                                echo "ฝ่ายดนตรี";
-                                                break;
-                                            case 4:
-                                                echo "ฝ่ายพัสดุ";
-                                                break;
-                                            case 5:
-                                                echo "แอดมิน";
-                                                break;
-                                            default:
-                                                echo "ไม่ทราบ";
-                                                break;
-                                        }
-                                        ?>
-                                    </td>
+
+
+
+                                        <td>
+                                            <?php
+
+                                            switch ($rowequipment['cotton_Id']) {
+                                                case 1:
+                                                    echo "ฝ่ายวิชาการคอมพิวเตอร์";
+                                                    break;
+                                                case 2:
+                                                    echo "ฝ่ายวิชาการวิทยาศาสตร์";
+                                                    break;
+                                                case 3:
+                                                    echo "ฝ่ายดนตรี";
+                                                    break;
+                                                case 4:
+                                                    echo "ฝ่ายพัสดุ";
+                                                    break;
+                                                case 5:
+                                                    echo "แอดมิน";
+                                                    break;
+                                                default:
+                                                    echo "ไม่ทราบ";
+                                                    break;
+                                            }
+                                            ?>
+                                        </td>
 
                                         <td>
                                             <?php
