@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result1->fetch_assoc();
         $_SESSION['std_name'] = $row['std_name'];
         $_SESSION['std_surname'] = $row['std_ipasspass'];
-        $_SESSION['officer_Right'] = 'student';
+        $_SESSION['officer_Right'] = 1;
 
         header("Location: pages/homepages.php");
         exit;
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result2->fetch_assoc();
         $_SESSION['name'] = $row['name'];
         $_SESSION['surname'] = $row['md5'];
-        $_SESSION['officer_Right'] = 'staff';
+        $_SESSION['officer_Right'] = 2;
         $_SESSION['useripass'] = $row['useripass'];
         header("Location: pages/homepages.php");
         exit;

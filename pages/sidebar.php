@@ -70,6 +70,7 @@ if (isset($_SESSION['officer_Right'])) {
     echo "<span class='text-light'>ไม่มีข้อมูลสิทธิ์</span>";
    
 }
+
 ?>   
 <ul class="nav flex-column">
             <li class="nav-item mb-3">
@@ -109,12 +110,34 @@ if (isset($_SESSION['officer_Right'])) {
 elseif($_SESSION['officer_Right'] == 1){
 
 ?>
+<!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
+<div class="position-relative">
+    <img src="/satit_borrw/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
+    <div class="position-absolute top-50 start-0 translate-middle-y text-light" style="font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding-left: 60px;">
+        ระบบ ยืม-คืน อุปกรณ์
+    </div>
+</div>
 
+
+<!-- Grid System for Two Boxes -->
+<div class="container-fluid mt-4 ms-0 flex-grow-1">
+    <div class="row">
+        <!-- กล่องทางซ้าย (เมนู) -->
+        <div class="col-md-3 col-lg-2">
+            <div class="p-3 border rounded shadow-sm" style="background-color: #007468; color: #ffffff;">
+                <!-- ชื่อและไอคอนคน -->
+                <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
+                    <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
+                    <span class="ms-2" style="font-size: 14px; color: #007468;">นางสาวพรวิสาข์ ปรีชา</span>
+                </div>
+
+                <ul class="nav flex-column mt-3">
+                <li>
     <?php
     if (isset($_SESSION['officer_Right'])) {
-        if ($_SESSION['officer_Right'] == 'student') {  // ใช้ == แทน =
+        if ($_SESSION['officer_Right'] == 1) {  // ใช้ == แทน =
             echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";
-        } elseif ($_SESSION['officer_Right'] == 'staff') {  // ใช้ == แทน =
+        } elseif ($_SESSION['officer_Right'] == 2) {  // ใช้ == แทน =
             echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";
         } else {
             echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
@@ -124,15 +147,172 @@ elseif($_SESSION['officer_Right'] == 1){
     }
     ?>
 </li>
+                   <li>
+                        <a class="nav-link text-light d-flex align-items-center" data-bs-toggle="collapse" href="#borrowSection" role="button" aria-expanded="false" aria-controls="borrowSection">
+                            ประเภท
+                            <i class="bi bi-chevron-down ms-2"></i>
+                        </a>
+
+                        <div class="collapse" id="borrowSection">
+                            <div class="card card-body border-0">
+                                <ul class="list-unstyled">
+                                    <li><a href="reservation_com.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์คอมพิวเตอร์</a></li>
+                                    <li><a href="reservation_science.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์วิทยาศาสตร์</a></li>
+                                    <li><a href="reservation_music.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+  
+                    <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
+                    <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
+                    <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
+
+                </ul>
+            </div>
+        </div>
+
+<!-- Bootstrap JS (Optional for interactive components) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom CSS -->
+<style>
+    /* เปลี่ยนสีเมนูเมื่อ hover */
+    .nav-link:hover {
+        background-color: #005a3d; /* สีเข้มขึ้นเมื่อ hover */
+        color: white;
+        border-radius: 4px;
+    }
+
+    /* เปลี่ยนสีเมนูเมื่อ active */
+    .nav-link.active {
+        background-color: #00452c; /* สีเข้มสุดเมื่อคลิก */
+        color: white;
+        border-radius: 4px;
+    }
+
+    /* เพิ่มเงาให้เมนู */
+    .nav-link, .btn {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ปรับรูปแบบของเมนูให้ดูทันสมัย */
+    .nav-link, .btn {
+        border-radius: 5px;
+    }
+
+    /* เพิ่มระยะห่างระหว่างเมนู */
+    .nav-link {
+        margin-bottom: 8px;
+    }
+</style>
 
 
-    
 <?php
 }
 elseif($_SESSION['officer_Right'] == 2){
 
 ?>
+<!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
+<div class="position-relative">
+    <img src="/satit_borrw/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
+    <div class="position-absolute top-50 start-0 translate-middle-y text-light" style="font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding-left: 60px;">
+        ระบบ ยืม-คืน อุปกรณ์
+    </div>
+</div>
 
+
+<!-- Grid System for Two Boxes -->
+<div class="container-fluid mt-4 ms-0 flex-grow-1">
+    <div class="row">
+        <!-- กล่องทางซ้าย (เมนู) -->
+        <div class="col-md-3 col-lg-2">
+            <div class="p-3 border rounded shadow-sm" style="background-color: #007468; color: #ffffff;">
+                <!-- ชื่อและไอคอนคน -->
+                <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
+                    <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
+                    <span class="ms-2" style="font-size: 14px; color: #007468;">นางสาวพรวิสาข์ ปรีชา</span>
+                </div>
+
+                <ul class="nav flex-column mt-3">
+                <li>
+    <?php
+    if (isset($_SESSION['officer_Right'])) {
+        if ($_SESSION['officer_Right'] == 1) {  // ใช้ == แทน =
+            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";
+        } elseif ($_SESSION['officer_Right'] == 2) {  // ใช้ == แทน =
+            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";
+        } else {
+            echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
+        }
+    } else {
+        echo "<span class='text-light'>ไม่มีข้อมูลสิทธิ์</span>";
+    }
+    ?>
+</li>
+                   <li>
+                        <a class="nav-link text-light d-flex align-items-center" data-bs-toggle="collapse" href="#borrowSection" role="button" aria-expanded="false" aria-controls="borrowSection">
+                            ประเภท
+                            <i class="bi bi-chevron-down ms-2"></i>
+                        </a>
+
+                        <div class="collapse" id="borrowSection">
+                            <div class="card card-body border-0">
+                                <ul class="list-unstyled">
+                                    <li><a href="reservation_com.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์คอมพิวเตอร์</a></li>
+                                    <li><a href="reservation_science.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์วิทยาศาสตร์</a></li>
+                                    <li><a href="reservation_music.php" class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+  
+                    <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
+                    <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
+                    <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
+
+                </ul>
+            </div>
+        </div>
+
+<!-- Bootstrap JS (Optional for interactive components) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom CSS -->
+<style>
+    /* เปลี่ยนสีเมนูเมื่อ hover */
+    .nav-link:hover {
+        background-color: #005a3d; /* สีเข้มขึ้นเมื่อ hover */
+        color: white;
+        border-radius: 4px;
+    }
+
+    /* เปลี่ยนสีเมนูเมื่อ active */
+    .nav-link.active {
+        background-color: #00452c; /* สีเข้มสุดเมื่อคลิก */
+        color: white;
+        border-radius: 4px;
+    }
+
+    /* เพิ่มเงาให้เมนู */
+    .nav-link, .btn {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ปรับรูปแบบของเมนูให้ดูทันสมัย */
+    .nav-link, .btn {
+        border-radius: 5px;
+    }
+
+    /* เพิ่มระยะห่างระหว่างเมนู */
+    .nav-link {
+        margin-bottom: 8px;
+    }
+</style>
 <?php
 }
 
