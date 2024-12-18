@@ -126,10 +126,34 @@ elseif($_SESSION['officer_Right'] == 1){
         <div class="col-md-3 col-lg-2">
             <div class="p-3 border rounded shadow-sm" style="background-color: #007468; color: #ffffff;">
                 <!-- ชื่อและไอคอนคน -->
-                <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
-                    <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
-                    <span class="ms-2" style="font-size: 14px; color: #007468;">นางสาวพรวิสาข์ ปรีชา</span>
-                </div>
+                <?php
+include "../connect/mysql_studentsatit.php"; // ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
+
+// ดึงข้อมูลจากฐานข้อมูล
+$sql = "SELECT * FROM studentsatit.detail_std WHERE detail_std.std_status IN (1, 3)";
+
+$result = $conn->query($sql);
+
+// ตรวจสอบว่ามีข้อมูลหรือไม่
+if ($result->num_rows > 0) {
+    // ดึงข้อมูลแต่ละแถว
+    while ($row = $result->fetch_assoc()) {
+        ?>
+        <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
+            <!-- แสดงไอคอน -->
+            <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
+            <!-- แสดงชื่อผู้ใช้ -->
+            <span class="ms-2" style="font-size: 14px; color: #007468;">
+                <?php echo $row['std_name'] . " " .  $row['std_surname'] ; ?>
+            </span>
+        </div>
+        <?php
+    }
+} else {
+    echo "ไม่พบข้อมูล";
+}
+?>
+
 
                 <ul class="nav flex-column mt-3">
                 <li>

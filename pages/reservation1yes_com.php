@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,82 +10,164 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="d-flex flex-column min-vh-100">
+
 <?php
-    session_start()
+session_start();
+include 'sidebar.php';
+include "../connect/mysql_borrow.php";
+
+// รับข้อมูลที่ส่งมาจากหน้า homepages.php
+$deviceID = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
+
+// ดึงข้อมูลจากฐานข้อมูล
+$sql = "SELECT * FROM borrow.device_information WHERE device_Numder = '$deviceID'"; // ใช้ device_Numder เป็นเงื่อนไข
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // ถ้ามีข้อมูล
+    $row = $result->fetch_assoc();
+    $deviceName = $row['device_Name'];
+    $deviceStatus = $row['device_Con'];
+    $deviceImage = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
+    $deviceOther = $row['device_Other']; // ดึงข้อมูล device_Other จากฐานข้อมูล
+    $cottonId = $row['cotton_Id'];
+} else {
+    // ถ้าไม่มีข้อมูล
+    $deviceName = 'ข้อมูลไม่ถูกส่ง';
+    $deviceStatus = 'ข้อมูลไม่ถูกส่ง';
+    $deviceImage = 'ข้อมูลไม่ถูกส่ง';
+    $deviceOther = 'ข้อมูลไม่ถูกส่ง';
+    $cottonId = 'ข้อมูลไม่ถูกส่ง';
+}
 ?>
-<?php  include 'sidebar.php' ?>
 
-        
-        <!-- กล่องทางขวา (เนื้อหา) -->
-        <div class="col-md-9 col-lg-10">
-            <div class="p-3 bg-light border rounded shadow-sm">
-            <div class="row">
-                <div class="col-2 text-end mt-3">
-                <h5 class="card-title" 
-            
-    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468;"onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';"> อุปกรณ์คอมพิวเตอร์
+
+<!-- กล่องเนื้อหา -->
+<div class="col-md-9 col-lg-10">
+    <div class="p-3 bg-light border rounded shadow-sm">
+        <div class="row">
+            <div class="col-2 text-end mt-3">
+            <?php
+// ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
+$departmentName = '';
+switch ($cottonId) {
+    case 1:
+        $departmentName = 'อุปกรณ์คอมพิวเตอร์';
+        break;
+    case 2:
+        $departmentName = 'อุปกรณ์วิทยาศาสตร์';
+        break;
+    case 3:
+        $departmentName = 'อุปกรณ์ดนตรี';
+        break;
+    default:
+        $departmentName = 'ข้อมูลไม่ระบุ';
+}
+?>
+<h5 class="card-title text-start ms-4" 
+    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468; text-align: left; margin-left: 10px; white-space: nowrap; margin-top: 10px;"
+    onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';">
+    <?= $departmentName; ?>
 </h5>
-               
-</div>
 
-<div class="d-flex justify-content-center mt-5 mb-5">
+
+
+
+
+            </div>
+            <div class="d-flex justify-content-center mt-5 mb-5">
     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
         <div class="d-flex align-items-center">
-            <!-- Larger Rectangular Image on the left -->
-            <!-- รูปภาพที่จะแสดงในหน้าเว็บ -->
-<img src="/satit_borrw/img/6.jpg" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: auto;" data-bs-toggle="modal" data-bs-target="#zoomModal">
+            <!-- รูปภาพ -->
+            <img src="<?= $deviceImage; ?>" class="img-fluid me-3" alt="Image Placeholder" 
+     style="max-width: 250px; height: 250px; object-fit: cover; 
+            transition: transform 0.3s ease; cursor: pointer;" 
+     data-bs-toggle="modal" data-bs-target="#zoomModal"
+     onmouseover="this.style.transform='scale(1.1)';" 
+     onmouseout="this.style.transform='scale(1)';">
 
-<!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
+
+           <!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
 <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <!-- รูปภาพที่จะแสดงในโหมดซูม -->
-                <img src="/satit_borrw/img/6.jpg" class="img-fluid" alt="Zoomed Image" style="max-width: 100%; height: auto;">
-            </div>
-        </div>
-    </div>
-</div>
-  
-
-
-            <!-- Content on the right -->
-            <div class="ms-auto">
-                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: เมาส์</h5>
-                <div class="mb-2">
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เลขพัสดุ/ครุภัณฑ์:</strong> A0001234</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>รายละเอียด:</strong> เมาส์ไร้สาย Anitech Bluetooth and Wireless Mouse Sanrio KU-W239-BK Black</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;"><strong>เจ้าของอุปกรณ์:</strong> นางสาวพรวิสาข์ ปรีชา</p>
-                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                    <strong>สถานะการใช้งาน:</strong> <span style="color: #78C756; font-weight: bold;">ว่าง</span>
-                    </p>
-                </div>
-                <!-- Button for booking -->
-                <div class="text-end">
-                    <!-- Link to another page when the button is clicked -->
-                    <a href="reservation1_book_com.php">
-                        <button class="btn btn-sm" style="background-color: #FFC721; color: white;">จอง</button>
-                    </a>
-                </div>
+                <img src="<?= $deviceImage; ?>" class="img-fluid" alt="Zoomed Image" 
+                     style="max-width: 80%; max-height: 400px; height: auto;">
             </div>
         </div>
     </div>
 </div>
 
-</div>
+<!-- เนื้อหา -->
+<div class="ms-5">  <!-- ปรับค่า ms-0 เพื่อลดระยะห่างจากขวา -->
+    <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: <?= $deviceName; ?></h5>
+    <div class="mb-2">
+        <p class="mb-1 text-muted" style="font-size: 0.9rem;">
+            <strong>เลขพัสดุ/ครุภัณฑ์:</strong> <?= $deviceID; ?>
+        </p>
+        <p class="mb-1 text-muted" style="font-size: 0.9rem;">
+            <strong>รายละเอียด:</strong> <?= $deviceOther; ?>
+        </p>
+        <p class="mb-1 text-muted" style="font-size: 0.9rem;">
+    <strong>สถานที่รับ:</strong> 
+    <?php
+    switch ($cottonId) {
+        case 1:
+            echo 'ฝ่ายคอมพิวเตอร์';
+            break;
+        case 2:
+            echo 'ฝ่ายวิทยาศาสตร์';
+            break;
+        case 3:
+            echo 'ฝ่ายดนตรี';
+            break;
+        default:
+            echo 'ข้อมูลไม่ระบุ';
+    }
+    ?>
+</p>
+        <p class="mb-1 text-muted" style="font-size: 0.9rem;">
+            <strong>สถานะการใช้งาน:</strong> 
+            <span style="color: <?= $deviceStatus == 1 ? '#78C756' : '#FF090D'; ?>; font-weight: bold;">
+                <?= $deviceStatus == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+            </span>
+        </p>
     </div>
-   
+
+    <!-- ปุ่มจอง -->
+
+
 </div>
 
 
         </div>
+        <div class="d-flex justify-content-end" style="width: 100%;">
+    <a href="reservation1_book_com.php">
+        <button class="btn btn-sm" 
+                style="background-color: #FFC721; color: white; transition: transform 0.3s ease; border: none;"
+                onmouseover="this.style.transform='scale(1.3)';" 
+                onmouseout="this.style.transform='scale(1)';">
+            จอง
+        </button>
+    </a>
+</div>
+
 
     </div>
 </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <!-- Footer -->
 <footer style="background-color: #495057;" class="text-light py-3 mt-4">
@@ -95,8 +176,8 @@
     </div>
 </footer>
 
-<!-- Bootstrap JS และ Popper.js (จำเป็นต้องใช้ในการทำงานของ modal) -->
 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL" crossorigin="anonymous"></script>
 </body>
 </html>

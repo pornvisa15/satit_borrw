@@ -44,7 +44,7 @@ $equipment = [
 ];
 ?>
 
-<div class="row g-4 mt-5 justify-content-center">
+<div class="row g-4 mt-5 justify-content-start">
     <?php foreach ($equipment as $item): ?>
         <div class="col-3">
             <div class="card h-100 shadow-sm d-flex flex-column">
@@ -64,26 +64,10 @@ $equipment = [
     <?php endforeach; ?>
 </div>
 
-<style>
-    /* เพิ่มเอฟเฟกต์เมื่อชี้เมาส์ที่ภาพ */
-    .card-img {
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* การเคลื่อนที่และเงา */
-    }
-
-    .card-img:hover {
-        transform: scale(1.1); /* ขยายภาพขึ้น 10% */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* เพิ่มเงาเมื่อชี้เมาส์ */
-    }
-</style>
-
 
 </div>
     </div>
     
-</div>
-
-
-        </div>
 
    
 
