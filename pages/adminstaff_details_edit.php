@@ -15,8 +15,8 @@
 
 <body class="d-flex bg-light">
 
-      <?php  include 'sidebar.php' ?>
- 
+    <?php include 'sidebar.php' ?>
+
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
             <div class="d-flex align-items-center p-2"

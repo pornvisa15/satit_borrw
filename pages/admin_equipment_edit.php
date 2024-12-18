@@ -83,9 +83,19 @@
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
                 <h5 class="text-center mb-4">แก้ไขข้อมูลอุปกรณ์</h5>
 
-
                 <form action="../connect/equipment/update.php" method="post" onsubmit="return submitForm()">
+
                     <input type="hidden" name="cotton_Id" value="<?php echo $cotton_Id; ?>">
+
+                    <div class="mb-4">
+                        <label for="device_Numder" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์:</label>
+                        <input type="text" id="device_Numder" name="device_Numder" class="form-control"
+                            value="<?php echo isset($row['device_Numder']) ? $row['device_Numder'] : ''; ?>"
+                            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" readonly
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
+
                     <div class="mb-4">
                         <label for="device_Name" class="form-label"
                             style="font-size: 16px; color: black;">ชื่ออุปกรณ์:</label>
@@ -95,68 +105,90 @@
                             style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                     </div>
 
-
                     <div class="mb-4">
-                        <label for="assetNumber" class="font-weight-bold"
-                            style="font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์:</label>
-                        <input type="text" id="assetNumber" name="assetNumber" class="form-control"
-                            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required
+                        <label for="cotton_Id" class="form-label"
+                            style="font-size: 16px; color: black;">ฝ่ายที่รับผิดชอบ:</label>
+                        <select id="cotton_Id" name="cotton_Id" class="form-select"
                             style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="purchaseDate" class="font-weight-bold"
-                            style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
-                        <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" required
-                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                    </div>
-
-                    <div class="mb-4 ">
-                        <label for="price" class="font-weight-bold" style="font-size: 16px; color: black;">ราคา:</label>
-                        <input type="number" id="price" name="price" class="form-control" placeholder="กรอกราคา (บาท)"
-                            min="0" step="0.01" required
-                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="details" class="font-weight-bold"
-                            style="font-size: 16px; color: black;">รายละเอียด:</label>
-                        <textarea id="details" name="details" class="form-control" placeholder="กรอกรายละเอียดเพิ่มเติม"
-                            rows="4" required style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; 
-               height: 150px; overflow-y: auto;"></textarea>
-                    </div>
-
-
-                    <div class="mb-4">
-                        <label for="fileUpload" class="font-weight-bold"
-                            style="font-size: 16px; color: black;">อัปโหลดไฟล์รูปภาพ:</label>
-                        <input type="file" id="fileUpload" name="fileUpload" class="form-control" accept="image/*"
-                            required
-                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="usageFor" class="font-weight-bold"
-                            style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
-                        <select id="usageFor" name="usageFor" class="form-select" required
-                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-                            <option value="" disabled selected>เลือกผู้ใช้งาน</option>
-                            <option value="นักเรียน">นักเรียน</option>
-                            <option value="บุคลากร">บุคลากร</option>
+                            <option value="1" <?php echo isset($row['cotton_Id']) && $row['cotton_Id'] == 1 ? 'selected' : ''; ?>>ฝ่ายวิชาการคอมพิวเตอร์</option>
+                            <option value="2" <?php echo isset($row['cotton_Id']) && $row['cotton_Id'] == 2 ? 'selected' : ''; ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
+                            <option value="3" <?php echo isset($row['cotton_Id']) && $row['cotton_Id'] == 3 ? 'selected' : ''; ?>>ฝ่ายดนตรี</option>
+                            <option value="4" <?php echo isset($row['cotton_Id']) && $row['cotton_Id'] == 4 ? 'selected' : ''; ?>>ฝ่ายพัสดุ</option>
+                            <option value="5" <?php echo isset($row['cotton_Id']) && $row['cotton_Id'] == 5 ? 'selected' : ''; ?>>แอดมิน</option>
                         </select>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="device_Date" class="form-label"
+                            style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
+                        <input type="date" id="device_Date" name="device_Date" class="form-control"
+                            value="<?php echo isset($row['device_Date']) ? $row['device_Date'] : ''; ?>" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
 
+                    <div class="mb-4">
+                        <label for="device_Price" class="form-label"
+                            style="font-size: 16px; color: black;">ราคา:</label>
+                        <input type="text" id="device_Price" name="device_Price" class="form-control"
+                            value="<?php echo isset($row['device_Price']) ? $row['device_Price'] : ''; ?>"
+                            placeholder="ราคา" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
 
+                    <div class="mb-4">
+                        <label for="device_Other" class="form-label" style="font-size: 16px; color: black;">รายละเอียด
+                            :</label>
+                        <input type="text" id="device_Other" name="device_Other" class="form-control"
+                            value="<?php echo isset($row['device_Other']) ? $row['device_Other'] : ''; ?>"
+                            placeholder="รายละเอียด" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="device_Image" class="font-weight-bold"
+                            style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
+
+                        <div style="margin-top: 10px;">
+                            <!-- แสดงรูปภาพปัจจุบัน -->
+                            <?php if (!empty($row['device_Image']) && file_exists('../connect/equipment/equipment/img/' . $row['device_Image'])): ?>
+                                <img src="../connect/equipment/equipment/img/<?php echo htmlspecialchars($row['device_Image']); ?>"
+                                    alt="Current Image"
+                                    style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                            <?php else: ?>
+                                <p style="color: #888;">ไม่มีรูปภาพ</p>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- ฟิลด์เลือกไฟล์ -->
+                        <input type="file" id="device_Image" name="device_Image" class="form-control" accept="image/*"
+                            style="margin-top: 15px; font-size: 16px; padding: 10px; border-radius: 8px; border: 1px solid #ced4da; transition: border-color 0.3s ease;">
+
+                        <!-- เพิ่มการเปลี่ยนสีเมื่อมีการโฟกัส -->
+                        <script>
+                            document.getElementById("device_Image").addEventListener("focus", function () {
+                                this.style.borderColor = "#007bff";
+                            });
+                            document.getElementById("device_Image").addEventListener("blur", function () {
+                                this.style.borderColor = "#ced4da";
+                            });
+                        </script>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="device_Access" class="font-weight-bold"
+                            style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
+                        <select id="device_Access" name="device_Access" class="form-select" required
+                            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
+                            <option value="" disabled selected>เลือกผู้ใช้งาน</option>
+                            <option value="1" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 1) ? 'selected' : ''; ?>>บุคลากร</option>
+                            <option value="2" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 2) ? 'selected' : ''; ?>>บุคลากรและนักเรียน</option>
+                        </select>
+                    </div>
 
                 </form>
 
-
-
-
-
                 <!-- ฟอร์ม -->
-                <form id="equipmentForm" action="process_data.php" method="POST">
+                <form id="equipmentForm" action="admin_equipment.php" method="POST">
                     <div class="text-center d-flex justify-content-center gap-3">
                         <!-- ปุ่มยกเลิก -->
                         <button type="button" class="btn btn-danger"
@@ -169,15 +201,12 @@
                         <button type="button" class="btn btn-success"
                             style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
                             data-bs-toggle="modal" data-bs-target="#confirmModal">
-                            <i class="bi bi-check-circle"></i> บันทึกข้อมูล
+                            <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
                         </button>
                     </div>
                 </form>
 
             </div>
-
-
-
 
 
             <!-- Modal ยืนยัน -->
@@ -203,6 +232,16 @@
             </div>
 
         </div>
+        <script>
+            function submitForm() {
+                // ตัวอย่างการดำเนินการเมื่อกด "ยืนยัน"
+                alert("บันทึกการแก้ไข");
+                // เปลี่ยนเส้นทางไปหน้า admin_staffinfo.php หลังจากบันทึกสำเร็จ
+                window.location.href = "admin_equipment.php";
+            }
+
+
+        </script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

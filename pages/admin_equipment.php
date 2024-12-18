@@ -114,9 +114,10 @@
                                 while ($rowequipment = $result->fetch_assoc()) {
                                     $device_Id = urlencode($rowequipment['device_Id']);  // ลำดับ
                                     $device_Numder = htmlspecialchars($rowequipment['device_Numder']); // 	เลขพัสดุ/ครุภัณฑ์
-                                    $device_device_Name = htmlspecialchars($rowequipment['device_Name']); // ชื่ออุปกรณ์
+                                    $device_Name = htmlspecialchars($rowequipment['device_Name']); // ชื่ออุปกรณ์
+                                    $cotton_Name = htmlspecialchars($rowequipment['cotton_Name']); // ผู้รับผิดชอบ
                                     $device_Type = htmlspecialchars($rowequipment['device_Access']); // สำหรับ
-                                    $cotton_Name = htmlspecialchars($rowequipment['cotton_Name']); // ชื่อผู้รับผิดชอบ                           
+                                    $device_Date = htmlspecialchars($rowequipment['device_Date']); // วันที่ซื้อ
                                     $device_Price = htmlspecialchars($rowequipment['device_Price']); // 	ราคา
                                     $device_Other = htmlspecialchars($rowequipment['device_Other']);// 	รายละเอียด
                                     $device_Image = htmlspecialchars($rowequipment['device_Image']); //รูป
@@ -235,49 +236,6 @@
         </div>
 
         <script>
-
-            let currentPage = 1;
-            const itemsPerPage = 15;
-            let totalItems = 0;
-            let currentData = [];
-
-            // ฟังก์ชันที่ใช้ในการอัพเดตตารางตามประเภทที่เลือก
-            function updateTable(type) {
-                totalItems = equipmentData[type].length;
-                currentData = equipmentData[type];
-                const startIndex = (currentPage - 1) * itemsPerPage;
-                const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-                const tableBody = document.getElementById('equipmentTableBody');
-                tableBody.innerHTML = ''; // ล้างข้อมูลเก่า
-
-                currentData.slice(startIndex, endIndex).forEach((equipment, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                <td>${startIndex + index + 1}</td>
-                <td>${equipment.code}</td>
-                <td>${equipment.name}</td>
-                <td>${equipment.access}</td>
-                <td>${equipment.date}</td>
-                <td>${equipment.price}</td>
-                <td>${equipment.borrowCount} ครั้ง</td>
-                <td><span class="badge bg-warning text-dark" style="border-radius: 12px; padding: 5px 10px;">${equipment.status}</span></td>
-                <td><i class="bi bi-file-earmark-image" style="font-size: 20px; color: #4fb05a;"></i></td>
-                <td>
-                    <button class="btn btn-sm" style="background-color: #ff9800; color: white; border-radius: 8px;" 
-                            onclick="window.location.href='admin_equipment_edit.php';">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                </td>
-                <td><button class="btn btn-sm" style="background-color: #f44336; color: white; border-radius: 8px;">
-                    <i class="bi bi-trash"></i></button></td>
-            `;
-                    tableBody.appendChild(row);
-                });
-
-                updatePagination();
-            }
-
             // ฟังก์ชันเพื่ออัพเดต pagination
             function updatePagination() {
                 const totalPages = Math.ceil(totalItems / itemsPerPage);
