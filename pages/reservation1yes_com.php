@@ -75,6 +75,7 @@ switch ($cottonId) {
 
 
             </div>
+            
             <div class="d-flex justify-content-center mt-5 mb-5">
     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
         <div class="d-flex align-items-center">

@@ -14,28 +14,64 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
-    session_start()
+session_start();
+include 'sidebar.php';
+include "../connect/mysql_borrow.php";
+// รับข้อมูลที่ส่งมาจากหน้า homepages.php
+$deviceID = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
+
+// ดึงข้อมูลจากฐานข้อมูล
+$sql = "SELECT * FROM borrow.device_information WHERE device_Numder = '$deviceID'"; // ใช้ device_Numder เป็นเงื่อนไข
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // ถ้ามีข้อมูล
+    $row = $result->fetch_assoc();
+    $deviceName = $row['device_Name'];
+    $cottonId = $row['cotton_Id'];
+} else {
+    // ถ้าไม่มีข้อมูล
+    $deviceName = 'ข้อมูลไม่ถูกส่ง';
+    $cottonId = 'ข้อมูลไม่ถูกส่ง';
+}
 ?>
-<?php  include 'sidebar.php' ?>  
 
-        
-        <!-- กล่องทางขวา (เนื้อหา) -->
-        <div class="col-md-9 col-lg-10">
-            <div class="p-3 bg-light border rounded shadow-sm">
-               
-                <div class="row">
-                <div class="col-2 text-end mt-3">
-                <h5 class="card-title" 
-    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468;"onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';"> อุปกรณ์คอมพิวเตอร์
-</h5>
+<!-- กล่องทางขวา (เนื้อหา) -->
+<div class="col-md-9 col-lg-10">
+    <div class="p-3 bg-light border rounded shadow-sm">
+        <div class="row">
+            <div class="col-2 text-end mt-3">
+                <?php
+                // ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
+                $cottonId = isset($cottonId) ? $cottonId : 0; // หากไม่มี cottonId กำหนดค่าเริ่มต้นเป็น 0
+                $departmentName = '';
+
+                switch ($cottonId) {
+                    case 1:
+                        $departmentName = 'อุปกรณ์คอมพิวเตอร์';
+                        break;
+                    case 2:
+                        $departmentName = 'อุปกรณ์วิทยาศาสตร์';
+                        break;
+                    case 3:
+                        $departmentName = 'อุปกรณ์ดนตรี';
+                        break;
+                    default:
+                        $departmentName = 'ข้อมูลไม่ระบุ';
+                }
+                ?>
+                <h5 class="card-title text-start ms-4" 
+                    style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468; text-align: left; margin-left: 10px; white-space: nowrap; margin-top: 10px;"
+                    onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';">
+                    <?= $departmentName; ?>
+                </h5>
+            </div>
+        </div>
+   
 
 
 
-</div>
 
-
-
-</div>
 <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px; margin-bottom: 30px;">
     <div class="container mt-">
         <h5 class="text-center text-success">รายละเอียดการทำรายการ</h5>
@@ -89,7 +125,7 @@
             <!-- ปุ่มตกลง -->
             <div class="form-group" style="text-align: center; margin-top: 25px;">
                 <button type="button" class="btn btn-success" id="agreeButton" style="padding: 10px 20px; font-size: 14px;">ตกลง</button>
-            </div>
+          </div>
         </form>
     </div>
 
