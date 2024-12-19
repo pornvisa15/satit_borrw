@@ -69,10 +69,6 @@
         ?>
 
 
-
-
-
-
         <div class="card shadow-sm border-0" style="margin-top: 49px;">
             <div class="card-header text-white"
                 style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
@@ -85,7 +81,7 @@
 
                 <form action="../connect/equipment/update.php" method="post" onsubmit="return submitForm()">
 
-                    <input type="hidden" name="cotton_Id" value="<?php echo $cotton_Id; ?>">
+                    <input type="hidden" name="	device_Id " value="<?php echo $device_Id; ?>">
 
                     <div class="mb-4">
                         <label for="device_Numder" class="font-weight-bold"
@@ -184,33 +180,24 @@
                             <option value="2" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 2) ? 'selected' : ''; ?>>บุคลากรและนักเรียน</option>
                         </select>
                     </div>
-
-                </form>
-
-                <!-- ฟอร์ม -->
-                <form id="equipmentForm" action="admin_equipment.php" method="POST">
                     <div class="text-center d-flex justify-content-center gap-3">
-                        <!-- ปุ่มยกเลิก -->
-                        <button type="button" class="btn btn-danger"
-                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                            onclick="window.history.back();">
-                            <i class="bi bi-x-circle"></i> ยกเลิก
-                        </button>
 
                         <!-- ปุ่มบันทึก -->
-                        <button type="button" class="btn btn-success"
+                        <button class="btn btn-success"
                             style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                            data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            type="submit">
                             <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
                         </button>
                     </div>
                 </form>
 
+
+
             </div>
 
 
             <!-- Modal ยืนยัน -->
-            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
+            <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -222,14 +209,14 @@
                             <p>คุณต้องการบันทึกรายการนี้หรือไม่?</p>
                         </div>
                         <div class="modal-footer">
-                            <!-- ปุ่มยกเลิก -->
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                            <!-- ปุ่มยืนยันการส่งฟอร์ม -->
+                       
+                           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button> -->
+            <!--                        
                             <button type="submit" class="btn btn-success" form="equipmentForm">ตกลง</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --> -->
 
         </div>
         <script>

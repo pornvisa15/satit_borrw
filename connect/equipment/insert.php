@@ -31,12 +31,12 @@ if (move_uploaded_file($_FILES['device_Image']['tmp_name'], $target_file)) {
             VALUES ('$device_Numder', '$device_Name', '$device_Type', '$device_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$cotton_Id' )";
 
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
+        // echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
     } else {
-        echo "<script>alert('เกิดข้อผิดพลาด: " . $conn->error . "'); location.href = '../../pages/admin_equipment.php';</script>";
+        // echo "<script>alert('เกิดข้อผิดพลาด: " . $conn->error . "'); location.href = '../../pages/admin_equipment.php';</script>";
     }
 } else {
-    echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
+    // echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
 }
 
 

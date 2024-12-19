@@ -58,8 +58,8 @@
                     </div>
 
                     <?php
-                    // ตรวจสอบค่าที่ส่งมาจากฟอร์มและกำหนดค่าให้กับตัวแปร $department
-                    $department = ""; // กำหนดค่าเริ่มต้นให้กับตัวแปร
+
+                    $department = "";
                     if (isset($_POST['device_Duty'])) {
                         $department = $_POST['device_Duty'];
                     }
