@@ -1,5 +1,7 @@
 
+<!-- เจ้าหน้าที่ -->
 <?php if($_SESSION['officer_Right'] == 4 ){
+
 ?>
 
 <div class="d-flex flex-column text-white p-4"
@@ -7,9 +9,10 @@
         <?php
 if (isset($_SESSION['officer_Right'])) {
     if ($_SESSION['officer_Right'] == 3) { // ใช้ === เพื่อเปรียบเทียบค่า
-        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>แอดมิน</h3>";
+        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>
+Admin</h3>";
     } elseif ($_SESSION['officer_Right'] == 4) { // เปลี่ยนจาก officer_Cotton ให้ถูกต้อง
-        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>เจ้าหน้าที่</h3>";
+        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Officer</h3>";
     } else {
         echo "<span class='text-light'>ไม่มีสิทธิ์ </span>";
      
@@ -47,9 +50,10 @@ if (isset($_SESSION['officer_Right'])) {
                 </a>
             </li>
         </ul>
+        
 
 </div>
-
+<!-- แอดมิน -->
 <?php
 }    
 elseif($_SESSION['officer_Right'] == 3){
@@ -59,7 +63,8 @@ elseif($_SESSION['officer_Right'] == 3){
         <?php
 if (isset($_SESSION['officer_Right'])) {
     if ($_SESSION['officer_Right'] == 3) { // ใช้ === เพื่อเปรียบเทียบค่า
-        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>แอดมิน</h3>";
+        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>
+Admin</h3>";
     } elseif ($_SESSION['officer_Right'] == 4) { // เปลี่ยนจาก officer_Cotton ให้ถูกต้อง
         echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>เจ้าหน้าที่</h3>";
     } else {
@@ -125,34 +130,23 @@ elseif($_SESSION['officer_Right'] == 1){
         <!-- กล่องทางซ้าย (เมนู) -->
         <div class="col-md-3 col-lg-2">
             <div class="p-3 border rounded shadow-sm" style="background-color: #007468; color: #ffffff;">
-                <!-- ชื่อและไอคอนคน -->
+            
                 <?php
-include "../connect/mysql_studentsatit.php"; // ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
 
-// ดึงข้อมูลจากฐานข้อมูล
-$sql = "SELECT * FROM studentsatit.detail_std WHERE detail_std.std_status IN (1, 3)";
-
-$result = $conn->query($sql);
-
-// ตรวจสอบว่ามีข้อมูลหรือไม่
-if ($result->num_rows > 0) {
-    // ดึงข้อมูลแต่ละแถว
-    while ($row = $result->fetch_assoc()) {
+include "../connect/mysql_studentsatit.php"; // การดึงฐานข้อมูลคนเดียววววววว
+$sql = "SELECT * FROM studentsatit.detail_std WHERE detail_std.std_id = $_SESSION[std_id]";
+$result = mysqli_query($conn,$sql);
+$showdata = mysqli_fetch_array($result);
         ?>
         <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
             <!-- แสดงไอคอน -->
             <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
             <!-- แสดงชื่อผู้ใช้ -->
             <span class="ms-2" style="font-size: 14px; color: #007468;">
-                <?php echo $row['std_name'] . " " .  $row['std_surname'] ; ?>
+                <?php echo $showdata['std_name'] . " " .  $showdata['std_surname'] ; ?>
             </span>
         </div>
-        <?php
-    }
-} else {
-    echo "ไม่พบข้อมูล";
-}
-?>
+
 
 
                 <ul class="nav flex-column mt-3">
@@ -254,11 +248,36 @@ elseif($_SESSION['officer_Right'] == 2){
         <!-- กล่องทางซ้าย (เมนู) -->
         <div class="col-md-3 col-lg-2">
             <div class="p-3 border rounded shadow-sm" style="background-color: #007468; color: #ffffff;">
-                <!-- ชื่อและไอคอนคน -->
-                <div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
-                    <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
-                    <span class="ms-2" style="font-size: 14px; color: #007468;">นางสาวพรวิสาข์ ปรีชา</span>
-                </div>
+            <?php
+include "../connect/myspl_das_satit.php"; // การเชื่อมต่อฐานข้อมูล
+
+// ตรวจสอบ $_SESSION ก่อนใช้งาน
+if (isset($_SESSION['useripass'])) {
+    $useripass = mysqli_real_escape_string($conn, $_SESSION['useripass']);
+    $sql = "SELECT * FROM das_satit.das_admin WHERE das_admin.useripass = '$useripass'";
+    $result = mysqli_query($conn, $sql);
+
+    // ตรวจสอบว่ามีข้อมูลหรือไม่
+    if ($result && mysqli_num_rows($result) > 0) {
+        $showdata = mysqli_fetch_array($result);
+    } else {
+        echo "ไม่พบข้อมูลผู้ใช้";
+        exit;
+    }
+} 
+
+?>
+
+<div class="d-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm">
+    <!-- แสดงไอคอน -->
+    <i class="bi bi-person-circle" style="font-size: 18px; color: #007468;"></i>
+    <!-- แสดงชื่อผู้ใช้ -->
+    <span class="ms-2" style="font-size: 14px; color: #007468;">
+        <?php echo htmlspecialchars($showdata['name']) . " " . htmlspecialchars($showdata['surname']); ?>
+    </span>
+</div>
+
+
 
                 <ul class="nav flex-column mt-3">
                 <li>

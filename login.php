@@ -29,12 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['std_name'] = $row['std_name'];
         $_SESSION['std_surname'] = $row['std_ipasspass'];
         $_SESSION['officer_Right'] = 1;
+        $_SESSION['std_id']=$row['std_id'];
 
         header("Location: pages/homepages.php");
         exit;
     }
 
-    // แอดมิน
+    // แอดมินและเจ้าหน้าที่
     $stmt3 = $conn->prepare(
         "SELECT * FROM das_satit.das_admin 
          INNER JOIN borrow.officer_staff 
@@ -68,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['surname'] = $row['md5'];
         $_SESSION['officer_Right'] = 2;
         $_SESSION['useripass'] = $row['useripass'];
+      
         header("Location: pages/homepages.php");
         exit;
     }

@@ -15,13 +15,27 @@ session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 
+// ตรวจสอบสิทธิ์ของผู้ใช้งาน
+$officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0; // ค่าเริ่มต้นเป็น 0 ถ้าไม่มีการตั้งค่า
+
 // รับค่าคำค้นหาจากฟอร์ม
 $searchQuery = isset($_POST['search']) ? $_POST['search'] : ''; 
 
 // สร้าง SQL query โดยใช้ LIKE เพื่อค้นหาชื่ออุปกรณ์ที่ตรงกับคำค้นหา
-$sql = "SELECT * FROM borrow.device_information";
+$sql = "SELECT * FROM borrow.device_information WHERE 1";
+
+// ถ้าผู้ใช้เป็นนักเรียน (officer_Right = 1), ให้แสดงแค่ device_Access = 1
+if ($officerRight == 1) {
+    $sql .= " AND device_Access = 1";
+} 
+// ถ้าผู้ใช้เป็นบุคลากร (officer_Right = 2), ให้แสดง device_Access = 1 หรือ 2
+elseif ($officerRight == 2) {
+    $sql .= " AND (device_Access = 1 OR device_Access = 2)";
+}
+
+// หากมีคำค้นหา, กรองตามคำค้นหา
 if ($searchQuery != '') {
-    $sql .= " WHERE device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
+    $sql .= " AND device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
 }
 
 $result = $conn->query($sql);
@@ -34,6 +48,7 @@ if ($result->num_rows > 0) {
             'name' => $row['device_Name'], 
             'status' => $row['device_Con'], 
             'image' => '../connect/equipment/equipment/img/' . $row['device_Image'], 
+            'device_Access' => $row['device_Access'], // เพิ่มข้อมูล device_Access
         ];
     }
 } else {
@@ -53,114 +68,53 @@ if ($result->num_rows > 0) {
                 </button>
             </div>
         </form>
+
+        <!-- แสดงข้อความ "อุปกรณ์ทั้งหมด" เฉพาะเมื่อไม่มีการค้นหา -->
         <div class="row">
-    <div class="col-12 text-center mt-3">
-        <?php if (empty($searchQuery)): // แสดงข้อความ "อุปกรณ์ทั้งหมด" เฉพาะเมื่อไม่มีการค้นหา ?>
-            <h5 class="card-title" 
-                style="font-size: 20px; font-weight: bold; color: #007468; text-transform: uppercase;">
-                อุปกรณ์ทั้งหมด
-            </h5>
-        <?php endif; ?>
-    </div>
-</div>
+            <div class="col-12 text-center mt-3">
+                <?php if (empty($searchQuery)): // แสดงข้อความ "อุปกรณ์ทั้งหมด" เฉพาะเมื่อไม่มีการค้นหา ?>
+                    <h5 class="card-title" 
+                        style="font-size: 20px; font-weight: bold; color: #007468; text-transform: uppercase;">
+                        อุปกรณ์ทั้งหมด
+                    </h5>
+                <?php endif; ?>
+            </div>
+        </div>
 
-
-        <!-- ใช้ justify-content-start แทน justify-content-center -->
+        <!-- แสดงผลอุปกรณ์ -->
         <div class="row g-4 mt-5 justify-content-start">
             <?php 
-            if (!empty($searchQuery)) {
-                // หากมีการค้นหาอุปกรณ์
-                if (!empty($equipment)): ?>
-                    <?php foreach ($equipment as $item): ?>
-                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>" data-department="<?= $item['status']; ?>">
-                            <div class="card h-100 shadow-sm">
-                                <div class="text-center p-3">
-                                    <a href="reservation1yes_com.php?id=<?= $item['id']; ?>&status=<?= $item['status']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
-                                        <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image" class="img-fluid rounded" style="transition: transform 0.3s ease; height: 150px; object-fit: cover; cursor: pointer;" onmouseover="this.style.transform='scale(1.2)';" onmouseout="this.style.transform='scale(1)';">
-                                    </a>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
-                                    <p class="card-text mb-0">
-                                        สถานะ: 
-                                        <span class="fw-bold" style="color: <?= $item['status'] == 1 ? '#78C756' : '#FF090D'; ?>;">
-                                            <?= $item['status'] == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
-                                        </span>
-                                    </p>
-                                </div>
+            if (!empty($equipment)): 
+                foreach ($equipment as $item): ?>
+                    <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>" data-department="<?= $item['status']; ?>">
+                        <div class="card h-100 shadow-sm">
+                            <div class="text-center p-3">
+                                <a href="reservation1yes_com.php?id=<?= $item['id']; ?>&status=<?= $item['status']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
+                                    <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image" class="img-fluid rounded" style="transition: transform 0.3s ease; height: 150px; object-fit: cover; cursor: pointer;" onmouseover="this.style.transform='scale(1.2)';" onmouseout="this.style.transform='scale(1)';">
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
+                                <p class="card-text mb-0">
+                                    สถานะ: 
+                                    <span class="fw-bold" style="color: <?= $item['status'] == 1 ? '#78C756' : '#FF090D'; ?>;">
+                                        <?= $item['status'] == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+                                    </span>
+                                </p>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-center text-danger" 
-   style="font-size: 16px; font-weight: bold; margin-top: -50px; margin-bottom: 10px;">
-    ไม่พบอุปกรณ์
-</p>
-
-
-
-                <?php endif; ?>
-            <?php } else { 
-                // หากไม่มีการค้นหา ให้แสดงอุปกรณ์ทั้งหมด
-                if (!empty($equipment)): ?>
-                    <?php foreach ($equipment as $item): ?>
-                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>" data-department="<?= $item['status']; ?>">
-                            <div class="card h-100 shadow-sm">
-                                <div class="text-center p-3">
-                                    <a href="reservation1yes_com.php?id=<?= $item['id']; ?>&status=<?= $item['status']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
-                                        <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image" class="img-fluid rounded" style="transition: transform 0.3s ease; height: 150px; object-fit: cover; cursor: pointer;" onmouseover="this.style.transform='scale(1.2)';" onmouseout="this.style.transform='scale(1)';">
-                                    </a>
-                                </div>
-                                <div class="card-body text-center">
-                                    <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
-                                    <p class="card-text mb-0">
-                                        สถานะ: 
-                                        <span class="fw-bold" style="color: <?= $item['status'] == 1 ? '#78C756' : '#FF090D'; ?>;">
-                                            <?= $item['status'] == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-center text-danger" style="font-size: 16px; font-weight: bold; margin-top: -10px;">
-                        ไม่พบอุปกรณ์
-                    </p>
-                <?php endif; ?>
-            <?php } ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-center text-danger" style="font-size: 16px; font-weight: bold; margin-top: -10px;">
+                    ไม่พบอุปกรณ์
+                </p>
+            <?php endif; ?>
         </div>
     </div>
 </div>
-<!-- Footer -->
-<footer style="background-color: #495057;" class="text-light py-3 mt-4">
-    <div class="container text-center">
-        <p class="mb-0">&copy; 2024 S.TSU Application V 2.0 | พัฒนาโดย ทีมงาน S.TSU</p>
-    </div>
-</footer>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-            integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL" crossorigin="anonymous"></script>
-    
-    <script>
-        // ฟังก์ชันการค้นหาผ่านชื่ออุปกรณ์
-        document.getElementById('searchEquipment').addEventListener('input', filterRows);
-
-        function filterRows() {
-            let searchValue = document.getElementById('searchEquipment').value.toLowerCase().trim();
-            let rows = document.querySelectorAll('.equipmentRow');
-
-            rows.forEach(function (row) {
-                let name = row.getAttribute('data-name').toLowerCase().trim();
-
-                if (searchValue === "" || name.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL" crossorigin="anonymous"></script>
 </body>
 </html>
