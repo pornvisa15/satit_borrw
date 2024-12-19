@@ -159,7 +159,7 @@
                                         <td>
                                             <?php
                                             if ($rowequipment['device_Access'] == 1) {
-                                                echo "บุคลากร";
+                                                echo "นักเรียน";
                                             } else if ($rowequipment['device_Access'] == 2) {
                                                 echo "บุคลากรและนักเรียน";
                                             } else {

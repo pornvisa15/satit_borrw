@@ -1,50 +1,44 @@
 <?php
 include '../connect/mysql_borrow.php';
 
-if (isset($_POST['device_Numder']) && isset($_POST['device_Name']) && isset($_POST['device_Date']) && isset($_POST['device_Price']) && isset($_POST['device_Other']) && isset($_POST['device_Access']) && isset($_POST['device_Con']) && isset($_SESSION['useripass']) && isset($_POST['cotton_Id'])) {
+if (isset($_POST['device_Numder']) && isset($_POST['device_Name']) && isset($_POST['cotton_Name']) && isset($_POST['device_Access']) && isset($_POST['device_Date']) && isset($_POST['device_Price']) && isset($_POST['device_Other']) && isset($_SESSION['Image'])) {
     $device_Numder = $_POST['device_Numder'];
     $device_Name = $_POST['device_Name'];
+    $cotton_Name = $_POST['cotton_Name'];
+    $device_Access = $_POST['device_Access'];
     $device_Date = $_POST['device_Date'];
     $device_Price = $_POST['device_Price'];
     $device_Other = $_POST['device_Other'];
-    $device_Access = $_POST['device_Access'];
-    $device_Con = $_POST['device_Con'];
-    $useripass = $_SESSION['useripass'];
-    $cotton_Id = $_POST['cotton_Id'];
+    $device_Image = $_POST['device_Image'];
+    // $device_Con = $_POST['device_Con'];
+    // $useripass = $_SESSION['useripass'];
+    // $cotton_Id = $_POST['cotton_Id'];
 
-    // ตรวจสอบการอัปโหลดรูปภาพ
-    if (!empty($_FILES['device_Image']['name'])) {
-        $targetDir = "../connect/equipment/equipment/img/";
-        $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
-        $targetFilePath = $targetDir . $device_Image;
-
-        // หากการอัปโหลดไฟล์ไม่สำเร็จ
-        if (!move_uploaded_file($_FILES['device_Image']['tmp_name'], $targetFilePath)) {
-            echo "<script>alert('เกิดข้อผิดพลาดในการอัปโหลดไฟล์รูปภาพ'); window.history.back();</script>";
-            exit();
-        }
-    } else {
-        // ใช้รูปเดิมจากฟอร์ม
-        $device_Image = isset($_POST['current_Image']) ? $_POST['current_Image'] : '';
+    if (empty($device_Numder) || empty($device_Name) || empty($cotton_Name) || empty($device_Access) || empty($device_Date) || empty($device_Price) || empty($device_Other) || empty($device_Image)) {
+        echo "<script>alert('กรุณากรอกข้อมูลให้ครบถ้วน'); window.history.back();</script>";
+        exit();
     }
 
-    // คำสั่ง SQL สำหรับอัปเดตข้อมูล
-    $sql = "UPDATE `device_information` 
-            SET `device_Name` = ?, 
-                `device_Date` = ?, 
-                `device_Price` = ?, 
-                `device_Other` = ?, 
-                `device_Image` = ?, 
-                `device_Access` = ?, 
-                `device_Con` = ?, 
-                `useripass` = ?, 
-                `cotton_Id` = ? 
-            WHERE `device_Numder` = ?";
-
+    $sql = "UPDATE `device_information` SET  `device_Name`= ?, `cotton_Name`= ?, `device_Access`= ?, `device_Date`= ?, `device_Price`= ?, `device_Other`= ?, `device_Image`= ?,WHERE `device_Numder` = ?";
     $stmt = $conn->prepare($sql);
 
+    // if (!empty($_FILES['device_Image']['name'])) {
+    //     $targetDir = "../connect/equipment/equipment/img/";
+    //     $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
+    //     $targetFilePath = $targetDir . $device_Image;
+
+    //     if (!move_uploaded_file($_FILES['device_Image']['tmp_name'], $targetFilePath)) {
+    //         echo "<script>alert('เกิดข้อผิดพลาดในการอัปโหลดไฟล์รูปภาพ'); window.history.back();</script>";
+    //         exit();
+    //     }
+    // } else {
+
+    //     $device_Image = isset($_POST['current_Image']) ? $_POST['current_Image'] : '';
+    // }
+
+
     if ($stmt) {
-        // ใช้ bind_param สำหรับการส่งค่าไปที่ SQL
+
         $stmt->bind_param("ssssssisii", $device_Name, $device_Date, $device_Price, $device_Other, $device_Image, $device_Access, $device_Con, $useripass, $cotton_Id, $device_Numder);
 
         if ($stmt->execute()) {

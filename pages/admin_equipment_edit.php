@@ -180,7 +180,7 @@
                         <select id="device_Access" name="device_Access" class="form-select" required
                             style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                             <option value="" disabled selected>เลือกผู้ใช้งาน</option>
-                            <option value="1" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 1) ? 'selected' : ''; ?>>บุคลากร</option>
+                            <option value="1" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 1) ? 'selected' : ''; ?>>นักเรียน</option>
                             <option value="2" <?php echo (isset($row['device_Access']) && $row['device_Access'] == 2) ? 'selected' : ''; ?>>บุคลากรและนักเรียน</option>
                         </select>
                     </div>
