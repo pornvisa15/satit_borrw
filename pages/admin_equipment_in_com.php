@@ -14,11 +14,11 @@
 </head>
 
 <body class="d-flex bg-light">
-<?php
+    <?php
     session_start()
-?>
-      <?php  include 'sidebar.php' ?>
-     
+        ?>
+    <?php include 'sidebar.php' ?>
+
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-end mt-auto">
             <div class="d-flex align-items-center p-2"
@@ -58,12 +58,12 @@
                     </div>
 
                     <?php
-// ตรวจสอบค่าที่ส่งมาจากฟอร์มและกำหนดค่าให้กับตัวแปร $department
-$department = ""; // กำหนดค่าเริ่มต้นให้กับตัวแปร
-if (isset($_POST['device_Duty'])) {
-    $department = $_POST['device_Duty'];
-}
-?>
+                    // ตรวจสอบค่าที่ส่งมาจากฟอร์มและกำหนดค่าให้กับตัวแปร $department
+                    $department = ""; // กำหนดค่าเริ่มต้นให้กับตัวแปร
+                    if (isset($_POST['device_Duty'])) {
+                        $department = $_POST['device_Duty'];
+                    }
+                    ?>
 
 
 
@@ -81,7 +81,7 @@ if (isset($_POST['device_Duty'])) {
                             placeholder="กรอกราคา (บาท)" min="0" step="1" required
                             style="font-size: 14px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: textfield;">
                     </div>
-                    
+
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="officerl_Id" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ
                             :</label>
@@ -100,7 +100,7 @@ if (isset($_POST['device_Duty'])) {
                                 while ($row = $result->fetch_assoc()) {
                                     ?>
                                     <option value="<?php echo $row['cotton_Id'] ?>">
-                                        <?php echo  $row['cotton_Name']  ?>
+                                        <?php echo $row['cotton_Name'] ?>
                                     </option>
                                     <?php
                                 }
@@ -129,7 +129,7 @@ if (isset($_POST['device_Duty'])) {
                         <select id="device_Access" name="device_Access" class="form-select"
                             style="font-size: 14px; margin-top: 5px;" required>
                             <option value="" selected disabled>กรุณาเลือก</option>
-                            <option value="1">บุคลากร</option>
+                            <option value="1">นักเรียน</option>
                             <option value="2">บุคลากรและนักเรียน</option>
                         </select>
                     </div>
