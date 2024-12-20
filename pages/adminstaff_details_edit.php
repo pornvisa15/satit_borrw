@@ -88,10 +88,10 @@
                     <div class="mb-3">
                         <label for="department" class="form-label">เจ้าหน้าที่ฝ่าย:</label>
                         <select class="form-select" name="officer_Cotton" required>
-                            <option value="1" <?php echo ($department == "ฝ่ายวิชาการคอมพิวเตอร์") ? 'selected' : ''; ?>>
-                                ฝ่ายวิชาการคอมพิวเตอร์</option>
-                            <option value="2" <?php echo ($department == "ฝ่ายวิชาการวิทยาศาสตร์") ? 'selected' : ''; ?>>
-                                ฝ่ายวิชาการวิทยาศาสตร์</option>
+                            <option value="1" <?php echo ($department == "ฝ่ายคอมพิวเตอร์") ? 'selected' : ''; ?>>
+                                ฝ่ายคอมพิวเตอร์</option>
+                            <option value="2" <?php echo ($department == "ฝ่ายวิทยาศาสตร์") ? 'selected' : ''; ?>>
+                                ฝ่ายวิทยาศาสตร์</option>
                             <option value="3" <?php echo ($department == "ฝ่ายดนตรี") ? 'selected' : ''; ?>>ฝ่ายดนตรี
                             </option>
                             <option value="4" <?php echo ($department == "ฝ่ายพัสดุ") ? 'selected' : ''; ?>>ฝ่ายพัสดุ

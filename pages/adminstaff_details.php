@@ -94,8 +94,8 @@
                         <select class="form-select" name="officer_Cotton" required
                             style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                             <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
-                            <option value="1">ฝ่ายวิชาการคอมพิวเตอร์</option>
-                            <option value="2">ฝ่ายวิชาการวิทยาศาสตร์</option>
+                            <option value="1">ฝ่ายคอมพิวเตอร์</option>
+                            <option value="2">ฝ่ายวิทยาศาสตร์</option>
                             <option value="3">ฝ่ายดนตรี</option>
                             <option value="4">ฝ่ายพัสดุ</option>
                             <option value="5">แอดมิน</option>

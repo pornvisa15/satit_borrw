@@ -14,9 +14,15 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 <?php
+
+if (isset($_GET['id'])) 
+    $deviceID = $_GET['id'];
+    
+
 session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
+
 // รับข้อมูลที่ส่งมาจากหน้า homepages.php
 $deviceID = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
@@ -27,11 +33,19 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // ถ้ามีข้อมูล
     $row = $result->fetch_assoc();
-    $deviceName = $row['device_Name'];
-    $cottonId = $row['cotton_Id'];
+    
+    // ตรวจสอบและกำหนดค่าให้ตัวแปร
+    $deviceName = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
+    $deviceStatus = isset($row['device_Con']) ? $row['device_Con'] : 'ข้อมูลไม่ถูกส่ง';
+    $deviceImage = isset($row['device_Image']) ? '../connect/equipment/equipment/img/' . $row['device_Image'] : 'ข้อมูลไม่ถูกส่ง';
+    $deviceOther = isset($row['device_Other']) ? $row['device_Other'] : 'ข้อมูลไม่ถูกส่ง';
+    $cottonId = isset($row['cotton_Id']) ? $row['cotton_Id'] : 'ข้อมูลไม่ถูกส่ง';
 } else {
     // ถ้าไม่มีข้อมูล
     $deviceName = 'ข้อมูลไม่ถูกส่ง';
+    $deviceStatus = 'ข้อมูลไม่ถูกส่ง';
+    $deviceImage = 'ข้อมูลไม่ถูกส่ง';
+    $deviceOther = 'ข้อมูลไม่ถูกส่ง';
     $cottonId = 'ข้อมูลไม่ถูกส่ง';
 }
 ?>
@@ -41,25 +55,23 @@ if ($result->num_rows > 0) {
     <div class="p-3 bg-light border rounded shadow-sm">
         <div class="row">
             <div class="col-2 text-end mt-3">
-                <?php
-                // ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
-                $cottonId = isset($cottonId) ? $cottonId : 0; // หากไม่มี cottonId กำหนดค่าเริ่มต้นเป็น 0
-                $departmentName = '';
-
-                switch ($cottonId) {
-                    case 1:
-                        $departmentName = 'อุปกรณ์คอมพิวเตอร์';
-                        break;
-                    case 2:
-                        $departmentName = 'อุปกรณ์วิทยาศาสตร์';
-                        break;
-                    case 3:
-                        $departmentName = 'อุปกรณ์ดนตรี';
-                        break;
-                    default:
-                        $departmentName = 'ข้อมูลไม่ระบุ';
-                }
-                ?>
+            <?php
+// ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
+$departmentName = '';
+switch ($cottonId) {
+    case 1:
+        $departmentName = 'อุปกรณ์คอมพิวเตอร์';
+        break;
+    case 2:
+        $departmentName = 'อุปกรณ์วิทยาศาสตร์';
+        break;
+    case 3:
+        $departmentName = 'อุปกรณ์ดนตรี';
+        break;
+    default:
+        $departmentName = 'ข้อมูลไม่ระบุ';
+}
+?>
                 <h5 class="card-title text-start ms-4" 
                     style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468; text-align: left; margin-left: 10px; white-space: nowrap; margin-top: 10px;"
                     onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';">
@@ -78,10 +90,10 @@ if ($result->num_rows > 0) {
         <div class="container mt-5">
         <div class="container mt-4">
         <form style="margin-top: -10px;">
-            <div class="form-group" style="margin-bottom: 10px; margin-top: -10px; display: flex; align-items: center;">
-                <label for="deviceName" class="font-weight-bold text-success" style="font-size: 16px; color: #007468; margin-right: 10px; white-space: nowrap;">ชื่ออุปกรณ์ :</label>
-                <input type="text" class="form-control" id="deviceName" value="เมาส์" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6;">
-            </div>
+        <div class="form-group" style="margin-bottom: 10px; margin-top: -10px; display: flex; align-items: center;">
+    <label for="deviceName" class="font-weight-bold text-success" style="font-size: 16px; color: #007468; margin-right: 10px; white-space: nowrap;">ชื่ออุปกรณ์ :</label>
+    <input type="text" class="form-control" id="deviceName" value="<?= htmlspecialchars($deviceName) ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6;">
+</div>
 
             <div class="form-group row" style="margin-bottom: 10px;">
                 <div class="col-sm-6" style="padding-right: 5px;">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>หน้าแรก</title>  
+    <title>การจอง</title>  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -147,15 +147,59 @@ switch ($cottonId) {
 
         </div>
         <div class="d-flex justify-content-end" style="width: 100%;">
-    <a href="reservation1_book_com.php">
+    <!-- ปุ่มจอง -->
+    <a href="reservation1_book_com.php?id=<?php echo $deviceID; ?>">
         <button class="btn btn-sm" 
-                style="background-color: #FFC721; color: white; transition: transform 0.3s ease; border: none;"
+                style="background-color: <?php echo ($deviceStatus == 1) ? '#78C756' : '#FFC721'; ?>; color: white; transition: transform 0.3s ease; border: none;"
                 onmouseover="this.style.transform='scale(1.3)';" 
                 onmouseout="this.style.transform='scale(1)';">
             จอง
         </button>
     </a>
 </div>
+
+
+<?php if ($deviceStatus != 1): // แสดงประวัติการยืมเฉพาะเมื่อสถานะไม่ว่าง ?>
+    <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
+        <!-- Title Section -->
+        <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">ประวัติการยืม</h5>
+
+        <!-- Table Section -->
+        <table class="table table-hover table-bordered">
+            <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+                <tr>
+                    <th scope="col">ผู้ยืม</th>
+                    <th scope="col">วันที่ยืม</th>
+                    <th scope="col">วันที่คืน</th>
+                    <th scope="col">เวลาคืน</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.8rem;">
+                <tr>
+                    <td>นางสาวพรวิสาข์ ปรีชา</td>
+                    <td>2024-11-18</td>
+                    <td>2024-11-25</td>
+                    <td>15:30</td>
+                </tr>
+                <tr>
+                    <td>นายอภิชาติ จิตรานนท์</td>
+                    <td>2024-11-10</td>
+                    <td>2024-11-15</td>
+                    <td>14:45</td>
+                </tr>
+                <tr>
+                    <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
+                    <td>2024-11-05</td>
+                    <td>2024-11-12</td>
+                    <td>09:00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
+
+
+
 
 
     </div>

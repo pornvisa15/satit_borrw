@@ -129,9 +129,9 @@
                                     <td>
                                         <?php
                                         if ($rowofficer['officer_Cotton'] == 1) {
-                                            echo "ฝ่ายวิชาการคอมพิวเตอร์";
+                                            echo "ฝ่ายคอมพิวเตอร์";
                                         } else if ($rowofficer['officer_Cotton'] == 2) {
-                                            echo "ฝ่ายวิชาการวิทยาศาสตร์";
+                                            echo "ฝ่ายวิทยาศาสตร์";
                                         } else if ($rowofficer['officer_Cotton'] == 3) {
                                             echo "ฝ่ายดนตรี";
                                         } else if ($rowofficer['officer_Cotton'] == 4) {
