@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin คลังอุปกรณ์</title>
+    <title>คลังอุปกรณ์</title>
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -36,21 +36,36 @@
         ?>
 
         <div class="card shadow-lg mt-5">
-            <div class="card-header text-white" style="background-color:#537bb7; padding: 10px; padding-left: 20px;">
-                <h4 class="mb-0" style="font-size: 22px;">คลังอุปกรณ์</h4>
-            </div>
+        <?php
+$user_department_id = $_SESSION['officer_Cotton'];
+
+// กำหนดข้อความและสีพื้นหลังสำหรับแต่ละเงื่อนไข
+$headerOptions = [
+    1 => ["อุปกรณ์คอมพิวเตอร์", "#537bb7"],
+    2 => ["อุปกรณ์วิทยาศาสตร์", "#537bb7"],
+    3 => ["อุปกรณ์ดนตรี", "#537bb7"],
+    4 => ["อุปกรณ์พัสดุ", "#537bb7"],  
+];
+
+// กำหนดค่าหากไม่มีสิทธิ์
+
+if (isset($headerOptions[$user_department_id])) {
+    $headerText = $headerOptions[$user_department_id][0];
+    $bgColor = $headerOptions[$user_department_id][1];
+}
+?>
+
+<div class="card-header text-white" style="background-color: <?= $bgColor ?>; padding: 10px; padding-left: 20px;">
+    <h4 class="mb-0" style="font-size: 22px;"><?= $headerText ?></h4>
+</div>
+
 
             <div class="card-body">
                 <!-- กล่องค้นหาและเลือกประเภท -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <!-- เลือกประเภทอุปกรณ์ -->
                     <div class="me-3">
-    <select id="equipmentType" class="form-select" style="width: 220px; font-size: 14px;" onchange="filterByType()">
-        <option value="ทั้งหมด" selected>ทั้งหมด</option>
-        <option value="computer">อุปกรณ์คอมพิวเตอร์</option>
-        <option value="science">อุปกรณ์วิทยาศาสตร์</option>
-        <option value="music">อุปกรณ์ดนตรี</option>
-    </select>
+    
 </div>
 
 
@@ -232,31 +247,7 @@
         const table = document.getElementById('equipmentTable'); // ตารางที่ต้องการกรอง
         const rows = table.getElementsByTagName('tr'); // เรียกแถวทั้งหมดในตาราง
 
-        // วนลูปผ่านทุกแถว
-        for (let i = 0; i < rows.length; i++) {
-            const cottonCell = rows[i].getElementsByTagName('td')[3]; // คอลัมน์ฝ่าย (ฝ่ายของเจ้าหน้าที่)
-
-            if (cottonCell) {
-                const cottonId = cottonCell.textContent.toLowerCase(); // ดึงค่าฝ่ายจากแถวและแปลงเป็นตัวพิมพ์เล็ก
-
-                // ตรวจสอบเงื่อนไขตามฝ่ายที่เลือก
-                if (selectedType === '' || selectedType === 'ทั้งหมด') {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "ทั้งหมด" หรือไม่ได้เลือก
-                } else if (selectedType === '1' && cottonId.includes('คอมพิวเตอร์')) {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "ฝ่ายคอมพิวเตอร์"
-                } else if (selectedType === '2' && cottonId.includes('วิทยาศาสตร์')) {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "ฝ่ายวิทยาศาสตร์"
-                } else if (selectedType === '3' && cottonId.includes('ดนตรี')) {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "ฝ่ายดนตรี"
-                } else if (selectedType === '4' && cottonId.includes('พัสดุ')) {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "ฝ่ายพัสดุ"
-                } else if (selectedType === '5' && cottonId.includes('แอดมิน')) {
-                    rows[i].style.display = ''; // แสดงแถวถ้าเลือก "แอดมิน"
-                } else {
-                    rows[i].style.display = 'none'; // ซ่อนแถว
-                }
-            }
-        }
+       
     }
 
     // เพิ่ม Event Listener เพื่อให้ฟังก์ชันทำงานเมื่อมีการเลือกฝ่ายหรือพิมพ์ข้อความในช่องค้นหา

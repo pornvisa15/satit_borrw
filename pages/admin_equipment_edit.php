@@ -47,8 +47,11 @@
         exit();
     }
     ?>
-
+ 
     <div class="flex-grow-1 p-4">
+    <?php include 'short.php'; ?>
+
+
         <div class="card shadow-sm border-0" style="margin-top: 49px;">
             <div class="card-header text-white" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
                 <h4 class="mb-0" style="font-size: 22px;">แก้ไขข้อมูลอุปกรณ์</h4>

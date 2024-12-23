@@ -36,26 +36,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // แอดมินและเจ้าหน้าที่
-    $stmt3 = $conn->prepare(
-        "SELECT * FROM das_satit.das_admin 
-         INNER JOIN borrow.officer_staff 
-         ON das_admin.useripass = officer_staff.useripass 
-         WHERE das_admin.useripass = ? AND das_admin.md5 = ?"
-    );
-    $stmt3->bind_param("ss", $user, $pass);
-    $stmt3->execute();
-    $result3 = $stmt3->get_result();
+    // ตรวจสอบข้อมูลการเข้าสู่ระบบ
+$stmt3 = $conn->prepare(
+    "SELECT * FROM das_satit.das_admin 
+     INNER JOIN borrow.officer_staff 
+     ON das_admin.useripass = officer_staff.useripass 
+     WHERE das_admin.useripass = ? AND das_admin.md5 = ?"
+);
+$stmt3->bind_param("ss", $user, $pass);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
 
-    if ($result3 && $result3->num_rows == 1) {
-        $row = $result3->fetch_assoc();
-        $_SESSION['name'] = $row['name'];
-        $_SESSION['surname'] = $row['md5'];
-        $_SESSION['officer_Cotton'] = $row['officer_Cotton'];
-        $_SESSION['officer_Right'] = $row['officer_Right'];
-        $_SESSION['useripass'] = $row['useripass'];
+if ($result3 && $result3->num_rows == 1) {
+    $row = $result3->fetch_assoc();
+    $_SESSION['name'] = $row['name'];
+    $_SESSION['surname'] = $row['md5'];
+    $_SESSION['officer_Cotton'] = $row['officer_Cotton']; // แผนกหรือประเภทของคลังอุปกรณ์
+    $_SESSION['officer_Right'] = $row['officer_Right'];
+    $_SESSION['useripass'] = $row['useripass'];
+
+// ตรวจสอบและเปลี่ยนเส้นทางไปยังหน้าต่างๆ ตามประเภทของคลังอุปกรณ์
+switch ($_SESSION['officer_Cotton']) {
+    case 1:  // คลังอุปกรณ์คอมพิวเตอร์
+    case 2:  // คลังอุปกรณ์วิทยาศาสตร์
+    case 3:  // คลังอุปกรณ์ดนตรี
+    case 4:  // คลังอุปกรณ์พัสดุ
+    case 5:  // คลังอุปกรณ์ (แอดมิน)
         header("Location: pages/admin_homepages.php");
-        exit;
-    }
+        break;
+
+      
+}
+
+exit;
+
+
+}
+
 
     // บุคลากร
     $stmt2 = $conn->prepare("SELECT * FROM das_satit.das_admin WHERE useripass = ? AND md5 = ?");

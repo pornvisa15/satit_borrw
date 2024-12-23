@@ -24,18 +24,7 @@
 
 
     <div class="flex-grow-1 p-4">
-        <div class="d-flex justify-content-end mt-auto">
-            <div class="d-flex align-items-center p-2"
-                style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border: 1px solid #e0e0e0;">
-                <!-- ไอคอนโปรไฟล์ -->
-                <i class="bi bi-person-circle"
-                    style="font-size: 25px; color: #3b5681; border-radius: 50%; background-color: #ffffff;"></i>
-                <span class="ms-2"
-                    style="color: #05142d; font-size: 14px; font-weight: 500; letter-spacing: 0.3px;">แอดมิน:
-                    วิลเลี่ยม
-                    เชคสเปียร์</span>
-            </div>
-        </div>
+    <?php include 'short.php'; ?>
 
         <!-- การ์ดแสดงตาราง -->
 
