@@ -25,7 +25,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
                 </a>
             </li>
             <li class="nav-item mb-3">
-                <a href="officer_equipment.php" class="nav-link text-white"
+                <a href="admin_equipment.php" class="nav-link text-white"
                     style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
                     คลังอุปกรณ์
                 </a>
