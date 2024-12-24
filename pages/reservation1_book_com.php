@@ -17,17 +17,17 @@
     <?php
 
     if (isset($_GET['id']))
-        $device_Id = $_GET['id'];
+        $device_Numder = $_GET['id'];
 
     session_start();
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
     include '../connect/myspl_das_satit.php';
     // รับข้อมูลที่ส่งมาจากหน้า homepages.php
-    $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
+    $device_Numder = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
     // ดึงข้อมูลจากฐานข้อมูล
-    $sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'";
+    $sql = "SELECT * FROM borrow.device_information WHERE device_Numder= '$device_Numder'";
 
     $result = $conn->query($sql);
 
@@ -42,6 +42,7 @@
         $device_Other = isset($row['device_Other']) ? $row['device_Other'] : 'ข้อมูลไม่ถูกส่ง';
         $cotton_Id = isset($row['cotton_Id']) ? $row['cotton_Id'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Id = isset($row['device_Id']) ? $row['device_Id'] : 'ข้อมูลไม่ถูกส่ง';
+        $device_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
     } else {
         // ถ้าไม่มีข้อมูล
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
@@ -50,6 +51,7 @@
         $device_Other = 'ข้อมูลไม่ถูกส่ง';
         $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
         $device_Id = 'ข้อมูลไม่ถูกส่ง';
+        $device_Numder = 'ข้อมูลไม่ถูกส่ง';
     }
     ?>
 
@@ -137,6 +139,10 @@
                                     <input type="date" class="form-control" id="history_Return" name="history_Return"
                                         style="padding: 10px; font-size: 16px;" required>
                                 </div>
+
+                                <script>
+                                    document.getElementById('history_Return').setAttribute('min', new Date().toISOString().split('T')[0]);
+                                </script>
 
                                 <div class="col-sm-4">
                                     <label for="history_Stop" class="font-weight-bold text-success"

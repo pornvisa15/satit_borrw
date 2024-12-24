@@ -29,7 +29,7 @@
     if ($result->num_rows > 0) {
         // ถ้ามีข้อมูล
         $row = $result->fetch_assoc();
-        $device_Id = $row['device_Id'];
+        $device_Numder = $row['device_Numder'];
         $device_Name = $row['device_Name'];
         $device_Status = $row['device_Con'];
         $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
@@ -37,7 +37,7 @@
         $cotton_Id = $row['cotton_Id'];
     } else {
         // ถ้าไม่มีข้อมูล
-        $device_Id = 'ข้อมูลไม่ถูกส่ง';
+        $device_Numder = 'ข้อมูลไม่ถูกส่ง';
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
         $device_Status = 'ข้อมูลไม่ถูกส่ง';
         $device_Image = 'ข้อมูลไม่ถูกส่ง';
@@ -81,11 +81,10 @@
                     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
                         <div class="d-flex align-items-center">
                             <!-- รูปภาพ -->
-                            <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder" style="max-width: 250px; height: 250px; object-fit: cover; 
-            transition: transform 0.3s ease; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#zoomModal"
-                                onmouseover="this.style.transform='scale(1.1)';"
+                            <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder" style="border-radius: 8px; max-width: 250px; height: 250px; 
+            object-fit: contain; transition: transform 0.3s ease; cursor: pointer;" data-bs-toggle="modal"
+                                data-bs-target="#zoomModal" onmouseover="this.style.transform='scale(1.1)';"
                                 onmouseout="this.style.transform='scale(1)';">
-
 
                             <!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
                             <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
@@ -96,27 +95,32 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body text-center">
+                                        <div class="modal-body text-center"
+                                            style="background-color: #f9f9f9; padding: 20px;">
                                             <img src="<?= $device_Image; ?>" class="img-fluid" alt="Zoomed Image"
-                                                style="max-width: 80%; max-height: 400px; height: auto;">
+                                                style="max-width: 80%; max-height: 400px; height: auto; object-fit: contain; border-radius: 8px;">
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- เนื้อหา -->
-                            <div class="ms-5"> <!-- ปรับค่า ms-0 เพื่อลดระยะห่างจากขวา -->
-                                <h5 class="mb-2 text-dark" style="font-size: 1.1rem;">ชื่ออุปกรณ์: <?= $device_Name; ?>
+                            <div class="ms-5">
+                                <h5 class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                    <strong style="color: #000; font-weight: 600;">ชื่ออุปกรณ์:</strong>
+                                    <?= $device_Name; ?>
                                 </h5>
-                                <div class="mb-2">
-                                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                                        <strong>เลขพัสดุ/ครุภัณฑ์:</strong> <?= $device_Id; ?>
+                                <div class="mb-2" style="line-height: 1.6;">
+
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">เลขพัสดุ/ครุภัณฑ์:</strong>
+                                        <?= $device_Numder; ?>
                                     </p>
-                                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                                        <strong>รายละเอียด:</strong> <?= $device_Other; ?>
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">รายละเอียด:</strong>
+                                        <?= $device_Other; ?>
                                     </p>
-                                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                                        <strong>สถานที่รับ:</strong>
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">สถานที่รับ:</strong>
                                         <?php
                                         switch ($cotton_Id) {
                                             case 1:
@@ -133,21 +137,15 @@
                                         }
                                         ?>
                                     </p>
-                                    <p class="mb-1 text-muted" style="font-size: 0.9rem;">
-                                        <strong>สถานะการใช้งาน:</strong>
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="color: <?= $device_Status == 1 ? '#78C756' : '#FF090D'; ?>; font-weight: bold;">
+                                            style="font-weight: 600; color: <?= $device_Status == 1 ? '#6cbf42' : '#e63946'; ?>;">
                                             <?= $device_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>
-
-                                <!-- ปุ่มจอง -->
-
-
                             </div>
-
-
                         </div>
                         <div class="d-flex justify-content-end" style="width: 100%;">
                             <!-- ปุ่มจอง -->
