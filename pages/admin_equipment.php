@@ -15,6 +15,7 @@
 
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
 </head>
 
 <body class="d-flex bg-light">
@@ -36,9 +37,29 @@
         ?>
 
         <div class="card shadow-lg mt-5">
-            <div class="card-header text-white" style="background-color:#537bb7; padding: 10px; padding-left: 20px;">
-                <h4 class="mb-0" style="font-size: 22px;">คลังอุปกรณ์</h4>
-            </div>
+        <?php
+$user_department_id = $_SESSION['officer_Cotton'];
+
+// กำหนดข้อความและสีพื้นหลังสำหรับแต่ละเงื่อนไข
+$headerOptions = [
+    1 => ["อุปกรณ์คอมพิวเตอร์", "#537bb7"],
+    2 => ["อุปกรณ์วิทยาศาสตร์", "#537bb7"],
+    3 => ["อุปกรณ์ดนตรี", "#537bb7"],
+    4 => ["อุปกรณ์พัสดุ", "#537bb7"],  
+    5 => ["อุปกรณ์ทั้งหมด", "#537bb7"],  
+];
+
+// กำหนดค่าหากไม่มีสิทธิ์
+
+if (isset($headerOptions[$user_department_id])) {
+    $headerText = $headerOptions[$user_department_id][0];
+    $bgColor = $headerOptions[$user_department_id][1];
+}
+?>
+
+<div class="card-header text-white" style="background-color: <?= $bgColor ?>; padding: 10px; padding-left: 20px;">
+    <h4 class="mb-0" style="font-size: 22px;"><?= $headerText ?></h4>
+</div>
 
             <div class="card-body">
                 <!-- กล่องค้นหาและเลือกประเภท -->

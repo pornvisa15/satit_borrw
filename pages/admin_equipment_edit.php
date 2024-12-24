@@ -88,11 +88,16 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="device_Date" class="form-label" style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
-                        <input type="date" id="device_Date" name="device_Date" class="form-control"
-                            value="<?php echo $device_Date; ?>" required>
-                    </div>
-
+    <label for="device_Date" class="form-label" style="font-size: 16px; color: black;">วันที่ซื้อ:</label>
+    <input type="date" id="device_Date" name="device_Date" class="form-control" value="<?php echo $device_Date; ?>" required>
+</div>
+<script>
+    // ฟังก์ชันที่จะกำหนดค่าวันที่สูงสุดเป็นวันที่ปัจจุบัน
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0]; // ดึงวันที่ปัจจุบันในรูปแบบ YYYY-MM-DD
+        document.getElementById('device_Date').setAttribute('max', today); // กำหนดค่าสำหรับวันที่
+    });
+</script>
                     <div class="mb-4">
                         <label for="device_Price" class="form-label" style="font-size: 16px; color: black;">ราคา:</label>
                         <input type="text" id="device_Price" name="device_Price" class="form-control"
@@ -107,19 +112,27 @@
 
                     <div class="mb-4">
     <label for="device_Image" class="font-weight-bold" style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
-
-    <div style="margin-top: 10px;">
-        <?php if (!empty($device_Image) && file_exists('../connect/equipment/equipment/img/' . $device_Image)): ?>
-            <img src="../connect/equipment/equipment/img/<?php echo htmlspecialchars($device_Image); ?>"
-                alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <?php else: ?>
-           
-        <?php endif; ?>
-    </div>
-
-    <input type="file" id="device_Image" name="device_Image" class="form-control" accept="image/*">
+    <?php
+// กำหนดค่าเริ่มต้นให้ตัวแปร
+$device_Image = isset($row['device_Image']) ? $row['device_Image'] : '';
+$filePath = "../connect/equipment/equipment/img/" . $device_Image;
+?>
+<div style="margin-top: 10px;">
+    <?php
+    if (!empty($device_Image) && file_exists($filePath)) { ?>
+        <img src="<?php echo htmlspecialchars($filePath); ?>" 
+             alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+        <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: 
+            <strong><?php echo htmlspecialchars($device_Image ?? ''); ?></strong>
+        </p>
+    <?php } else { ?>
+        <p style="color: #888;">ไม่มีภาพที่อัปโหลด</p>
+    <?php } ?>
 </div>
 
+
+    <input type="file" id="device_Image" name="device_Image" class="form-control" accept="image/*" style="margin-top: 10px;">
+</div>
 
                     <div class="mb-4">
                         <label for="device_Access" class="form-label" style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
@@ -141,6 +154,14 @@
     </div>
 
     <script>
+            <?php
+    session_start();
+    if (isset($_SESSION['message'])) {
+        echo "<script>alert('" . $_SESSION['message'] . "');</script>";
+        unset($_SESSION['message']); // ลบข้อความหลังจากแสดง
+    }
+    ?>
+
         function submitForm() {
             const deviceName = document.getElementById('device_Name').value;
             const devicePrice = document.getElementById('device_Price').value;
