@@ -15,8 +15,11 @@
 
 <body class="d-flex bg-light">   
     <?php  include 'sidebar.php' ?>
-<?php
-    session_start()
+    <?php
+// ตรวจสอบสถานะของเซสชันก่อนเรียก session_start()
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
     <style>

@@ -113,26 +113,31 @@
                     <div class="mb-4">
     <label for="device_Image" class="font-weight-bold" style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
     <?php
-// กำหนดค่าเริ่มต้นให้ตัวแปร
-$device_Image = isset($row['device_Image']) ? $row['device_Image'] : '';
-$filePath = "../connect/equipment/equipment/img/" . $device_Image;
-?>
-<div style="margin-top: 10px;">
-    <?php
-    if (!empty($device_Image) && file_exists($filePath)) { ?>
-        <img src="<?php echo htmlspecialchars($filePath); ?>" 
-             alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: 
-            <strong><?php echo htmlspecialchars($device_Image ?? ''); ?></strong>
-        </p>
-    <?php } else { ?>
-        <p style="color: #888;">ไม่มีภาพที่อัปโหลด</p>
-    <?php } ?>
-</div>
+    // แสดงไฟล์เดิม
+    $device_Image = isset($row['device_Image']) ? $row['device_Image'] : '';
+    $filePath = "../connect/equipment/equipment/img/" . $device_Image;
+    ?>
+    <div style="margin-top: 10px;">
+        <?php if (!empty($device_Image) && file_exists($filePath)) { ?>
+            <!-- แสดงไฟล์เดิม -->
+            <img src="<?php echo htmlspecialchars($filePath); ?>" 
+                 alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+            <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: 
+                <strong><?php echo htmlspecialchars($device_Image); ?></strong>
+            </p>
+        <?php } else { ?>
+            <p style="color: #888;">ไม่มีไฟล์รูปภาพเดิม</p>
+        <?php } ?>
+    </div>
 
-
+    <!-- ช่องเลือกไฟล์ใหม่ -->
     <input type="file" id="device_Image" name="device_Image" class="form-control" accept="image/*" style="margin-top: 10px;">
+    
+    <!-- สร้าง hidden field เก็บชื่อไฟล์เดิม -->
+    <input type="hidden" name="device_Image_hidden" value="<?php echo htmlspecialchars($device_Image); ?>">
 </div>
+
+
 
                     <div class="mb-4">
                         <label for="device_Access" class="form-label" style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
