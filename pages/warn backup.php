@@ -29,20 +29,19 @@
 
 
 
+
+
+    <!-- กล่องทางขวา (เนื้อหา) -->
     <div class="col-md-9 col-lg-10 mb-5">
         <div class="p-3 bg-light border rounded shadow-sm">
-
-            <div class="row">
-
-            </div>
 
             <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto"
                 style="max-width: 800px; margin-bottom: 30px;">
                 <h1 class="text-center mb-4" style="color: #007468; font-size: 20px; font-weight: bold;">แจ้งเตือน</h1>
                 <ul class="list-group list-group-flush">
+                    <input type="text" id="status_Id" name="status_Id" class="form-control"
+                        value="<?php echo $status_Id; ?>" readonly>
 
-
-                    <!-- อุปกรณ์ที่ใกล้ครบกำหนด -->
                     <li class="list-group-item d-flex justify-content-between align-items-center"
                         style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
                         onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
@@ -112,9 +111,8 @@
                             onmouseout="this.style.backgroundColor='#dc3545';">
                             <i class="bi bi-x-circle-fill me-1"></i> เลยกำหนด
                         </span>
-
-
                     </li>
+
                 </ul>
                 <div class="alert alert-primary d-flex align-items-center mt-3" role="alert"
                     style="border-radius: 10px; padding: 15px; transition: transform 0.3s ease; cursor: pointer;">

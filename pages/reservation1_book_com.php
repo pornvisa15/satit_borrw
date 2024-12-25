@@ -92,7 +92,7 @@
 
                     <h5 class="text-center text-success mb-4">รายละเอียดการทำรายการ</h5>
 
-                    <form action="../connect/reservation/reserve.php" method="post" enctype="multipart/form-data">
+                    <form action="../connect/reservation/insert.php" method="post" enctype="multipart/form-data">
                         <div class="container mt-4">
                             <!-- ชื่ออุปกรณ์ -->
                             <div class="form-group mb-4">

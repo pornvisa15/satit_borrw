@@ -1,3 +1,49 @@
+<?php
+session_start();
+include 'sidebar.php';
+include "../connect/mysql_borrow.php";
+
+// รับข้อมูลที่ส่งมาจากหน้า homepages.php
+$device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
+
+// ดึงข้อมูลจากฐานข้อมูลเกี่ยวกับอุปกรณ์
+$sql = "SELECT * FROM borrow.device_information WHERE device_Numder = '$device_Id'"; // ใช้ device_Numder เป็นเงื่อนไข
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // ถ้ามีข้อมูล
+    $row = $result->fetch_assoc();
+    $device_Numder = $row['device_Numder'];
+    $device_Name = $row['device_Name'];
+    $device_Status = $row['device_Con'];
+    $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
+    $device_Other = $row['device_Other']; // ดึงข้อมูล device_Other จากฐานข้อมูล
+    $cotton_Id = $row['cotton_Id'];
+    $history_Numder = isset($row['history_Numder']) ? $row['history_Numder'] : 'ข้อมูลไม่ถูกส่ง'; // ตรวจสอบก่อนใช้งาน
+} else {
+    // ถ้าไม่มีข้อมูล
+    $device_Numder = 'ข้อมูลไม่ถูกส่ง';
+    $device_Name = 'ข้อมูลไม่ถูกส่ง';
+    $device_Status = 'ข้อมูลไม่ถูกส่ง';
+    $device_Image = 'ข้อมูลไม่ถูกส่ง';
+    $device_Other = 'ข้อมูลไม่ถูกส่ง';
+    $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
+    $history_Numder = 'ข้อมูลไม่ถูกส่ง'; // กำหนดค่าเริ่มต้น
+}
+
+// คำนวณจำนวนครั้งที่อุปกรณ์ถูกยืม
+$countSql = "SELECT COUNT(*) AS borrow_count FROM borrow.history_brs WHERE device_Numder = '$device_Numder' AND history_Status = '1'"; // กรองเฉพาะสถานะที่ยืม
+$countResult = $conn->query($countSql);
+$borrowCount = 0; // ค่าเริ่มต้น
+if ($countResult->num_rows > 0) {
+    $countRow = $countResult->fetch_assoc();
+    $borrowCount = $countRow['borrow_count']; // จำนวนครั้งที่ถูกยืม
+}
+?>
+
+<!-- ที่เหลือของโค้ดจะไม่เปลี่ยนแปลง -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,39 +59,6 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
-    <?php
-    session_start();
-    include 'sidebar.php';
-    include "../connect/mysql_borrow.php";
-
-    // รับข้อมูลที่ส่งมาจากหน้า homepages.php
-    $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
-
-    // ดึงข้อมูลจากฐานข้อมูล
-    $sql = "SELECT * FROM borrow.device_information WHERE device_Numder = '$device_Id'"; // ใช้ device_Numder เป็นเงื่อนไข
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // ถ้ามีข้อมูล
-        $row = $result->fetch_assoc();
-        $device_Numder = $row['device_Numder'];
-        $device_Name = $row['device_Name'];
-        $device_Status = $row['device_Con'];
-        $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
-        $device_Other = $row['device_Other']; // ดึงข้อมูล device_Other จากฐานข้อมูล
-        $cotton_Id = $row['cotton_Id'];
-    } else {
-        // ถ้าไม่มีข้อมูล
-        $device_Numder = 'ข้อมูลไม่ถูกส่ง';
-        $device_Name = 'ข้อมูลไม่ถูกส่ง';
-        $device_Status = 'ข้อมูลไม่ถูกส่ง';
-        $device_Image = 'ข้อมูลไม่ถูกส่ง';
-        $device_Other = 'ข้อมูลไม่ถูกส่ง';
-        $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
-    }
-    ?>
-
 
     <!-- กล่องเนื้อหา -->
     <div class="col-md-9 col-lg-10">
@@ -70,7 +83,7 @@
                     }
                     ?>
                     <h5 class="card-title text-start ms-4"
-                        style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468; text-align: left; margin-left: 10px; white-space: nowrap; margin-top: 10px;"
+                        style="font-size: 18px; font-weight: bold; text-transform: uppercase; color: #007468; text-align: left; margin-left: 10px; white-space: nowrap; margin-top: 10px; "
                         onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';">
                         <?= $department_Name; ?>
                     </h5>
@@ -81,11 +94,11 @@
                     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
                         <div class="d-flex align-items-center">
                             <!-- รูปภาพ -->
-                            <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder" style="border-radius: 8px; max-width: 250px; height: 250px; 
-            object-fit: contain; transition: transform 0.3s ease; cursor: pointer;" data-bs-toggle="modal"
-                                data-bs-target="#zoomModal" onmouseover="this.style.transform='scale(1.1)';"
+                            <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder"
+                                style="border-radius: 8px; max-width: 250px; height: 250px; object-fit: contain; transition: transform 0.3s ease; cursor: pointer;"
+                                data-bs-toggle="modal" data-bs-target="#zoomModal"
+                                onmouseover="this.style.transform='scale(1.1)';"
                                 onmouseout="this.style.transform='scale(1)';">
-
                             <!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
                             <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
                                 aria-hidden="true">
@@ -110,7 +123,6 @@
                                     <?= $device_Name; ?>
                                 </h5>
                                 <div class="mb-2" style="line-height: 1.6;">
-
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">เลขพัสดุ/ครุภัณฑ์:</strong>
                                         <?= $device_Numder; ?>
@@ -144,6 +156,10 @@
                                             <?= $device_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
                                         </span>
                                     </p>
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">จำนวนครั้งที่ถูกยืม:</strong>
+                                        <?= $borrowCount; ?> ครั้ง
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -158,75 +174,13 @@
                                 </button>
                             </a>
                         </div>
-
-
-                        <?php if ($device_Status != 1): // แสดงประวัติการยืมเฉพาะเมื่อสถานะไม่ว่าง ?>
-                            <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                                <!-- Title Section -->
-                                <h5 class="text-center mb-4 text-white p-2"
-                                    style="background-color: #007468; border-radius: 4px;">ประวัติการยืม</h5>
-
-                                <!-- Table Section -->
-                                <table class="table table-hover table-bordered">
-                                    <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
-                                        <tr>
-                                            <th scope="col">ผู้ยืม</th>
-                                            <th scope="col">วันที่ยืม</th>
-                                            <th scope="col">วันที่คืน</th>
-                                            <th scope="col">เวลาคืน</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 0.8rem;">
-                                        <tr>
-                                            <td>นางสาวพรวิสาข์ ปรีชา</td>
-                                            <td>2024-11-18</td>
-                                            <td>2024-11-25</td>
-                                            <td>15:30</td>
-                                        </tr>
-                                        <tr>
-                                            <td>นายอภิชาติ จิตรานนท์</td>
-                                            <td>2024-11-10</td>
-                                            <td>2024-11-15</td>
-                                            <td>14:45</td>
-                                        </tr>
-                                        <tr>
-                                            <td>นางสาวจุฬาภรณ์ สุขกิจ</td>
-                                            <td>2024-11-05</td>
-                                            <td>2024-11-12</td>
-                                            <td>09:00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php endif; ?>
-
-
-
-
-
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 
-
-
-
-
-    <!-- Footer -->
-    <footer style="background-color: #495057;" class="text-light py-3 mt-4">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2024 S.TSU Application V 2.0 | พัฒนาโดย ทีมงาน S.TSU</p>
-        </div>
-    </footer>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
