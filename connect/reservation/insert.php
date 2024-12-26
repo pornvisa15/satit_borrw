@@ -7,9 +7,10 @@ $history_Return = $_POST['history_Return'];
 $history_Stop = $_POST['history_Stop'];
 $history_Other = $_POST['history_Other'];
 $history_Another = $_POST['history_Another'];
+$user_Id =  $_SESSION['useripass'];
 
-$sql = "INSERT INTO history_brs (history_Borrow,history_Return,history_Stop,history_Other,history_Another) 
-        VALUES ('$history_Borrow','$history_Return','$history_Stop','$history_Other','$history_Another')";
+$sql = "INSERT INTO history_brs (history_Borrow,history_Return,history_Stop,history_Other,history_Another,user_Id) 
+        VALUES ('$history_Borrow','$history_Return','$history_Stop','$history_Other','$history_Another','$user_Id')";
 
 if ($conn->query($sql) === TRUE) {
     echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/homepages.php';</script>";

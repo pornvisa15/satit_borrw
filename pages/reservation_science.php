@@ -45,7 +45,7 @@ if ($result->num_rows > 0) {
     $equipment = [];
     while ($row = $result->fetch_assoc()) {
         $equipment[] = [
-            'id' => $row['device_Numder'],
+            'id' => $row['device_Id'],
             'name' => $row['device_Name'], 
             'status' => $row['device_Con'], 
             'image' => '../connect/equipment/equipment/img/' . $row['device_Image'], 

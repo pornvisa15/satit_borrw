@@ -16,18 +16,19 @@
 <body class="d-flex flex-column min-vh-100">
     <?php
 
-    if (isset($_GET['id']))
-        $device_Numder = $_GET['id'];
-
+    if (isset($_GET['id'])){
+         $device_Id = $_GET['id'];
+    }
+       
     session_start();
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
     include '../connect/myspl_das_satit.php';
     // รับข้อมูลที่ส่งมาจากหน้า homepages.php
-    $device_Numder = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
+    $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
     // ดึงข้อมูลจากฐานข้อมูล
-    $sql = "SELECT * FROM borrow.device_information WHERE device_Numder= '$device_Numder'";
+    $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
 
     $result = $conn->query($sql);
 
@@ -101,6 +102,11 @@
                                 <input type="text" class="form-control" id="device_Name"
                                     value="<?= htmlspecialchars($device_Name) ?>" readonly
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                    <input type="text" class="form-control" hidden
+                                    value="<?= htmlspecialchars($device_Id) ?>" 
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                   
+                                   
                             </div>
 
                             <!-- เพื่อไปใช้งาน และ สถานที่นำไปใช้ -->

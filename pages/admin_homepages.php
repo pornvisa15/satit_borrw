@@ -14,12 +14,14 @@
 </head>
 
 <body class="d-flex bg-light">
-
 <?php
-    session_start()
-?> 
-
-      <?php  include 'sidebar.php' ?>
+session_start();
+include 'sidebar.php'; // Include Sidebar
+include '../connect/myspl_das_satit.php';
+include '../connect/mysql_studentsatit.php';
+include '../connect/mysql_borrow.php';
+?>
+  
       
 
     <div class="flex-grow-1 p-4">
@@ -91,38 +93,8 @@
                             onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>B0000002</td>
-                    <td>Notebook BBB</td>
-                    <td>05/11/2024</td>
-                    <td>08/11/2024</td>
-                    <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
-                    <td><span class="badge bg-success" style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
-                    <td>ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.4/5</td>
-                    <td>
-                        <a href="#" class="btn btn-sm"
-                            style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                    </td>
-                </tr>
-                <tr>
-                            <td>3</td>
-                            <td>B0000045</td>
-                            <td>Notebook BPP</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>นายพรชัย เคลิ้มฝัน</td>
-                            <td><span class="badge bg-success"
-                                    style="border-radius: 12px; padding: 5px 10px;">อนุมัติ</span></td>
-                            <td>ยืมคอมพิวเตอร์เพื่อทำวิจัย</td>
-                            <td>
-                                <a href="#" class="btn btn-sm"
-                                style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">รายละเอียด</a>
-                            </td>
+                
+                
                 <!-- คุณสามารถเพิ่มรายการอื่นๆ ตามลำดับ -->
             </tbody>
         </table>

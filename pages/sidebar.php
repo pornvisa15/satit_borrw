@@ -128,7 +128,7 @@ Admin</h3>";
                     <?php
 
                     include "../connect/mysql_studentsatit.php"; // การดึงฐานข้อมูลคนเดียววววววว
-                    $sql = "SELECT * FROM studentsatit.detail_std WHERE detail_std.std_id = $_SESSION[std_id]";
+                    $sql = "SELECT * FROM studentsatit.detail_std WHERE detail_std.std_id = $_SESSION[useripass]";
                     $result = mysqli_query($conn, $sql);
                     $showdata = mysqli_fetch_array($result);
                     ?>

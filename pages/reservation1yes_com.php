@@ -7,14 +7,15 @@ include "../connect/mysql_borrow.php";
 $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
 // ดึงข้อมูลจากฐานข้อมูลเกี่ยวกับอุปกรณ์
-$sql = "SELECT * FROM borrow.device_information WHERE device_Numder = '$device_Id'"; // ใช้ device_Numder เป็นเงื่อนไข
+$sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'"; // ใช้ device_Numder เป็นเงื่อนไข
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // ถ้ามีข้อมูล
     $row = $result->fetch_assoc();
-    $device_Numder = $row['device_Numder'];
+    $device_Id = $row['device_Id'];
     $device_Name = $row['device_Name'];
+    $device_Numder = $row['device_Numder'];
     $device_Status = $row['device_Con'];
     $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
     $device_Other = $row['device_Other']; // ดึงข้อมูล device_Other จากฐานข้อมูล
@@ -22,17 +23,18 @@ if ($result->num_rows > 0) {
     $history_Numder = isset($row['history_Numder']) ? $row['history_Numder'] : 'ข้อมูลไม่ถูกส่ง'; // ตรวจสอบก่อนใช้งาน
 } else {
     // ถ้าไม่มีข้อมูล
-    $device_Numder = 'ข้อมูลไม่ถูกส่ง';
+    $device_Id = 'ข้อมูลไม่ถูกส่ง';
     $device_Name = 'ข้อมูลไม่ถูกส่ง';
     $device_Status = 'ข้อมูลไม่ถูกส่ง';
     $device_Image = 'ข้อมูลไม่ถูกส่ง';
     $device_Other = 'ข้อมูลไม่ถูกส่ง';
     $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
     $history_Numder = 'ข้อมูลไม่ถูกส่ง'; // กำหนดค่าเริ่มต้น
+    $device_Numder= 'ข้อมูลไม่ถูกส่ง';
 }
 
 // คำนวณจำนวนครั้งที่อุปกรณ์ถูกยืม
-$countSql = "SELECT COUNT(*) AS borrow_count FROM borrow.history_brs WHERE device_Numder = '$device_Numder' AND history_Status = '1'"; // กรองเฉพาะสถานะที่ยืม
+$countSql = "SELECT COUNT(*) AS borrow_count FROM borrow.history_brs WHERE device_Id = '$device_Id' AND history_Status = '1'"; // กรองเฉพาะสถานะที่ยืม
 $countResult = $conn->query($countSql);
 $borrowCount = 0; // ค่าเริ่มต้น
 if ($countResult->num_rows > 0) {
@@ -153,7 +155,7 @@ if ($countResult->num_rows > 0) {
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
                                             style="font-weight: 600; color: <?= $device_Status == 1 ? '#6cbf42' : '#e63946'; ?>;">
-                                            <?= $device_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+                                            <?= $device_Id == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
                                         </span>
                                     </p>
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">

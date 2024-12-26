@@ -47,11 +47,9 @@
                             <th>ลำดับ</th>
                             <th>เลขพัสดุ /ครุภัณฑ์</th>
                             <th>ชื่ออุปกรณ์</th>
-                            <th>ผู้ยืม</th>
-                            <th>วันที่ยืม</th>
-                            <th>วันที่คืน</th>
-                            <th>เวลาคืน</th>
                             <th>รายละเอียด</th>
+
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -59,10 +57,7 @@
                             <td>1</td>
                             <td>A0000001</td>
                             <td>Notebook Acer</td>
-                            <td>นางสาวพรวิสาข์ ปรีชา</td>
-                            <td>04/11/2024</td>
-                            <td>07/11/2024</td>
-                            <td>14:00 น.</td>
+                            
                             <td>
                                 <a href="adminrecord_details.php?item_id=A0000001" class="btn btn-sm"
                                     style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
@@ -76,10 +71,7 @@
                             <td>2</td>
                             <td>B0000002</td>
                             <td>Notebook BBB</td>
-                            <td>นางสาวธัญลักษณ์ พลฤทธิ์</td>
-                            <td>05/11/2024</td>
-                            <td>08/11/2024</td>
-                            <td>15:30 น.</td>
+                            
                             <td>
                                 <button class="btn btn-sm"
                                     style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"

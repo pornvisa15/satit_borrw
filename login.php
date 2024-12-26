@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['std_name'] = $row['std_name'];
         $_SESSION['std_surname'] = $row['std_ipasspass'];
         $_SESSION['officer_Right'] = 1;
-        $_SESSION['std_id']=$row['std_id'];
+        $_SESSION['useripass']=$row['std_id'];
 
         header("Location: pages/homepages.php");
         exit;
