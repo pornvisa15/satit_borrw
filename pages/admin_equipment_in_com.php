@@ -30,21 +30,19 @@
                 <h5 class="text-center mb-4">เพิ่มข้อมูลอุปกรณ์</h5>
                 <form action="../connect/equipment/insert.php" method="post" enctype="multipart/form-data"
                     id="equipmentForm">
+                    
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="device_Numder"
+                            style="margin-bottom: 7px; font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์ :</label>
+                        <input type="text" class="form-control" id="device_Numder" name="device_Numder"
+                            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required style="font-size: 14px;">
+                    </div>
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Name" style="margin-bottom: 7px; font-size: 16px; color: black;">ชื่ออุปกรณ์
                             :</label>
                         <input type="text" class="form-control" id="device_Name" name="device_Name"
                             placeholder="กรอกชื่ออุปกรณ์" required style="font-size: 14px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 15px; position: relative;">
-    <label for="device_Numder" style="margin-bottom: 7px; font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์ :</label>
-    <input type="text" class="form-control" id="device_Numder" name="device_Numder"
-        placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required style="font-size: 14px;" onblur="checkDeviceNumder()">
-    <!-- แสดงข้อความผิดพลาดข้างๆ ช่องกรอก -->
-    <div id="deviceNumderError" class="invalid-feedback" style="display: none; color: red; font-size: 14px; position: absolute; top: 50%; left: 100%; margin-left: 10px; transform: translateY(-50%);">
-        เลขพัสดุ/ครุภัณฑ์นี้มีอยู่แล้วในระบบ
-    </div>
-</div>
 
 
 <div class="form-group" style="margin-bottom: 15px;">

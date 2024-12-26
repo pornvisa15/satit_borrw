@@ -17,11 +17,6 @@ $cotton_Id = $conn->real_escape_string($_POST['cotton_Id']);
 $sql_check = "SELECT * FROM device_information WHERE device_Numder = '$device_Numder'";
 $result_check = $conn->query($sql_check);
 
-if ($result_check->num_rows > 0) {
-    // หากเลขพัสดุ/ครุภัณฑ์ซ้ำ
-    echo "<script>alert('เลขพัสดุ/ครุภัณฑ์นี้มีอยู่ในระบบแล้ว'); location.href = '../../pages/admin_equipment.php';</script>";
-    exit;
-}
 
 // ตรวจสอบว่ามีไฟล์ที่อัปโหลดหรือไม่
 if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOAD_ERR_OK) {
@@ -60,20 +55,4 @@ if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOA
     exit;
 }
 ?>
-<script>
-function checkDeviceNumder() {
-    const deviceNumder = document.getElementById('device_Numder').value;
 
-    // เช็คว่าเลขพัสดุ/ครุภัณฑ์ซ้ำในฐานข้อมูล
-    fetch(`/path/to/api/check_device_number.php?device_Numder=${deviceNumder}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.exists) {
-                alert('เลขพัสดุ/ครุภัณฑ์นี้มีอยู่แล้วในระบบ');
-                document.getElementById('device_Numder').value = ''; // เคลียร์ช่องกรอก
-                document.getElementById('device_Numder').focus(); // ให้โฟกัสที่ช่องกรอก
-            }
-        })
-        .catch(error => console.error('เกิดข้อผิดพลาด:', error));
-}
-</script>

@@ -2,16 +2,21 @@
 include '../mysql_borrow.php';
 session_start();
 
-$history_Borrow = $_POST['history_Borrow'];
-$history_Return = $_POST['history_Return'];
-$history_Stop = $_POST['history_Stop'];
-$history_Other = $_POST['history_Other'];
-$history_Another = $_POST['history_Another'];
-$user_Id =  $_SESSION['useripass'];
+// ตรวจสอบค่าจาก POST และ SESSION
+$history_Borrow = isset($_POST['history_Borrow']) ? $_POST['history_Borrow'] : '';
+$history_Return = isset($_POST['history_Return']) ? $_POST['history_Return'] : '';
+$history_Stop = isset($_POST['history_Stop']) ? $_POST['history_Stop'] : '';
+$history_Other = isset($_POST['history_Other']) ? $_POST['history_Other'] : '';
+$history_Another = isset($_POST['history_Another']) ? $_POST['history_Another'] : '';
+$user_Id = isset($_SESSION['useripass']) ? $_SESSION['useripass'] : '';
+$history_device = isset($_POST['history_device']) ? $_POST['history_device'] : '';
 
-$sql = "INSERT INTO history_brs (history_Borrow,history_Return,history_Stop,history_Other,history_Another,user_Id) 
-        VALUES ('$history_Borrow','$history_Return','$history_Stop','$history_Other','$history_Another','$user_Id')";
 
+// ปรับคำสั่ง SQL
+$sql = "INSERT INTO history_brs (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id,history_device) 
+        VALUES ('$history_Borrow', '$history_Return', '$history_Stop', '$history_Other', '$history_Another', '$user_Id','$history_device')";
+
+// รันคำสั่ง SQL
 if ($conn->query($sql) === TRUE) {
     echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/homepages.php';</script>";
 } else {

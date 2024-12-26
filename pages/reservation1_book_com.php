@@ -24,6 +24,7 @@
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
     include '../connect/myspl_das_satit.php';
+
     // รับข้อมูลที่ส่งมาจากหน้า homepages.php
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
@@ -44,6 +45,8 @@
         $cotton_Id = isset($row['cotton_Id']) ? $row['cotton_Id'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Id = isset($row['device_Id']) ? $row['device_Id'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
+        $history_Id = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
+        $history_device = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
     } else {
         // ถ้าไม่มีข้อมูล
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
@@ -53,6 +56,8 @@
         $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
         $device_Id = 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = 'ข้อมูลไม่ถูกส่ง';
+        $history_Id = 'ข้อมูลไม่ถูกส่ง';
+        $history_device = 'ข้อมูลไม่ถูกส่ง';
     }
     ?>
 
@@ -99,13 +104,18 @@
                             <div class="form-group mb-4">
                                 <label for="device_Name" class="font-weight-bold text-success"
                                     style="font-size: 16px; color: #007468;">ชื่ออุปกรณ์ :</label>
-                                <input type="text" class="form-control" id="device_Name"
+                                <input type="text" class="form-control" id="history_devic"
                                     value="<?= htmlspecialchars($device_Name) ?>" readonly
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    <input type="text" class="form-control" hidden
+                                    
+                                    <input type="text" class="form-control" hidden  
                                     value="<?= htmlspecialchars($device_Id) ?>" 
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                   
+                                    <input type="text" class="form-control" hidden name="history_device"  
+       value="<?= htmlspecialchars($history_device) ?>" 
+       style="padding: 10px; font-size: 16px; opacity: 0.6;">
+
+                                
                                    
                             </div>
 
