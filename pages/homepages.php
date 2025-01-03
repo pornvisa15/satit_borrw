@@ -67,8 +67,8 @@
 
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="searchEquipment" name="search"
-                        value="<?= htmlspecialchars($searchQuery); ?>" placeholder="ค้นหาอุปกรณ์"
-                        aria-label="Search" aria-describedby="button-search">
+                        value="<?= htmlspecialchars($searchQuery); ?>" placeholder="ค้นหาอุปกรณ์" aria-label="Search"
+                        aria-describedby="button-search">
                     <button class="btn text-light" type="submit" id="button-search"
                         style="background-color: #007468; border-color: #007468;">
                         ค้นหา

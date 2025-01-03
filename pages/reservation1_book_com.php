@@ -16,10 +16,10 @@
 <body class="d-flex flex-column min-vh-100">
     <?php
 
-    if (isset($_GET['id'])){
-         $device_Id = $_GET['id'];
+    if (isset($_GET['id'])) {
+        $device_Id = $_GET['id'];
     }
-       
+
     session_start();
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
@@ -29,9 +29,9 @@
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
     // ดึงข้อมูลจากฐานข้อมูล
- 
-    $sql =  "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
-   
+    
+    $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
+
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -49,7 +49,7 @@
         $history_Id = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
         $history_device = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
         $parcel_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
-        
+        $history_Status = isset($row['history_Status']) ? $row['history_Status'] : 'ข้อมูลไม่ถูกส่ง';
     } else {
         // ถ้าไม่มีข้อมูล
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
@@ -62,6 +62,7 @@
         $history_Id = 'ข้อมูลไม่ถูกส่ง';
         $history_device = 'ข้อมูลไม่ถูกส่ง';
         $parcel_Numder = 'ข้อมูลไม่ถูกส่ง';
+        $history_Status = 'ข้อมูลไม่ถูกส่ง';
     }
     ?>
 
@@ -84,9 +85,9 @@
                             $department_Name = 'อุปกรณ์ดนตรี';
                             break;
                         case 4:
-                                $department_Name = 'อุปกรณ์พัสดุ';
-                                break;
-                     
+                            $department_Name = 'อุปกรณ์พัสดุ';
+                            break;
+
                         default:
                             $department_Name = 'ข้อมูลไม่ระบุ';
                     }
@@ -115,18 +116,18 @@
                                 <input type="text" class="form-control" id="history_devic"
                                     value="<?= htmlspecialchars($device_Name) ?>" readonly
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    
-                                    <input type="text" class="form-control" hidden  
-                                    value="<?= htmlspecialchars($device_Id) ?>" 
+
+                                <input type="text" class="form-control" hidden
+                                    value="<?= htmlspecialchars($device_Id) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    <input type="text" class="form-control" hidden  name="device_Name"  
-                                    value="<?= htmlspecialchars($history_device ) ?>" 
+                                <input type="text" class="form-control" hidden name="device_Name"
+                                    value="<?= htmlspecialchars($history_device) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    <input type="text" class="form-control"  hidden name="device_Numder" 
-                                    value="<?= htmlspecialchars($parcel_Numder) ?>" 
+                                <input type="text" class="form-control" hidden name="device_Numder"
+                                    value="<?= htmlspecialchars($parcel_Numder) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    
-                                   
+
+
                             </div>
 
                             <!-- เพื่อไปใช้งาน และ สถานที่นำไปใช้ -->
