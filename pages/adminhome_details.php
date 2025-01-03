@@ -14,22 +14,51 @@
 </head>
 
 <body class="d-flex bg-light">   
-    <?php  include 'sidebar.php' ?>
-    <?php
-// ตรวจสอบสถานะของเซสชันก่อนเรียก session_start()
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+    
+<?php
+session_start();
+include 'sidebar.php';
+// เชื่อมต่อกับฐานข้อมูล
+include '../connect/mysql_borrow.php';
+
+// ตรวจสอบว่าได้รับ 'id' จาก URL หรือไม่
+if (isset($_GET['id'])) {
+    $history_Id = $_GET['id']; // รับค่า history_Id จาก URL
+} else {
+    echo "ไม่พบข้อมูล ID";
+    exit; // ถ้าไม่มี ID ส่งมาก็หยุดทำงาน
 }
+
+// สร้างคำสั่ง SQL เพื่อดึงข้อมูลจากฐานข้อมูลตาม history_Id
+$sql = "SELECT * FROM borrow.history_brs WHERE history_Id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $history_Id); // ผูกค่า $history_Id กับ SQL
+$stmt->execute();
+$result = $stmt->get_result();
+
+// ตรวจสอบผลลัพธ์
+if ($result && $result->num_rows > 0) {
+    // ดึงข้อมูลจากผลลัพธ์
+    $row = $result->fetch_assoc();
+    $history_Other = $row['history_Other'] ?? 'ไม่มีข้อมูล';
+    $history_Another = $row['history_Another'] ?? 'ไม่มีข้อมูล';
+    $history_device = $row['device_Name'] ?? 'ไม่มีข้อมูล';
+    $user_Id = $row['user_Id'] ?? 'ไม่มีข้อมูล'; // ฟิลด์ผู้ใช้
+
+    
+} else {
+    echo "ไม่พบข้อมูลสำหรับประวัติการยืมที่เลือก";
+}
+
+$stmt->close(); // ปิด statement
 ?>
 
-    <style>
-        #purpose-container[style*="display: none"] {
-            display: none !important;
-        }
-    </style>
 
-   
-      
+
+</body>
+</html>
+
+
 
 
 
@@ -112,60 +141,38 @@ if (session_status() == PHP_SESSION_NONE) {
                     </button>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 10px;; display: flex; align-items: center;">
-                    <label for="deviceName" class="font-weight-bold text-success"
-                        style="font-size: 16px; margin-right: 10px; white-space: nowrap; color: black !important;">
-                        ชื่ออุปกรณ์ :
-                    </label>
-                    <input type="text" class="form-control" id="deviceName" value="Notebook BBB" readonly
-                        style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-                </div>
-
-
-                <div class="form-group row" style="margin-bottom: 10px;">
-                    <div class="col-sm-6" style="padding-right: 5px;">
-                        <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">
-                            ชื่อผู้ใช้ :
-                        </label>
-                        <input type="text" class="form-control" id="deviceName" value="นางสาวพรวิสาข์ ปรีชา" readonly
-                            style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-                        <!-- <textarea class="form-control" id="purpose"
-                            style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow: hidden;"></textarea> -->
-
-                    </div>
-
-                    <div class="col-sm-6" style="padding-left: 5px;">
-                        <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">
-                            สถานะ :
-                        </label>
-                        <input type="text" class="form-control" id="deviceName" value="อนุมัติ" readonly
-                            style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-                        <!-- <textarea class="form-control" id="location"
-                            style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
-                    </div>
-                </div>
-                <div class="form-group row" style="margin-bottom: 10px;  margin-top: 10px">
-                    <div class="col-sm-6" style="padding-right: 5px;">
-                        <label for="purpose" class="font-weight-bold " style="font-size: 16px; color: black;">
-                            เพื่อไปใช้งาน :</label>
-                        <input type="text" class="form-control" id="deviceName"
-                            value="ยืมคอมพิวเตอร์เพื่อสอนนักเรียนชั้น ม.3/5" readonly
-                            style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-                        <!-- <textarea class="form-control" id="purpose"
-                            style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
-                    </div>
-
-                    <div class="col-sm-6" style="padding-left: 5px;">
-                        <label for="location" class="font-weight-bold " style="font-size: 16px; color: black;">
-                            สถานที่นำไปใช้ :</label>
-                        <input type="text" class="form-control" id="deviceName" value="ห้องเรียน ม.3/5" readonly
-                            style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-                        <!-- <textarea class="form-control" id="location"
-                            style="padding: 10px; font-size: 16px; height: 45px; resize: none; overflow-y: auto;"></textarea> -->
-                    </div>
-                </div>
-            </div>
+                <div class="form-group" style="margin-bottom: 10px; display: flex; align-items: center;">
+            <label for="deviceName" class="font-weight-bold text-success" style="font-size: 16px; margin-right: 10px; white-space: nowrap; color: black !important;">
+                ชื่ออุปกรณ์ :
+            </label>
+            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($history_device); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
         </div>
+
+<input type="text" class="form-control"  hidden
+                                    value="<?= htmlspecialchars( $history_Id ) ?>" 
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
+    <div class="form-group row" style="margin-bottom: 10px;">
+        <div class="col-sm-6" style="padding-right: 5px;">
+            <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">ชื่อผู้ใช้ :</label>
+            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($user_Id); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
+        </div>
+        <div class="col-sm-6" style="padding-left: 5px;">
+            <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">สถานะ :</label>
+            <input type="text" class="form-control" id="deviceName" value="อนุมัติ" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-bottom: 10px; margin-top: 10px;">
+        <div class="col-sm-6" style="padding-right: 5px;">
+            <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">เพื่อไปใช้งาน :</label>
+            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($history_Other); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
+        </div>
+        <div class="col-sm-6" style="padding-left: 5px;">
+            <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">สถานที่นำไปใช้ :</label>
+            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($history_Another); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
+        </div>
+    </div>
+</div>
         <!-- สิ้นสุดฟอร์มค่าาาาาาาาาา -->
 
         <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">

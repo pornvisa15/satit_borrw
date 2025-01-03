@@ -178,6 +178,9 @@ Admin</h3>";
                                         <li><a href="reservation_music.php"
                                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a>
                                         </li>
+                                        <li><a href="reservation_parcel.php"
+                                                        class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์พัสดุ</a>
+                                                </li>
                                     </ul>
                                 </div>
                             </div>
@@ -320,6 +323,10 @@ Admin</h3>";
                                                 <li><a href="reservation_music.php"
                                                         class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a>
                                                 </li>
+                                                <li><a href="reservation_music.php"
+                                                        class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">พัสดุอุปกรณ์</a>
+                                                </li>
+
                                             </ul>
                                         </div>
                                     </div>

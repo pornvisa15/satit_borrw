@@ -29,8 +29,9 @@
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
     // ดึงข้อมูลจากฐานข้อมูล
-    $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
-
+ 
+    $sql =  "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
+   
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -47,6 +48,8 @@
         $device_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
         $history_Id = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
         $history_device = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
+        $parcel_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
+        
     } else {
         // ถ้าไม่มีข้อมูล
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
@@ -58,6 +61,7 @@
         $device_Numder = 'ข้อมูลไม่ถูกส่ง';
         $history_Id = 'ข้อมูลไม่ถูกส่ง';
         $history_device = 'ข้อมูลไม่ถูกส่ง';
+        $parcel_Numder = 'ข้อมูลไม่ถูกส่ง';
     }
     ?>
 
@@ -79,6 +83,10 @@
                         case 3:
                             $department_Name = 'อุปกรณ์ดนตรี';
                             break;
+                        case 4:
+                                $department_Name = 'อุปกรณ์พัสดุ';
+                                break;
+                     
                         default:
                             $department_Name = 'ข้อมูลไม่ระบุ';
                     }
@@ -111,11 +119,13 @@
                                     <input type="text" class="form-control" hidden  
                                     value="<?= htmlspecialchars($device_Id) ?>" 
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    <input type="text" class="form-control" hidden name="history_device"  
-       value="<?= htmlspecialchars($history_device) ?>" 
-       style="padding: 10px; font-size: 16px; opacity: 0.6;">
-
-                                
+                                    <input type="text" class="form-control" hidden  name="device_Name"  
+                                    value="<?= htmlspecialchars($history_device ) ?>" 
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                    <input type="text" class="form-control"  hidden name="device_Numder" 
+                                    value="<?= htmlspecialchars($parcel_Numder) ?>" 
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                    
                                    
                             </div>
 

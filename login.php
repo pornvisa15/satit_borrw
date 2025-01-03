@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result1 && $result1->num_rows == 1) {
         $row = $result1->fetch_assoc();
         $_SESSION['std_name'] = $row['std_name'];
-        $_SESSION['std_surname'] = $row['std_ipasspass'];
+        $_SESSION['std_surname'] = $row['std_surname'];
         $_SESSION['officer_Right'] = 1;
         $_SESSION['useripass']=$row['std_id'];
 
@@ -83,7 +83,7 @@ exit;
     if ($result2 && $result2->num_rows == 1) {
         $row = $result2->fetch_assoc();
         $_SESSION['name'] = $row['name'];
-        $_SESSION['surname'] = $row['md5'];
+        $_SESSION['surname'] = $row['surname'];
         $_SESSION['officer_Right'] = 2;
         $_SESSION['useripass'] = $row['useripass'];
       
