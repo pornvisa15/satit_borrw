@@ -42,9 +42,9 @@ if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $history_Other = $row['history_Other'] ?? 'ไม่มีข้อมูล';
     $history_Another = $row['history_Another'] ?? 'ไม่มีข้อมูล';
-    $history_device = $row['device_Name'] ?? 'ไม่มีข้อมูล';
+    $history_device = $row['history_device'] ?? 'ไม่มีข้อมูล';
     $user_Id = $row['user_Id'] ?? 'ไม่มีข้อมูล'; // ฟิลด์ผู้ใช้
-
+    
     
 } else {
     echo "ไม่พบข้อมูลสำหรับประวัติการยืมที่เลือก";
@@ -163,15 +163,25 @@ $stmt->close(); // ปิด statement
     </div>
 
     <div class="form-group row" style="margin-bottom: 10px; margin-top: 10px;">
-        <div class="col-sm-6" style="padding-right: 5px;">
-            <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">เพื่อไปใช้งาน :</label>
-            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($history_Other); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
-        </div>
-        <div class="col-sm-6" style="padding-left: 5px;">
-            <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">สถานที่นำไปใช้ :</label>
-            <input type="text" class="form-control" id="deviceName" value="<?php echo htmlspecialchars($history_Another); ?>" readonly style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
+    <div class="col-sm-6" style="padding-right: 5px;">
+        <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">เพื่อไปใช้งาน :</label>
+        <div class="form-control bg-light text-dark"
+             style="padding: 10px; font-size: 16px; white-space: normal; overflow-y: auto; height: 100px; cursor: default;color:rgba(10, 23, 32, 0.63) !important;">
+            <?php echo htmlspecialchars($history_Other); ?>
         </div>
     </div>
+    <div class="col-sm-6" style="padding-left: 5px;">
+        <label for="location" class="font-weight-bold" style="font-size: 16px; color: black;">สถานที่นำไปใช้ :</label>
+        <div class="form-control bg-light"
+     style="padding: 10px; font-size: 16px; white-space: normal; overflow-y: auto; height: 100px; cursor: default; color:rgba(10, 23, 32, 0.63) !important;">
+    <?php echo htmlspecialchars($history_Another); ?>
+</div>
+
+
+
+    </div>
+</div>
+
 </div>
         <!-- สิ้นสุดฟอร์มค่าาาาาาาาาา -->
 

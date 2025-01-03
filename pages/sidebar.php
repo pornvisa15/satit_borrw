@@ -17,32 +17,34 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
             echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
         }
         ?>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3">
-                <a href="admin_homepages.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    หน้าหลัก
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_equipment.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    คลังอุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_record.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ประวัติการใช้อุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="../logout.php" class="nav-link text-white"
-                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ออกจากระบบ
-                </a>
-            </li>
-        </ul>
+       <ul class="nav flex-column">
+        <li class="nav-item mb-3">
+            <a href="admin_homepages.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                หน้าหลัก
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="admin_equipment.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                คลังอุปกรณ์
+            </a>
+        </li>
+        
+        <li class="nav-item mb-3">
+            <a href="admin_record.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                ประวัติอุปกรณ์
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="../logout.php" class="nav-link text-white"
+                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                ออกจากระบบ
+            </a>
+        </li>
+    </ul>
+</div>
     </div>
     <?php
 
@@ -71,38 +73,39 @@ Admin</h3>";
         }
 
         ?>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-3">
-                <a href="admin_homepages.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    หน้าหลัก
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_equipment.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    คลังอุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_staffinfo.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ข้อมูลเจ้าหน้าที่
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="admin_record.php" class="nav-link text-white"
-                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ประวัติการใช้อุปกรณ์
-                </a>
-            </li>
-            <li class="nav-item mb-3">
-                <a href="../logout.php" class="nav-link text-white"
-                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                    ออกจากระบบ
-                </a>
-            </li>
-        </ul>
+       <ul class="nav flex-column">
+        <li class="nav-item mb-3">
+            <a href="admin_homepages.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                หน้าหลัก
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="admin_equipment.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                คลังอุปกรณ์
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="admin_staffinfo.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                ข้อมูลเจ้าหน้าที่
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="admin_record.php" class="nav-link text-white"
+                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                ประวัติอุปกรณ์
+            </a>
+        </li>
+        <li class="nav-item mb-3">
+            <a href="../logout.php" class="nav-link text-white"
+                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                ออกจากระบบ
+            </a>
+        </li>
+    </ul>
+</div>
     </div>
     <?php
 } elseif ($_SESSION['officer_Right'] == 1) {

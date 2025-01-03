@@ -25,9 +25,10 @@
 
         <!-- การ์ดแสดงตาราง -->
         <div class="card shadow-sm mt-5">
-            <div class="card-header" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">รายชื่อเจ้าหน้าที่</h4>
-            </div>
+        <div class="card-header" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
+    <h5 class="mb-0" style="font-size: 20px;">รายชื่อเจ้าหน้าที่</h5>
+</div>
+
 
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -46,10 +47,11 @@
 
                     <!-- ปุ่มเพิ่มอุปกรณ์ -->
                     <div class="ms-3">
-                        <button class="btn" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 15px; font-size: 14px; border-color: #4CAF50; color: white;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';" onclick="window.location.href='adminstaff_details.php';">
-                            <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
-                        </button>
-                    </div>
+    <button class="btn" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 15px; font-size: 14px; font-weight: normal; border-color: #4CAF50; color: white;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';" onclick="window.location.href='adminstaff_details.php';">
+        <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
+    </button>
+</div>
+
                 </div>
 
                 <!-- กล่องค้นหาพร้อมปุ่ม -->

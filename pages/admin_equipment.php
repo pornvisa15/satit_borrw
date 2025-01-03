@@ -12,20 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-<style>
-    /* ลดขนาดอักษรในทุก ๆ แท็ก */
-    .card, .table, td {
-        font-size: 14px; /* ปรับขนาดอักษร */
-    }
-
-    h4 {
-        font-size: 23px; /* ปรับขนาดอักษรของหัวข้อ */
-    }
-
-    .table th, .table td {
-        padding: 12px; /* ลด padding ให้เล็กลง */
-    }
-</style>
 
 <body class="d-flex bg-light">
 <?php
@@ -56,49 +42,49 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
 ?>
 
 <div class="flex-grow-1 p-4">
+    
     <?php include 'short.php'; ?>
 
-    <div class="card mt-5" style="box-shadow: none;">
+        <div class="card shadow-sm mt-5">
         <div class="card-header text-white" style="background-color: <?= $bgColor ?>;">
-            <h4 class="mb-0"><?= htmlspecialchars($headerText) ?></h4>
+            <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
         </div>
 
         <div class="card-body">
        
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                    <?php include 'admin.php'; ?> <div></div>
-                <button class="btn text-white" style="background-color: #4CAF50;" onclick="window.location.href='admin_equipment_in_com.php';">
-                    <i class="bi bi-person-plus"></i> เพิ่มอุปกรณ์
-                </button>
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+    <?php include 'admin2.php'; ?> 
+    <button class="btn text-white" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_equipment_in_com.php';">
+        <i class="bi bi-person-plus"></i> เพิ่มอุปกรณ์
+    </button>
+</div>
+
 
             <form method="GET" action="">
-            
-                <div class="input-group mb-3">
-                    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหาชื่ออุปกรณ์" name="search" value="<?= htmlspecialchars($searchTerm) ?>">
-                    <button class="btn text-light" type="submit" style="background-color: #537bb7;">ค้นหา</button>
-                </div>
-               
+            <div class="input-group mb-3">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหาชื่ออุปกรณ์" name="search" value="<?= htmlspecialchars($searchTerm) ?>" style="font-size: 14px;">
+    <button class="btn text-light" type="submit" style="background-color: #537bb7; font-size: 12px;">ค้นหา</button>
+</div>
+
             </form>
 
             <div class="table-responsive mt-3">
-                <table class="table table-bordered table-striped text-center">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ลำดับ</th>
-                            <th>เลขพัสดุ /ครุภัณฑ์</th>
-                            <th>ชื่ออุปกรณ์</th>
-                            <th>ผู้รับผิดชอบ</th>
-                            <th>สิทธิ์การเข้าถึง</th>
-                            <th>วันที่ซื้อ</th>
-                            <th>ราคา</th>
-                            <th>รายละเอียด</th>
-                            <th>ไฟล์ภาพ</th>
-                            <th>แก้ไข</th>
-                            <th>ลบ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 1%;">ลำดับ</th>
+                <th style="width: 13%;">เลขพัสดุ/ครุภัณฑ์</th>
+                <th style="width: 10%;">ชื่ออุปกรณ์</th>
+                <th style="width: 11%;">ผู้รับผิดชอบ</th>
+                <th style="width: 14%;">สิทธิ์การเข้าถึง</th>
+                <th style="width: 10%;">วันที่ซื้อ</th>
+                <th style="width: 10%;">ราคา</th>
+                <th style="width: 20%;">รายละเอียด</th>
+                <th style="width: 4%;">แก้ไข</th>
+                <th style="width: 4%;">ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
                         <?php
                         // SQL Query with dynamic filter based on search and cotton_Id
                         // SQL Query with dynamic filter based on search and cotton_Id
@@ -124,32 +110,41 @@ $sql .= " AND (device_Name LIKE '%$searchTerm%'
 // Execute SQL query
 $result = $conn->query($sql);
 
-                        if ($result->num_rows > 0) {
-                            $i = 1;
-                            while ($row = $result->fetch_assoc()) {
-                                $deviceImage = !empty($row['device_Image']) && file_exists('../connect/equipment/equipment/img/' . $row['device_Image'])
-                                ? '<img src="../connect/equipment/equipment/img/' . htmlspecialchars($row['device_Image']) . '" style="width: 100px; height: 100px; object-fit: cover;">'
-                                : 'ไม่มีรูปภาพ';
-                            
-                                echo "<tr>
-                                    <td>{$i}</td>
-                                    <td>" . htmlspecialchars($row['device_Numder']) . "</td>
-                                    <td>" . htmlspecialchars($row['device_Name']) . "</td>
-                                    <td>" . htmlspecialchars($row['cotton_Name']) . "</td>
-                                    <td>" . ($row['device_Access'] == 1 ? 'นักเรียน' : 'บุคลากรและนักเรียน') . "</td>
-                                    <td>" . htmlspecialchars($row['device_Date']) . "</td>
-                                    <td>" . htmlspecialchars($row['device_Price']) . "</td>
-                                    <td>" . htmlspecialchars($row['device_Other']) . "</td>
-                                    <td>$deviceImage</td>
-                                    <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-                                    <td><a href='../connect/equipment/delete.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-                                </tr>";
-                                $i++;
-                            }
-                        } else {
-                            echo "<tr><td colspan='11'>ไม่มีข้อมูล</td></tr>";
-                        }
-                        ?>
+            // ส่วนนี้เป็นเหมือนเดิม
+            if ($result->num_rows > 0) {
+                $i = 1;
+                while ($row = $result->fetch_assoc()) {
+                   
+
+                
+                    echo "<tr>
+                    <td>{$i}</td>
+                    <td>" . htmlspecialchars($row['device_Numder']) . "</td>
+                    <td>" . htmlspecialchars($row['device_Name']) . "</td>
+                    <td>" . htmlspecialchars($row['cotton_Name']) . "</td>
+                    <td>" . ($row['device_Access'] == 1 ? 'นักเรียน' : 'บุคลากรและนักเรียน') . "</td>";
+                
+                // แปลงวันที่ยืม
+                $borrowDate = new DateTime($row['device_Date']);  // ใช้เครื่องหมายคำพูดให้ถูกต้อง
+                $formattedBorrowDate = $borrowDate->format('d/m/Y'); // แสดงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
+                
+                echo "
+                    <td>{$formattedBorrowDate}</td> <!-- แสดงวันที่ที่แปลงแล้ว -->
+                <td>" . (floor($row['device_Price']) == $row['device_Price'] ? number_format($row['device_Price'], 0) : number_format($row['device_Price'], 2)) . " บาท</td>
+
+
+
+                    <td>" . htmlspecialchars($row['device_Other']) . "</td>
+                    <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
+                    <td><a href='../connect/equipment/delete.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
+                </tr>";
+                
+                    $i++;
+                }
+            } else {
+                echo "<tr><td colspan='11'>ไม่มีข้อมูล</td></tr>";
+            }
+            ?>
                     </tbody>
                 </table>
             </div>

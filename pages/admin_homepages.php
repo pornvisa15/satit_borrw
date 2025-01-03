@@ -21,7 +21,7 @@ include '../connect/myspl_das_satit.php';
 include '../connect/mysql_studentsatit.php';
 include '../connect/mysql_borrow.php';
 
- // Retrieve session value
+ // Retrieve session valueห
 $user_department_id = $_SESSION['officer_Cotton'] ?? 0;
 
 // Header configuration based on department
@@ -42,26 +42,11 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
 
         <div class="card shadow-sm mt-5">
         <div class="card-header text-white" style="background-color: <?= $bgColor ?>;">
-            <h4 class="mb-0"><?= htmlspecialchars($headerText) ?></h4>
+            <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
         </div>
 
  <div class="card-body">
-    <div class="me-3">
-            <select id="equipmentType" class="form-select" style="width: 220px; font-size: 14px;">
-                <option value="" selected disabled>กรุณาเลือกสถานะ</option>
-                <option value="">ทั้งหมด</option>
-                <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-                <option value="อนุมัติ">อนุมัติ</option>
-                <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
-                <option value="กำลังยืม">กำลังยืม</option>
-                <option value="คืนแล้ว">คืนแล้ว</option>
-                <option value="ชำรุด">ชำรุด</option>
-                 <option value="ผู้ยืมซ่อมแซม ">ผู้ยืมซ่อมแซม </option>
-                 <option value="ชำระค่าเสียหาย">ชำระค่าเสียหาย</option>
-                <option value="ชำรุด">ชดใช้เป็นพัสดุ</option>
-               
-            </select>
-        </div>
+ <?php include 'admin1.php'; ?> 
     <!-- กล่องค้นหา -->
    
         <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
@@ -77,23 +62,25 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
     <thead class="table-light">
         <tr>
             <th style="width: 5%;">ลำดับ</th>
-            <th style="width: 13%;">เลขพัสดุ /ครุภัณฑ์</th>
+            <th style="width: 12%;">เลขพัสดุ/ครุภัณฑ์</th>
             <th style="width: 11%;">ชื่ออุปกรณ์</th>
-            <th style="width: 10%;">วันที่ยืม</th>
-            <th style="width: 10%;">วันที่คืน</th>
-            <th style="width: 10%;">ผู้ยืม</th>
+            <th style="width: 9%;">วันที่ยืม</th>
+            <th style="width: 9%;">วันที่คืน</th>
+            <th style="width:15%;">ผู้ยืม</th>
             <th style="width: 5%;">สถานะ</th>
-            <th style="width: 25%;">หมายเหตุ</th>
-            <th style="width: 25%;">รายละเอียด</th>
+            <th style="width: 23%;">หมายเหตุ</th>
+            <th style="width: 20%;">รายละเอียด</th>
         </tr>
     </thead>
     <tbody>
+        
     <?php
 // เชื่อมต่อกับฐานข้อมูล
 include '../connect/mysql_borrow.php';
 
 // ดึงข้อมูลจากฐานข้อมูล
 $sql = "SELECT * FROM borrow.history_brs";
+
 $result = $conn->query($sql);
 
 // ตรวจสอบว่ามีข้อมูลหรือไม่
@@ -105,8 +92,19 @@ if ($result->num_rows > 0) {
         echo "<td>{$i}</td>"; // ลำดับ
         echo "<td>" . htmlspecialchars($row['parcel_Numder']) . "</td>"; // เลขพัสดุ/ครุภัณฑ์
         echo "<td>" . htmlspecialchars($row['history_device']) . "</td>"; // ชื่ออุปกรณ์
-        echo "<td>" . htmlspecialchars($row['history_Borrow']) . "</td>"; // วันที่ยืม
-        echo "<td>" . htmlspecialchars($row['history_Return']) . "</td>"; // วันที่คืน
+
+        // แปลงวันที่ยืม
+        $borrowDate = new DateTime($row['history_Borrow']);
+        $formattedBorrowDate = $borrowDate->format('d/m/Y'); // แสดงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
+        
+        // แปลงวันที่คืน
+        $returnDate = new DateTime($row['history_Return']);
+        $formattedReturnDate = $returnDate->format('d/m/Y'); // แสดงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
+        
+        echo "<td>" . htmlspecialchars($formattedBorrowDate) . "</td>"; // วันที่ยืม
+        echo "<td>" . htmlspecialchars($formattedReturnDate) . "</td>"; // วันที่คืน
+   
+        
         echo "<td>" . htmlspecialchars($row['user_Id']) . "</td>"; // ผู้ยืม
         echo "<td><span class='badge bg-warning text-dark' style='border-radius: 12px; padding: 5px 10px;'>" . htmlspecialchars($row['history_device']) . "</span></td>"; // สถานะ
         echo "<td>" . htmlspecialchars($row['history_Other']) . "</td>"; // หมายเหตุ

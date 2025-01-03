@@ -15,21 +15,36 @@
 
 <body class="d-flex bg-light">
 <?php
-    session_start()
+session_start();
+include 'sidebar.php'; // Include Sidebar
+include '../connect/myspl_das_satit.php';
+include '../connect/mysql_studentsatit.php';
+include '../connect/mysql_borrow.php';
+
+ // Retrieve session value
+$user_department_id = $_SESSION['officer_Cotton'] ?? 0;
+
+// Header configuration based on department
+$headerOptions = [
+    1 => ["ประวัติการใช้อุปกรณ์คอมพิวเตอร์", "#537bb7"],
+    2 => ["ประวัติการใช้อุปกรณ์วิทยาศาสตร์", "#537bb7"],
+    3 => ["ประวัติการใช้อุปกรณ์ดนตรี", "#537bb7"],
+    4 => ["ประวัติการใช้อุปกรณ์พัสดุ", "#537bb7"],
+    5 => ["ประวัติการใช้รอุปกรณ์ทั้งหมด", "#537bb7"],
+];
+
+$headerText = $headerOptions[$user_department_id][0] ?? "อุปกรณ์";
+$bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
 ?>
 
-
-      <?php  include 'sidebar.php' ?>
- 
-
-    <div class="flex-grow-1 p-4">
+<div class="flex-grow-1 p-4">
+    
     <?php include 'short.php'; ?>
 
         <div class="card shadow-sm mt-5">
-            <div class="card-header"
-                style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ประวัติการใช้อุปกรณ์</h4>
-            </div>
+        <div class="card-header text-white" style="background-color: <?= $bgColor ?>;">
+            <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
+        </div>
 
             <div class="card-body">
                 <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
@@ -53,35 +68,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>A0000001</td>
-                            <td>Notebook Acer</td>
-                            
-                            <td>
-                                <a href="adminrecord_details.php?item_id=A0000001" class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-                                    รายละเอียด
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>B0000002</td>
-                            <td>Notebook BBB</td>
-                            
-                            <td>
-                                <button class="btn btn-sm"
-                                    style="background-color: #4fb05a; color: white; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; padding: 6px 12px; font-size: 13px;"
-                                    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)'"
-                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'"
-                                    onclick="redirectToDetails('B0000002')">
-                                    รายละเอียด
-                                </button>
-                            </td>
-                        </tr>
+                    <?php
+                    // เชื่อมต่อกับฐานข้อมูล
+include '../connect/mysql_borrow.php';
+
+// ดึงข้อมูลจากฐานข้อมูล
+$sql = "SELECT * FROM borrow.history_brs";
+$result = $conn->query($sql);
+
+// ตรวจสอบว่ามีข้อมูลหรือไม่
+$i = 1;
+if ($result->num_rows > 0) {
+    // แสดงข้อมูลในตาราง
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>{$i}</td>"; // ลำดับ
+        echo "<td>" . htmlspecialchars($row['parcel_Numder']) . "</td>"; // เลขพัสดุ/ครุภัณฑ์
+        echo "<td>" . htmlspecialchars($row['history_device']) . "</td>"; // ชื่ออุปกรณ์
+      
+        echo "<td><a href='adminrecord_details.php?id=" . urlencode($row['history_Id']) . "' class='btn btn-sm' style='background-color: #4fb05a; color: white; border-radius: 8px;'>รายละเอียด</a></td>";
+        echo "</tr>";
+        $i++;
+    }
+} else {
+    echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
+}
+?>                    
                     </tbody>
                 </table>
 
