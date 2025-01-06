@@ -6,23 +6,20 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 3) {
 ?>  
-    <form method="GET" action="">
-        <div class="me-3">
-            <select id="equipmentType" name="status_Name" class="form-select" style="width: 220px; font-size: 14px; font-weight: normal;" onchange="this.form.submit()">
-                <option value="" selected disabled>กรุณาเลือกสถานะ</option>
-                <option value="0" <?= (!isset($_GET['status_Name']) || $_GET['status_Name'] == 0) ? 'selected' : '' ?>>ทั้งหมด</option>
-                <option value="รอตรวจสอบ" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'รอตรวจสอบ') ? 'selected' : '' ?>>รอตรวจสอบ</option>
-                <option value="อนุมัติ" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'อนุมัติ') ? 'selected' : '' ?>>อนุมัติ</option>
-                <option value="ไม่อนุมัติ" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'ไม่อนุมัติ') ? 'selected' : '' ?>>ไม่อนุมัติ</option>
-                <option value="กำลังยืม" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'กำลังยืม') ? 'selected' : '' ?>>กำลังยืม</option>
-                <option value="คืนแล้ว" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'คืนแล้ว') ? 'selected' : '' ?>>คืนแล้ว</option>
-                <option value="ชำรุด" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'ชำรุด') ? 'selected' : '' ?>>ชำรุด</option>
-                <option value="ผู้ยืมซ่อมแซม" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'ผู้ยืมซ่อมแซม') ? 'selected' : '' ?>>ผู้ยืมซ่อมแซม</option>
-                <option value="ชำระค่าเสียหาย" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'ชำระค่าเสียหาย') ? 'selected' : '' ?>>ชำระค่าเสียหาย</option>
-                <option value="ชดใช้เป็นพัสดุ" <?= (isset($_GET['status_Name']) && $_GET['status_Name'] == 'ชดใช้เป็นพัสดุ') ? 'selected' : '' ?>>ชดใช้เป็นพัสดุ</option>
-            </select>
-        </div>
-    </form>
+ <form method="get" action="" style="flex: 1;">
+    <select id="cottonFilter" name="cottonId" class="form-select" style="font-size: 14px;" onchange="this.form.submit()">
+        
+        <option value="0" <?= (isset($_GET['cottonId']) && $_GET['cottonId'] == '0') ? 'selected' : '' ?>>ทั้งหมด</option>
+        <option value="1" <?= (isset($_GET['cottonId']) && $_GET['cottonId'] == '1') ? 'selected' : '' ?>>อุปกรณ์คอมพิวเตอร์</option>
+        <option value="2" <?= (isset($_GET['cottonId']) && $_GET['cottonId'] == '2') ? 'selected' : '' ?>>อุปกรณ์วิทยาศาสตร์</option>
+        <option value="3" <?= (isset($_GET['cottonId']) && $_GET['cottonId'] == '3') ? 'selected' : '' ?>>อุปกรณ์ดนตรี</option>
+        <option value="4" <?= (isset($_GET['cottonId']) && $_GET['cottonId'] == '4') ? 'selected' : '' ?>>อุปกรณ์พัสดุ</option>
+    </select>
+</form>
+
+
+
+
 <?php
 }
 ?>
