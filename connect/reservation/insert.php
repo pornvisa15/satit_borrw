@@ -10,7 +10,7 @@ $history_Another = isset($_POST['history_Another']) ? $_POST['history_Another'] 
 $history_device = isset($_POST['device_Name']) ? $_POST['device_Name'] : '';
 $parcel_Numder = isset($_POST['device_Numder']) ? $_POST['device_Numder'] : '';
 $history_Status = isset($_POST['history_Status']) ? $_POST['history_Status'] : '';
-$cotton_Id =  isset($_POST['cotton_Id']) ? $_POST['cotton_Id'] : '';
+$cotton_Id = isset($_POST['cotton_Id']) ? $_POST['cotton_Id'] : '';
 
 // ตรวจสอบค่าผู้ใช้
 if (isset($_SESSION['std_name']) && isset($_SESSION['std_surname'])) {
@@ -74,13 +74,13 @@ if ($history_Status == '2') {
     $stmt_update_status->close();
 }
 
-// บันทึกข้อมูลลงใน history_brs โดยไม่ใช้ device_Con
+// บันทึกข้อมูลลงใน history_brs รวมทั้ง device_Con
 $stmt = $conn->prepare("INSERT INTO history_brs 
-    (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, cotton_Id) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, device_Con, cotton_Id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "sssssssssss", // ปรับการ bind param
+    "ssssssssssss", // ปรับการ bind param ให้ตรงกับจำนวนคอลัมน์
     $history_Borrow,
     $history_Return,
     $history_Stop,
@@ -91,6 +91,7 @@ $stmt->bind_param(
     $parcel_Numder,
     $history_Numder,
     $history_Status,
+    $device_Con,
     $cotton_Id
 );
 
