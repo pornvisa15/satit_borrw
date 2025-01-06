@@ -126,6 +126,9 @@
                                 <input type="text" class="form-control" hidden name="device_Numder"
                                     value="<?= htmlspecialchars($parcel_Numder) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                    <input type="text" class="form-control" hidden name="cotton_Id"
+                                    value="<?= htmlspecialchars($cotton_Id) ?>"
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
 
 
                             </div>

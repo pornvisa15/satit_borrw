@@ -78,8 +78,7 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
 // เชื่อมต่อกับฐานข้อมูล
 include '../connect/mysql_borrow.php';
 
-// ดึงข้อมูลจากฐานข้อมูล
-$sql = "SELECT * FROM borrow.history_brs";
+$sql = "SELECT * FROM borrow.history_brs ";
 
 $result = $conn->query($sql);
 
@@ -147,7 +146,7 @@ document.getElementById('equipmentType').addEventListener('change', function() {
             row.style.display = '';
         } else {
             row.style.display = 'none';
-        }
+        }                                    
     });
 });
 </script>
