@@ -157,8 +157,8 @@ if ($countResult->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="font-weight: 600; color: <?= $history_Status == 1 ? '#6cbf42' : '#e63946'; ?>;">
-                                            <?= $history_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+                                            style="font-weight: 600; color: <?= $device_Status == 1 ? '#6cbf42' : '#e63946'; ?>;">
+                                            <?= $device_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
                                         </span>
                                     </p>
 
@@ -169,15 +169,13 @@ if ($countResult->num_rows > 0) {
 
                         <div class="d-flex justify-content-end" style="width: 100%;">
                             <!-- ปุ่มจอง -->
-
                             <button class="btn btn-sm"
-                                style="background-color: <?php echo ($history_Status == 1) ? '#78C756' : '#FFC721'; ?>; color: white; transition: transform 0.3s ease; border: none;"
+                                style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
                                 onmouseover="this.style.transform='scale(1.3)';"
                                 onmouseout="this.style.transform='scale(1)';" data-bs-toggle="modal"
                                 data-bs-target="#termsModal">
                                 จอง
                             </button>
-                            </a>
                         </div>
 
 

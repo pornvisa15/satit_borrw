@@ -24,6 +24,22 @@ if (empty($history_device)) {
     exit;
 }
 
+// ดึงค่า device_Con จากตาราง device_information
+$sql_device_con = "SELECT device_Con FROM borrow.device_information WHERE device_Name = ?";
+$stmt_device_con = $conn->prepare($sql_device_con);
+$stmt_device_con->bind_param("s", $history_device);
+$stmt_device_con->execute();
+$result_device_con = $stmt_device_con->get_result();
+
+if ($result_device_con->num_rows > 0) {
+    $row = $result_device_con->fetch_assoc();
+    $device_Con = $row['device_Con'];
+} else {
+    $device_Con = ''; // กรณีไม่พบข้อมูล
+}
+$stmt_device_con->close();
+
+// ตรวจสอบจำนวนการยืม
 $sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE history_device = ?";
 $stmt_check = $conn->prepare($sql_check);
 $stmt_check->bind_param("s", $history_device);
@@ -38,13 +54,31 @@ if ($result_check) {
 }
 $stmt_check->close();
 
-$stmt = $conn->prepare("INSERT INTO history_brs 
-    (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder , history_Status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+// หากสถานะการยืม คือ 1 (ยืม) เราจะต้องอัปเดตสถานะของอุปกรณ์ในตาราง device_information ให้เป็น 1 (ไม่ว่าง)
+if ($history_Status == '1') {
+    $sql_update_status = "UPDATE device_information SET device_Status = '1' WHERE device_Name = ?";
+    $stmt_update_status = $conn->prepare($sql_update_status);
+    $stmt_update_status->bind_param("s", $history_device);
+    $stmt_update_status->execute();
+    $stmt_update_status->close();
+}
 
+// หากสถานะการยืม คือ 2 (คืน) เราจะต้องอัปเดตสถานะของอุปกรณ์ในตาราง device_information ให้เป็น 2 (ว่าง)
+if ($history_Status == '2') {
+    $sql_update_status = "UPDATE device_information SET device_Status = '2' WHERE device_Name = ?";
+    $stmt_update_status = $conn->prepare($sql_update_status);
+    $stmt_update_status->bind_param("s", $history_device);
+    $stmt_update_status->execute();
+    $stmt_update_status->close();
+}
+
+// บันทึกข้อมูลลงใน history_brs
+$stmt = $conn->prepare("INSERT INTO history_brs 
+    (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, device_Con) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "ssssssssss",
+    "sssssssssss",
     $history_Borrow,
     $history_Return,
     $history_Stop,
@@ -54,7 +88,8 @@ $stmt->bind_param(
     $history_device,
     $parcel_Numder,
     $history_Numder,
-    $history_Status
+    $history_Status,
+    $device_Con
 );
 
 if ($stmt->execute()) {
