@@ -2,49 +2,35 @@
 session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
-
-// รับข้อมูลที่ส่งมาจากหน้า homepages.php
 $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
-
-// ดึงข้อมูลจากฐานข้อมูลเกี่ยวกับอุปกรณ์
-$sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'"; // ใช้ device_Numder เป็นเงื่อนไข
+$sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    // ถ้ามีข้อมูล
     $row = $result->fetch_assoc();
     $device_Id = $row['device_Id'];
     $device_Name = $row['device_Name'];
     $device_Numder = $row['device_Numder'];
     $device_Status = $row['device_Con'];
-    $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image']; // ปรับ path ให้เหมาะสม
-    $device_Other = $row['device_Other']; // ดึงข้อมูล device_Other จากฐานข้อมูล
+    $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image'];
+    $device_Other = $row['device_Other'];
     $cotton_Id = $row['cotton_Id'];
-    $history_Numder = isset($row['history_Numder']) ? $row['history_Numder'] : 'ข้อมูลไม่ถูกส่ง'; // ตรวจสอบก่อนใช้งาน
+    $history_Numder = isset($row['history_Numder']) ? $row['history_Numder'] : 'ข้อมูลไม่ถูกส่ง';
 } else {
-    // ถ้าไม่มีข้อมูล
     $device_Id = 'ข้อมูลไม่ถูกส่ง';
     $device_Name = 'ข้อมูลไม่ถูกส่ง';
     $device_Status = 'ข้อมูลไม่ถูกส่ง';
     $device_Image = 'ข้อมูลไม่ถูกส่ง';
     $device_Other = 'ข้อมูลไม่ถูกส่ง';
     $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
-    $history_Numder = 'ข้อมูลไม่ถูกส่ง'; // กำหนดค่าเริ่มต้น
+    $history_Numder = 'ข้อมูลไม่ถูกส่ง';
     $device_Numder = 'ข้อมูลไม่ถูกส่ง';
 }
 
-// คำนวณจำนวนครั้งที่อุปกรณ์ถูกยืม
-$countSql = "SELECT COUNT(*) AS borrow_count FROM borrow.history_brs WHERE device_Id = '$device_Id' AND history_Status = '1'"; // กรองเฉพาะสถานะที่ยืม
-$countResult = $conn->query($countSql);
-$borrowCount = 0; // ค่าเริ่มต้น
-if ($countResult->num_rows > 0) {
-    $countRow = $countResult->fetch_assoc();
-    $borrowCount = $countRow['borrow_count']; // จำนวนครั้งที่ถูกยืม
-}
+
+
+
 ?>
-
-<!-- ที่เหลือของโค้ดจะไม่เปลี่ยนแปลง -->
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,13 +48,11 @@ if ($countResult->num_rows > 0) {
 
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- กล่องเนื้อหา -->
     <div class="col-md-9 col-lg-10">
         <div class="p-3 bg-light border rounded shadow-sm">
             <div class="row">
                 <div class="col-2 text-end mt-3">
                     <?php
-                    // ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
                     $department_Name = '';
                     switch ($cotton_Id) {
                         case 1:
@@ -98,13 +82,11 @@ if ($countResult->num_rows > 0) {
                 <div class="d-flex justify-content-center mt-5 mb-5">
                     <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
                         <div class="d-flex align-items-center">
-                            <!-- รูปภาพ -->
                             <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder"
                                 style="border-radius: 8px; max-width: 250px; height: 250px; object-fit: contain; transition: transform 0.3s ease; cursor: pointer;"
                                 data-bs-toggle="modal" data-bs-target="#zoomModal"
                                 onmouseover="this.style.transform='scale(1.1)';"
                                 onmouseout="this.style.transform='scale(1)';">
-                            <!-- Modal สำหรับแสดงภาพขนาดใหญ่ -->
                             <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -154,6 +136,7 @@ if ($countResult->num_rows > 0) {
                                         }
                                         ?>
                                     </p>
+
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
@@ -168,7 +151,6 @@ if ($countResult->num_rows > 0) {
                         </div>
 
                         <div class="d-flex justify-content-end" style="width: 100%;">
-                            <!-- ปุ่มจอง -->
                             <button class="btn btn-sm"
                                 style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
                                 onmouseover="this.style.transform='scale(1.3)';"
@@ -178,15 +160,9 @@ if ($countResult->num_rows > 0) {
                             </button>
                         </div>
 
-
-
-
-
-                        <!-- Modal -->
                         <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <!-- Added modal-lg for larger width -->
                                 <div class="modal-content"
                                     style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
                                     <div class="modal-header d-flex justify-content-center"
@@ -200,7 +176,6 @@ if ($countResult->num_rows > 0) {
                                             style="color: white; position: absolute; right: 15px; top: 15px;">
                                         </button>
                                     </div>
-
                                     <div class="modal-body"
                                         style="font-size: 16px; color: #333; line-height: 1.6; padding: 20px;">
                                         <p style="font-weight: bold; margin-bottom: 15px;">
@@ -267,8 +242,6 @@ if ($countResult->num_rows > 0) {
                                             ดำเนินการต่อ
                                         </button>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -278,9 +251,6 @@ if ($countResult->num_rows > 0) {
                                 window.location.href = "reservation1_book_com.php?id=<?php echo $device_Id; ?>";
                             });
                         </script>
-
-
-
 
                     </div>
                 </div>

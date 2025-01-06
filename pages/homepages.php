@@ -17,26 +17,14 @@
     session_start();
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
-
-    // ตรวจสอบสิทธิ์ของผู้ใช้งาน
-    $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0; // ค่าเริ่มต้นเป็น 0 ถ้าไม่มีการตั้งค่า
-    
-    // รับค่าคำค้นหาจากฟอร์ม
+    $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0;
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
-
-    // สร้าง SQL query โดยใช้ LIKE เพื่อค้นหาชื่ออุปกรณ์ที่ตรงกับคำค้นหา
     $sql = "SELECT * FROM borrow.device_information WHERE 1";
-
-    // ถ้าผู้ใช้เป็นนักเรียน (officer_Right = 1), ให้แสดงแค่ device_Access = 1
     if ($officerRight == 1) {
         $sql .= " AND device_Access = 1";
-    }
-    // ถ้าผู้ใช้เป็นบุคลากร (officer_Right = 2), ให้แสดง device_Access = 1 หรือ 2
-    elseif ($officerRight == 2) {
+    } elseif ($officerRight == 2) {
         $sql .= " AND (device_Access = 1 OR device_Access = 2)";
     }
-
-    // หากมีคำค้นหา, กรองตามคำค้นหา
     if ($searchQuery != '') {
         $sql .= " AND device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
     }
@@ -51,7 +39,7 @@
                 'name' => $row['device_Name'],
                 'status' => $row['device_Con'],
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
-                'device_Access' => $row['device_Access'], // เพิ่มข้อมูล device_Access
+                'device_Access' => $row['device_Access'],
             ];
         }
     } else {
@@ -62,7 +50,6 @@
     <div class="col-md-9 col-lg-10 mb-5">
         <div class="p-3 bg-light border rounded shadow-sm">
             <h4>Search</h4>
-            <!-- กล่องค้นหา -->
             <form method="POST" action="">
 
                 <div class="input-group mb-3">
@@ -76,13 +63,9 @@
                 </div>
 
             </form>
-
-
-
-            <!-- แสดงข้อความ "อุปกรณ์ทั้งหมด" เฉพาะเมื่อไม่มีการค้นหา -->
             <div class="row">
                 <div class="col-12 text-center mt-3">
-                    <?php if (empty($searchQuery)): // แสดงข้อความ "อุปกรณ์ทั้งหมด" เฉพาะเมื่อไม่มีการค้นหา ?>
+                    <?php if (empty($searchQuery)): ?>
                         <h5 class="card-title"
                             style="font-size: 20px; font-weight: bold; color: #007468; text-transform: uppercase;">
                             อุปกรณ์ทั้งหมด
@@ -90,8 +73,6 @@
                     <?php endif; ?>
                 </div>
             </div>
-
-            <!-- แสดงผลอุปกรณ์ -->
             <div class="row g-4 mt-5 justify-content-start">
                 <?php
                 if (!empty($equipment)):

@@ -2,6 +2,7 @@
 include '../mysql_borrow.php';
 session_start();
 
+$device_Id = isset($_POST['device_Id']) ? $_POST['device_Id'] : '';
 $history_Borrow = isset($_POST['history_Borrow']) ? $_POST['history_Borrow'] : '';
 $history_Return = isset($_POST['history_Return']) ? $_POST['history_Return'] : '';
 $history_Stop = isset($_POST['history_Stop']) ? $_POST['history_Stop'] : '';
@@ -12,7 +13,6 @@ $parcel_Numder = isset($_POST['device_Numder']) ? $_POST['device_Numder'] : '';
 $history_Status = isset($_POST['history_Status']) ? $_POST['history_Status'] : '';
 $cotton_Id = isset($_POST['cotton_Id']) ? $_POST['cotton_Id'] : '';
 
-// ตรวจสอบค่าผู้ใช้
 if (isset($_SESSION['std_name']) && isset($_SESSION['std_surname'])) {
     $user_Id = $_SESSION['std_name'] . " " . $_SESSION['std_surname'];
 } elseif (isset($_SESSION['name']) && isset($_SESSION['surname'])) {
@@ -37,11 +37,11 @@ if ($result_device_con->num_rows > 0) {
     $row = $result_device_con->fetch_assoc();
     $device_Con = $row['device_Con'];
 } else {
-    $device_Con = ''; // กรณีไม่พบข้อมูล
+    $device_Con = '';
 }
 $stmt_device_con->close();
 
-// ตรวจสอบจำนวนการยืม
+
 $sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE history_device = ?";
 $stmt_check = $conn->prepare($sql_check);
 $stmt_check->bind_param("s", $history_device);
@@ -56,31 +56,15 @@ if ($result_check) {
 }
 $stmt_check->close();
 
-// หากสถานะการยืม คือ 1 (ยืม) เราจะต้องอัปเดตสถานะของอุปกรณ์ในตาราง device_information ให้เป็น 1 (ไม่ว่าง)
-if ($history_Status == '1') {
-    $sql_update_status = "UPDATE device_information SET device_Status = '1' WHERE device_Name = ?";
-    $stmt_update_status = $conn->prepare($sql_update_status);
-    $stmt_update_status->bind_param("s", $history_device);
-    $stmt_update_status->execute();
-    $stmt_update_status->close();
-}
 
-// หากสถานะการยืม คือ 2 (คืน) เราจะต้องอัปเดตสถานะของอุปกรณ์ในตาราง device_information ให้เป็น 2 (ว่าง)
-if ($history_Status == '2') {
-    $sql_update_status = "UPDATE device_information SET device_Status = '2' WHERE device_Name = ?";
-    $stmt_update_status = $conn->prepare($sql_update_status);
-    $stmt_update_status->bind_param("s", $history_device);
-    $stmt_update_status->execute();
-    $stmt_update_status->close();
-}
 
-// บันทึกข้อมูลลงใน history_brs รวมทั้ง device_Con
 $stmt = $conn->prepare("INSERT INTO history_brs 
-    (history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, device_Con, cotton_Id) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, device_Con, cotton_Id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 $stmt->bind_param(
-    "ssssssssssss", // ปรับการ bind param ให้ตรงกับจำนวนคอลัมน์
+    "sssssssssssss",
+    $device_Id,
     $history_Borrow,
     $history_Return,
     $history_Stop,
