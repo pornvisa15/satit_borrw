@@ -2,12 +2,15 @@
 session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
+
 $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
-$sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'";
-// $sql = "SELECT * FROM borrow.device_information 
-// INNER JOIN borrow.history_brs ON device_information.device_Id = history_brs.device_Id";
 
-
+$sql = "
+SELECT di.*, hb.device_Con 
+FROM borrow.device_information di
+LEFT JOIN borrow.history_brs hb
+ON di.device_Id = hb.device_Id
+WHERE di.device_Id = '$device_Id'";
 
 $result = $conn->query($sql);
 
@@ -16,7 +19,7 @@ if ($result->num_rows > 0) {
     $device_Id = $row['device_Id'];
     $device_Name = $row['device_Name'];
     $device_Numder = $row['device_Numder'];
-    $device_Con = $row['device_Con'];
+    $device_Con = isset($row['device_Con']) ? $row['device_Con'] : 'ข้อมูลไม่ระบุ';
     $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image'];
     $device_Other = $row['device_Other'];
     $cotton_Id = $row['cotton_Id'];
@@ -24,18 +27,15 @@ if ($result->num_rows > 0) {
 } else {
     $device_Id = 'ข้อมูลไม่ถูกส่ง';
     $device_Name = 'ข้อมูลไม่ถูกส่ง';
-    $device_Con = 'ข้อมูลไม่ถูกส่ง';
-    $device_Image = 'ข้อมูลไม่ถูกส่ง';
-    $device_Other = 'ข้อมูลไม่ถูกส่ง';
-    $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
-    $history_Numder = 'ข้อมูลไม่ถูกส่ง';
     $device_Numder = 'ข้อมูลไม่ถูกส่ง';
+    $device_Con = 'ข้อมูลไม่ระบุ';
+    $device_Image = 'ข้อมูลไม่ระบุ';
+    $device_Other = 'ข้อมูลไม่ระบุ';
+    $cotton_Id = 'ข้อมูลไม่ระบุ';
+    $history_Numder = 'ข้อมูลไม่ถูกส่ง';
 }
-
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
