@@ -65,7 +65,7 @@ if ($result->num_rows > 0) {
                             $department_Name = 'อุปกรณ์ดนตรี';
                             break;
                         case 4:
-                            $department_Name = 'อุปกรณ์ฝ่ายพัสดุ';
+                            $department_Name = 'อุปกรณ์พัสดุ';
                             break;
                         default:
                             $department_Name = 'ข้อมูลไม่ระบุ';
@@ -131,6 +131,9 @@ if ($result->num_rows > 0) {
                                             case 3:
                                                 echo 'ฝ่ายดนตรี';
                                                 break;
+                                            case 4:
+                                                    echo 'ฝ่ายพัสดุ';
+                                                    break;
                                             default:
                                                 echo 'ข้อมูลไม่ระบุ';
                                         }
