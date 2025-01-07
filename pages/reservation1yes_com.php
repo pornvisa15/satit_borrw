@@ -4,6 +4,11 @@ include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 $sql = "SELECT * FROM borrow.device_information WHERE device_Id = '$device_Id'";
+// $sql = "SELECT * FROM borrow.device_information 
+// INNER JOIN borrow.history_brs ON device_information.device_Id = history_brs.device_Id";
+
+
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -11,7 +16,7 @@ if ($result->num_rows > 0) {
     $device_Id = $row['device_Id'];
     $device_Name = $row['device_Name'];
     $device_Numder = $row['device_Numder'];
-    $device_Status = $row['device_Con'];
+    $device_Con = $row['device_Con'];
     $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image'];
     $device_Other = $row['device_Other'];
     $cotton_Id = $row['cotton_Id'];
@@ -19,7 +24,7 @@ if ($result->num_rows > 0) {
 } else {
     $device_Id = 'ข้อมูลไม่ถูกส่ง';
     $device_Name = 'ข้อมูลไม่ถูกส่ง';
-    $device_Status = 'ข้อมูลไม่ถูกส่ง';
+    $device_Con = 'ข้อมูลไม่ถูกส่ง';
     $device_Image = 'ข้อมูลไม่ถูกส่ง';
     $device_Other = 'ข้อมูลไม่ถูกส่ง';
     $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
@@ -132,8 +137,8 @@ if ($result->num_rows > 0) {
                                                 echo 'ฝ่ายดนตรี';
                                                 break;
                                             case 4:
-                                                    echo 'ฝ่ายพัสดุ';
-                                                    break;
+                                                echo 'ฝ่ายพัสดุ';
+                                                break;
                                             default:
                                                 echo 'ข้อมูลไม่ระบุ';
                                         }
@@ -143,8 +148,8 @@ if ($result->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="font-weight: 600; color: <?= $device_Status == 1 ? '#6cbf42' : '#e63946'; ?>;">
-                                            <?= $device_Status == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+                                            style="font-weight: 600; color: <?= $device_Con == 1 ? '#6cbf42' : '#e63946'; ?>;">
+                                            <?= $device_Con == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
 

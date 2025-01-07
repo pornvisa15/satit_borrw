@@ -105,7 +105,7 @@
                                     value="<?= htmlspecialchars($device_Name) ?>" readonly
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
 
-                                <input type="text" class="form-control" hidden
+                                <input type="text" class="form-control" hidden name="device_Id"
                                     value="<?= htmlspecialchars($device_Id) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
                                 <input type="text" class="form-control" hidden name="device_Name"

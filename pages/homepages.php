@@ -20,6 +20,11 @@
     $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0;
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
     $sql = "SELECT * FROM borrow.device_information WHERE 1";
+
+    //     $sql = "SELECT * FROM borrow.device_information 
+// INNER JOIN borrow.history_brs ON device_information.device_Id = history_brs.device_Id";
+    
+
     if ($officerRight == 1) {
         $sql .= " AND device_Access = 1";
     } elseif ($officerRight == 2) {
@@ -37,7 +42,7 @@
             $equipment[] = [
                 'id' => $row['device_Id'],
                 'name' => $row['device_Name'],
-                'status' => $row['device_Con'],
+
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'],
             ];
@@ -77,12 +82,11 @@
                 <?php
                 if (!empty($equipment)):
                     foreach ($equipment as $item): ?>
-                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>"
-                            data-department="<?= $item['status']; ?>">
-                            <div class="card h-100 shadow-sm">
+                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>">
+                            <div class=" card h-100 shadow-sm">
                                 <div class="text-center p-3">
                                     <a
-                                        href="reservation1yes_com.php?id=<?= $item['id']; ?>&status=<?= $item['status']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
+                                        href="reservation1yes_com.php?id=<?= $item['id']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
                                         <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image"
                                             class="img-fluid rounded"
                                             style="transition: transform 0.3s ease; height: 150px; object-fit: cover; cursor: pointer;"
@@ -94,9 +98,8 @@
                                     <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
                                     <p class="card-text mb-0">
                                         สถานะ:
-                                        <span class="fw-bold"
-                                            style="color: <?= $item['status'] == 1 ? '#78C756' : '#FF090D'; ?>;">
-                                            <?= $item['status'] == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
+                                        <span class="fw-bold" style="color: <?= 1 == 1 ? '#78C756' : '#FF090D'; ?>;">
+                                            <?= 1 == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>
