@@ -116,37 +116,50 @@ $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
 // เริ่มต้น query ด้วย WHERE 1=1 เพื่อรองรับเงื่อนไขกรอง
 $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
 
+if ($user_department_id != 5) {
+    $sql .= " AND history_brs.cotton_Id = $user_department_id";
+    } elseif ($cottonFilter > 0) {
+    $sql .= " AND history_brs.cotton_Id = $cottonFilter";
+    }else{
+
+    }
+
 // กรองตาม cottonFilter หรือ user_department_id
 // หากมี cottonFilter ให้กรองตาม cotton_Id
-if (!empty($cottonFilter)) {
-    $sql .= " AND cotton_Id = ?";
-} 
-// ถ้าไม่มี cottonFilter ให้ใช้ user_department_id
-else {
-    $sql .= " AND cotton_Id = ?";
-}
+// if (!empty($cottonFilter)) {
+//     $sql .= " AND cotton_Id = ?";
+// } 
+// // ถ้าไม่มี cottonFilter ให้ใช้ user_department_id
+// else {
+//     $sql .= "";
+// }
 
 // เตรียม query
-$stmt = $conn->prepare($sql);
-$showAll = isset($_GET['show_all']) ? true : false;
-// ผูกค่าตัวแปร cottonFilter หรือ user_department_id
-if (!empty($cottonFilter)) {
-    // ถ้ามี cottonFilter
-    $stmt->bind_param("i", $cottonFilter);
-} 
-// ถ้าไม่มี cottonFilter ใช้ user_department_id
-else {
-    $stmt->bind_param("i", $user_department_id);
-}
+// $stmt = $conn->prepare($sql);
+// $showAll = isset($_GET['show_all']) ? true : false;
+// // ผูกค่าตัวแปร cottonFilter หรือ user_department_id
+// if (!empty($cottonFilter)) {
+//     // ถ้ามี cottonFilter
+//     $stmt->bind_param("i", $cottonFilter);
+// } 
+// // ถ้าไม่มี cottonFilter ใช้ user_department_id
+// else {
+//     if($user_department_id != 5){
+//         $stmt->bind_param("i", $user_department_id);
+//     }
+   
+// }
 
 // ผูกค่าตัวแปรสถานะ (ถ้ามี)
-if (isset($status)) {
-    // ถ้ามีการเลือกสถานะ
-    $stmt->bind_param("s", $status);
-}
+// if (isset($status)) {
+//     // ถ้ามีการเลือกสถานะ
+//     $stmt->bind_param("s", $status);
+// }
 
-$stmt->execute();
-$result = $stmt->get_result();
+// $stmt->execute();
+// $result = $stmt->get_result();
+
+$result = $conn->query($sql);
 
 // แสดงผลข้อมูล
 $i = 1;
