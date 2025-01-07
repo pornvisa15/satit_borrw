@@ -62,14 +62,15 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
                             <th>ลำดับ</th>
                             <th>เลขพัสดุ /ครุภัณฑ์</th>
                             <th>ชื่ออุปกรณ์</th>
-                            <th>รายละเอียด</th>
+                            <th>จำนวนครั้ง/ยืม</th>
+                            <th>สถานะอุปกรณ์</th>
 
                             
                         </tr>
                     </thead>
                     <tbody>
                     <?php
-                    // เชื่อมต่อกับฐานข้อมูล
+// เชื่อมต่อกับฐานข้อมูล
 include '../connect/mysql_borrow.php';
 
 // ดึงข้อมูลจากฐานข้อมูล
@@ -85,19 +86,43 @@ if ($result->num_rows > 0) {
         echo "<td>{$i}</td>"; // ลำดับ
         echo "<td>" . htmlspecialchars($row['parcel_Numder']) . "</td>"; // เลขพัสดุ/ครุภัณฑ์
         echo "<td>" . htmlspecialchars($row['history_device']) . "</td>"; // ชื่ออุปกรณ์
-      
-        echo "<td><a href='adminrecord_details.php?id=" . urlencode($row['history_Id']) . "' class='btn btn-sm' style='background-color: #4fb05a; color: white; border-radius: 8px;'>รายละเอียด</a></td>";
+        echo "<td>" . htmlspecialchars($row['history_Numder']) . "</td>"; // จำนวนครั้ง/ยืม
+        echo "<td>";
+        if ($row['device_Con'] == 0) {
+            echo "<span style='border-radius: 12px; padding: 5px 10px; color: orange;'>รออนุมัติ</span>";
+        } elseif ($row['device_Con'] == 1) {
+            echo "<span style='border-radius: 12px; padding: 5px 10px; color: green;'>ปกติ</span>";
+        } elseif ($row['device_Con'] == 2) {
+            // ใช้ JavaScript เพื่อเรียกฟังก์ชัน
+            echo "<a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['user_Id']) . "\")' style='text-decoration: none; color: red; border-radius: 12px; padding: 5px 10px;'>ชำรุด</a>";
+        } else {
+            echo "<span style='border-radius: 12px; padding: 5px 10px; color: gray;'>ไม่ทราบสถานะ</span>";
+        }
+        echo "</td>";
         echo "</tr>";
         $i++;
     }
 } else {
     echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
 }
-?>                    
-                    </tbody>
-                </table>
+?>
 
-            </div>
+<!-- โหลด SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+function showDamageDetails(userId) {
+    // ใช้ sweetalert2 เพื่อแสดงชื่อผู้ทำชำรุด
+    Swal.fire({
+        title: 'ชื่อผู้ทำชำรุด:',
+        text: userId, // แสดง userId เป็นชื่อผู้ทำชำรุด
+        icon: 'info', // ใช้ไอคอนแสดงข้อมูล
+        confirmButtonText: 'ตกลง'
+        
+    });
+}
+</script>
+
 
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

@@ -22,7 +22,7 @@
 
 
 
-    $sql = "SELECT * FROM borrow.history_brs INNER JOIN borrow.status ON history_brs.history_Id = status.history_Id  ";
+    $sql = "SELECT * FROM borrow.history_brs INNER JOIN borrow.status ON history_brs.history_Id = status.cotton_Id  ";
     $stmt = $conn->prepare($sql);
 
     ?>
@@ -110,7 +110,7 @@
                             style="transition: background-color 0.3s ease; background-color: #dc3545; font-size: 12px;"
                             onmouseover="this.style.backgroundColor='#c82333';"
                             onmouseout="this.style.backgroundColor='#dc3545';">
-                            <i class="bi bi-x-circle-fill me-1"></i> เลยกำหนด
+                            <i class="bi bi-x-circle-fill me-1"></i> เลยกำหนด กี่วัน
                         </span>
 
 
