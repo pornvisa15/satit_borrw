@@ -67,7 +67,6 @@
                         <tr>
                             <th>ลำดับ</th>
                             <th>ชื่อ-นามสกุล</th>
-                            <th>สิทธิการเข้าใช้</th>
                             <th>เจ้าหน้าที่ฝ่าย</th>
                             <th>แก้ไข</th>
                             <th>ลบ</th>
@@ -92,27 +91,17 @@
                                     data-department="<?php echo htmlspecialchars($rowofficer['officer_Cotton']); ?>">
                                     <td><?php echo $i; ?></td>
                                     <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
-                                    <td>
-                                        <?php
-                                        if ($rowofficer['officer_Right'] == 3) {
-                                            echo "แอดมิน";
-                                        } else if ($rowofficer['officer_Right'] == 4) {
-                                            echo "เจ้าหน้าที่";
-                                        } else {
-                                            echo "ไม่ทราบ";
-                                        }
-                                        ?>
-                                    </td> <!-- สิทธิการเข้าใช้ -->
+                                   
                                     <td>
                                         <?php
                                         if ($rowofficer['officer_Cotton'] == 1) {
-                                            echo "ฝ่ายคอมพิวเตอร์";
+                                            echo "เจ้าหน้าที่ฝ่ายคอมพิวเตอร์";
                                         } else if ($rowofficer['officer_Cotton'] == 2) {
-                                            echo "ฝ่ายวิทยาศาสตร์";
+                                            echo "เจ้าหน้าที่ฝ่ายวิทยาศาสตร์";
                                         } else if ($rowofficer['officer_Cotton'] == 3) {
-                                            echo "ฝ่ายดนตรี";
+                                            echo "เจ้าหน้าที่ฝ่ายดนตรี";
                                         } else if ($rowofficer['officer_Cotton'] == 4) {
-                                            echo "ฝ่ายพัสดุ";
+                                            echo "เจ้าหน้าที่ฝ่ายพัสดุ";
                                         } else if ($rowofficer['officer_Cotton'] == 5) {
                                             echo "แอดมิน";
                                         } else {

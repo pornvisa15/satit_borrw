@@ -63,7 +63,7 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
             <form method="GET" action="">
             <div class="input-group mb-3">
     <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหาชื่ออุปกรณ์" name="search" value="<?= htmlspecialchars($searchTerm) ?>" style="font-size: 14px;">
-    <button class="btn text-light" type="submit" style="background-color: #537bb7; font-size: 12px;">ค้นหา</button>
+    <button class="btn text-light" type="submit" style="background-color: #537bb7; font-size: 14px;">ค้นหา</button>
 </div>
 
             </form>
@@ -73,15 +73,15 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
         <thead class="table-light">
             <tr>
                 <th style="width: 1%;">ลำดับ</th>
-                <th style="width: 13%;">เลขพัสดุ/ครุภัณฑ์</th>
-                <th style="width: 10%;">ชื่ออุปกรณ์</th>
-                <th style="width: 11%;">ผู้รับผิดชอบ</th>
-                <th style="width: 14%;">สิทธิ์การเข้าถึง</th>
-                <th style="width: 10%;">วันที่ซื้อ</th>
-                <th style="width: 10%;">ราคา</th>
-                <th style="width: 20%;">รายละเอียด</th>
-                <th style="width: 4%;">แก้ไข</th>
-                <th style="width: 4%;">ลบ</th>
+                <th style="width: 7%;">เลขพัสดุ/ครุภัณฑ์</th>
+                <th style="width: 7%;">ชื่ออุปกรณ์</th>
+                <th style="width: 6%;">ผู้รับผิดชอบ</th>
+                <th style="width: 8%;">สิทธิ์การเข้าถึง</th>
+                <th style="width: 3%;">วันที่ซื้อ</th>
+                <th style="width: 5%;">ราคา</th>
+                <th style="width: 17%;">รายละเอียด</th>
+                <th style="width: 1%;">แก้ไข</th>
+                <th style="width: 1%;">ลบ</th>
             </tr>
         </thead>
         <tbody>
@@ -122,7 +122,7 @@ $result = $conn->query($sql);
                     <td>" . htmlspecialchars($row['device_Numder']) . "</td>
                     <td>" . htmlspecialchars($row['device_Name']) . "</td>
                     <td>" . htmlspecialchars($row['cotton_Name']) . "</td>
-                    <td>" . ($row['device_Access'] == 1 ? 'นักเรียน' : 'บุคลากรและนักเรียน') . "</td>";
+                    <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>";
                 
                 // แปลงวันที่ยืม
                 $borrowDate = new DateTime($row['device_Date']);  // ใช้เครื่องหมายคำพูดให้ถูกต้อง

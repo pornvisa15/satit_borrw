@@ -83,7 +83,7 @@
                             <option value="2" <?php echo ($cotton_Id == 2 ? 'selected' : ''); ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
                             <option value="3" <?php echo ($cotton_Id == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
                             <option value="4" <?php echo ($cotton_Id == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
-                            <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>แอดมิน</option>
+                            <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
                         </select>
                     </div>
 
@@ -142,8 +142,8 @@
                     <div class="mb-4">
                         <label for="device_Access" class="form-label" style="font-size: 16px; color: black;">ใช้สำหรับ:</label>
                         <select id="device_Access" name="device_Access" class="form-select" required>
-                            <option value="1" <?php echo ($device_Access == 1 ? 'selected' : ''); ?>>นักเรียน</option>
-                            <option value="2" <?php echo ($device_Access == 2 ? 'selected' : ''); ?>>บุคลากรและนักเรียน</option>
+                            <option value="1" <?php echo ($device_Access == 1 ? 'selected' : ''); ?>>นักเรียนและบุคลากร</option>
+                            <option value="2" <?php echo ($device_Access == 2 ? 'selected' : ''); ?>>บุคลากร</option>
                         </select>
                     </div>
 
