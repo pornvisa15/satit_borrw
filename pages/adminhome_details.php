@@ -26,130 +26,42 @@
         $history_Id = $_GET['id']; // รับค่า history_Id จาก URL
     } else {
         echo "ไม่พบข้อมูล ID";
-        exit; // ถ้าไม่มี ID ส่งมาก็หยุดทำงาน
+        exit;
     }
-
-    // สร้างคำสั่ง SQL เพื่อดึงข้อมูลจากฐานข้อมูลตาม history_Id
     $sql = "SELECT * FROM borrow.history_brs WHERE history_Id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $history_Id); // ผูกค่า $history_Id กับ SQL
+    $stmt->bind_param("s", $history_Id);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // ตรวจสอบผลลัพธ์
     if ($result && $result->num_rows > 0) {
-        // ดึงข้อมูลจากผลลัพธ์
         $row = $result->fetch_assoc();
         $history_Other = $row['history_Other'] ?? 'ไม่มีข้อมูล';
         $history_Another = $row['history_Another'] ?? 'ไม่มีข้อมูล';
         $history_device = $row['history_device'] ?? 'ไม่มีข้อมูล';
-        $user_Id = $row['user_Id'] ?? 'ไม่มีข้อมูล'; // ฟิลด์ผู้ใช้
-    
+        $user_Id = $row['user_Id'] ?? 'ไม่มีข้อมูล';
+        $history_Status_BRS = $row['history_Status_BRS'] ?? 'ไม่มีข้อมูล';
 
     } else {
         echo "ไม่พบข้อมูลสำหรับประวัติการยืมที่เลือก";
     }
-
-    $stmt->close(); // ปิด statement
+    $stmt->close();
     ?>
-
-
-
 </body>
 
 </html>
 
 
-
-
-
 <div class="flex-grow-1 p-4">
     <?php include 'short.php'; ?>
-
     <div class="card shadow-sm border-0" style="margin-top: 49px;">
         <div class="card-header text-white"
             style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
             <h4 class="mb-0" style="font-size: 22px;">รายละเอียดอุปกรณ์</h4>
         </div>
-        <!-- Modal สำหรับสถานะการยืม -->
-        <!-- ฟอร์มใน modal approve -->
-        <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <form id="approvalForm" action="/บันทึกรายการ" method="POST">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="approve"
-                                    value="approve" required>
-                                <label class="form-check-label" for="approve">อนุมัติ</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="disapprove"
-                                    value="disapprove">
-                                <label class="form-check-label" for="disapprove">ไม่อนุมัติ</label>
-                            </div>
-
-                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-                                <label for="purpose" class="font-weight-bold"
-                                    style="margin-top: 5px; font-size: 16px;">หมายเหตุ:</label>
-                                <textarea class="form-control" id="purpose"
-                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmReturnModal">ตกลง</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal ยืนยันการดำเนินการ -->
-        <div class="modal fade" id="confirmReturnModal" tabindex="-1" aria-labelledby="confirmReturnModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmReturnModalLabel">ยืนยันการดำเนินการ</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        คุณต้องการดำเนินการนี้หรือไม่?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-primary" id="confirmReturnBtn">ยืนยัน</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                // ฟังก์ชันเมื่อกดปุ่ม "ยืนยัน" ใน modal ยืนยัน
-                $('#confirmReturnBtn').click(function () {
-                    // ปิด modal ยืนยัน
-                    $('#confirmReturnModal').modal('hide');
-
-                    // กลับมายังหน้าปัจจุบัน (ไม่ต้องเปลี่ยนเส้นทาง)
-                    window.location.reload();  // รีเฟรชหน้าปัจจุบัน
-                });
-            });
-        </script>
-
-        <!-- ฟอร์มด้านในจ้าาาาาาาาาาา -->
         <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 700px; margin-bottom: 60px;">
             <h5 class="text-center">รายละเอียดการทำรายการ</h5>
-            <!-- ปุ่มไอคอน -->
+            <input type="hidden" name="history_Status_BRS" value="">
             <div class="d-flex justify-content-start mb-4"
                 style="max-width: 100%; margin: 0 auto; padding-top: 10px; margin-top: 40px; gap: 10px;">
                 <button class="btn btn-success px-3 py-2" data-bs-toggle="modal" data-bs-target="#approveModal"
@@ -165,7 +77,6 @@
                     <i class="bi bi-x-circle" style="font-size: 12px;"></i> ชำรุด/สูญหาย
                 </button>
             </div>
-
             <div class="form-group" style="margin-bottom: 10px; display: flex; align-items: center;">
                 <label for="deviceName" class="font-weight-bold text-success"
                     style="font-size: 16px; margin-right: 10px; white-space: nowrap; color: black !important;">
@@ -175,7 +86,6 @@
                     value="<?php echo htmlspecialchars($history_device); ?>" readonly
                     style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
             </div>
-
             <input type="text" class="form-control" hidden value="<?= htmlspecialchars($history_Id) ?>"
                 style="padding: 10px; font-size: 16px; opacity: 0.6;">
             <div class="form-group row" style="margin-bottom: 10px;">
@@ -193,7 +103,6 @@
                         style="padding: 10px; font-size: 16px; flex-grow: 1; opacity: 0.6; color: black !important;">
                 </div>
             </div>
-
             <div class="form-group row" style="margin-bottom: 10px; margin-top: 10px;">
                 <div class="col-sm-6" style="padding-right: 5px;">
                     <label for="purpose" class="font-weight-bold" style="font-size: 16px; color: black;">เพื่อไปใช้งาน
@@ -210,15 +119,62 @@
                         style="padding: 10px; font-size: 16px; white-space: normal; overflow-y: auto; height: 100px; cursor: default; color:rgba(10, 23, 32, 0.63) !important;">
                         <?php echo htmlspecialchars($history_Another); ?>
                     </div>
-
-
-
                 </div>
             </div>
 
         </div>
-        <!-- สิ้นสุดฟอร์มค่าาาาาาาาาา -->
 
+
+        <!-- ส่วนที่1 ของสถานะอนุมัติ -->
+        <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
+                        <form method="POST" action="../connect/examine/insert.php" id="approveForm">
+                            <input type="hidden" name="history_Id" value="<?php echo $history_Id; ?>">
+                            <input type="hidden" name="history_Status_BRS" value="">
+                            <input type="radio" id="approveRadio" name="device_Con" value="1" required> อนุมัติ
+                            <input type="radio" id="disapproveRadio" name="device_Con" value="2"> ไม่อนุมัติ
+                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
+                                <label for="purpose" class="font-weight-bold" style="margin-top :5px; font-size: 16px;">
+                                    หมายเหตุ :</label>
+                                <textarea class="form-control" id="purpose" name="note_Other"
+                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#confirmApproveBtn').click(function () {
+                    if ($('#approveRadio').is(':checked')) {
+                        // ตั้งค่าให้กับสถานะการอนุมัติ
+                        $('input[name="history_Status_BRS"]').val('1'); // อนุมัติ
+                    } else if ($('#disapproveRadio').is(':checked')) {
+                        $('input[name="history_Status_BRS"]').val('2'); // ไม่อนุมัติ
+                    } else {
+                        alert('กรุณาเลือกสถานะการอนุมัติ');
+                        return;
+                    }
+                    $('#approveForm').submit(); // ส่งฟอร์ม
+                });
+            });
+        </script>
+
+        <!-- Modal สำหรับสถานะการรับคืน -->
         <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -228,33 +184,88 @@
                     </div>
                     <div class="modal-body">
                         <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <!-- ฟอร์มสำหรับเลือกการทำรายการ -->
-                        <form id="returnForm" action="/บันทึกรายการรับคืน" method="POST">
+                        <form id="returnForm" action="../connect/examine/insert.php" method="POST">
+                            <!-- ตัวเลือกสถานะ ยืม หรือ คืน -->
                             <div class="form-check mb-2">
-                                <!-- ยืม: ตั้งเป็นค่าเริ่มต้น -->
-                                <input class="form-check-input" type="radio" name="returnOption" id="returnOnly"
-                                    value="returnOnly" checked required>
-                                <label class="form-check-label" for="returnOnly">ยืม</label>
+                                <input class="form-check-input" type="radio" name="returnOption" id="borrowRadio"
+                                    value="borrow" required>
+                                <label class="form-check-label" for="borrowRadio">ยืม</label>
                             </div>
                             <div class="form-check mb-2">
-                                <!-- คืน -->
-                                <input class="form-check-input" type="radio" name="returnOption" id="returnAndBorrow"
-                                    value="returnAndBorrow">
-                                <label class="form-check-label" for="returnAndBorrow">คืน</label>
+                                <input class="form-check-input" type="radio" name="returnOption" id="returnRadio"
+                                    value="return" required>
+                                <label class="form-check-label" for="returnRadio">คืน</label>
                             </div>
+
+                            <!-- วันที่ยืม -->
+                            <div class="mb-2" id="borrowDateSection" style="display: none;">
+                                <label for="htime_Borrow">วันที่ยืม:</label>
+                                <input type="date" class="form-control" id="htime_Borrow" name="htime_Borrow" lang="th">
+                            </div>
+
+                            <!-- วันที่คืน -->
+                            <div class="mb-2" id="returnDateSection" style="display: none;">
+                                <label for="htime_Return">วันที่คืน:</label>
+                                <input type="date" class="form-control" id="htime_Return" name="htime_Return" lang="th">
+                            </div>
+
+                            <!-- Hidden Fields -->
+                            <input type="hidden" name="history_Status_BRS" id="history_Status_BRS">
+                            <input type="hidden" name="history_Id" id="history_Id" value="12345">
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                        <!-- ลิงก์ "ตกลง" ที่เชื่อมไปยัง Modal ยืนยัน -->
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmReturnModal">ตกลง</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal ยืนยันการรับคืน -->
+        <script>
+            // การแสดงวันที่ยืม/คืนตามการเลือก
+            document.getElementById("borrowRadio").addEventListener("click", function () {
+                document.getElementById("borrowDateSection").style.display = "block";
+                document.getElementById("returnDateSection").style.display = "none";
+            });
+
+            document.getElementById("returnRadio").addEventListener("click", function () {
+                document.getElementById("borrowDateSection").style.display = "none";
+                document.getElementById("returnDateSection").style.display = "block";
+            });
+
+            // การส่งข้อมูลฟอร์มเมื่อกด "ตกลง"
+            $(document).ready(function () {
+                $('#confirmApproveBtn').click(function () {
+                    const returnOption = $('input[name="returnOption"]:checked').val();
+                    if (!returnOption) {
+                        alert('กรุณาเลือกสถานะการยืมหรือคืน');
+                        return;
+                    }
+
+                    // กำหนดสถานะลงในฟิลด์ hidden
+                    $('#history_Status_BRS').val(returnOption);
+
+                    // ตรวจสอบว่ากรอกวันที่ถูกต้อง
+                    if (returnOption === 'borrow' && !$('#htime_Borrow').val()) {
+                        alert('กรุณาเลือกวันที่ยืม');
+                        return;
+                    }
+                    if (returnOption === 'return' && !$('#htime_Return').val()) {
+                        alert('กรุณาเลือกวันที่คืน');
+                        return;
+                    }
+
+                    $('#returnForm').submit(); // ส่งฟอร์ม
+                });
+            });
+        </script>
+
+
+
+
+
+
         <div class="modal fade" id="confirmReturnModal" tabindex="-1" aria-labelledby="confirmReturnModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -267,20 +278,16 @@
                         <p>คุณต้องการบันทึกรายการนี้หรือไม่?</p>
                     </div>
                     <div class="modal-footer">
-                        <!-- ปุ่มยกเลิก -->
                         <button type="button" class="btn btn-danger" onclick="window.location.reload();">ยกเลิก</button>
-                        <!-- ปุ่มตกลง (นำไปหน้า admin_homepages.php) -->
                         <a href="admin_homepages.php" class="btn btn-success">ตกลง</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- JavaScript สำหรับรีเซ็ตฟอร์ม -->
         <script>
             var returnModal = document.getElementById('returnModal');
             returnModal.addEventListener('show.bs.modal', function () {
-                // ตั้งค่าเริ่มต้นให้ "ยืม" ถูกเลือกทุกครั้งที่เปิด Modal
                 document.getElementById('returnOnly').checked = true;
             });
         </script>
@@ -324,87 +331,88 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" id="confirmDamageButton" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmDamageModal">ตกลง</button>
-                        <!-- ปุ่ม "ถัดไป" -->
+                        <button type="button" id="confirmDamageButton" class="btn btn-success"
+                            onclick="navigateToNext()">ตกลง</button>
                         <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
                             onclick="showCompletionModal()">ถัดไป</button>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            function togglePriceInput() {
-                const damageCondition = document.getElementById('damageCondition').value;
-                const priceInputContainer = document.getElementById('priceInputContainer');
-                const nextButton = document.getElementById('nextButton');
-
-                // Show price input if "ชดใช้ค่าเสียหาย" is selected
-                if (damageCondition === "ชดใช้ค่าเสียหาย") {
-                    priceInputContainer.style.display = "block";
-                    nextButton.style.display = "inline-block"; // Show "Next" button
-                } else {
-                    priceInputContainer.style.display = "none";
-                    nextButton.style.display = "none"; // Hide "Next" button
-                }
-            }
-        </script>
-
-        <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content shadow rounded-4 border-0">
-                    <!-- Header -->
-                    <div class="modal-header text-white text-center rounded-top-4" style="background-color: #007bff;">
-                        <h5 class="modal-title w-100 fw-bold" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <table class="table table-hover table-bordered align-middle">
-                            <thead class="table-primary">
-                                <tr>
-                                    <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
-                                    <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td class="fw-semibold">Notebook Acer</td>
-                                    <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="text-center" style="padding-top: 10px;">
-                                        <img src="/satit_borrw/img/10.jpg" alt="Mouse Image"
-                                            class="img-fluid shadow rounded-3 border border-primary"
-                                            style="width: 200px; height: auto; margin-top: 8px;">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                    <!-- Footer -->
-
-                    <!-- Footer -->
-                    <div class="modal-footer justify-content-center" style="border-top: none; padding-top: 5px;">
-                        <button type="button" class="btn btn-primary btn-sm fw-bold px-4 py-2" data-bs-dismiss="modal"
-                            style="background-color: #007bff; border: none; border-radius: 30px; box-shadow: 0 3px 8px rgba(0, 123, 255, 0.3); transition: all 0.3s ease; margin-top: -15px;">
-                            ตกลง
-                        </button>
-                    </div>
-
 
                 </div>
             </div>
         </div>
-
-        <!-- Footer -->
 
     </div>
+    <script>
+        function handleConfirm() {
+            const form = document.getElementById('damageForm');
+
+            // ตรวจสอบเงื่อนไขก่อนดำเนินการ
+            const damageCondition = document.getElementById('damageCondition').value;
+
+            if (damageCondition === "ชดใช้ค่าเสียหาย") {
+                // เมื่อเลือก "ชดใช้ค่าเสียหาย" ให้แสดงปุ่มถัดไป
+                document.getElementById('nextButton').style.display = "inline-block";
+            } else {
+                window.location.reload(); // เพิ่มบรรทัดนี้เพื่อกลับหน้าก่อนหน้า
+            }
+        }
+
+        function showCompletionModal() {
+            // โค้ดสำหรับการเปิด modal หรือการกระทำอื่น ๆ
+            alert("แสดงหน้าบันทึกเสร็จสิ้น!");
+        }
+    </script>
+
+
+
+    <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow rounded-4 border-0">
+                <!-- Header -->
+                <div class="modal-header text-white text-center rounded-top-4" style="background-color: #007bff;">
+                    <h5 class="modal-title w-100 fw-bold" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-hover table-bordered align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
+                                <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td class="fw-semibold">Notebook Acer</td>
+                                <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center" style="padding-top: 10px;">
+                                    <img src="/satit_borrw/img/10.jpg" alt="Mouse Image"
+                                        class="img-fluid shadow rounded-3 border border-primary"
+                                        style="width: 200px; height: auto; margin-top: 8px;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#confirmReturnModal">ตกลง</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
 </div>
 </div>
 
@@ -466,7 +474,7 @@
     }
 </script>
 
-</script>
+
 
 
 

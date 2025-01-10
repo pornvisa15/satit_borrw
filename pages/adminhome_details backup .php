@@ -71,7 +71,10 @@
             style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
             <h4 class="mb-0" style="font-size: 22px;">รายละเอียดอุปกรณ์</h4>
         </div>
-        <!-- Modal สำหรับสถานะการยืม -->
+
+
+
+        <!-- ส่วนที่1 ของสถานะอนุมัติ -->
         <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -81,46 +84,27 @@
                     </div>
                     <div class="modal-body">
                         <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <!-- ฟอร์มสำหรับเลือกการอนุมัติ -->
-                        <form id="approvalForm" action="/บันทึกรายการ" method="POST">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="approve"
-                                    value="approve" required>
-                                <label class="form-check-label" for="approve">อนุมัติ</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="approval" id="disapprove"
-                                    value="disapprove">
-                                <label class="form-check-label" for="disapprove">ไม่อนุมัติ</label>
-                            </div>
-
-                            <!-- ฟิลด์หมายเหตุพร้อมปุ่มลบ -->
+                        <form method="POST" action="../connect/examine/insert.php" id="approveForm">
+                            <input type="hidden" name="history_Id" value="<?php echo $history_Id; ?>">
+                            <input type="hidden" name="history_Status_BRS" value="">
+                            <input type="radio" id="approveRadio" name="device_Con" value="1" required> อนุมัติ
+                            <input type="radio" id="disapproveRadio" name="device_Con" value="2"> ไม่อนุมัติ
                             <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-                                <label for="purpose" class="font-weight-bold "
-                                    style="margin-top :5px; font-size: 16px; ">
+                                <label for="purpose" class="font-weight-bold" style="margin-top :5px; font-size: 16px;">
                                     หมายเหตุ :</label>
-                                <textarea class="form-control" id="purpose"
-                                    style=" padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                                <textarea class="form-control" id="purpose" name="note_Other"
+                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
                             </div>
 
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                        <!-- ลิงก์ "ตกลง" ที่เชื่อมไปยัง Modal ยืนยัน -->
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#confirmModal">ตกลง</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            // ฟังก์ชันสำหรับลบข้อความในฟิลด์หมายเหตุ
-            function clearRemarks() {
-                document.getElementById('remarks').value = '';  // ล้างข้อความใน textarea
-            }
-        </script>
         <!-- ฟอร์มด้านในจ้าาาาาาาาาาา -->
         <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 700px; margin-bottom: 60px;">
             <h5 class="text-center">รายละเอียดการทำรายการ</h5>

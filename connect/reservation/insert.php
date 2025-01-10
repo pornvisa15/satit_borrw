@@ -26,22 +26,6 @@ if (empty($history_device)) {
     exit;
 }
 
-// ดึงค่า device_Con จากตาราง device_information
-// $sql_device_con = "SELECT device_Con FROM borrow.device_information WHERE device_Name = ?";
-// $stmt_device_con = $conn->prepare($sql_device_con);
-// $stmt_device_con->bind_param("s", $history_device);
-// $stmt_device_con->execute();
-// $result_device_con = $stmt_device_con->get_result();
-
-// if ($result_device_con->num_rows > 0) {
-//     $row = $result_device_con->fetch_assoc();
-//     $device_Con = $row['device_Con'];
-// } else {
-//     $device_Con = '';
-// }
-// $stmt_device_con->close();
-
-
 $sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE history_device = ?";
 $stmt_check = $conn->prepare($sql_check);
 $stmt_check->bind_param("s", $history_device);
