@@ -44,62 +44,116 @@
     }
     ?>
  
-    <div class="flex-grow-1 p-4">
+   <div class="flex-grow-1 p-4">
     <?php include 'short.php'; ?>
 
-
-        <div class="card shadow-sm border-0" style="margin-top: 49px;">
-            <div class="card-header text-white" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ตั้งค่าการเงิน</h4>
-            </div>
-
-            <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
-                <h5 class="text-center mb-4">แก้ไขข้อมูลอุปกรณ์</h5>
-
-                <form action="../connect/finance/update.php" method="post" enctype="multipart/form-data" onsubmit="return submitForm()">
-    <input type="hidden" name="finance_Id" value="<?php echo $finance_Id; ?>">
-
-    <div class="mb-4">
-        <label for="cotton_Id" class="form-label" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
-        <select id="cotton_Id" name="cotton_Id" class="form-select">
-            <option value="1" <?php echo ($cotton_Id == 1 ? 'selected' : ''); ?>>ฝ่ายคอมพิวเตอร์</option>
-            <option value="2" <?php echo ($cotton_Id == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
-            <option value="3" <?php echo ($cotton_Id == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
-            <option value="4" <?php echo ($cotton_Id == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
-            <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
-        </select>
-    </div>
-
-    <div class="mb-4">
-        <label for="finance_Image" class="font-weight-bold" style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
-        <?php
-        $finance_Image = isset($row['finance_Image']) ? $row['finance_Image'] : '';
-        $filePath = "../connect/finance/finance/img/" . $finance_Image;
-        ?>
-        <div style="margin-top: 10px;">
-            <?php if (!empty($finance_Image) && file_exists($filePath)) { ?>
-                <img src="<?php echo htmlspecialchars($filePath); ?>" 
-                     alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: <strong><?php echo htmlspecialchars($finance_Image); ?></strong></p>
-            <?php } else { ?>
-                <p style="color: #888;">ไม่มีไฟล์รูปภาพเดิม</p>
-            <?php } ?>
+    <div class="card shadow-sm border-0" style="margin-top: 49px;">
+        <div class="card-header text-white" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
+            <h4 class="mb-0" style="font-size: 22px;">ตั้งค่าการเงิน</h4>
         </div>
 
-        <input type="file" id="finance_Image" name="finance_Image" class="form-control" accept="image/*" style="margin-top: 10px;">
-        <input type="hidden" name="finance_Image_hidden" value="<?php echo htmlspecialchars($finance_Image); ?>">
-    </div>
+        <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
+            <h5 class="text-center mb-4">แก้ไขข้อมูลการเงิน</h5>
+            <form action="../connect/finance/update.php" method="post" enctype="multipart/form-data" onsubmit="return submitForm()">
+                <input type="hidden" name="finance_Id" value="<?php echo htmlspecialchars($finance_Id); ?>">
 
-    <div class="text-center d-flex justify-content-center gap-3">
-        <button class="btn btn-success" type="submit">
-            <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
-        </button>
-    </div>
-</form>
+                <!-- Select officer -->
+                <div class="mb-4">
+                    <label for="useripass" class="form-label">ชื่อ-นามสกุล:</label>
+                    <select id="useripass" name="finance_Id" class="form-select" required>
+                        <?php
+                        $sql_officer = "
+                        SELECT 
+                            officer_staff.useripass, 
+                            das_admin.praname, 
+                            das_admin.name, 
+                            das_admin.surname
+                        FROM borrow.finance
+                        INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+                        INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
+                        WHERE das_admin.statuson = 1
+                        GROUP BY officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname
+                        ORDER BY das_admin.name ASC
+                        ";
 
-            </div>
+                        // Execute query to fetch officers
+                        $stmt_officer = $conn->prepare($sql_officer);
+                        if ($stmt_officer === false) {
+                            die('Error preparing statement: ' . $conn->error);
+                        }
+
+                        $stmt_officer->execute();
+                        $result_officer = $stmt_officer->get_result();
+
+                        if ($result_officer->num_rows > 0) {
+                            while ($officer = $result_officer->fetch_assoc()) {
+                                $fullname = htmlspecialchars($officer['praname'] . $officer['name'] . " " . $officer['surname']);
+                                $selected = ($officer['useripass'] == $useripass_selected) ? 'selected' : ''; 
+                                echo "<option value='{$officer['useripass']}' $selected>$fullname</option>";
+                            }
+                        } else {
+                            echo "<option value=''>ไม่มีข้อมูลเจ้าหน้าที่</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Responsible department -->
+                <div class="mb-4">
+                    <label for="cotton_Id" class="form-label" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
+                    <select id="cotton_Id" name="cotton_Id" class="form-select">
+                        <option value="1" <?php echo ($cotton_Id == 1 ? 'selected' : ''); ?>>ฝ่ายคอมพิวเตอร์</option>
+                        <option value="2" <?php echo ($cotton_Id == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
+                        <option value="3" <?php echo ($cotton_Id == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
+                        <option value="4" <?php echo ($cotton_Id == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
+                        <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
+                    </select>
+                </div>
+
+                <!-- Upload Image Section -->
+                <div class="mb-4">
+                    <label for="finance_Image" class="font-weight-bold" style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
+                    <?php
+                    $finance_Image = isset($row['finance_Image']) ? $row['finance_Image'] : '';
+                    $filePath = "../connect/finance/finance/img/" . $finance_Image;
+                    ?>
+                    <div style="margin-top: 10px;">
+                        <?php if (!empty($finance_Image) && file_exists($filePath)) { ?>
+                            <img src="<?php echo htmlspecialchars($filePath); ?>" 
+                                 alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                            <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: <strong><?php echo htmlspecialchars($finance_Image); ?></strong></p>
+                        <?php } else { ?>
+                            <p style="color: #888;">ไม่มีไฟล์รูปภาพเดิม</p>
+                        <?php } ?>
+                    </div>
+
+                    <input type="file" id="finance_Image" name="finance_Image" class="form-control" accept="image/*" style="margin-top: 10px;">
+                    <input type="hidden" name="finance_Image_hidden" value="<?php echo htmlspecialchars($finance_Image); ?>">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center d-flex justify-content-center gap-3">
+                    <button class="btn btn-success" type="submit">
+                        <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
+<script>
+    function submitForm() {
+        const useripass = document.getElementById('useripass').value;
+        const cottonId = document.getElementById('cotton_Id').value;
+        if (useripass === "" || cottonId === "") {
+            alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+            return false;
+        }
+        alert("บันทึกการแก้ไขเรียบร้อย");
+        return true;
+    }
+</script>
 
     <script>
             <?php

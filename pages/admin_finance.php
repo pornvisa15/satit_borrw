@@ -119,45 +119,97 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
                     $result = $stmt->get_result();
                     $i = 1;
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            // Ensure all values are defined
-                            $device_Image = isset($row['finance_Image']) ? $row['finance_Image'] : 'default_image.jpg';
-                            $cotton_Name = isset($row['cotton_Name']) ? htmlspecialchars($row['cotton_Name']) : 'ไม่ระบุ';
-                            
-                            // Check officer data
-                            $officerName = isset($row['praname']) && isset($row['name']) && isset($row['surname']) 
-                                ? htmlspecialchars($row['praname'] . ' ' . $row['name'] . ' ' . $row['surname']) 
-                                : 'ไม่มีข้อมูล';
-                            $officerDepartment = isset($row['officer_Cotton']) ? htmlspecialchars($row['officer_Cotton']) : 'ไม่มีข้อมูล';
-                    
-                            // Display row data
-                            echo "<tr>
-                                    <td>" . htmlspecialchars($i) . "</td>
-                                    <td style='text-align: center; vertical-align: middle;'>
-                                        <div class='officerRow' data-name='" . $officerName . "' data-department='" . $officerDepartment . "'>
-                                            " . $officerName . "
-                                        </div>
-                                    </td>
-                                    <td>" . $cotton_Name . "</td>";
-                    
-                            // Display image if exists
-                            $imagePath = '../connect/finance/finance/img/' . $device_Image;
-                            if (!empty($device_Image) && file_exists($imagePath)) {
-                                echo "<td><img src='" . htmlspecialchars($imagePath) . "' alt='finance_Image' style='width: 100px; height: 100px; object-fit: cover;'></td>";
-                            } else {
-                                echo "<td>ไม่มีรูปภาพ</td>";
-                            }
-                    
-                            echo "<td><a href='admin_finance.edit.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-                                  <td><a href='../connect/finance/delete.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-                                  </tr>";
-                            $i++;
-                        }
-                    } else {
-                        echo "<tr><td colspan='6'>ไม่มีข้อมูล</td></tr>";
-                    }
-                    
+         
+$i = 1; // เริ่มลำดับ
+
+if ($result->num_rows > 0) {
+    // ลบข้อมูลที่ไม่มีใน das_admin ออกไป
+    $sql_delete = "
+        DELETE finance
+        FROM borrow.finance AS finance
+        LEFT JOIN borrow.officer_staff AS officer_staff ON finance.useripass = officer_staff.useripass
+        LEFT JOIN das_satit.das_admin AS das_admin ON officer_staff.useripass = das_admin.useripass
+        WHERE das_admin.useripass IS NULL
+    ";
+
+    // เตรียมคำสั่ง SQL สำหรับลบ
+    if ($conn->query($sql_delete) === FALSE) {
+        die('Error deleting data: ' . $conn->error);
+    }
+
+    // ดึงข้อมูลเจ้าหน้าที่
+    $sql_officer = "
+        SELECT 
+            officer_staff.useripass, 
+            das_admin.praname, 
+            das_admin.name, 
+            das_admin.surname
+        FROM borrow.finance
+        INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+        INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
+        WHERE das_admin.statuson = 1
+        GROUP BY officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname
+        ORDER BY das_admin.name ASC
+    ";
+
+    $stmt_officer = $conn->prepare($sql_officer);
+    if ($stmt_officer === false) {
+        die('Error preparing statement: ' . $conn->error);
+    }
+
+    $stmt_officer->execute();
+    $result_officer = $stmt_officer->get_result();
+
+    $officers = [];
+    if ($result_officer->num_rows > 0) {
+        while ($officer = $result_officer->fetch_assoc()) {
+            $fullname = htmlspecialchars($officer['praname'] . $officer['name'] . ' ' . $officer['surname']);
+            $officers[$officer['useripass']] = $fullname;
+        }
+    }
+
+    // แสดงข้อมูลอุปกรณ์
+    while ($row = $result->fetch_assoc()) {
+        $device_Image = isset($row['finance_Image']) ? htmlspecialchars($row['finance_Image']) : 'default_image.jpg';
+        $cotton_Name = isset($row['cotton_Name']) ? htmlspecialchars($row['cotton_Name']) : 'ไม่ระบุ';
+        $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
+
+        if (!isset($officers[$officerUseripass])) {
+            continue; // ข้ามข้อมูลที่ไม่มีเจ้าหน้าที่
+        }
+
+        $fullname = $officers[$officerUseripass];
+        $officerDepartment = isset($row['officer_Cotton']) ? htmlspecialchars($row['officer_Cotton']) : 'ไม่มีข้อมูล';
+
+        echo "<tr>
+                <td>" . htmlspecialchars($i) . "</td>
+                <td style='text-align: center; vertical-align: top; height: 100px;'>
+                    <div style='display: flex; align-items: flex-start; justify-content: center; height: 100%;'>
+                        " . $fullname . "
+                    </div>
+                </td>
+                <td>" . $cotton_Name . "</td>";
+
+        $imagePath = '../connect/finance/finance/img/' . $device_Image;
+        if (!empty($device_Image) && file_exists($imagePath)) {
+            echo "<td><img src='" . htmlspecialchars($imagePath) . "' alt='finance_Image' style='width: 100px; height: 100px; object-fit: cover;'></td>";
+        } else {
+            echo "<td>ไม่มีรูปภาพ</td>";
+        }
+
+        $finance_Id = isset($row['finance_Id']) ? urlencode($row['finance_Id']) : '';
+        echo "<td><a href='admin_finance.edit.php?finance_Id=" . $finance_Id . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
+              <td><a href='../connect/finance/delete.php?finance_Id=" . $finance_Id . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
+              </tr>";
+
+        $i++;
+    }
+} else {
+    echo "<tr><td colspan='6'>ไม่มีข้อมูล</td></tr>";
+}
+
+
+
                 ?>
                 </tbody>
             </table>
