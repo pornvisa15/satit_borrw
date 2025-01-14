@@ -41,6 +41,14 @@ if ($result_check) {
 $stmt_check->close();
 
 
+if ($history_Status === '1') {
+    $device_Con = '1'; // ยืม
+} elseif ($history_Status === '2') {
+    $device_Con = '2'; // คืน
+} else {
+    $device_Con = '0'; // ค่าเริ่มต้น (สถานะไม่มีการยืม/คืน)
+}
+
 $stmt = $conn->prepare("INSERT INTO history_brs 
     (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, cotton_Id,device_Con) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)");

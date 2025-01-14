@@ -174,7 +174,8 @@
             });
         </script>
 
-        <!-- Modal สำหรับสถานะการรับคืน -->
+
+        <!-- ส่วนที่2 สถานะการรับคืน -->
         <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -184,81 +185,89 @@
                     </div>
                     <div class="modal-body">
                         <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <form id="returnForm" action="../connect/examine/insert.php" method="POST">
-                            <!-- ตัวเลือกสถานะ ยืม หรือ คืน -->
+                        <form id="returnForm" action="../connect/examine/insert.php" method="POST"
+                            onsubmit="return validateForm()">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="returnOption" id="borrowRadio"
+                                <input class="form-check-input" type="radio" name="device_Con" id="borrowRadio"
                                     value="borrow" required>
                                 <label class="form-check-label" for="borrowRadio">ยืม</label>
                             </div>
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="returnOption" id="returnRadio"
+                                <input class="form-check-input" type="radio" name="device_Con" id="returnRadio"
                                     value="return" required>
                                 <label class="form-check-label" for="returnRadio">คืน</label>
                             </div>
 
-                            <!-- วันที่ยืม -->
-                            <div class="mb-2" id="borrowDateSection" style="display: none;">
-                                <label for="htime_Borrow">วันที่ยืม:</label>
-                                <input type="date" class="form-control" id="htime_Borrow" name="htime_Borrow" lang="th">
+                            <div class="mb-2" id="borrowField" style="display: none;">
+                                <label for="borrowDate">วันที่ยืม:</label>
+                                <input type="date" class="form-control" id="borrowDate" name="htime_Borrow" lang="th">
                             </div>
 
-                            <!-- วันที่คืน -->
-                            <div class="mb-2" id="returnDateSection" style="display: none;">
-                                <label for="htime_Return">วันที่คืน:</label>
-                                <input type="date" class="form-control" id="htime_Return" name="htime_Return" lang="th">
+                            <div class="mb-2" id="returnField" style="display: none;">
+                                <label for="returnDate">วันที่คืน:</label>
+                                <input type="date" class="form-control" id="returnDate" name="htime_Return" lang="th">
                             </div>
 
-                            <!-- Hidden Fields -->
-                            <input type="hidden" name="history_Status_BRS" id="history_Status_BRS">
-                            <input type="hidden" name="history_Id" id="history_Id" value="12345">
+                            <input type="hidden" name="history_Status" id="history_Status">
+                            <input type="hidden" name="history_Id" id="history_Id" value="">
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
+                        <button type="button" class="btn btn-success" id="submitBtn">ตกลง</button>
                     </div>
                 </div>
             </div>
         </div>
-
         <script>
-            // การแสดงวันที่ยืม/คืนตามการเลือก
-            document.getElementById("borrowRadio").addEventListener("click", function () {
-                document.getElementById("borrowDateSection").style.display = "block";
-                document.getElementById("returnDateSection").style.display = "none";
-            });
-
-            document.getElementById("returnRadio").addEventListener("click", function () {
-                document.getElementById("borrowDateSection").style.display = "none";
-                document.getElementById("returnDateSection").style.display = "block";
-            });
-
-            // การส่งข้อมูลฟอร์มเมื่อกด "ตกลง"
             $(document).ready(function () {
-                $('#confirmApproveBtn').click(function () {
-                    const returnOption = $('input[name="returnOption"]:checked').val();
-                    if (!returnOption) {
-                        alert('กรุณาเลือกสถานะการยืมหรือคืน');
-                        return;
+                // แสดง/ซ่อนฟิลด์วันที่ตามตัวเลือก
+                $('input[name="device_Con"]').on('change', function () {
+                    if ($(this).val() === 'borrow') {
+                        $('#borrowField').show();  // แสดงวันที่ยืม
+                        $('#returnField').hide();  // ซ่อนวันที่คืน
+                        $('#htime_Return').val(''); // ทำให้วันที่คืนเป็นค่าว่าง
+                    } else if ($(this).val() === 'return') {
+                        $('#borrowField').hide();  // ซ่อนวันที่ยืม
+                        $('#returnField').show();  // แสดงวันที่คืน
                     }
+                });
 
-                    // กำหนดสถานะลงในฟิลด์ hidden
-                    $('#history_Status_BRS').val(returnOption);
-
-                    // ตรวจสอบว่ากรอกวันที่ถูกต้อง
-                    if (returnOption === 'borrow' && !$('#htime_Borrow').val()) {
-                        alert('กรุณาเลือกวันที่ยืม');
-                        return;
+                // การคลิกปุ่ม "ตกลง" เพื่อส่งฟอร์มหลังตรวจสอบ
+                $('#submitBtn').on('click', function () {
+                    if (validateForm()) {
+                        $('#returnForm').submit();
                     }
-                    if (returnOption === 'return' && !$('#htime_Return').val()) {
-                        alert('กรุณาเลือกวันที่คืน');
-                        return;
-                    }
-
-                    $('#returnForm').submit(); // ส่งฟอร์ม
                 });
             });
+
+            // ฟังก์ชันตรวจสอบฟอร์ม
+            function validateForm() {
+                const device_Con = $('input[name="device_Con"]:checked').val();
+
+                if (!device_Con) {
+                    alert('กรุณาเลือกสถานะการยืมหรือคืน');
+                    return false;
+                }
+
+                // ถ้าเลือก "ยืม" (borrow) ตรวจสอบวันที่ยืม
+                if (device_Con === 'borrow' && !$('#borrowDate').val()) {
+                    alert('กรุณาเลือกวันที่ยืม');
+                    return false;
+                }
+
+                // ถ้าเลือก "คืน" (return) ตรวจสอบวันที่คืน
+                if (device_Con === 'return' && !$('#returnDate').val()) {
+                    alert('กรุณาเลือกวันที่คืน');
+                    return false;
+                }
+
+                // กำหนดสถานะลงในฟิลด์ hidden
+                $('#history_Status').val(device_Con);
+
+                return true;
+            }
+
         </script>
 
 
