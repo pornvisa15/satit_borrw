@@ -29,6 +29,7 @@
         exit;
     }
     $sql = "SELECT * FROM borrow.history_brs WHERE history_Id = ?";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $history_Id);
     $stmt->execute();
@@ -41,11 +42,14 @@
         $history_device = $row['history_device'] ?? 'ไม่มีข้อมูล';
         $user_Id = $row['user_Id'] ?? 'ไม่มีข้อมูล';
         $history_Status_BRS = $row['history_Status_BRS'] ?? 'ไม่มีข้อมูล';
-
+        $status_Id = $row['status_Id'] ?? 'ไม่มีข้อมูล';
+        $tool_Other = $row['tool_Other'] ?? 'ไม่มีข้อมูล';
     } else {
         echo "ไม่พบข้อมูลสำหรับประวัติการยืมที่เลือก";
     }
     $stmt->close();
+    $selectedCottonId = $_GET['status_Id'] ?? 0;
+    $history_Id = $_GET['id'];
     ?>
 </body>
 
@@ -186,21 +190,11 @@
                     <div class="modal-body">
                         <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
                         <form id="returnForm" action="../connect/examine/insert.php" method="POST"
-                            onsubmit="return validateForm()">
+                            enctype="multipart/form-data" onsubmit="return validateForm()">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="device_Con" id="borrowRadio"
-                                    value="borrow" required>
-                                <label class="form-check-label" for="borrowRadio">ยืม</label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="device_Con" id="returnRadio"
+                                <input class="form-check-input" type="radio" name="history_Status" id="rStatus"
                                     value="return" required>
-                                <label class="form-check-label" for="returnRadio">คืน</label>
-                            </div>
-
-                            <div class="mb-2" id="borrowField" style="display: none;">
-                                <label for="borrowDate">วันที่ยืม:</label>
-                                <input type="date" class="form-control" id="borrowDate" name="htime_Borrow" lang="th">
+                                <label class="form-check-label" for="history_Status">คืน</label>
                             </div>
 
                             <div class="mb-2" id="returnField" style="display: none;">
@@ -208,21 +202,61 @@
                                 <input type="date" class="form-control" id="returnDate" name="htime_Return" lang="th">
                             </div>
 
-                            <input type="hidden" name="history_Status" id="history_Status">
-                            <input type="hidden" name="history_Id" id="history_Id" value="">
-                        </form>
+                            <input type="text" name="history_Status" id="history_Status" value="2" hidden>
+                            <input type="text" name="history_Id" id="history_Id" value="<?php echo $history_Id ?>"
+                                hidden>
+
+
+                            <p>เลือกสถานะการชำรุดของอุปกรณ์</p>
+                            <select class="form-select" id="damageCondition" name="status_Id" required
+                                onchange="togglePriceInput()">
+                                <option value="1">สภาพสมบูรณ์</option>
+                                <option value="2">สภาพไม่สมบูรณ์</option>
+                                <option value="3">ครบถ้วนสมบูรณ์</option>
+                                <option value="4">ไม่ครบถ้วนสมบูรณ์</option>
+                                <option value="5">ผู้ยืมซ่อมแซม</option>
+                                <option value="6">ชดใช้เป็นพัสดุ</option>
+                                <option value="7">ชดใช้ค่าเสียหาย</option>
+                            </select>
+
+                            <!-- ฟิลด์สำหรับกรอกราคา -->
+                            <div id="priceInputContainer" style="display: none; margin-top: 10px;">
+                                <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
+                                <input type="number" class="form-control" id="damagePrice" name="damagePrice"
+                                    placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
+                            </div>
+
+                            <!-- หมายเหตุ -->
+                            <div id="purpose-container" style="margin-top: 10px;">
+                                <label for="purpose" class="font-weight-bold" style="font-size: 16px;">หมายเหตุ:</label>
+                                <textarea class="form-control" id="purpose" name="tool_Other"
+                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"
+                                    required></textarea>
+                            </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" id="submitBtn">ตกลง</button>
+                        <button type="button" class="btn btn-success" id="submitBtn"
+                            onclick="handleConfirm()">ตกลง</button>
+                        <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
+                            onclick="showCompletionModal()">ถัดไป</button>
                     </div>
+                    </form>
+
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" id="submitBtn  onclick="
+                            navigateToNext()">ตกลง</button>
+                        <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
+                            onclick="showCompletionModal()">ถัดไป</button>
+                    </div> -->
                 </div>
             </div>
         </div>
         <script>
             $(document).ready(function () {
                 // แสดง/ซ่อนฟิลด์วันที่ตามตัวเลือก
-                $('input[name="device_Con"]').on('change', function () {
+                $('input[name="history_Status"]').on('change', function () {
                     if ($(this).val() === 'borrow') {
                         $('#borrowField').show();  // แสดงวันที่ยืม
                         $('#returnField').hide();  // ซ่อนวันที่คืน
@@ -241,29 +275,15 @@
                 });
             });
 
-            // ฟังก์ชันตรวจสอบฟอร์ม
+
             function validateForm() {
-                const device_Con = $('input[name="device_Con"]:checked').val();
+                const history_Status = $('input[name="history_Status"]:checked').val();
 
-                if (!device_Con) {
-                    alert('กรุณาเลือกสถานะการยืมหรือคืน');
+                if (!history_Status) {
+                    alert('กรุณาเลือกสถานะการคืน');
                     return false;
                 }
-
-                // ถ้าเลือก "ยืม" (borrow) ตรวจสอบวันที่ยืม
-                if (device_Con === 'borrow' && !$('#borrowDate').val()) {
-                    alert('กรุณาเลือกวันที่ยืม');
-                    return false;
-                }
-
-                // ถ้าเลือก "คืน" (return) ตรวจสอบวันที่คืน
-                if (device_Con === 'return' && !$('#returnDate').val()) {
-                    alert('กรุณาเลือกวันที่คืน');
-                    return false;
-                }
-
-                // กำหนดสถานะลงในฟิลด์ hidden
-                $('#history_Status').val(device_Con);
+                $('#history_Status').val(history_Status);
 
                 return true;
             }
@@ -294,12 +314,6 @@
             </div>
         </div>
 
-        <script>
-            var returnModal = document.getElementById('returnModal');
-            returnModal.addEventListener('show.bs.modal', function () {
-                document.getElementById('returnOnly').checked = true;
-            });
-        </script>
 
         <div class="modal fade" id="damageModal" tabindex="-1" aria-labelledby="damageModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -353,16 +367,16 @@
     </div>
     <script>
         function handleConfirm() {
-            const form = document.getElementById('damageForm');
-
             // ตรวจสอบเงื่อนไขก่อนดำเนินการ
             const damageCondition = document.getElementById('damageCondition').value;
 
-            if (damageCondition === "ชดใช้ค่าเสียหาย") {
-                // เมื่อเลือก "ชดใช้ค่าเสียหาย" ให้แสดงปุ่มถัดไป
+            if (damageCondition === "7") {
+                // ซ่อนปุ่ม "ตกลง" และแสดงปุ่ม "ถัดไป"
+                document.getElementById('submitBtn').style.display = "none";
                 document.getElementById('nextButton').style.display = "inline-block";
             } else {
-                window.location.reload(); // เพิ่มบรรทัดนี้เพื่อกลับหน้าก่อนหน้า
+                // รีโหลดหน้า หากไม่ใช่ "ชดใช้ค่าเสียหาย"
+                window.location.reload();
             }
         }
 
@@ -371,7 +385,6 @@
             alert("แสดงหน้าบันทึกเสร็จสิ้น!");
         }
     </script>
-
 
 
     <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
@@ -453,7 +466,7 @@
         const confirmDamageButton = document.getElementById('confirmDamageButton');
         const nextButton = document.getElementById('nextButton');
 
-        if (damageCondition === "ชดใช้ค่าเสียหาย") {
+        if (damageCondition === "7") {
             // แสดงฟิลด์ราคา
             priceInputContainer.style.display = "block";
             damagePriceInput.required = true;
