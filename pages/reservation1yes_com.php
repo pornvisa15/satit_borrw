@@ -149,20 +149,11 @@ if ($result->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="font-weight: 600; color: <?= $device_Con == 1 ? '#6cbf42' : '#e63946'; ?>;">
+                                            style="font-weight: 600; color: <?= $device_Con == 1 ? '#e63946' : '#6cbf42'; ?>;">
                                             <?= $device_Con == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
-                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
-                                        <strong style="color: #000; font-weight: 600;">สถานภาพยืม/คืน:</strong>
-                                        <?php
-                                        if ($history_Status_BRS === null) {
-                                            echo 'ไม่มีข้อมูลสถานะ';
-                                        } else {
-                                            echo $history_Status_BRS == 1 ? '<span style="color: #6cbf42; font-weight: 600;">อนุมัติ</span>' : '<span style="color: #e63946; font-weight: 600;">ไม่อนุมัติ</span>';
-                                        }
-                                        ?>
-                                    </p>
+                                   
 
                                     <?php if ($history_Status_BRS !== null): ?>
                                         <input type="hidden" name="history_Status_BRS"

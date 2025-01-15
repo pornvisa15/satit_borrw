@@ -38,11 +38,10 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
 
 // Set search term from GET parameter or default to an empty string
 $searchTerm = $_GET['search'] ?? '';
-$selectedCottonId = $_GET['cotton_Id'] ?? 0;
+$selectedCottonId = $_GET['useripass'] ?? 0;
 ?>
 
 <div class="flex-grow-1 p-4">
-    
     <?php include 'short.php'; ?>
 
     <div class="card shadow-sm mt-5">
@@ -53,18 +52,48 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
         <div class="card-body">
        
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <?php include 'admin2.php'; ?> 
+            <!-- <?php include 'admin3.php'; ?>  ปิดไว้ก่อน--> 
+           
+
             <button class="btn text-white" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
                 <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
             </button>
         </div>
+       
+       <!-- กล่องค้นหาพร้อมปุ่ม -->
+<!-- กล่องค้นหาพร้อมปุ่ม -->
+<div class="input-group mb-3">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
+    <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
+        ค้นหา
+    </button>
+</div>
 
-        <form method="GET" action="">
-            <div class="input-group mb-3">
-                <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหาชื่ออุปกรณ์" name="search" value="<?= htmlspecialchars($searchTerm) ?>" style="font-size: 14px;">
-                <button class="btn text-light" type="submit" style="background-color: #537bb7; font-size: 14px;">ค้นหา</button>
-            </div>
-        </form>
+<script>
+    function searchTable() {
+        // Get the value from the search input
+        var input = document.getElementById('searchEquipment');
+        var filter = input.value.toLowerCase();
+        var table = document.querySelector('.table');
+        var rows = table.querySelectorAll('tbody tr');
+
+        // Loop through each row and hide or show based on search
+        rows.forEach(function(row) {
+            var nameCell = row.querySelector('td:nth-child(2)');
+            var departmentCell = row.querySelector('td:nth-child(3)');
+            var nameText = nameCell ? nameCell.textContent.toLowerCase() : '';
+            var departmentText = departmentCell ? departmentCell.textContent.toLowerCase() : '';
+
+            // Check if either name or department contains the search term
+            if (nameText.includes(filter) || departmentText.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+</script>
+
 
         <div class="table-responsive mt-3">
             <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
@@ -73,53 +102,49 @@ $selectedCottonId = $_GET['cotton_Id'] ?? 0;
                         <th style="width: 25;">ลำดับ</th>
                         <th>ชื่อ-นามสกุล</th>
                         <th style="width: 25%;">ผู้รับผิดชอบ</th>
-                        <th style="width: 25;">คิวอาร์โค้ด</th>
+                        <th style="width: 26;">คิวอาร์โค้ด</th>
                         <th style="width: 15%;">แก้ไข</th>
                         <th style="width: 15%;">ลบ</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
-                    // SQL query setup
-                    $sql = "SELECT * FROM borrow.finance
-                            INNER JOIN borrow.cotton 
-                            ON finance.cotton_Id = cotton.cotton_Id";
+                   // SQL query setup
+$sql = "SELECT * FROM borrow.finance";
 
-                    // Add conditions
-                    $conditions = [];
-                    $params = [];
+// Add conditions
+$conditions = [];
+$params = [];
 
-                    if ($user_department_id != 5) {
-                        $conditions[] = "finance.cotton_Id = ?";
-                        $params[] = $user_department_id;
-                    }
+if ($user_department_id != 5) {
+    $conditions[] = "finance.officer_Cotton = ?";
+    $params[] = $user_department_id;
+}
 
-                    if ($selectedCottonId > 0) {
-                        $conditions[] = "finance.cotton_Id = ?";
-                        $params[] = $selectedCottonId;
-                    }
+if ($selectedCottonId > 0) {
+    $conditions[] = "finance.officer_Cotton = ?";
+    $params[] = $selectedCottonId;
+}
 
-                    // Apply conditions to SQL
-                    if (!empty($conditions)) {
-                        $sql .= " WHERE " . implode(" AND ", $conditions);
-                    }
+// Apply conditions to SQL
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
+}
 
-                    // Prepare the statement to prevent SQL Injection
-                    $stmt = $conn->prepare($sql);
-                    if ($stmt === false) {
-                        die("การเตรียมคำสั่ง SQL ล้มเหลว: " . $conn->error);
-                    }
+// Prepare the statement to prevent SQL Injection
+$stmt = $conn->prepare($sql);
+if ($stmt === false) {
+    die("การเตรียมคำสั่ง SQL ล้มเหลว: " . $conn->error);
+}
 
-                    // Bind parameters
-                    if (!empty($params)) {
-                        $stmt->bind_param(str_repeat('s', count($params)), ...$params);
-                    }
+// Bind parameters
+if (!empty($params)) {
+    $stmt->bind_param(str_repeat('i', count($params)), ...$params);
+}
 
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $i = 1;
+$stmt->execute();
+$result = $stmt->get_result();
 
-         
 $i = 1; // เริ่มลำดับ
 
 if ($result->num_rows > 0) {
@@ -171,7 +196,19 @@ if ($result->num_rows > 0) {
     // แสดงข้อมูลอุปกรณ์
     while ($row = $result->fetch_assoc()) {
         $device_Image = isset($row['finance_Image']) ? htmlspecialchars($row['finance_Image']) : 'default_image.jpg';
-        $cotton_Name = isset($row['cotton_Name']) ? htmlspecialchars($row['cotton_Name']) : 'ไม่ระบุ';
+        // กำหนดชื่อฝ่ายตามหมายเลข
+        $departments = [
+            1 => 'ฝ่ายคอมพิวเตอร์',
+            2 => 'ฝ่ายวิทยาศาสตร์',
+            3 => 'ฝ่ายดนตรี',
+            4 => 'ฝ่ายพัสดุ',
+            5 => 'แอดมิน'
+        ];
+
+        // แปลงค่า officer_Cotton ให้เป็นชื่อฝ่าย
+        $cotton_Id = isset($row['officer_Cotton']) ? (int)$row['officer_Cotton'] : 0;
+        $cotton_Name = isset($departments[$cotton_Id]) ? htmlspecialchars($departments[$cotton_Id]) : 'ไม่ระบุ';
+
         $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
 
         if (!isset($officers[$officerUseripass])) {
@@ -179,23 +216,31 @@ if ($result->num_rows > 0) {
         }
 
         $fullname = $officers[$officerUseripass];
-        $officerDepartment = isset($row['officer_Cotton']) ? htmlspecialchars($row['officer_Cotton']) : 'ไม่มีข้อมูล';
 
-        echo "<tr>
+        echo "<tr class='officerRow' data-name='" . strtolower($fullname) . "' data-department='" . strtolower($cotton_Name) . "'>
                 <td>" . htmlspecialchars($i) . "</td>
-                <td style='text-align: center; vertical-align: top; height: 100px;'>
+                <td style='text-align: center; vertical-align: top; height: 100px;' class='searchable'>
                     <div style='display: flex; align-items: flex-start; justify-content: center; height: 100%;'>
                         " . $fullname . "
                     </div>
                 </td>
                 <td>" . $cotton_Name . "</td>";
+                $imagePath = '../connect/finance/finance/img/' . $device_Image;
 
-        $imagePath = '../connect/finance/finance/img/' . $device_Image;
-        if (!empty($device_Image) && file_exists($imagePath)) {
-            echo "<td><img src='" . htmlspecialchars($imagePath) . "' alt='finance_Image' style='width: 100px; height: 100px; object-fit: cover;'></td>";
-        } else {
-            echo "<td>ไม่มีรูปภาพ</td>";
-        }
+                if (!empty($device_Image) && file_exists($imagePath)) {
+                    // แสดงปุ่มที่สามารถคลิกเพื่อดูรูปภาพใน modal (ขนาดเล็ก)
+                    echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars($imagePath) . "' title='ดูรูปภาพ'><i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
+                } else {
+                    // หากไม่มีรูปภาพ แสดงข้อความ
+                    echo "<td>ไม่มีรูปภาพ</td>";
+                }
+                
+                
+                
+
+                
+                
+                
 
         $finance_Id = isset($row['finance_Id']) ? urlencode($row['finance_Id']) : '';
         echo "<td><a href='admin_finance.edit.php?finance_Id=" . $finance_Id . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
@@ -207,18 +252,43 @@ if ($result->num_rows > 0) {
 } else {
     echo "<tr><td colspan='6'>ไม่มีข้อมูล</td></tr>";
 }
-
-
-
-                ?>
+?>
                 </tbody>
             </table>
         </div>
     </div>
+    
+</div>
+<!-- Modal สำหรับแสดงรูปภาพ -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">รูปภาพ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="" id="modalImage" alt="Finance Image" style="width: 50%; height: auto; margin: 0 auto; display: block;" />
+      </div>
+    </div>
+  </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script>
+// เมื่อคลิกที่ปุ่ม ดูรูปภาพ ให้เปลี่ยนรูปภาพใน modal
+document.addEventListener('DOMContentLoaded', function () {
+  var imageModal = document.getElementById('imageModal');
+  imageModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; // ปุ่มที่คลิก
+    var imageUrl = button.getAttribute('data-bs-image'); // ดึง URL ของรูปภาพจาก data-bs-image
+    var modalImage = imageModal.querySelector('#modalImage');
+    modalImage.src = imageUrl; // เปลี่ยนแหล่งที่มาของรูปภาพใน modal
+  });
+});
+</script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 

@@ -23,8 +23,7 @@
         $finance_Id = $_GET['finance_Id'];
 
         // ดึงข้อมูลอุปกรณ์ที่ต้องการแก้ไข
-        $sql = "SELECT * FROM borrow.finance
-                INNER JOIN borrow.cotton ON finance.cotton_Id = cotton.cotton_Id 
+        $sql = "SELECT * FROM borrow.finance 
                 WHERE finance.finance_Id = '$finance_Id'";  
         $result = $conn->query($sql);
 
@@ -32,7 +31,7 @@
             $row = $result->fetch_assoc();
             // กำหนดค่าตัวแปร
     
-            $cotton_Id = $row['cotton_Id']; 
+            $officer_Cotton = $row['officer_Cotton']; 
    
         } else {
             echo "ไม่พบข้อมูลอุปกรณ์ที่ต้องการแก้ไข";
@@ -57,60 +56,86 @@
             <form action="../connect/finance/update.php" method="post" enctype="multipart/form-data" onsubmit="return submitForm()">
                 <input type="hidden" name="finance_Id" value="<?php echo htmlspecialchars($finance_Id); ?>">
 
-                <!-- Select officer -->
                 <div class="mb-4">
-                    <label for="useripass" class="form-label">ชื่อ-นามสกุล:</label>
-                    <select id="useripass" name="finance_Id" class="form-select" required>
-                        <?php
-                        $sql_officer = "
-                        SELECT 
-                            officer_staff.useripass, 
-                            das_admin.praname, 
-                            das_admin.name, 
-                            das_admin.surname
-                        FROM borrow.finance
-                        INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
-                        INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
-                        WHERE das_admin.statuson = 1
-                        GROUP BY officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname
-                        ORDER BY das_admin.name ASC
-                        ";
+    <label for="useripass_display" class="form-label">ชื่อ-นามสกุล:</label>
+    <?php
+    // ดึงข้อมูล useripass ตาม finance_Id
+    $sql_officer = "
+    SELECT 
+        officer_staff.useripass, 
+        das_admin.praname, 
+        das_admin.name, 
+        das_admin.surname
+    FROM borrow.finance
+    INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+    INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
+    WHERE borrow.finance.finance_Id = ?";
 
-                        // Execute query to fetch officers
-                        $stmt_officer = $conn->prepare($sql_officer);
-                        if ($stmt_officer === false) {
-                            die('Error preparing statement: ' . $conn->error);
-                        }
+    // เตรียมคำสั่ง SQL
+    $stmt_officer = $conn->prepare($sql_officer);
+    $stmt_officer->bind_param("i", $finance_Id);  // ผูก finance_Id เข้ากับ SQL
+    $stmt_officer->execute();
+    $result_officer = $stmt_officer->get_result();
 
-                        $stmt_officer->execute();
-                        $result_officer = $stmt_officer->get_result();
+    if ($result_officer->num_rows > 0) {
+        $officer = $result_officer->fetch_assoc();
+        $fullname = htmlspecialchars($officer['praname'] . $officer['name'] . " " . $officer['surname']);
+        $useripass = htmlspecialchars($officer['useripass']);  // เก็บ useripass ไว้ใช้ใน input hidden
 
-                        if ($result_officer->num_rows > 0) {
-                            while ($officer = $result_officer->fetch_assoc()) {
-                                $fullname = htmlspecialchars($officer['praname'] . $officer['name'] . " " . $officer['surname']);
-                                $selected = ($officer['useripass'] == $useripass_selected) ? 'selected' : ''; 
-                                echo "<option value='{$officer['useripass']}' $selected>$fullname</option>";
-                            }
-                        } else {
-                            echo "<option value=''>ไม่มีข้อมูลเจ้าหน้าที่</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
+        // แสดงชื่อแบบข้อความที่แก้ไขไม่ได้
+        echo "<input type='text' id='useripass_display' class='form-control' value='$fullname' disabled>";
 
-                <!-- Responsible department -->
-                <div class="mb-4">
-                    <label for="cotton_Id" class="form-label" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
-                    <select id="cotton_Id" name="cotton_Id" class="form-select">
-                        <option value="1" <?php echo ($cotton_Id == 1 ? 'selected' : ''); ?>>ฝ่ายคอมพิวเตอร์</option>
-                        <option value="2" <?php echo ($cotton_Id == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
-                        <option value="3" <?php echo ($cotton_Id == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
-                        <option value="4" <?php echo ($cotton_Id == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
-                        <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
-                    </select>
-                </div>
+        // ส่งค่า useripass ผ่าน input hidden
+        echo "<input type='hidden' id='useripass' name='useripass' value='$useripass'>";
+    } else {
+        echo "<input type='text' class='form-control' value='ไม่พบข้อมูลเจ้าหน้าที่' disabled>";
+    }
+    ?>
+</div>
 
-                <!-- Upload Image Section -->
+<div class="form-group mb-4" style="font-size: 16px; color: black;">
+    <label for="officer_Cotton" class="font-weight-bold" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
+    <select id="officer_Cotton" class="form-select no-dropdown" name="officer_Cotton" required
+        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: none; pointer-events: none; background-color: #e9ecef;">
+        <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+        <option value="1" <?php echo ($officer_Cotton == 1 ? 'selected' : ''); ?>>ฝ่ายคอมพิวเตอร์</option>
+        <option value="2" <?php echo ($officer_Cotton == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
+        <option value="3" <?php echo ($officer_Cotton == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
+        <option value="4" <?php echo ($officer_Cotton == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
+        <option value="5" <?php echo ($officer_Cotton == 5 ? 'selected' : ''); ?>>แอดมิน</option>
+    </select>
+</div>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function loadOfficerCotton(useripass) {
+    if (useripass === "") {
+        $('#officer_Cotton').val('').prop('disabled', false); // ยกเลิกการล็อกให้เลือกได้
+        return;
+    }
+
+    $.ajax({
+        url: 'get_officer_cotton.php',
+        type: 'POST',
+        data: { useripass: useripass },
+        success: function(response) {
+            $('#officer_Cotton').val(response).prop('disabled', false); // ล็อก dropdown หลังจากเลือก
+        },
+        error: function() {
+            alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
+        }
+    });
+}
+
+
+</script>
+
+
+
+    <!-- Upload Image Section -->
                 <div class="mb-4">
                     <label for="finance_Image" class="font-weight-bold" style="font-size: 16px; color: #333;">อัปโหลดไฟล์รูปภาพ:</label>
                     <?php
@@ -141,19 +166,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function submitForm() {
-        const useripass = document.getElementById('useripass').value;
-        const cottonId = document.getElementById('cotton_Id').value;
-        if (useripass === "" || cottonId === "") {
-            alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-            return false;
-        }
-        alert("บันทึกการแก้ไขเรียบร้อย");
-        return true;
-    }
-</script>
 
     <script>
             <?php

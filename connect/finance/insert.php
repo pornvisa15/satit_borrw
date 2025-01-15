@@ -4,9 +4,9 @@ include '../mysql_borrow.php';
 session_start();
 
 // รับค่าจากฟอร์ม
-$useripass = $_POST['useripass'] ?? '';
-$cotton_Id = $_POST['officer_Cotton'] ?? '';
-$device_Access = $_POST['device_Access'] ?? '';
+$useripass = $_POST['useripass'] ?? null;
+$officer_Cotton = $_POST['officer_Cotton'] ?? null;  // ใช้ $officer_Cotton
+$device_Access = $_POST['device_Access'] ?? null;
 
 // ตรวจสอบการเชื่อมต่อฐานข้อมูล
 if ($conn->connect_error) {
@@ -34,14 +34,14 @@ if (isset($_FILES['finance_Image']) && $_FILES['finance_Image']['error'] === UPL
 
     // อัปโหลดไฟล์
     if (move_uploaded_file($_FILES['finance_Image']['tmp_name'], $target_file)) {
-        // สร้างคำสั่ง SQL เพื่อเพิ่มข้อมูลลงในฐานข้อมูล
-        $sql = "INSERT INTO finance (finance_Image, cotton_Id, useripass)
-                VALUES ('$device_Image', '$cotton_Id', '$useripass')";
+        // ใช้ Prepared Statement เพื่อลดความเสี่ยงจาก SQL Injection
+        $stmt = $conn->prepare("INSERT INTO finance (finance_Image, officer_Cotton, useripass) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $device_Image, $officer_Cotton, $useripass);
 
-        if ($conn->query($sql) === TRUE) {
+        if ($stmt->execute()) {
             echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_finance.php';</script>";
         } else {
-            echo "<script>alert('เกิดข้อผิดพลาด: " . $conn->error . " คำสั่ง SQL: $sql'); location.href = '../../pages/admin_finance.php';</script>";
+            echo "<script>alert('เกิดข้อผิดพลาด: " . $stmt->error . "'); location.href = '../../pages/admin_finance.php';</script>";
         }
     } else {
         echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_finance.php';</script>";

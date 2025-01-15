@@ -97,9 +97,9 @@ if ($result->num_rows > 0) {
                                 <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
                                 <p class="card-text mb-0">
                                     สถานะ: 
-                                    <span class="fw-bold" style="color: <?= $item['status'] == 1 ? '#78C756' : '#FF090D'; ?>;">
-                                        <?= $item['status'] == 1 ? 'ว่าง' : 'ไม่ว่าง'; ?>
-                                    </span>
+                                    <span class="fw-bold" style="color: <?= 1 == 1 ? '#FF090D' : '#78C756'; ?>;">
+                                            <?= 1 == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                        </span>
                                 </p>
                             </div>
                         </div>
