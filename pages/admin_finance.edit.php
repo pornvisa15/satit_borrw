@@ -146,9 +146,8 @@ function loadOfficerCotton(useripass) {
                         <?php if (!empty($finance_Image) && file_exists($filePath)) { ?>
                             <img src="<?php echo htmlspecialchars($filePath); ?>" 
                                  alt="Current Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                            <p style="margin-top: 5px; color: #555;">ไฟล์เดิม: <strong><?php echo htmlspecialchars($finance_Image); ?></strong></p>
-                        <?php } else { ?>
-                            <p style="color: #888;">ไม่มีไฟล์รูปภาพเดิม</p>
+                           
+                        
                         <?php } ?>
                     </div>
 

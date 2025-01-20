@@ -54,10 +54,23 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
         <div class="d-flex justify-content-between align-items-center mb-4">
             <!-- <?php include 'admin3.php'; ?>  ปิดไว้ก่อน--> 
            
+            <div class="container">
+  <div class="d-flex justify-content-end">
+    <button class="btn text-white me-2" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
+      <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
+    </button>
 
-            <button class="btn text-white" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
-                <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
-            </button>
+    <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
+      <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
+    </button>
+    
+    <button class="btn text-white" style="background-color: #007bff; font-weight: normal; font-size: 14px; margin-left: 10px;" onclick="window.location.href='admin_finance_receipt.php';">
+  <i class="bi bi-person-plus"></i> ใบเสร็จ
+</button>
+
+  </div>
+</div>
+
         </div>
        
        <!-- กล่องค้นหาพร้อมปุ่ม -->
@@ -205,18 +218,17 @@ if ($result->num_rows > 0) {
             5 => 'แอดมิน'
         ];
 
-        // แปลงค่า officer_Cotton ให้เป็นชื่อฝ่าย
         $cotton_Id = isset($row['officer_Cotton']) ? (int)$row['officer_Cotton'] : 0;
-        $cotton_Name = isset($departments[$cotton_Id]) ? htmlspecialchars($departments[$cotton_Id]) : 'ไม่ระบุ';
+    $cotton_Name = isset($departments[$cotton_Id]) ? htmlspecialchars($departments[$cotton_Id]) : 'ไม่ระบุ';
 
-        $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
+    $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
 
-        if (!isset($officers[$officerUseripass])) {
-            continue; // ข้ามข้อมูลที่ไม่มีเจ้าหน้าที่
-        }
+    if (!isset($officers[$officerUseripass])) {
+        continue; // ข้ามข้อมูลที่ไม่มีเจ้าหน้าที่
+    }
 
-        $fullname = $officers[$officerUseripass];
-
+    $fullname = $officers[$officerUseripass];
+    
         echo "<tr class='officerRow' data-name='" . strtolower($fullname) . "' data-department='" . strtolower($cotton_Name) . "'>
                 <td>" . htmlspecialchars($i) . "</td>
                 <td style='text-align: center; vertical-align: top; height: 100px;' class='searchable'>
@@ -225,22 +237,18 @@ if ($result->num_rows > 0) {
                     </div>
                 </td>
                 <td>" . $cotton_Name . "</td>";
-                $imagePath = '../connect/finance/finance/img/' . $device_Image;
+                $imagePath1 = '../connect/finance/finance/img/' . $device_Image;
+                $imagePath2 = '../connect/addqr/img/' . $device_Image;
 
-                if (!empty($device_Image) && file_exists($imagePath)) {
+                if ((!empty($device_Image) && file_exists($imagePath1)) || (file_exists($imagePath2))) {
                     // แสดงปุ่มที่สามารถคลิกเพื่อดูรูปภาพใน modal (ขนาดเล็ก)
-                    echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars($imagePath) . "' title='ดูรูปภาพ'><i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
+                    echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars(file_exists($imagePath1) ? $imagePath1 : $imagePath2) . "' title='ดูรูปภาพ'><i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
                 } else {
                     // หากไม่มีรูปภาพ แสดงข้อความ
                     echo "<td>ไม่มีรูปภาพ</td>";
                 }
-                
-                
-                
-
-                
-                
-                
+                 
+         echo "<td hidden>" . htmlspecialchars($row['officerl_Id']) . "</td>";       
 
         $finance_Id = isset($row['finance_Id']) ? urlencode($row['finance_Id']) : '';
         echo "<td><a href='admin_finance.edit.php?finance_Id=" . $finance_Id . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
@@ -273,7 +281,37 @@ if ($result->num_rows > 0) {
     </div>
   </div>
 </div>
+<?php
+// สร้างอาร์เรย์เพื่อเก็บ useripass ที่แสดงแล้ว
+$seenUserIpasses = [];
 
+while ($row = $result->fetch_assoc()) {
+    $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
+
+    // ตรวจสอบว่า useripass นี้เคยแสดงไปแล้วหรือไม่
+    if (in_array($officerUseripass, $seenUserIpasses)) {
+        continue; // ข้ามการแสดงผลของแถวนี้
+    }
+
+    // เพิ่ม useripass นี้ลงในอาร์เรย์
+    $seenUserIpasses[] = $officerUseripass;
+
+    // ดึงข้อมูลเจ้าหน้าที่
+    $fullname = isset($officers[$officerUseripass]) ? $officers[$officerUseripass] : 'ไม่ระบุ';
+
+    // แสดงข้อมูลในตาราง
+    echo "<tr>
+            <td>" . htmlspecialchars($i) . "</td>
+            <td>" . htmlspecialchars($fullname) . "</td>
+            <td>" . htmlspecialchars($cotton_Name) . "</td>
+            
+            <td><a href='admin_finance.edit.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
+            <td><a href='../connect/finance/delete.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
+          </tr>";
+
+    $i++;
+}
+?>
 <script>
 // เมื่อคลิกที่ปุ่ม ดูรูปภาพ ให้เปลี่ยนรูปภาพใน modal
 document.addEventListener('DOMContentLoaded', function () {

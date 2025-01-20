@@ -31,37 +31,33 @@
 <form action="../connect/finance/insert.php" method="post" enctype="multipart/form-data" id="equipmentForm">
 <div class="mb-4">
     <label for="fullname" class="font-weight-bold" style="font-size: 16px; color: black;">ชื่อ-นามสกุล:</label>
-    <select id="useripass" class="form-select" name="useripass" required onchange="loadOfficerCotton(this.value)" style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
-        <option value="" selected disabled>กรุณาเลือกชื่อ-นามสกุล</option>
-        <?php
-        include "../connect/myspl_das_satit.php"; // เชื่อมต่อฐานข้อมูล
+    <select id="useripass" class="form-select" name="useripass" required onchange="loadOfficerCotton(this.value)">
+    <option value="" selected disabled>กรุณาเลือกชื่อ-นามสกุล</option>
+    <?php
+    include "../connect/myspl_das_satit.php";
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+    $sql = "
+        SELECT officer_staff.useripass, officer_staff.officerl_Id, das_admin.praname, das_admin.name, das_admin.surname 
+        FROM borrow.officer_staff 
+        INNER JOIN das_satit.das_admin 
+        ON officer_staff.useripass = das_admin.useripass 
+        WHERE das_admin.statuson = 1
+    ";
+
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
+            echo "<option value='{$row['useripass']}' data-officerid='{$row['officerl_Id']}'>{$fullname}</option>";
         }
+    }
+    ?>
+</select>
 
-        $sql = "
-            SELECT officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname 
-            FROM borrow.officer_staff 
-            INNER JOIN das_satit.das_admin 
-            ON officer_staff.useripass = das_admin.useripass 
-            WHERE das_admin.statuson = 1
-        ";
+<!-- ✅ เพิ่มตรงนี้ -->
+<input type="hidden" id="officerl_Id" name="officerl_Id">
 
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
-                echo "<option value='{$row['useripass']}'>{$fullname}</option>";
-            }
-        } else {
-            echo "<option value=''>ไม่มีข้อมูล</option>";
-        }
-
-        $conn->close();
-        ?>
-    </select>
 </div>
 <div class="form-group mb-4" style="font-size: 16px; color: black;">
     <label for="officer_Cotton" class="font-weight-bold" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
@@ -78,20 +74,19 @@
 
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 function loadOfficerCotton(useripass) {
-    if (useripass === "") {
-        $('#officer_Cotton').val('').prop('disabled', false); // ยกเลิกการล็อกให้เลือกได้
-        return;
-    }
+    let officerId = $('#useripass option:selected').data('officerid');
+    $('#officerl_Id').val(officerId);  // ✅ ใส่ค่าใน hidden input
 
     $.ajax({
         url: 'get_officer_cotton.php',
         type: 'POST',
         data: { useripass: useripass },
         success: function(response) {
-            $('#officer_Cotton').val(response).prop('disabled', false); // ล็อก dropdown หลังจากเลือก
+            $('#officer_Cotton').val(response).prop('disabled', false);
         },
         error: function() {
             alert('เกิดข้อผิดพลาดในการโหลดข้อมูล');
