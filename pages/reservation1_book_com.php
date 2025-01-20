@@ -97,6 +97,8 @@
                     <h5 class="text-center text-success mb-4">รายละเอียดการทำรายการ</h5>
 
                     <form action="../connect/reservation/insert.php" method="post" enctype="multipart/form-data">
+
+                        <input type="text" name="history_Status_BRS" id="historyStatusBRS" hidden>
                         <div class="container mt-4">
                             <div class="form-group mb-4">
                                 <label for="device_Name" class="font-weight-bold text-success"
@@ -122,6 +124,7 @@
                             </div>
 
                             <div class="form-group row mb-4">
+
                                 <div class="col-sm-6">
                                     <label for="history_Other" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: #007468;">เพื่อไปใช้งาน :</label>
@@ -179,6 +182,7 @@
                                     <i class="bi bi-check-circle"></i> บันทึกข้อมูล
                                 </button>
                             </div>
+
                         </div>
                     </form>
 

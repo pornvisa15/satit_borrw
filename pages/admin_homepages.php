@@ -16,15 +16,11 @@
 <body class="d-flex bg-light">
     <?php
     session_start();
-    include 'sidebar.php'; // Include Sidebar
+    include 'sidebar.php';
     include '../connect/myspl_das_satit.php';
     include '../connect/mysql_studentsatit.php';
     include '../connect/mysql_borrow.php';
-
-    // Retrieve session value
     $user_department_id = $_SESSION['officer_Cotton'] ?? 0;
-
-    // Header configuration based on department
     $headerOptions = [
         1 => ["รายการอุปกรณ์คอมพิวเตอร์", "#537bb7"],
         2 => ["รายการอุปกรณ์วิทยาศาสตร์", "#537bb7"],
@@ -35,27 +31,17 @@
 
     $headerText = $headerOptions[$user_department_id][0] ?? "อุปกรณ์";
     $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
-
-    // Filter cottonId if set
     $cottonFilter = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
     ?>
     <div class="flex-grow-1 p-4">
-
         <?php include 'short.php'; ?>
-
         <div class="card shadow-sm mt-5">
             <div class="card-header text-white" style="background-color: <?= $bgColor ?>;">
                 <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
             </div>
-
             <div class="card-body">
-
-                <!-- Dropdown to select department -->
                 <div class="d-flex justify-content-between" style="gap: 20px; margin-top: 15px;">
-                    <!-- Dropdown for Selecting Department -->
-
                     <?php include 'admin1.php'; ?>
-                    <!-- Dropdown for Selecting Status -->
                     <form method="get" action="" style="flex: 1;">
                         <select id="equipmentType" name="status_Name" class="form-select" style="font-size: 14px;"
                             onchange="this.form.submit()">
@@ -73,10 +59,6 @@
                         </select>
                     </form>
                 </div>
-
-
-
-
                 </form>
                 <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
                     <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่ออุปกรณ์"
@@ -87,16 +69,9 @@
                         ค้นหา
                     </button>
                 </div>
-
-
-
-                <!-- Display equipment based on selection -->
                 <div id="equipmentList" style="margin-top: 20px; font-size: 14px;">
-                    <!-- Equipment names will be dynamically added here -->
                 </div>
-
                 </tbody>
-
                 <table class="table table-bordered table-striped text-center table-responsive" style="font-size: 14px;">
                     <thead class="table-light">
                         <tr>
@@ -115,56 +90,17 @@
                         <?php
                         $showAll = isset($_GET['show_all']) ? true : false;
                         $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
-                        // เริ่มต้น query ด้วย WHERE 1=1 เพื่อรองรับเงื่อนไขกรอง
-                        $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
+                        $sql = "SELECT * FROM borrow.history_brs WHERE 1=1 AND history_Status != 2";
 
                         if ($user_department_id != 5) {
-                            $sql .= " AND history_brs.cotton_Id = $user_department_id";
+                            $sql .= " AND history_brs.cotton_Id = $user_department_id ";
                         } elseif ($cottonFilter > 0) {
                             $sql .= " AND history_brs.cotton_Id = $cottonFilter";
-                        } else {
-
                         }
 
-                        // กรองตาม cottonFilter หรือ user_department_id
-// หากมี cottonFilter ให้กรองตาม cotton_Id
-// if (!empty($cottonFilter)) {
-//     $sql .= " AND cotton_Id = ?";
-// } 
-// // ถ้าไม่มี cottonFilter ให้ใช้ user_department_id
-// else {
-//     $sql .= "";
-// }
-                        
-                        // เตรียม query
-// $stmt = $conn->prepare($sql);
-// $showAll = isset($_GET['show_all']) ? true : false;
-// // ผูกค่าตัวแปร cottonFilter หรือ user_department_id
-// if (!empty($cottonFilter)) {
-//     // ถ้ามี cottonFilter
-//     $stmt->bind_param("i", $cottonFilter);
-// } 
-// // ถ้าไม่มี cottonFilter ใช้ user_department_id
-// else {
-//     if($user_department_id != 5){
-//         $stmt->bind_param("i", $user_department_id);
-//     }
-                        
-                        // }
-                        
-                        // ผูกค่าตัวแปรสถานะ (ถ้ามี)
-// if (isset($status)) {
-//     // ถ้ามีการเลือกสถานะ
-//     $stmt->bind_param("s", $status);
-// }
-                        
-                        // $stmt->execute();
-// $result = $stmt->get_result();
-                        
                         $result = $conn->query($sql);
-
-                        // แสดงผลข้อมูล
                         $i = 1;
+
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>";
@@ -183,7 +119,24 @@
                                 echo "<td>" . htmlspecialchars($formattedBorrowDate) . "</td>";
                                 echo "<td>" . htmlspecialchars($formattedReturnDate) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['user_Id']) . "</td>"; // ผู้ยืม
-                                echo "<td><span class='badge bg-warning text-dark' style='border-radius: 12px; padding: 5px 10px;'>" . htmlspecialchars($row['history_device']) . "</span></td>";
+                        
+                                // ใช้ switch กำหนดสถานะ
+                                $status = $row['history_Status_BRS'];
+                                $statusDetails = match ($status) {
+                                    '0' => ['รออนุมัติ', 'bg-warning', 'bi-clock'],   // สีเหลือง พร้อมไอคอนนาฬิกา
+                                    '1' => ['อนุมัติ', 'bg-success', 'bi-check-circle'], // สีเขียว พร้อมไอคอนถูก
+                                    '2' => ['ไม่อนุมัติ', 'bg-danger', 'bi-x-circle'],  // สีแดง พร้อมไอคอนกากบาท
+                                    default => ['ไม่ทราบสถานะ', 'bg-secondary', 'bi-question-circle'], // กรณีไม่ทราบสถานะ
+                                };
+
+                                $statusName = $statusDetails[0];
+                                $statusColor = $statusDetails[1];
+                                $statusIcon = $statusDetails[2];
+
+                                echo "<td><span class='badge $statusColor text-light' style='border-radius: 12px; padding: 5px 10px;'>
+                                    <i class='$statusIcon me-1'></i>$statusName</span></td>";
+
+                                // echo "<td><span class='badge bg-warning text-dark' style='border-radius: 12px; padding: 5px 10px;'>{$statusName}</span></td>";
                                 echo "<td>" . htmlspecialchars($row['history_Other']) . "</td>";
                                 echo "<td><a href='adminhome_details.php?id=" . urlencode($row['history_Id']) . "' class='btn btn-sm' style='background-color: #4fb05a; color: white; border-radius: 8px;'>รายละเอียด</a></td>";
                                 echo "</tr>";
@@ -193,12 +146,8 @@
                             echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
                         }
                         ?>
-
-
-
-
-
                     </tbody>
+
                 </table>
 
             </div>
@@ -208,7 +157,6 @@
     </div>
     </div>
     <script>
-        // Search function for table data
         document.getElementById('searchEquipment').addEventListener('keyup', function () {
             let searchValue = this.value.toLowerCase();
             let rows = document.querySelectorAll('table tbody tr');
@@ -217,8 +165,6 @@
                 row.style.display = text.includes(searchValue) ? '' : 'none';
             });
         });
-
-        // Filter function based on cotton filter dropdown
         document.getElementById('cottonFilter').addEventListener('change', function () {
             let cottonId = this.value;  // Value from cotton filter dropdown
             let url = window.location.href.split('?')[0]; // Get current URL

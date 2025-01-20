@@ -12,6 +12,7 @@ $history_device = isset($_POST['device_Name']) ? $_POST['device_Name'] : '';
 $parcel_Numder = isset($_POST['device_Numder']) ? $_POST['device_Numder'] : '';
 $history_Status = isset($_POST['history_Status']) ? $_POST['history_Status'] : '';
 $cotton_Id = isset($_POST['cotton_Id']) ? $_POST['cotton_Id'] : '';
+$history_Status_BRS = isset($_POST['history_Status_BRS']) ? $_POST['history_Status_BRS'] : '';
 
 if (isset($_SESSION['std_name']) && isset($_SESSION['std_surname'])) {
     $user_Id = $_SESSION['std_name'] . " " . $_SESSION['std_surname'];
@@ -50,11 +51,11 @@ if ($history_Status === '1') {
 }
 
 $stmt = $conn->prepare("INSERT INTO history_brs 
-    (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, cotton_Id,device_Con) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,0)");
+    (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, cotton_Id,device_Con,history_Status_BRS) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,0)");
 
 $stmt->bind_param(
-    "ssssssssssss",
+    "sssssssssssss",
     $device_Id,
     $history_Borrow,
     $history_Return,
@@ -66,6 +67,7 @@ $stmt->bind_param(
     $parcel_Numder,
     $history_Numder,
     $history_Status,
+    $history_Status_BRS,
 
     $cotton_Id
 );
