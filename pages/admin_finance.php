@@ -63,11 +63,6 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
     <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
       <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
     </button>
-    
-    <button class="btn text-white" style="background-color: #007bff; font-weight: normal; font-size: 14px; margin-left: 10px;" onclick="window.location.href='admin_finance_receipt.php';">
-  <i class="bi bi-person-plus"></i> ใบเสร็จ
-</button>
-
   </div>
 </div>
 
@@ -76,7 +71,7 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
        <!-- กล่องค้นหาพร้อมปุ่ม -->
 <!-- กล่องค้นหาพร้อมปุ่ม -->
 <div class="input-group mb-3">
-    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
     <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
         ค้นหา
     </button>
