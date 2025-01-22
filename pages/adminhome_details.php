@@ -222,7 +222,7 @@
                     </div>
                     <div class="modal-body">
                         <p>คุณต้องการรับคืนรายการนี้หรือไม่?</p>
-                        <form id="returnForm" action="../connect/examine/insert.php" method="POST"
+                        <form id="returnForm" action="../connect/refund/update.php" method="POST"
                             enctype="multipart/form-data">
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="history_Status" id="rStatus"

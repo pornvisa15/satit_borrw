@@ -19,19 +19,21 @@
     include "../connect/mysql_borrow.php";
     $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0;
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
-    $sql = "SELECT * FROM borrow.device_information WHERE 1";
 
-    //     $sql = "SELECT * FROM borrow.device_information 
-// INNER JOIN borrow.history_brs ON device_information.device_Id = history_brs.device_Id";
-    
+    $sql = "
+    SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
+           COALESCE(hb.device_Con, 0) AS device_Con
+    FROM borrow.device_information di
+    LEFT JOIN (
+        SELECT device_Id, MAX(htime_Return) AS latest_return, device_Con
+        FROM borrow.history_brs
+        GROUP BY device_Id
+    ) hb ON di.device_Id = hb.device_Id
+    WHERE 1
+    ";
 
-    if ($officerRight == 1) {
-        $sql .= " AND device_Access = 1";
-    } elseif ($officerRight == 2) {
-        $sql .= " AND (device_Access = 1 OR device_Access = 2)";
-    }
     if ($searchQuery != '') {
-        $sql .= " AND device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
+        $sql .= " AND di.device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
     }
 
     $result = $conn->query($sql);
@@ -42,14 +44,15 @@
             $equipment[] = [
                 'id' => $row['device_Id'],
                 'name' => $row['device_Name'],
-
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'],
+                'device_Con' => $row['device_Con'], // ค่าสถานะว่าง/ไม่ว่าง
             ];
         }
     } else {
         $equipment = [];
     }
+
     ?>
 
     <div class="col-md-9 col-lg-10 mb-5">
@@ -79,15 +82,14 @@
                 </div>
             </div>
             <div class="row g-4 mt-5 justify-content-start">
-                <?php
-                if (!empty($equipment)):
-                    foreach ($equipment as $item): ?>
-                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= $item['name']; ?>">
-                            <div class=" card h-100 shadow-sm">
+                <?php if (!empty($equipment)): ?>
+                    <?php foreach ($equipment as $item): ?>
+                        <div class="col-md-3 col-12 equipmentRow" data-name="<?= htmlspecialchars($item['name']); ?>">
+                            <div class="card h-100 shadow-sm">
                                 <div class="text-center p-3">
                                     <a
                                         href="reservation1yes_com.php?id=<?= $item['id']; ?>&image=<?= $item['image']; ?>&name=<?= urlencode($item['name']); ?>">
-                                        <img src="<?= $item['image']; ?>" alt="<?= $item['name']; ?> Image"
+                                        <img src="<?= $item['image']; ?>" alt="<?= htmlspecialchars($item['name']); ?> Image"
                                             class="img-fluid rounded"
                                             style="transition: transform 0.3s ease; height: 150px; object-fit: cover; cursor: pointer;"
                                             onmouseover="this.style.transform='scale(1.2)';"
@@ -95,15 +97,15 @@
                                     </a>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
+                                    <h6 class="card-title mb-3"><?= htmlspecialchars($item['name']); ?></h6>
                                     <p class="card-text mb-0">
                                         สถานะ:
-                                        <span class="fw-bold" style="color: <?= 1 == 1 ? '#FF090D' : '#78C756'; ?>;">
-                                            <?= 1 == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                        <span class="fw-bold"
+                                            style="color: <?= $item['device_Con'] == 1 ? '#FF090D' : '#78C756'; ?>;">
+                                            <?= $item['device_Con'] == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>
-
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -113,6 +115,7 @@
                     </p>
                 <?php endif; ?>
             </div>
+
         </div>
     </div>
 
