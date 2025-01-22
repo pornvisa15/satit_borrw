@@ -82,7 +82,7 @@
                     <div class="mb-4">
                         <label for="department" class="font-weight-bold"
                             style="font-size: 16px; color: black;">เจ้าหน้าที่ฝ่าย:</label>
-                        <select class="form-select" name="officer_Cotton" required
+                        <select class="form-select" name="cotton_Id" required
                             style="margin-top :5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da;">
                             <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
                             <option value="1">ฝ่ายคอมพิวเตอร์</option>

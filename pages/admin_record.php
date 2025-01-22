@@ -67,13 +67,13 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
             <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
                 <thead class="table-light">
                     <tr>
-                        <th>ลำดับ</th>
-                        <th>เลขพัสดุ /ครุภัณฑ์</th>
-                        <th>ชื่ออุปกรณ์</th>
-                        <th>จำนวนครั้ง/ยืม</th>
-                        <th>ชื่อ/นามสกุล ยืม</th>
-                        <th>สถานะอุปกรณ์</th>
-                        <th>ไฟล์รูป</th>
+                        <th style="width: 1%;">ลำดับ</th>
+                        <th style="width: 5%;">เลขพัสดุ /ครุภัณฑ์</th>
+                        <th style="width: 5%;">ชื่ออุปกรณ์</th>
+                        <th style="width: 4%;">จำนวนครั้ง/ยืม</th>
+                        <th style="width: 5%;">ชื่อ/นามสกุล ยืม</th>
+                        <th style="width: 4%;">สถานะอุปกรณ์</th>
+                        <th style="width: 5%;">ไฟล์รูป</th>
                         
                     </tr>
                 </thead>
@@ -105,59 +105,65 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
             echo "<td>" . htmlspecialchars($row['parcel_Numder']) . "</td>"; // เลขพัสดุ/ครุภัณฑ์
             echo "<td>" . htmlspecialchars($row['history_device']) . "</td>"; // ชื่ออุปกรณ์
             echo "<td>" . htmlspecialchars($row['history_Numder']) . "</td>"; // จำนวนครั้ง/ยืม
-            echo "<td>" . htmlspecialchars($row['user_Id']) . "</td>"; 
+            echo "<td>" . htmlspecialchars($row['user_Id']) . "</td>";
             echo "<td>";
-            
+    
             // สถานะของอุปกรณ์
-            if ($row['device_Con'] == 0) {
+            if ($row['history_Status_BRS'] == 0) {
                 echo "<span class='badge rounded-pill bg-warning text-dark' style='font-size: 12px;'> 
-                    <i class='bi bi-clock-history'></i> รออนุมัติ</span>";
-            } elseif ($row['device_Con'] == 1) {
+                        <i class='bi bi-clock-history'></i> รออนุมัติ
+                      </span>";
+            } elseif ($row['history_Status_BRS'] == 1) {
+                echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
+                        <i class='bi bi-check-circle'></i> รอคืน
+                      </span>";
+            }
+      
+            // แสดงสถานะ hreturn_Status
+            if ($row['hreturn_Status'] == 1) {
                 echo "<span class='badge rounded-pill bg-success' style='font-size: 12px;'> 
-                    <i class='bi bi-check-circle'></i> ปกติ</span>";
-            } elseif ($row['device_Con'] == 2) {
+                        <i class='bi bi-check-circle'></i> สภาพปกติ</span>";
+            } elseif ($row['hreturn_Status'] == 2) {
+                echo "<span class='badge rounded-pill' style='font-size: 12px; background-color:hsl(14, 98.70%, 70.00%); color:rgb(59, 59, 59);'> 
+    <i class='bi bi-exclamation-triangle'></i> สภาพไม่สมบูรณ์
+</span>
+
+";
+            } elseif ($row['hreturn_Status'] == 3) {
+                echo "<span class='badge rounded-pill bg-info text-dark' style='font-size: 12px;'> 
+                        <i class='bi bi-tools'></i> ผู้ยืมซ่อมแซม</span>";
+            } elseif ($row['hreturn_Status'] == 4) {
+                echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
+                        <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
+            } elseif ($row['hreturn_Status'] == 7) {
                 echo "<a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
                         class='badge rounded-pill bg-danger text-decoration-none text-light' 
                         style='cursor: pointer; font-size: 12px;'>
-                        <i class='bi bi-exclamation-circle'></i> ชำรุด</a>"; 
-            } else {
-                echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
-                    <i class='bi bi-question-circle'></i> ไม่ทราบสถานะ</span>";
+                        <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย</a>";
             }
-            echo "</td>";
-        
-           
-            
+    
+            // ตรวจสอบการมีรูปภาพในฐานข้อมูล
             $money_Image = isset($row['money_Image']) ? $row['money_Image'] : ''; 
             $imagePath = '../connect/receipt/img/' . $money_Image;
-            
-            // ตรวจสอบว่าอุปกรณ์เป็น "ชำรุด" และมีรูปภาพ
-            if ($row['device_Con'] == 2 && !empty($money_Image) && file_exists($imagePath)) {
-                // แสดงปุ่มที่สามารถคลิกเพื่อดูรูปภาพใน modal (ขนาดเล็ก)
-                echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars($imagePath) . "' title='ดูรูปภาพ'><i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
-            } elseif ($row['device_Con'] == 2) {
-                // หากสถานะเป็น "ชำรุด" แต่ไม่มีรูปภาพ
-                echo "<td style='background-color: #f8d7da; color: #721c24; font-weight: bold; text-align: center;'>ยังไม่แนบไฟล์</td>";
-
-
-            } else {
-                // หากไม่ใช่ "ชำรุด" ไม่มีข้อความใดๆ
-                echo "<td></td>";
+    
+            if ($row['hreturn_Status'] == 7) {
+                if (!empty($money_Image) && file_exists($imagePath)) {
+                    // หากมีรูปภาพในฐานข้อมูลและไฟล์มีอยู่จริง แสดงปุ่มดูรูปภาพ
+                    echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars($imagePath) . "' title='ดูรูปภาพ'>
+                            <i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
+                } else {
+                    // หากไม่มีรูปภาพในฐานข้อมูลหรือไฟล์ไม่พบ
+                    echo "<td style='background-color: #f8d7da; color: #721c24; font-weight: bold; text-align: center;'>ยังไม่แนบไฟล์</td>";
+                }
             }
-            
-            
-            
-
     
-    
-    
-
+            echo "</td>";
             echo "</tr>";
             $i++;
         }
-    } else {
-        echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
     }
+    
+       
     ?>
 </tbody>
 

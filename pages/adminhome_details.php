@@ -240,15 +240,14 @@
                                 hidden>
 
                             <p>กรุณาเลือกสถานะอุปกรณ์</p>
-                            <select class="form-select" id="damageCondition" name="status_Id" required
+                            <select class="form-select" id="damageCondition" name="hreturn_Status" required
                                 onchange="togglePriceInput()">
-                                <option value="1">สภาพสมบูรณ์</option>
-                                <option value="2">สภาพไม่สมบูรณ์</option>
-                                <option value="3">ครบถ้วนสมบูรณ์</option>
-                                <option value="4">ไม่ครบถ้วนสมบูรณ์</option>
-                                <option value="5">ผู้ยืมซ่อมแซม</option>
-                                <option value="6">ชดใช้เป็นพัสดุ</option>
-                                <option value="7">ชดใช้ค่าเสียหาย</option>
+                               <option value="1">สภาพสมบูรณ์,ครบถ้วนสมบูรณ์</option>
+    <option value="2">สภาพไม่สมบูรณ์,ไม่ครบถ้วนสมบูรณ์</option>
+    <option value="3">ผู้ยืมซ่อมแซม</option>
+    <option value="4">ชดใช้เป็นพัสดุ</option>
+    <option value="7">ชดใช้ค่าเสียหาย</option>
+
                             </select>
 
                             <!-- ฟิลด์สำหรับกรอกราคา -->

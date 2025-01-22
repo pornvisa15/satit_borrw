@@ -100,8 +100,8 @@
                         <select id="device_Access" name="device_Access" class="form-select"
                             style="font-size: 14px; margin-top: 5px;" required>
                             <option value="" selected disabled>กรุณาเลือก</option>
-                            <option value="1">บุคลากร</option>
-                            <option value="2">บุคลากรและนักเรียน</option>
+                            <option value="1">นักเรียนและบุคลากร</option>
+                            <option value="2">บุคลากร</option>
                         </select>
                     </div>
 

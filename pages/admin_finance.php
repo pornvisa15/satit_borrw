@@ -71,7 +71,7 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
        <!-- กล่องค้นหาพร้อมปุ่ม -->
 <!-- กล่องค้นหาพร้อมปุ่ม -->
 <div class="input-group mb-3">
-    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
     <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
         ค้นหา
     </button>
