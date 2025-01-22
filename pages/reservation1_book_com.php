@@ -28,6 +28,8 @@
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
     $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
     $result = $conn->query($sql);
+    date_default_timezone_set('Asia/Bangkok'); // ตั้งโซนเวลา
+    $currentDate = date('Y-m-d H:i:s');
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();

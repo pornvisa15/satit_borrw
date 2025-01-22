@@ -10,6 +10,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 $currentDate = date('Y-m-d H:i:s');
+
 ?>
 
 <!DOCTYPE html>
@@ -36,25 +37,40 @@ $currentDate = date('Y-m-d H:i:s');
                     </h1>
                     <form>
                         <ul class="list-group list-group-flush">
-                            <?php while ($row = $result->fetch_assoc()):
+                            <?php
+                            date_default_timezone_set('Asia/Bangkok'); // ตั้งโซนเวลา
+                            $currentDate = date('Y-m-d H:i:s');
+
+
+                            while ($row = $result->fetch_assoc()):
+
                                 $historyReturn = $row['history_Return'];
-                                $timeLeft = ((strtotime($historyReturn) / 60 * 60) - (strtotime($currentDate)) / (60 * 60)); // เวลาที่เหลือเป็นชั่วโมง
-                            
-                                if ($timeLeft <= 0) {
-                                    $hoursOverdue = abs($timeLeft);
-                                    $overdueHours = floor($hoursOverdue);
-                                    $overdueMinutes = round(($hoursOverdue - $overdueHours) * 60);
-                                    $badgeClass = "bg-danger";
-                                    $badgeText = "เลยกำหนดมาแล้ว";
-                                    $iconClass = "bi-x-circle-fill";
-                                } elseif ($timeLeft <= 2) {
-                                    $badgeClass = "bg-warning text-dark";
-                                    $badgeText = "ใกล้ครบกำหนด";
-                                    $iconClass = "bi-exclamation-circle-fill";
+                                $historyReturnTimestamp = strtotime($historyReturn);
+                                $currentDateTimestamp = strtotime($currentDate);
+
+
+                                if ($historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
+                                    $timeLeft = ($historyReturnTimestamp - $currentDateTimestamp) / 3600; // คำนวณเป็นชั่วโมง
+                                    if ($timeLeft < 0) {
+                                        $timeLeft = abs($timeLeft); // ใช้ค่าแนบของเวลาที่เลยกำหนด
+                                        $hoursOverdue = floor($timeLeft);
+                                        $overdueMinutes = round(($timeLeft - $hoursOverdue) * 60);
+                                        $badgeClass = "bg-danger";
+                                        $badgeText = "เลยกำหนดมาแล้ว " . $hoursOverdue . " ชม. " . $overdueMinutes . " นาที" . $timeLeft;
+                                        $iconClass = "bi-x-circle-fill";
+                                    } elseif ($timeLeft <= 2) {
+                                        $badgeClass = "bg-warning text-dark";
+                                        $badgeText = "ใกล้ครบกำหนด";
+                                        $iconClass = "bi-exclamation-circle-fill";
+                                    } else {
+                                        $badgeClass = "bg-success";
+                                        $badgeText = "กำลังใช้งาน " . floor($timeLeft) . " ชม. " . round(($timeLeft - floor($timeLeft)) * 60) . " นาที";
+                                        $iconClass = "bi-check-circle-fill";
+                                    }
                                 } else {
-                                    $badgeClass = "bg-success";
-                                    $badgeText = "กำลังใช้งาน" . $timeLeft;
-                                    $iconClass = "bi-check-circle-fill";
+                                    $badgeClass = "bg-secondary";
+                                    $badgeText = "ข้อมูลเวลาผิดพลาด";
+                                    $iconClass = "bi-question-circle-fill";
                                 }
                                 ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
