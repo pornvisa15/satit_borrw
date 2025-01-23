@@ -15,17 +15,33 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+
     <?php
     session_start();
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
 
-    $sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.htime_Return, hb.history_Status 
-        FROM history_brs hb 
-        INNER JOIN device_information di ON hb.device_Id = di.device_Id ";
-    $result = $conn->query($sql);
-    ?>
+    // ตรวจสอบ session
+    if (!isset($_SESSION['user_Id'])) {
+        die("คุณยังไม่ได้เข้าสู่ระบบ! กรุณาเข้าสู่ระบบก่อนใช้งาน.");
+    }
 
+    // Escape user_Id เพื่อป้องกัน SQL Injection
+    $user_id = mysqli_real_escape_string($conn, $_SESSION['user_Id']);
+
+    // Query
+    $sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status 
+        FROM history_brs hb
+        INNER JOIN device_information di ON hb.device_Id = di.device_Id  
+        WHERE hb.user_Id = '$user_id'";
+
+    $result = mysqli_query($conn, $sql);
+
+    // ตรวจสอบข้อผิดพลาด
+    if (!$result) {
+        die("ข้อผิดพลาดในการดึงข้อมูล: " . mysqli_error($conn));
+    }
+    ?>
 
 
     <!-- กล่องทางขวา (เนื้อหา) -->
@@ -48,6 +64,7 @@
                             onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
                             onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
                             <div>
+
                                 <!-- แสดงชื่ออุปกรณ์ -->
                                 <span class="fw-bold" style="font-size: 14px; color: #007468;">
                                     <?= htmlspecialchars($row['device_Name']) ?>
