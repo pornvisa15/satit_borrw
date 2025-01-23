@@ -101,11 +101,12 @@
                                     <p class="card-text mb-0">
                                         สถานะ:
                                         <span class="fw-bold"
-                                            style="color: <?= $item['device_Con'] == 1 ? '#FF090D' : '#78C756'; ?>;">
-                                            <?= $item['device_Con'] == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                            style="color: <?= ($item['device_Con'] == 1) ? '#FF090D' : '#78C756'; ?>;">
+                                            <?= ($item['device_Con'] == 1) ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>
+
                             </div>
                         </div>
                     <?php endforeach; ?>
