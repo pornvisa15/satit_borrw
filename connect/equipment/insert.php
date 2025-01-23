@@ -11,7 +11,7 @@ $device_Price = $conn->real_escape_string($_POST['device_Price']);  // ราค
 $device_Other = $conn->real_escape_string($_POST['device_Other']); // รายละเอียดเพิ่มเติม
 $device_Access = $conn->real_escape_string($_POST['device_Access']); // การเข้าถึง
 $device_Con = 1; // ค่าเริ่มต้น = ปกติ
-$cotton_Id = $conn->real_escape_string($_POST['cotton_Id']);
+$officer_Cotton = $conn->real_escape_string($_POST['officer_Cotton']);
 
 // ตรวจสอบว่าเลขพัสดุ/ครุภัณฑ์ซ้ำในฐานข้อมูลหรือไม่
 $sql_check = "SELECT * FROM device_information WHERE device_Numder = '$device_Numder'";
@@ -39,8 +39,8 @@ if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOA
     // อัปโหลดไฟล์
     if (move_uploaded_file($_FILES['device_Image']['tmp_name'], $target_file)) {
         // เพิ่มข้อมูลลงในฐานข้อมูล
-        $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, cotton_Id)
-                VALUES ('$device_Numder', '$device_Name', '$device_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$cotton_Id')";
+        $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, officer_Cotton)
+                VALUES ('$device_Numder', '$device_Name', '$device_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$officer_Cotton')";
 
         if ($conn->query($sql) === TRUE) {
             echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";

@@ -37,7 +37,7 @@
         $device_Status = isset($row['device_Con']) ? $row['device_Con'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Image = isset($row['device_Image']) ? '../connect/equipment/equipment/img/' . $row['device_Image'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Other = isset($row['device_Other']) ? $row['device_Other'] : 'ข้อมูลไม่ถูกส่ง';
-        $cotton_Id = isset($row['cotton_Id']) ? $row['cotton_Id'] : 'ข้อมูลไม่ถูกส่ง';
+        $officer_Cotton = isset($row['officer_Cotton']) ? $row['officer_Cotton'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Id = isset($row['device_Id']) ? $row['device_Id'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
         $history_Id = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
@@ -49,7 +49,7 @@
         $device_Status = 'ข้อมูลไม่ถูกส่ง';
         $device_Image = 'ข้อมูลไม่ถูกส่ง';
         $device_Other = 'ข้อมูลไม่ถูกส่ง';
-        $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
+        $officer_Cotton = 'ข้อมูลไม่ถูกส่ง';
         $device_Id = 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = 'ข้อมูลไม่ถูกส่ง';
         $history_Id = 'ข้อมูลไม่ถูกส่ง';
@@ -65,7 +65,7 @@
                 <div class="col-2 text-end mt-3">
                     <?php
                     $department_Name = '';
-                    switch ($cotton_Id) {
+                    switch ($officer_Cotton) {
                         case 1:
                             $department_Name = 'อุปกรณ์คอมพิวเตอร์';
                             break;
@@ -118,11 +118,10 @@
                                 <input type="text" class="form-control" hidden name="device_Numder"
                                     value="<?= htmlspecialchars($parcel_Numder) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                <input type="text" class="form-control" hidden name="cotton_Id"
-                                    value="<?= htmlspecialchars($cotton_Id) ?>"
+                                <input type="text" class="form-control" hidden name="officer_Cotton"
+                                    value="<?= htmlspecialchars($officer_Cotton) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-
-
+                                    
                             </div>
 
                             <div class="form-group row mb-4">

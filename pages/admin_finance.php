@@ -213,8 +213,8 @@ if ($result->num_rows > 0) {
             5 => 'แอดมิน'
         ];
 
-        $cotton_Id = isset($row['officer_Cotton']) ? (int)$row['officer_Cotton'] : 0;
-    $cotton_Name = isset($departments[$cotton_Id]) ? htmlspecialchars($departments[$cotton_Id]) : 'ไม่ระบุ';
+        $officer_Cotton = isset($row['officer_Cotton']) ? (int)$row['officer_Cotton'] : 0;
+    $cotton_Name = isset($departments[$officer_Cotton]) ? htmlspecialchars($departments[$officer_Cotton]) : 'ไม่ระบุ';
 
     $officerUseripass = isset($row['useripass']) ? $row['useripass'] : '';
 

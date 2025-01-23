@@ -39,7 +39,7 @@
 
     // Set search term from GET parameter or default to an empty string
     $searchTerm = $_GET['search'] ?? '';
-    $selectedCottonId = $_GET['cotton_Id'] ?? 0;
+    $selectedCottonId = $_GET['officer_Cotton'] ?? 0;
     ?>
 
     <div class="flex-grow-1 p-4">
@@ -91,17 +91,30 @@
                         </thead>
                         <tbody>
                             <?php
-                            // SQL Query with dynamic filter based on search and cotton_Id
-                            // SQL Query with dynamic filter based on search and cotton_Id
-                            $sql = "SELECT * FROM borrow.device_information 
-INNER JOIN borrow.cotton ON device_information.cotton_Id = cotton.cotton_Id";
+                           
+                            // สร้างคำสั่ง SQL สำหรับดึงข้อมูลจากฐานข้อมูล
+$sql = "SELECT * FROM borrow.device_information";
 
-                            // Filter by user department if not "ทั้งหมด"
-                            if ($user_department_id != 5) {
-                                $sql .= " WHERE device_information.cotton_Id = $user_department_id";
-                            } elseif ($selectedCottonId > 0) {
-                                $sql .= " WHERE device_information.cotton_Id = $selectedCottonId";
-                            }
+// ตรวจสอบเงื่อนไขสำหรับการกรองข้อมูล
+if ($user_department_id != 5) {
+    // กรองข้อมูลตาม $user_department_id
+    $sql .= " WHERE officer_Cotton = $user_department_id";
+} elseif ($selectedCottonId > 0) {
+    // กรองข้อมูลตาม $selectedCottonId
+    $sql .= " WHERE officer_Cotton = $selectedCottonId";
+}
+
+// รันคำสั่ง SQL
+$result = $conn->query($sql);
+
+// ตรวจสอบและแสดงผลลัพธ์
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+       
+    }
+} else {
+    echo "ไม่มีข้อมูลที่ตรงกับเงื่อนไข.";
+}
 
                             // Apply search filter if search term exists
                             if (!empty($searchTerm)) {
@@ -115,40 +128,48 @@ INNER JOIN borrow.cotton ON device_information.cotton_Id = cotton.cotton_Id";
                             // Execute SQL query
                             $result = $conn->query($sql);
 
-                            // ส่วนนี้เป็นเหมือนเดิม
-                            if ($result->num_rows > 0) {
-                                $i = 1;
-                                while ($row = $result->fetch_assoc()) {
+                          // ส่วนนี้เป็นเหมือนเดิม
+if ($result->num_rows > 0) {
+    $i = 1;
+    while ($row = $result->fetch_assoc()) {
 
+        // สร้างอาร์เรย์สำหรับแมปค่าของ officer_Cotton
+        $departmentNames = [
+            1 => "ฝ่ายคอมพิวเตอร์",
+            2 => "ฝ่ายวิทยาศาสตร์",
+            3 => "ฝ่ายดนตรี",
+            4 => "ฝ่ายพัสดุ",
+            5 => "ฝ่ายแอดมิน"
+        ];
 
+        // แปลงวันที่ยืม
+        $borrowDate = new DateTime($row['device_Date']);  // ตรวจสอบว่า device_Date มีค่าเป็นวันที่ที่ถูกต้อง
+        $formattedBorrowDate = $borrowDate->format('d/m/Y'); // แปลงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
 
-                                    echo "<tr>
-                    <td>{$i}</td>
-                    <td>" . htmlspecialchars($row['device_Numder']) . "</td>
-                    <td>" . htmlspecialchars($row['device_Name']) . "</td>
-                    <td>" . htmlspecialchars($row['cotton_Name']) . "</td>
-                    <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>";
+        // เริ่มแสดงผลข้อมูล
+        echo "<tr>
+                <td>{$i}</td>
+                <td>" . htmlspecialchars($row['device_Numder']) . "</td>
+                <td>" . htmlspecialchars($row['device_Name']) . "</td>
+                <td>" . (isset($departmentNames[$row['officer_Cotton']]) 
+                          ? $departmentNames[$row['officer_Cotton']] 
+                          : "ไม่ทราบข้อมูล") . "</td>
+                <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>
+                <td>{$formattedBorrowDate}</td>
+                <td>" . (floor($row['device_Price']) == $row['device_Price'] 
+                          ? number_format($row['device_Price'], 0) 
+                          : number_format($row['device_Price'], 2)) . " บาท</td>
+                <td>" . htmlspecialchars($row['device_Other']) . "</td>
+                <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
+                <td><a href='../connect/equipment/delete.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
+              </tr>";
 
-                                    // แปลงวันที่ยืม
-                                    $borrowDate = new DateTime($row['device_Date']);  // ใช้เครื่องหมายคำพูดให้ถูกต้อง
-                                    $formattedBorrowDate = $borrowDate->format('d/m/Y'); // แสดงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
-                            
-                                    echo "
-                    <td>{$formattedBorrowDate}</td> <!-- แสดงวันที่ที่แปลงแล้ว -->
-                <td>" . (floor($row['device_Price']) == $row['device_Price'] ? number_format($row['device_Price'], 0) : number_format($row['device_Price'], 2)) . " บาท</td>
+        $i++; // เพิ่มลำดับ
+    }
+} else {
+    echo "<tr><td colspan='11'>ไม่มีข้อมูล</td></tr>";
+}
 
-
-
-                    <td>" . htmlspecialchars($row['device_Other']) . "</td>
-                    <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-                    <td><a href='../connect/equipment/delete.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-                </tr>";
-
-                                    $i++;
-                                }
-                            } else {
-                                echo "<tr><td colspan='11'>ไม่มีข้อมูล</td></tr>";
-                            }
                             ?>
                         </tbody>
                     </table>

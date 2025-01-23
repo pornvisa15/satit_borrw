@@ -24,7 +24,8 @@ if ($result->num_rows > 0) {
     $device_Con = isset($row['device_Con']) ? $row['device_Con'] : 'ข้อมูลไม่ระบุ';
     $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image'];
     $device_Other = $row['device_Other'];
-    $cotton_Id = $row['cotton_Id'];
+    $officer_Cotton = isset($row['officer_Cotton']) ? $row['officer_Cotton'] : 'ข้อมูลไม่ระบุ';
+
     $history_Status_BRS = isset($row['history_Status_BRS']) ? $row['history_Status_BRS'] : null;
 } else {
     $device_Id = 'ข้อมูลไม่ถูกส่ง';
@@ -33,7 +34,7 @@ if ($result->num_rows > 0) {
     $device_Con = 'ข้อมูลไม่ระบุ';
     $device_Image = 'ข้อมูลไม่ระบุ';
     $device_Other = 'ข้อมูลไม่ระบุ';
-    $cotton_Id = 'ข้อมูลไม่ระบุ';
+    $officer_Cotton	 = 'ข้อมูลไม่ระบุ';
     $history_Status_BRS = null;
 }
 
@@ -61,7 +62,7 @@ if ($result->num_rows > 0) {
                 <div class="col-2 text-end mt-3">
                     <?php
                     $department_Name = '';
-                    switch ($cotton_Id) {
+                    switch ($officer_Cotton	) {
                         case 1:
                             $department_Name = 'อุปกรณ์คอมพิวเตอร์';
                             break;
@@ -127,7 +128,7 @@ if ($result->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานที่รับ:</strong>
                                         <?php
-                                        switch ($cotton_Id) {
+                                        switch ($officer_Cotton	) {
                                             case 1:
                                                 echo 'ฝ่ายคอมพิวเตอร์';
                                                 break;

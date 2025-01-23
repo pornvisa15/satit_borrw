@@ -89,13 +89,13 @@
                     <tbody>
                         <?php
                         $showAll = isset($_GET['show_all']) ? true : false;
-                        $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
+                        $officer_Cotton = isset($_GET['officer_Cotton']) ? $_GET['officer_Cotton'] : '';
                         $sql = "SELECT * FROM borrow.history_brs WHERE 1=1 AND history_Status != 2";
 
                         if ($user_department_id != 5) {
-                            $sql .= " AND history_brs.cotton_Id = $user_department_id ";
+                            $sql .= " AND history_brs.officer_Cotton = $user_department_id ";
                         } elseif ($cottonFilter > 0) {
-                            $sql .= " AND history_brs.cotton_Id = $cottonFilter";
+                            $sql .= " AND history_brs.officer_Cotton = $cottonFilter";
                         }
 
                         $result = $conn->query($sql);

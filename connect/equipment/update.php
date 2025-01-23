@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // รับค่าจากฟอร์ม
     $device_Id = $_POST['device_Id'];
     $device_Name = $_POST['device_Name'];
-    $cotton_Id = $_POST['cotton_Id'];
+    $officer_Cotton = $_POST['officer_Cotton'];
     $device_Date = $_POST['device_Date'];
     $device_Price = $_POST['device_Price'];
     $device_Other = $_POST['device_Other'];
@@ -38,13 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // SQL สำหรับอัปเดตข้อมูล
     $sql = "UPDATE borrow.device_information SET 
             device_Name = ?, device_Date = ?, device_Price = ?, 
-            device_Other = ?, device_Access = ?, device_Image = ?, cotton_Id = ? 
+            device_Other = ?, device_Access = ?, device_Image = ?, officer_Cotton = ? 
             WHERE device_Id = ?";
 
     // เตรียมคำสั่ง SQL
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('sssssssi', $device_Name, $device_Date, $device_Price, 
-                      $device_Other, $device_Access, $deviceImage, $cotton_Id, $device_Id);
+                      $device_Other, $device_Access, $deviceImage, $officer_Cotton, $device_Id);
 
     // ตรวจสอบการดำเนินการ
     if ($stmt->execute()) {

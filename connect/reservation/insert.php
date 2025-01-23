@@ -11,9 +11,10 @@ $history_Another = isset($_POST['history_Another']) ? $_POST['history_Another'] 
 $history_device = isset($_POST['device_Name']) ? $_POST['device_Name'] : '';
 $parcel_Numder = isset($_POST['device_Numder']) ? $_POST['device_Numder'] : '';
 $history_Status = isset($_POST['history_Status']) ? $_POST['history_Status'] : '';
-$cotton_Id = isset($_POST['cotton_Id']) ? $_POST['cotton_Id'] : '';
+$officer_Cotton = isset($_POST['officer_Cotton']) ? $_POST['officer_Cotton'] : '';
 $history_Status_BRS = isset($_POST['history_Status_BRS']) ? $_POST['history_Status_BRS'] : '';
 
+// ตรวจสอบว่าผู้ใช้ล็อกอินแล้วหรือยัง และกำหนดค่า user_Id
 if (isset($_SESSION['std_name']) && isset($_SESSION['std_surname'])) {
     $user_Id = $_SESSION['std_name'] . " " . $_SESSION['std_surname'];
 } elseif (isset($_SESSION['name']) && isset($_SESSION['surname'])) {
@@ -22,11 +23,13 @@ if (isset($_SESSION['std_name']) && isset($_SESSION['std_surname'])) {
     $user_Id = '';
 }
 
+// ตรวจสอบว่ามีการส่งชื่ออุปกรณ์มา
 if (empty($history_device)) {
-    echo "Error: Missing device name.";
+    echo "<script>alert('Error: Missing device name.'); history.back();</script>";
     exit;
 }
 
+// ตรวจสอบจำนวนครั้งที่ยืมอุปกรณ์นี้
 $sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE history_device = ?";
 $stmt_check = $conn->prepare($sql_check);
 $stmt_check->bind_param("s", $history_device);
@@ -41,7 +44,7 @@ if ($result_check) {
 }
 $stmt_check->close();
 
-
+// กำหนดสถานะการยืม/คืน
 if ($history_Status === '1') {
     $device_Con = '1'; // ยืม
 } elseif ($history_Status === '2') {
@@ -50,9 +53,10 @@ if ($history_Status === '1') {
     $device_Con = '0'; // ค่าเริ่มต้น (สถานะไม่มีการยืม/คืน)
 }
 
+// บันทึกข้อมูลลงฐานข้อมูล
 $stmt = $conn->prepare("INSERT INTO history_brs 
-    (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, cotton_Id,device_Con,history_Status_BRS) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,0)");
+    (device_Id, history_Borrow, history_Return, history_Stop, history_Other, history_Another, user_Id, history_device, parcel_Numder, history_Numder, history_Status, officer_Cotton, device_Con, history_Status_BRS) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)");
 
 $stmt->bind_param(
     "sssssssssssss",
@@ -67,9 +71,8 @@ $stmt->bind_param(
     $parcel_Numder,
     $history_Numder,
     $history_Status,
-    $history_Status_BRS,
-
-    $cotton_Id
+    $officer_Cotton, // แก้ลำดับให้ถูกต้อง
+    $device_Con
 );
 
 if ($stmt->execute()) {

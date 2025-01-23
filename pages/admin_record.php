@@ -25,7 +25,7 @@ include '../connect/mysql_borrow.php';
 $user_department_id = $_SESSION['officer_Cotton'] ?? 0;
 
 // Dropdown filter value
-$cottonFilter = isset($_GET['cotton_Id']) ? intval($_GET['cotton_Id']) : 0;
+$cottonFilter = isset($_GET['officer_Cotton']) ? intval($_GET['officer_Cotton']) : 0;
 
 // Header configuration based on department
 $headerOptions = [
@@ -86,9 +86,9 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
     $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
 
     if ($user_department_id != 5) {
-        $sql .= " AND history_brs.cotton_Id = $user_department_id";
+        $sql .= " AND history_brs.officer_Cotton = $user_department_id";
     } elseif ($cottonFilter > 0) {
-        $sql .= " AND history_brs.cotton_Id = $cottonFilter";
+        $sql .= " AND history_brs.officer_Cotton = $cottonFilter";
     }
 
     $sql .= " AND history_brs.history_Numder = (SELECT MAX(history_Numder) 

@@ -60,27 +60,18 @@
                     </div>
 
                     <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="officerl_Id" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
-                        <select class="form-select" name="cotton_Id" required
-                            style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
-                            <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
-                            <?php
-                            include "../connect/mysql_borrow.php";
-                            include "../connect/myspl_das_satit.php"; //ดึงไฟล์นี้เพื่อเชื่อมฐานข้อมูล
-                            $sql = "SELECT * FROM borrow.cotton";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    ?>
-                                    <option value="<?php echo $row['cotton_Id'] ?>">
-                                        <?php echo $row['cotton_Name'] ?>
-                                    </option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
+    <label for="officerl_Id" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
+    <select class="form-select" name="officer_Cotton" required
+        style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
+        <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
+        <option value="1">ฝ่ายคอมพิวเตอร์</option>
+        <option value="2">ฝ่ายวิทยาศาสตร์</option>
+        <option value="3">ฝ่ายดนตรี</option>
+        <option value="4">ฝ่ายพัสดุ</option>
+        <option value="5">ฝ่ายแอดมิน</option>
+    </select>
+</div>
+
 
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด :</label>

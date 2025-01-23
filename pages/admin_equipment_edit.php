@@ -24,7 +24,7 @@
 
         // ดึงข้อมูลอุปกรณ์ที่ต้องการแก้ไข
         $sql = "SELECT * FROM borrow.device_information 
-                INNER JOIN borrow.cotton ON device_information.cotton_Id = cotton.cotton_Id 
+             
                 WHERE device_information.device_Id = '$device_Id'";  
         $result = $conn->query($sql);
 
@@ -36,7 +36,7 @@
             $device_Price = $row['device_Price'];
             $device_Other = $row['device_Other'];
             $device_Access = $row['device_Access'];
-            $cotton_Id = $row['cotton_Id'];
+            $officer_Cotton = $row['officer_Cotton'];
             $device_Numder = $row['device_Numder'];
         } else {
             echo "ไม่พบข้อมูลอุปกรณ์ที่ต้องการแก้ไข";
@@ -77,13 +77,13 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="cotton_Id" class="form-label" style="font-size: 16px; color: black;">ฝ่ายที่รับผิดชอบ:</label>
-                        <select id="cotton_Id" name="cotton_Id" class="form-select">
-                            <option value="1" <?php echo ($cotton_Id == 1 ? 'selected' : ''); ?>>ฝ่ายวิชาการคอมพิวเตอร์</option>
-                            <option value="2" <?php echo ($cotton_Id == 2 ? 'selected' : ''); ?>>ฝ่ายวิชาการวิทยาศาสตร์</option>
-                            <option value="3" <?php echo ($cotton_Id == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
-                            <option value="4" <?php echo ($cotton_Id == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
-                            <option value="5" <?php echo ($cotton_Id == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
+                        <label for="officer_Cotton" class="form-label" style="font-size: 16px; color: black;">ฝ่ายที่รับผิดชอบ:</label>
+                        <select id="officer_Cotton" name="officer_Cotton" class="form-select">
+                            <option value="1" <?php echo ($officer_Cotton == 1 ? 'selected' : ''); ?>>ฝ่ายคอมพิวเตอร์</option>
+                            <option value="2" <?php echo ($officer_Cotton == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
+                            <option value="3" <?php echo ($officer_Cotton == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
+                            <option value="4" <?php echo ($officer_Cotton == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
+                            <option value="5" <?php echo ($officer_Cotton == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
                         </select>
                     </div>
 

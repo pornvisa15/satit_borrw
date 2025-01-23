@@ -30,7 +30,7 @@
     COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con 
  FROM borrow.device_information di
  LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
- WHERE di.cotton_Id = 3";
+ WHERE di.officer_Cotton = 3";
 
     if ($officerRight == 1) {
         $sql .= " AND di.device_Access = 1";
