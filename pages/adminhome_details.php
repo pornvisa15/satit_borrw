@@ -243,10 +243,10 @@
                             <select class="form-select" id="damageCondition" name="hreturn_Status" required
                                 onchange="togglePriceInput()">
                                <option value="1">สภาพสมบูรณ์,ครบถ้วนสมบูรณ์</option>
-    <option value="2">สภาพไม่สมบูรณ์,ไม่ครบถ้วนสมบูรณ์</option>
-    <option value="3">ผู้ยืมซ่อมแซม</option>
-    <option value="4">ชดใช้เป็นพัสดุ</option>
-    <option value="7">ชดใช้ค่าเสียหาย</option>
+                                <option value="2">สภาพไม่สมบูรณ์,ไม่ครบถ้วนสมบูรณ์</option>
+                                <option value="3">ผู้ยืมซ่อมแซม</option>
+                                <option value="4">ชดใช้เป็นพัสดุ</option>
+                                <option value="7">ชดใช้ค่าเสียหาย</option>
 
                             </select>
 
@@ -325,33 +325,166 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <table class="table table-hover table-bordered align-middle">
-                            <thead class="table-primary">
-                                <tr>
-                                    <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
-                                    <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td class="fw-semibold">Notebook Acer</td>
-                                    <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="text-center" style="padding-top: 10px;">
-                                        <img src="/satit_borrw/img/10.jpg" alt="Mouse Image"
-                                            class="img-fluid shadow rounded-3 border border-primary"
-                                            style="width: 200px; height: auto; margin-top: 8px;">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="confirmDamageButton" class="btn btn-success"
-                            onclick="handleConfirm()">ตกลง</button>
-                    </div>
+                    <?php
+// สมมติว่ามีการเชื่อมต่อฐานข้อมูลแล้ว
+
+// ดึงข้อมูลจาก borrow.history_brs และ borrow.finance ที่มี officer_Cotton ตรงกัน
+$sql = "SELECT history_brs.history_device
+        FROM borrow.history_brs
+        LEFT JOIN borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
+        WHERE history_brs.device_Id = ?"; // ใช้ device_Id ที่ต้องการ
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $device_Id); // ใส่ค่าของ device_Id ที่ต้องการค้นหา
+$stmt->execute();
+$result = $stmt->get_result();
+
+?>
+
+<!-- แสดงข้อมูลใน Modal -->
+<div class="modal-body">
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
+                <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center">
+                <td class="fw-semibold"><?php echo htmlspecialchars($history_device); ?></td>
+                <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
+            </tr>
+            <tr>
+            <?php
+// เรียกใช้ session_start() ก่อนใช้งาน $_SESSION
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+include "../connect/mysql_borrow.php"; // เชื่อมต่อฐานข้อมูล borrow
+include "../connect/myspl_das_satit.php"; // เชื่อมต่อฐานข้อมูล das_satit
+
+// ตรวจสอบการเชื่อมต่อ
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// ตรวจสอบสิทธิ์ใน $_SESSION
+$officer_title = "ไม่ระบุ";
+if (isset($_SESSION['officer_Right'])) {
+    $officer_title = ($_SESSION['officer_Right'] == 3) ? "แอดมิน" : ($_SESSION['officer_Right'] == 4 ? "เจ้าหน้าที่" : "ไม่ระบุ");
+}
+
+// ดึงข้อมูล device_Id ที่ไม่ซ้ำจาก borrow.history_brs
+$sql = "SELECT DISTINCT device_Id FROM borrow.history_brs";
+$result = $conn->query($sql);
+
+$deviceIds = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $deviceIds[] = $row['device_Id'];
+    }
+}
+
+// กำหนดชื่อฝ่ายสำหรับ officer_Cotton
+$departmentNames = [
+    1 => 'ฝ่ายคอมพิวเตอร์',
+    2 => 'ฝ่ายวิทยาศาสตร์',
+    3 => 'ฝ่ายดนตรี',
+    4 => 'ฝ่ายพัสดุ',
+    5 => 'ฝ่ายแอดมิน'
+];
+
+
+
+foreach ($deviceIds as $device_Id) {
+    // ดึงข้อมูลที่เกี่ยวข้องจากฐานข้อมูล
+    $sql = "
+        SELECT 
+            f.finance_Image, 
+            f.officer_Cotton,
+            da.name, 
+            da.surname 
+        FROM 
+            borrow.finance f
+        JOIN 
+            borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
+        LEFT JOIN 
+            das_satit.das_admin da ON da.useripass = f.officer_Cotton
+        WHERE 
+            h.device_Id = ?
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $device_Id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $finance_Image = $row['finance_Image'];
+        $officer_Cotton = $row['officer_Cotton'];
+
+        // ตรวจสอบสิทธิ์ก่อนแสดงข้อมูล
+        if ($_SESSION['officer_Right'] == 3 || $_SESSION['officer_Cotton'] == $officer_Cotton) {
+            // ชื่อฝ่าย
+            $departmentName = isset($departmentNames[$officer_Cotton]) ? $departmentNames[$officer_Cotton] : 'ไม่ทราบฝ่าย';
+
+            // ตรวจสอบรูปภาพ
+            $imagePath1 = '../connect/finance/finance/img/' . $finance_Image;
+            $imagePath2 = '../connect/addqr/img/' . $finance_Image;
+            $imageDisplay = (file_exists($imagePath1)) ? $imagePath1 : ((file_exists($imagePath2)) ? $imagePath2 : null);
+
+
+           
+           
+        }
+    }
+    $stmt->close();
+}
+
+echo "</tbody>";
+
+echo "</table>";
+
+
+// เช็คและแสดงข้อมูลโดยไม่ต้องใช้ td
+echo "<div class='d-flex flex-column align-items-center p-3 mb-4' style='background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>";
+
+// แสดงรูปภาพถ้ามี
+if ($imageDisplay) {
+    echo "<div class='mb-3'>";
+    echo "<img src='" . htmlspecialchars($imageDisplay) . "' 
+             alt='Finance Image' class='img-fluid shadow rounded-3 border border-primary' 
+             style='width: 250px; height: auto; margin-top: 8px;' />";
+    echo "</div>";
+} else {
+    // ถ้าไม่มีรูปภาพ
+    echo "<div class='mb-3 text-danger'>ไม่มีรูปภาพ</div>";
+}
+
+// แสดงชื่อผู้ใช้และนามสกุล
+echo "<div class='text-center'>";
+echo "<strong>" . htmlspecialchars($showdata['name'] . " " . $showdata['surname']) . "</strong><br>";
+echo "<span class='text-muted'>" . htmlspecialchars($departmentName) . "</span>";
+echo "</div>";
+
+echo "</div>";
+?>
+
+
+<div class="modal-footer d-flex justify-content-center">
+    <button type="button" id="confirmDamageButton" class="btn btn-success" onclick="handleConfirm()">ตกลง</button>
+</div>
+
+
+
+
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
                 </div>
             </div>
         </div>
