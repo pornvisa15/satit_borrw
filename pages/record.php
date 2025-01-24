@@ -21,29 +21,33 @@
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
 
-    // ตรวจสอบ session
-    if (!isset($_SESSION['user_Id'])) {
-        die("คุณยังไม่ได้เข้าสู่ระบบ! กรุณาเข้าสู่ระบบก่อนใช้งาน.");
+    // ตรวจสอบว่า user_Id มีค่าหรือไม่
+    $user_id = $_SESSION['user_Id'] ?? null;
+    if (!$user_id) {
+        die("<p class='text-danger text-center'>กรุณาเข้าสู่ระบบก่อนเข้าถึงหน้านี้</p>");
     }
 
-    // Escape user_Id เพื่อป้องกัน SQL Injection
-    $user_id = mysqli_real_escape_string($conn, $_SESSION['user_Id']);
+    // ใช้ Prepared Statement
+    $stmt = $conn->prepare(
+        "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status ,hb.user_Id
+     FROM history_brs hb
+     INNER JOIN device_information di ON hb.device_Id = di.device_Id 
+     WHERE hb.user_Id = '$user_id'
+     "
+    );
+    if (!$stmt) {
+        die("ข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);
+    }
 
-    // Query
-    $sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status 
-        FROM history_brs hb
-        INNER JOIN device_information di ON hb.device_Id = di.device_Id  
-        WHERE hb.user_Id = '$user_id'";
 
-    $result = mysqli_query($conn, $sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     // ตรวจสอบข้อผิดพลาด
     if (!$result) {
-        die("ข้อผิดพลาดในการดึงข้อมูล: " . mysqli_error($conn));
+        die("ข้อผิดพลาดในการดึงข้อมูล: " . $stmt->error);
     }
     ?>
-
-
     <!-- กล่องทางขวา (เนื้อหา) -->
     <div class="col-md-9 col-lg-10 mb-5">
         <div class="p-3 bg-light border rounded shadow-sm">

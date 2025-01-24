@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
     $device_Con = 'ข้อมูลไม่ระบุ';
     $device_Image = 'ข้อมูลไม่ระบุ';
     $device_Other = 'ข้อมูลไม่ระบุ';
-    $officer_Cotton	 = 'ข้อมูลไม่ระบุ';
+    $officer_Cotton = 'ข้อมูลไม่ระบุ';
     $history_Status_BRS = null;
 }
 
@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
                 <div class="col-2 text-end mt-3">
                     <?php
                     $department_Name = '';
-                    switch ($officer_Cotton	) {
+                    switch ($officer_Cotton) {
                         case 1:
                             $department_Name = 'อุปกรณ์คอมพิวเตอร์';
                             break;
@@ -128,7 +128,7 @@ if ($result->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานที่รับ:</strong>
                                         <?php
-                                        switch ($officer_Cotton	) {
+                                        switch ($officer_Cotton) {
                                             case 1:
                                                 echo 'ฝ่ายคอมพิวเตอร์';
                                                 break;
@@ -154,7 +154,7 @@ if ($result->num_rows > 0) {
                                             <?= $device_Con == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
-                                   
+
 
                                     <?php if ($history_Status_BRS !== null): ?>
                                         <input type="hidden" name="history_Status_BRS"

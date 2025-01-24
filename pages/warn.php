@@ -3,14 +3,33 @@ session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 
+// ตรวจสอบว่า user_Id มีค่าหรือไม่
+$user_id = $_SESSION['user_Id'] ?? null;
+if (!$user_id) {
+    die("<p class='text-danger text-center'>กรุณาเข้าสู่ระบบก่อนเข้าถึงหน้านี้</p>");
+}
+
+// ใช้ Prepared Statement
 $sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return
         FROM borrow.device_information di
-        INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id";
+        INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+        WHERE hb.user_Id = ?";
+
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("ข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);
+}
+
+$stmt->bind_param('s', $user_id); // ผูกค่า user_id เป็น parameter
 $stmt->execute();
 $result = $stmt->get_result();
-$currentDate = date('Y-m-d H:i:s');
 
+// ตรวจสอบข้อผิดพลาด
+if (!$result) {
+    die("ข้อผิดพลาดในการดึงข้อมูล: " . $stmt->error);
+}
+
+$currentDate = date('Y-m-d H:i:s');
 ?>
 
 <!DOCTYPE html>
