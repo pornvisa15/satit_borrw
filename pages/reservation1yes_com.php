@@ -6,7 +6,7 @@ include "../connect/mysql_borrow.php";
 $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
 
 $sql = "
-SELECT di.*, hb.device_Con, hb.history_Status_BRS 
+SELECT di.*, hb.device_Con, hb.history_Status_BRS, hb.hreturn_Status, hb.user_Id, hb.history_Borrow, hb.history_Return, hb.history_Stop
 FROM borrow.device_information di
 LEFT JOIN borrow.history_brs hb
 ON di.device_Id = hb.device_Id
@@ -25,8 +25,12 @@ if ($result->num_rows > 0) {
     $device_Image = '../connect/equipment/equipment/img/' . $row['device_Image'];
     $device_Other = $row['device_Other'];
     $officer_Cotton = isset($row['officer_Cotton']) ? $row['officer_Cotton'] : 'ข้อมูลไม่ระบุ';
-
     $history_Status_BRS = isset($row['history_Status_BRS']) ? $row['history_Status_BRS'] : null;
+    $hreturn_Status = isset($row['hreturn_Status']) ? $row['hreturn_Status'] : 'ข้อมูลไม่ระบุ';
+    $user_Id = isset($row['user_Id']) ? $row['user_Id'] : 'ข้อมูลไม่พบ';
+    $history_Borrow = isset($row['history_Borrow']) ? $row['history_Borrow'] : 'ข้อมูลไม่พบ';
+    $history_Return = isset($row['history_Return']) ? $row['history_Return'] : 'ข้อมูลไม่พบ';
+    $history_Stop = isset($row['history_Stop']) ? $row['history_Stop'] : 'ข้อมูลไม่พบ';
 } else {
     $device_Id = 'ข้อมูลไม่ถูกส่ง';
     $device_Name = 'ข้อมูลไม่ถูกส่ง';
@@ -36,8 +40,12 @@ if ($result->num_rows > 0) {
     $device_Other = 'ข้อมูลไม่ระบุ';
     $officer_Cotton = 'ข้อมูลไม่ระบุ';
     $history_Status_BRS = null;
+    $hreturn_Status = 'ข้อมูลไม่ระบุ';
+    $user_Id = 'ข้อมูลไม่พบ';
+    $history_Borrow = 'ข้อมูลไม่พบ';
+    $history_Return = 'ข้อมูลไม่พบ';
+    $history_Stop = 'ข้อมูลไม่พบ';
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +92,7 @@ if ($result->num_rows > 0) {
                         onmouseover="this.style.color='#006043';" onmouseout="this.style.color='#007468';">
                         <?= $department_Name; ?>
                     </h5>
+
                 </div>
 
                 <div class="d-flex justify-content-center mt-5 mb-5">
@@ -103,7 +112,7 @@ if ($result->num_rows > 0) {
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body text-center"
-                                            style="background-color: #f9f9f9; padding: 20px;">
+                                            style="background-color:rgb(255, 255, 255); padding: 20px;">
                                             <img src="<?= $device_Image; ?>" class="img-fluid" alt="Zoomed Image"
                                                 style="max-width: 80%; max-height: 400px; height: auto; object-fit: contain; border-radius: 8px;">
                                         </div>
@@ -146,30 +155,32 @@ if ($result->num_rows > 0) {
                                         }
                                         ?>
                                     </p>
-
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="font-weight: 600; color: <?= $device_Con == 1 ? '#e63946' : '#6cbf42'; ?>;">
-                                            <?= $device_Con == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                            style="font-weight: 600; color: <?= ($hreturn_Status == '3') ? '#e63946' : '#6cbf42'; ?>;">
+                                            <?= ($hreturn_Status == '3') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
+
 
 
                                     <?php if ($history_Status_BRS !== null): ?>
                                         <input type="hidden" name="history_Status_BRS"
                                             value="<?= htmlspecialchars($history_Status_BRS); ?>">
                                     <?php endif; ?>
-
                                     <div class="d-flex justify-content-end" style="width: 100%;">
-                                        <button class="btn btn-sm"
-                                            style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
-                                            onmouseover="this.style.transform='scale(1.3)';"
-                                            onmouseout="this.style.transform='scale(1)';" data-bs-toggle="modal"
-                                            data-bs-target="#termsModal">
-                                            จอง
-                                        </button>
+                                        <?php if ($hreturn_Status != '3'): ?>
+                                            <button class="btn btn-sm"
+                                                style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
+                                                onmouseover="this.style.transform='scale(1.3)';"
+                                                onmouseout="this.style.transform='scale(1)';" data-bs-toggle="modal"
+                                                data-bs-target="#termsModal">
+                                                จอง
+                                            </button>
+                                        <?php endif; ?>
                                     </div>
+
 
                                     <div class="modal fade" id="termsModal" tabindex="-1"
                                         aria-labelledby="termsModalLabel" aria-hidden="true">
@@ -271,11 +282,49 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
             </div>
+
+            <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1): ?>
+                <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
+                    <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
+                        ตารางจองล่วงหน้า
+                    </h5>
+
+                    <table class="table table-hover table-bordered">
+                        <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+                            <tr>
+                                <th scope="col">ผู้ยืม</th>
+                                <th scope="col">วันที่ยืม</th>
+                                <th scope="col">วันที่คืน</th>
+                                <th scope="col">เวลาคืน</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 0.8rem;">
+                            <?php
+                            mysqli_data_seek($result, 0); // คืน Pointer กลับไปที่แถวแรก
+                            while ($row = mysqli_fetch_assoc($result)): ?>
+                                <tr>
+                                    <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
+                                    <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
+                                    </td>
+                                    <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
+                                    </td>
+                                    <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
+                    <h5 class="text-center" style="color: red;">อุปกรณ์ไม่พร้อมใช้งาน</h5>
+                </div>
+            <?php endif; ?>
+
+
+
+
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -29,7 +29,7 @@
 
     // ใช้ Prepared Statement
     $stmt = $conn->prepare(
-        "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status ,hb.user_Id
+        "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status ,hb.user_Id, hb.device_Con
      FROM history_brs hb
      INNER JOIN device_information di ON hb.device_Id = di.device_Id 
      WHERE hb.user_Id = '$user_id'
@@ -63,37 +63,41 @@
 
                 <ul class="list-group list-group-flush">
                     <?php while ($row = $result->fetch_assoc()): ?>
-                        <li class="list-group-item d-flex justify-content-between align-items-center"
-                            style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
-                            onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
-                            onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
-                            <div>
+                        <?php if ($row['device_Con'] != 1): // ตรวจสอบว่า device_Con ไม่ใช่ 0 ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
+                                onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
+                                onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+                                <div>
 
-                                <!-- แสดงชื่ออุปกรณ์ -->
-                                <span class="fw-bold" style="font-size: 14px; color: #007468;">
-                                    <?= htmlspecialchars($row['device_Name']) ?>
-                                </span>
-                                <!-- แสดงวันที่ยืมและคืน -->
-                                <div style="font-size: 12px; color: #6c757d;">
-                                    วันที่ยืม <?= htmlspecialchars($row['history_Borrow']) ?> - วันที่
-                                    <?= htmlspecialchars($row['history_Return']) ?>
+                                    <!-- แสดงชื่ออุปกรณ์ -->
+                                    <span class="fw-bold" style="font-size: 14px; color: #007468;">
+                                        <?= htmlspecialchars($row['device_Name']) ?>
+                                    </span>
+                                    <!-- แสดงวันที่ยืมและคืน -->
+                                    <div style="font-size: 12px; color: #6c757d;">
+                                        วันที่ยืม <?= htmlspecialchars($row['history_Borrow']) ?> - วันที่
+                                        <?= htmlspecialchars($row['history_Return']) ?>
+                                    </div>
+                                    <!-- แสดงสถานะการยืม -->
+                                    <div style="font-size: 12px; color: #6c757d;">
+                                        สถานะ:
+                                        <?= $row['history_Status'] == '2' ? 'คืนแล้ว' : 'กำลังยืม' ?>
+                                    </div>
                                 </div>
-                                <!-- แสดงสถานะการยืม -->
-                                <div style="font-size: 12px; color: #6c757d;">
-                                    สถานะ:
+                                <!-- แสดง Badge ตามสถานะ -->
+                                <span
+                                    class="badge <?= $row['history_Status'] == '2' ? 'bg-info' : 'bg-success' ?> d-flex align-items-center"
+                                    style="transition: background-color 0.3s ease; font-size: 12px;">
+                                    <i
+                                        class="bi <?= $row['history_Status'] == '2' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill' ?> me-1"></i>
                                     <?= $row['history_Status'] == '2' ? 'คืนแล้ว' : 'กำลังยืม' ?>
-                                </div>
-                            </div>
-                            <!-- แสดง Badge ตามสถานะ -->
-                            <span
-                                class="badge <?= $row['history_Status'] == '2' ? 'bg-info' : 'bg-success' ?> d-flex align-items-center"
-                                style="transition: background-color 0.3s ease; font-size: 12px;">
-                                <i
-                                    class="bi <?= $row['history_Status'] == '2' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill' ?> me-1"></i>
-                                <?= $row['history_Status'] == '2' ? 'คืนแล้ว' : 'กำลังยืม' ?>
-                            </span>
-                        </li>
+                                </span>
+                            </li>
+                        <?php endif; ?>
                     <?php endwhile; ?>
+
+
                 </ul>
 
             </div>
@@ -102,9 +106,6 @@
         </div>
     </div>
     </div>
-
-
-
 
     </div>
 </body>

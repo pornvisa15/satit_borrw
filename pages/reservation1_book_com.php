@@ -121,7 +121,7 @@
                                 <input type="text" class="form-control" hidden name="officer_Cotton"
                                     value="<?= htmlspecialchars($officer_Cotton) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                    
+
                             </div>
 
                             <div class="form-group row mb-4">
@@ -145,11 +145,8 @@
                                     <label for="history_Borrow" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: rgba(0, 116, 72, 0.6);">วันที่ยืม :</label>
                                     <input type="date" class="form-control" id="history_Borrow" name="history_Borrow"
-                                        style="padding: 10px; font-size: 16px;" readonly required>
-                                    <script>
-                                        let today = new Date().toISOString().split('T')[0];
-                                        document.getElementById('history_Borrow').value = today;
-                                    </script>
+                                        style="padding: 10px; font-size: 16px;" required>
+
                                 </div>
 
                                 <div class="col-sm-4">

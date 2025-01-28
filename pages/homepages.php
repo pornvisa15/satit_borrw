@@ -20,17 +20,20 @@
     $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0;
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
 
+
+
     $sql = "
-    SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
-           COALESCE(hb.device_Con, 0) AS device_Con
-    FROM borrow.device_information di
-    LEFT JOIN (
-        SELECT device_Id, MAX(htime_Return) AS latest_return, device_Con
-        FROM borrow.history_brs
-        GROUP BY device_Id
-    ) hb ON di.device_Id = hb.device_Id
-    WHERE 1
-    ";
+SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
+       COALESCE(hb.device_Con, 0) AS device_Con, hb.hreturn_Status
+FROM borrow.device_information di
+LEFT JOIN (
+    SELECT device_Id, MAX(htime_Return) AS latest_return, device_Con, hreturn_Status
+    FROM borrow.history_brs
+    GROUP BY device_Id
+) hb ON di.device_Id = hb.device_Id
+WHERE 1
+";
+
 
     if ($searchQuery != '') {
         $sql .= " AND di.device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
@@ -46,8 +49,10 @@
                 'name' => $row['device_Name'],
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'],
-                'device_Con' => $row['device_Con'], // ค่าสถานะว่าง/ไม่ว่าง
+                'device_Con' => $row['device_Con'], // สถานะว่าง/ไม่ว่าง
+                'hreturn_Status' => $row['hreturn_Status'] // Add this line
             ];
+
         }
     } else {
         $equipment = [];
@@ -98,15 +103,14 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <h6 class="card-title mb-3"><?= htmlspecialchars($item['name']); ?></h6>
-                                    <p class="card-text mb-0">
-                                        สถานะ:
-                                        <span class="fw-bold"
-                                            style="color: <?= ($item['device_Con'] == 1) ? '#FF090D' : '#78C756'; ?>;">
-                                            <?= ($item['device_Con'] == 1) ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
+                                        <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
+                                        <span
+                                            style="font-weight: 600; color: <?= ($item['hreturn_Status'] == '3') ? '#e63946' : '#6cbf42'; ?>;">
+                                            <?= ($item['hreturn_Status'] == '3') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>
-
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -115,6 +119,7 @@
                         ไม่พบอุปกรณ์
                     </p>
                 <?php endif; ?>
+
             </div>
 
         </div>

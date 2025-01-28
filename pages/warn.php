@@ -3,14 +3,15 @@ session_start();
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 
-// ตรวจสอบว่า user_Id มีค่าหรือไม่
+
 $user_id = $_SESSION['user_Id'] ?? null;
 if (!$user_id) {
     die("<p class='text-danger text-center'>กรุณาเข้าสู่ระบบก่อนเข้าถึงหน้านี้</p>");
 }
+// ตรวจสอบค่าของ user_Id
 
 // ใช้ Prepared Statement
-$sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return
+$sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status_BRS
         FROM borrow.device_information di
         INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
         WHERE hb.user_Id = ?";
@@ -60,37 +61,63 @@ $currentDate = date('Y-m-d H:i:s');
                             date_default_timezone_set('Asia/Bangkok'); // ตั้งโซนเวลา
                             $currentDate = date('Y-m-d H:i:s');
 
-
                             while ($row = $result->fetch_assoc()):
 
                                 $historyReturn = $row['history_Return'];
                                 $historyReturnTimestamp = strtotime($historyReturn);
                                 $currentDateTimestamp = strtotime($currentDate);
 
+                                $historyStatus = $row['history_Status_BRS'];
+                                $statusText = '';
+                                $statusClass = '';
+                                $statusIcon = '';
 
-                                if ($historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
-                                    $timeLeft = ($historyReturnTimestamp - $currentDateTimestamp) / 3600; // คำนวณเป็นชั่วโมง
-                                    if ($timeLeft < 0) {
-                                        $timeLeft = abs($timeLeft); // ใช้ค่าแนบของเวลาที่เลยกำหนด
-                                        $hoursOverdue = floor($timeLeft);
-                                        $overdueMinutes = round(($timeLeft - $hoursOverdue) * 60);
-                                        $badgeClass = "bg-danger";
-                                        $badgeText = "เลยกำหนดมาแล้ว " . $hoursOverdue . " ชม. " . $overdueMinutes . " นาที" . $timeLeft;
-                                        $iconClass = "bi-x-circle-fill";
-                                    } elseif ($timeLeft <= 2) {
-                                        $badgeClass = "bg-warning text-dark";
-                                        $badgeText = "ใกล้ครบกำหนด";
-                                        $iconClass = "bi-exclamation-circle-fill";
+                                $badgeText = '';  // กำหนดค่าเริ่มต้นให้กับตัวแปร $badgeText
+                            
+                                if ($historyStatus == 0) {
+                                    $statusText = "รอการอนุมัติ";
+                                    $statusClass = "bg-warning text-dark";
+                                    $statusIcon = "bi-hourglass-split";
+                                } elseif ($historyStatus == 2) {
+                                    $statusText = "ไม่อนุมัติ";
+                                    $statusClass = "bg-danger";
+                                    $statusIcon = "bi-x-circle-fill";
+                                } elseif ($historyStatus == 1) { // สถานะอนุมัติแล้ว
+                                    // คำนวณเวลาหากสถานะอนุมัติแล้ว
+                                    if ($historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
+                                        $timeLeft = ($historyReturnTimestamp - $currentDateTimestamp) / 3600; // คำนวณเป็นชั่วโมง
+                                        if ($timeLeft < 0) {
+                                            $timeLeft = abs($timeLeft); // ใช้ค่าแนบของเวลาที่เลยกำหนด
+                                            $hoursOverdue = floor($timeLeft);
+                                            $overdueMinutes = round(($timeLeft - $hoursOverdue) * 60);
+                                            $badgeClass = "bg-danger";
+                                            $badgeText = "เลยกำหนดมาแล้ว " . $hoursOverdue . " ชม. " . $overdueMinutes . " นาที";
+                                            $iconClass = "bi-x-circle-fill";
+                                        } elseif ($timeLeft <= 2) {
+                                            $badgeClass = "bg-warning text-dark";
+                                            $badgeText = "ใกล้ครบกำหนด";
+                                            $iconClass = "bi-exclamation-circle-fill";
+                                        } else {
+                                            $badgeClass = "bg-success";
+                                            $badgeText = "กำลังใช้งาน " . floor($timeLeft) . " ชม. " . round(($timeLeft - floor($timeLeft)) * 60) . " นาที";
+                                            $iconClass = "bi-check-circle-fill";
+                                        }
                                     } else {
-                                        $badgeClass = "bg-success";
-                                        $badgeText = "กำลังใช้งาน " . floor($timeLeft) . " ชม. " . round(($timeLeft - floor($timeLeft)) * 60) . " นาที";
-                                        $iconClass = "bi-check-circle-fill";
+                                        $badgeClass = "bg-secondary";
+                                        $badgeText = "ข้อมูลเวลาผิดพลาด";
+                                        $iconClass = "bi-question-circle-fill";
                                     }
+
+                                    // อัพเดตสถานะเป็น "กำลังใช้งาน" หรือ "ใกล้ครบกำหนด" หรือ "เลยกำหนดมาแล้ว"
+                                    $statusText = $badgeText;
+                                    $statusClass = $badgeClass;
+                                    $statusIcon = $iconClass;
                                 } else {
-                                    $badgeClass = "bg-secondary";
-                                    $badgeText = "ข้อมูลเวลาผิดพลาด";
-                                    $iconClass = "bi-question-circle-fill";
+                                    // หากสถานะไม่ใช่ 0, 1 หรือ 2 จะข้ามไป
+                                    continue;
                                 }
+
+
                                 ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
@@ -103,14 +130,14 @@ $currentDate = date('Y-m-d H:i:s');
                                         <div style="font-size: 12px; color: #6c757d;">
                                             วันที่ยืม: <?= htmlspecialchars($row['history_Borrow']); ?> - วันที่คืน:
                                             <?= htmlspecialchars($row['history_Return']); ?><br>
-                                            <?= $timeLeft > 0 ? "ระยะเวลาที่เหลือ: " . floor($timeLeft) . " ชม. " . round(($timeLeft - floor($timeLeft)) * 60) . " นาที" : "เลยกำหนดมาแล้ว " . $overdueHours . " ชม. " . $overdueMinutes . " นาที"; ?>
+                                            <?= $badgeText; ?>
                                         </div>
                                     </div>
-                                    <span class="badge <?= $badgeClass; ?> d-flex align-items-center"
+                                    <span class="badge <?= $statusClass; ?> d-flex align-items-center"
                                         style="transition: background-color 0.3s ease; font-size: 12px;"
                                         onmouseover="this.style.backgroundColor='#e0a800';"
                                         onmouseout="this.style.backgroundColor='#ffc107';">
-                                        <i class="bi <?= $iconClass; ?> me-1"></i> <?= $badgeText; ?>
+                                        <i class="bi <?= $statusIcon; ?> me-1"></i> <?= $statusText; ?>
                                     </span>
                                 </li>
                             <?php endwhile; ?>
