@@ -37,21 +37,26 @@
     include "../connect/myspl_das_satit.php";
 
     $sql = "
-        SELECT officer_staff.useripass, officer_staff.officerl_Id, das_admin.praname, das_admin.name, das_admin.surname 
-        FROM borrow.officer_staff 
-        INNER JOIN das_satit.das_admin 
-        ON officer_staff.useripass = das_admin.useripass 
-        WHERE das_admin.statuson = 1
-    ";
+    SELECT officer_staff.useripass, officer_staff.officerl_Id, das_admin.praname, das_admin.name, das_admin.surname
+    FROM borrow.officer_staff
+    INNER JOIN das_satit.das_admin 
+        ON officer_staff.useripass = das_admin.useripass
+    WHERE das_admin.statuson = 1
+    AND officer_staff.officerl_Id NOT IN (
+        SELECT officerl_Id
+        FROM borrow.finance
+    )
+";
 
-    $result = $conn->query($sql);
+$result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
-            echo "<option value='{$row['useripass']}' data-officerid='{$row['officerl_Id']}'>{$fullname}</option>";
-        }
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
+        echo "<option value='{$row['useripass']}' data-officerid='{$row['officerl_Id']}'>{$fullname}</option>";
     }
+}
+
     ?>
 </select>
 

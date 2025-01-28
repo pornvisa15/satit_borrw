@@ -54,7 +54,7 @@
             <div class="card-body">
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <?php include 'admin2.php'; ?>
+                    <?php include 'admin1.php'; ?>
                     <button class="btn text-white"
                         style="background-color: #4CAF50; font-weight: normal; font-size: 14px;"
                         onclick="window.location.href='admin_equipment_in_com.php';">
@@ -65,7 +65,7 @@
 
                 <form method="GET" action="">
                     <div class="input-group mb-3">
-                        <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหาชื่ออุปกรณ์"
+                        <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา"
                             name="search" value="<?= htmlspecialchars($searchTerm) ?>" style="font-size: 14px;">
                         <button class="btn text-light" type="submit"
                             style="background-color: #537bb7; font-size: 14px;">ค้นหา</button>
@@ -112,9 +112,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
        
     }
-} else {
-    echo "ไม่มีข้อมูลที่ตรงกับเงื่อนไข.";
-}
+} 
 
                             // Apply search filter if search term exists
                             if (!empty($searchTerm)) {

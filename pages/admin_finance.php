@@ -14,9 +14,12 @@
 </head>
 
 <body class="d-flex bg-light">
+
+
 <?php
+// Start session and include necessary files
 session_start();
-include 'sidebar.php'; // Include Sidebar
+include 'sidebar.php'; // Sidebar inclusion
 include '../connect/myspl_das_satit.php';
 include '../connect/mysql_studentsatit.php';
 include '../connect/mysql_borrow.php';
@@ -24,7 +27,10 @@ include '../connect/mysql_borrow.php';
 // Retrieve session value
 $user_department_id = $_SESSION['officer_Cotton'] ?? 0;
 
-// Header configuration based on department
+// Get dropdown filter value
+$cottonFilter = isset($_GET['officer_Cotton']) ? intval($_GET['officer_Cotton']) : 0;
+
+// Header options based on department
 $headerOptions = [
     1 => ["ตั้งค่าการเงินอุปกรณ์คอมพิวเตอร์", "#537bb7"],
     2 => ["ตั้งค่าการเงินอุปกรณ์วิทยาศาสตร์", "#537bb7"],
@@ -33,10 +39,11 @@ $headerOptions = [
     5 => ["ตั้งค่าการเงินอุปกรณ์ทั้งหมด", "#537bb7"],
 ];
 
+// Set the header text and background color based on department
 $headerText = $headerOptions[$user_department_id][0] ?? "อุปกรณ์";
 $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
 
-// Set search term from GET parameter or default to an empty string
+// Get search term and selected officer
 $searchTerm = $_GET['search'] ?? '';
 $selectedCottonId = $_GET['useripass'] ?? 0;
 ?>
@@ -50,26 +57,27 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
         </div>
 
         <div class="card-body">
-       
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <!-- <?php include 'admin3.php'; ?>  ปิดไว้ก่อน--> 
-           
-            <div class="container">
-  <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <?php include 'admin2.php'; ?>
+
+          
+               
+                <div class="container">
+  <div class="d-flex justify-content-end align-items-start">
     <button class="btn text-white me-2" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
       <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
     </button>
-
     <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
       <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
     </button>
   </div>
 </div>
 
-        </div>
-       
-       <!-- กล่องค้นหาพร้อมปุ่ม -->
-<!-- กล่องค้นหาพร้อมปุ่ม -->
+            </div>
+            
+
+      
+
 <div class="input-group mb-3">
     <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
     <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
@@ -100,39 +108,39 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
             }
         });
     }
+
 </script>
 
+<div class="table-responsive mt-3">
+                <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่อ-นามสกุล</th>
+                            <th>ผู้รับผิดชอบ</th>
+                            <th>คิวอาร์โค้ด</th>
+                            <th>แก้ไข</th>
+                            <th>ลบ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    // SQL query setup
+                    $sql = "SELECT * FROM borrow.finance";
 
-        <div class="table-responsive mt-3">
-            <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 25;">ลำดับ</th>
-                        <th>ชื่อ-นามสกุล</th>
-                        <th style="width: 25%;">ผู้รับผิดชอบ</th>
-                        <th style="width: 26;">คิวอาร์โค้ด</th>
-                        <th style="width: 15%;">แก้ไข</th>
-                        <th style="width: 15%;">ลบ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                   // SQL query setup
-$sql = "SELECT * FROM borrow.finance";
-
+             
 // Add conditions
 $conditions = [];
 $params = [];
-
 if ($user_department_id != 5) {
-    $conditions[] = "finance.officer_Cotton = ?";
-    $params[] = $user_department_id;
-}
+                        $conditions[] = "finance.officer_Cotton = ?";
+                        $params[] = $user_department_id;
+                    }
 
-if ($selectedCottonId > 0) {
-    $conditions[] = "finance.officer_Cotton = ?";
-    $params[] = $selectedCottonId;
-}
+                    if ($cottonFilter > 0) {
+                        $conditions[] = "finance.officer_Cotton = ?";
+                        $params[] = $cottonFilter;
+                    }
 
 // Apply conditions to SQL
 if (!empty($conditions)) {
@@ -153,6 +161,11 @@ if (!empty($params)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
+if ($user_department_id != 5) {
+    $sql .= " AND history_brs.officer_Cotton = $user_department_id";
+} elseif ($cottonFilter > 0) {
+    $sql .= " AND history_brs.officer_Cotton = $cottonFilter";
+}
 $i = 1; // เริ่มลำดับ
 
 if ($result->num_rows > 0) {
@@ -172,27 +185,33 @@ if ($result->num_rows > 0) {
 
     // ดึงข้อมูลเจ้าหน้าที่
     $sql_officer = "
-        SELECT 
-            officer_staff.useripass, 
-            das_admin.praname, 
-            das_admin.name, 
-            das_admin.surname
+    SELECT 
+        officer_staff.useripass, 
+        das_admin.praname, 
+        das_admin.name, 
+        das_admin.surname,
+        borrow.finance.officerl_Id
+    FROM borrow.finance
+    INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+    INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
+    WHERE das_admin.statuson = 1
+    AND borrow.finance.officerl_Id IN (
+        SELECT MAX(officerl_Id)
         FROM borrow.finance
-        INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
-        INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
-        WHERE das_admin.statuson = 1
-        GROUP BY officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname
-        ORDER BY das_admin.name ASC
-    ";
+        GROUP BY officerl_Id
+    )
+    ORDER BY das_admin.name ASC
+";
+
 
     $stmt_officer = $conn->prepare($sql_officer);
     if ($stmt_officer === false) {
         die('Error preparing statement: ' . $conn->error);
     }
-
+    
     $stmt_officer->execute();
     $result_officer = $stmt_officer->get_result();
-
+    
     $officers = [];
     if ($result_officer->num_rows > 0) {
         while ($officer = $result_officer->fetch_assoc()) {
@@ -200,6 +219,7 @@ if ($result->num_rows > 0) {
             $officers[$officer['useripass']] = $fullname;
         }
     }
+    
 
     // แสดงข้อมูลอุปกรณ์
     while ($row = $result->fetch_assoc()) {
@@ -275,7 +295,8 @@ if ($result->num_rows > 0) {
       </div>
     </div>
   </div>
-</div>
+</div>   </div>
+       
 <?php
 // สร้างอาร์เรย์เพื่อเก็บ useripass ที่แสดงแล้ว
 $seenUserIpasses = [];

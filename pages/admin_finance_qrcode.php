@@ -82,25 +82,25 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
             }
 
             $sql = "
-                SELECT officer_staff.useripass, das_admin.praname, das_admin.name, das_admin.surname, officer_staff.officer_Cotton, officer_staff.officerl_Id
-                FROM borrow.officer_staff
-                INNER JOIN das_satit.das_admin
-                ON officer_staff.useripass = das_admin.useripass
-                WHERE das_admin.statuson = 1
-            ";
+    SELECT officer_staff.useripass, officer_staff.officerl_Id, das_admin.praname, das_admin.name, das_admin.surname
+    FROM borrow.officer_staff
+    INNER JOIN das_satit.das_admin 
+        ON officer_staff.useripass = das_admin.useripass
+    WHERE das_admin.statuson = 1
+    AND officer_staff.officerl_Id NOT IN (
+        SELECT officerl_Id
+        FROM borrow.finance
+    )
+";
 
-            $result = $conn->query($sql);
+$result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
-                    echo "<option value='{$row['useripass']}' data-officerid='{$row['officerl_Id']}'>{$fullname}</option>";
-                }
-            } else {
-                echo "<option value='' style='color: #b0b0b0;'>ไม่มีข้อมูล</option>";
-            }
-
-            $conn->close();
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $fullname = $row['praname'] . $row['name'] . " " . $row['surname'];
+        echo "<option value='{$row['useripass']}' data-officerid='{$row['officerl_Id']}'>{$fullname}</option>";
+    }
+}
             ?>
         </select>
     </div>
@@ -108,17 +108,17 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
     <input type="hidden" id="officerl_Id" name="officerl_Id">
 
     <div class="form-group mb-4" style="font-size: 16px; color: black;">
-        <label for="officer_Cotton" class="font-weight-bold" style="font-size: 16px; color: #3b5681;">ผู้รับผิดชอบ :</label>
-        <select id="officer_Cotton" class="form-select no-dropdown" name="officer_Cotton" required
-            style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; background-color: #e9ecef;" disabled>
-            <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
-            <option value="1">ฝ่ายคอมพิวเตอร์</option>
-            <option value="2">ฝ่ายวิทยาศาสตร์</option>
-            <option value="3">ฝ่ายดนตรี</option>
-            <option value="4">ฝ่ายพัสดุ</option>
-            <option value="5">แอดมิน</option>
-        </select>
-    </div>
+    <label for="officer_Cotton" class="font-weight-bold" style="font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
+    <select id="officer_Cotton" class="form-select no-dropdown" name="officer_Cotton" required
+        style="margin-top: 5px; font-size: 16px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: none; pointer-events: none; background-color: #e9ecef;">
+        <option value="" selected disabled>กรุณาเลือกฝ่าย</option>
+        <option value="1">ฝ่ายคอมพิวเตอร์</option>
+        <option value="2">ฝ่ายวิทยาศาสตร์</option>
+        <option value="3">ฝ่ายดนตรี</option>
+        <option value="4">ฝ่ายพัสดุ</option>
+        <option value="5">แอดมิน</option>
+    </select>
+</div>
 
     <div class="col-md-12 mb-4">
         <label style="color: #3b5681;">หมายเลข PromptPay</label>

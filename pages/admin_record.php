@@ -48,42 +48,86 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
             <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
         </div>
         <div class="card-body">
-   
-            <?php include 'admin2.php'; ?> 
-        
-          
-                    
-            <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
-                <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา"
-                    aria-label="Search" aria-describedby="button-search"
-                    style="font-size: 14px; padding: 9px 12px;">
-                <button class="btn text-light" type="button" id="button-search"
-                    style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
-                    ค้นหา
-                </button>
-            </div>
-           
+       <div class="d-flex justify-content-between" style="gap: 20px; margin-top: 15px;">
+                    <?php include 'admin3.php'; ?>
+                    <form method="get" action="" style="flex: 1;">
+    <div class="mb-3" style="display: inline-flex; justify-content: space-between; width: 100%;">
+        <!-- เลือกสถานะรวม -->
+        <form method="GET" action="" style="flex: 1;">
+    <div class="mb-3" style="display: inline-flex; justify-content: space-between; width: 100%;">
+        <!-- เลือกสถานะรวม -->
+        <select id="combined_status" name="combined_status" class="form-select" style="width: 180px; font-size: 14px; font-weight: normal;" onchange="this.form.submit()">
+    <option value="" selected disabled>กรุณาเลือกสถานะ</option>
+    <option value="all" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'all') ? 'selected' : '' ?>>ทั้งหมด</option> <!-- เพิ่มตัวเลือก "ทั้งหมด" -->
+    <!-- history_Status_BRS options -->
+    <option value="history_0" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'history_0') ? 'selected' : '' ?>>รออนุมัติ</option>
+    <option value="history_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'history_1') ? 'selected' : '' ?>>รอคืน</option>
+    <!-- hreturn_Status options -->
+    <option value="hreturn_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_1') ? 'selected' : '' ?>>สภาพปกติ</option>
+    <option value="hreturn_2" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_2') ? 'selected' : '' ?>>สภาพไม่สมบูรณ์</option>
+    <option value="hreturn_3" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_3') ? 'selected' : '' ?>>ผู้ยืมซ่อมแซม</option>
+    <option value="hreturn_4" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_4') ? 'selected' : '' ?>>ชดใช้เป็นพัสดุ</option>
+    <option value="hreturn_7" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_7') ? 'selected' : '' ?>>แนบไฟล์ค่าเสียหาย</option>
+</select>
 
-            <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 1%;">ลำดับ</th>
-                        <th style="width: 5%;">เลขพัสดุ /ครุภัณฑ์</th>
-                        <th style="width: 5%;">ชื่ออุปกรณ์</th>
-                        <th style="width: 4%;">จำนวนครั้ง/ยืม</th>
-                        <th style="width: 5%;">ชื่อ/นามสกุล ยืม</th>
-                        <th style="width: 4%;">สถานะอุปกรณ์</th>
-                        <th style="width: 5%;">ไฟล์รูป</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                <tbody>
+    </div>
+</form>
+
+
+    </div>
+</form>
+              
+     </div>
+     <div class="input-group mb-3" style="margin-top: -12px; margin-left: 1px; margin-right: 5px;">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา"
+        aria-label="Search" aria-describedby="button-search"
+        style="font-size: 14px; padding: 9px 12px;">
+    <button class="btn text-light" type="button" id="button-search"
+        style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
+        ค้นหา
+    </button>
+</div>
+
+ 
+           
+<table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+    <thead class="table-light">
+        <tr>
+            <th style="width: 1%;">ลำดับ</th>
+            <th style="width: 5%;">เลขพัสดุ /ครุภัณฑ์</th>
+            <th style="width: 5%;">ชื่ออุปกรณ์</th>
+            <th style="width: 4%;">จำนวนครั้ง/ยืม</th>
+            <th style="width: 5%;">ชื่อ/นามสกุล ยืม</th>
+            <th style="width: 4%;">สถานะอุปกรณ์</th>
+            <th style="width: 5%;">ไฟล์รูป</th>
+        </tr>
+    </thead>
+    <tbody>
     <?php
     $showAll = isset($_GET['show_all']) ? true : false;
     $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
 
     $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
+    
+    if (isset($_GET['combined_status']) && $_GET['combined_status'] !== '') {
+        $combinedStatus = $_GET['combined_status'];
+    
+        // ตรวจสอบถ้าเลือก "ดูทั้งหมด"
+        if ($combinedStatus === 'all') {
+            // ไม่เพิ่มเงื่อนไขใด ๆ เพื่อดึงข้อมูลทั้งหมด
+        } elseif (str_starts_with($combinedStatus, 'history_')) {
+            $historyStatusBRS = explode('_', $combinedStatus)[1];
+            $sql .= " AND history_Status_BRS = $historyStatusBRS";
+        } elseif (str_starts_with($combinedStatus, 'hreturn_')) {
+            $hreturnStatus = explode('_', $combinedStatus)[1];
+            $sql .= " AND hreturn_Status = $hreturnStatus";
+        }
+    }
+    
+    
+
+// เรียกข้อมูลจากฐานข้อมูล
+$result = $conn->query($sql);
 
     if ($user_department_id != 5) {
         $sql .= " AND history_brs.officer_Cotton = $user_department_id";
@@ -101,71 +145,69 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>{$i}</td>"; // ลำดับ
-            
             echo "<td>" . htmlspecialchars($row['parcel_Numder']) . "</td>"; // เลขพัสดุ/ครุภัณฑ์
             echo "<td>" . htmlspecialchars($row['history_device']) . "</td>"; // ชื่ออุปกรณ์
             echo "<td>" . htmlspecialchars($row['history_Numder']) . "</td>"; // จำนวนครั้ง/ยืม
             echo "<td>" . htmlspecialchars($row['user_Id']) . "</td>";
-            echo "<td>";
-    
-            // สถานะของอุปกรณ์
-            if ($row['history_Status_BRS'] == 0) {
-                echo "<span class='badge rounded-pill bg-warning text-dark' style='font-size: 12px;'> 
-                        <i class='bi bi-clock-history'></i> รออนุมัติ
-                      </span>";
-            } elseif ($row['history_Status_BRS'] == 1) {
-                echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
-                        <i class='bi bi-check-circle'></i> รอคืน
-                      </span>";
-            }
-      
-            // แสดงสถานะ hreturn_Status
-            if ($row['hreturn_Status'] == 1) {
-                echo "<span class='badge rounded-pill bg-success' style='font-size: 12px;'> 
-                        <i class='bi bi-check-circle'></i> สภาพปกติ</span>";
-            } elseif ($row['hreturn_Status'] == 2) {
-                echo "<span class='badge rounded-pill' style='font-size: 12px; background-color:hsl(14, 98.70%, 70.00%); color:rgb(59, 59, 59);'> 
-    <i class='bi bi-exclamation-triangle'></i> สภาพไม่สมบูรณ์
-</span>
 
-";
-            } elseif ($row['hreturn_Status'] == 3) {
-                echo "<span class='badge rounded-pill bg-info text-dark' style='font-size: 12px;'> 
-                        <i class='bi bi-tools'></i> ผู้ยืมซ่อมแซม</span>";
-            } elseif ($row['hreturn_Status'] == 4) {
-                echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
-                        <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
-            } elseif ($row['hreturn_Status'] == 7) {
-                echo "<a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
-                        class='badge rounded-pill bg-danger text-decoration-none text-light' 
-                        style='cursor: pointer; font-size: 12px;'>
-                        <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย</a>";
-            }
-    
+            echo "<td>"; // สถานะอุปกรณ์
+
+// แสดงสถานะสำหรับ history_Status_BRS
+if ($row['history_Status_BRS'] == 0) {
+    echo "<span class='badge rounded-pill bg-warning text-dark' style='font-size: 12px;'> 
+            <i class='bi bi-clock-history'></i> รออนุมัติ
+          </span>";
+} elseif ($row['history_Status_BRS'] == 1) {
+    echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
+            <i class='bi bi-check-circle'></i> รอคืน
+          </span>";
+}
+
+// แสดงสถานะสำหรับ hreturn_Status
+if ($row['hreturn_Status'] == 1) {
+    echo "<span class='badge rounded-pill bg-success' style='font-size: 12px;'> 
+            <i class='bi bi-check-circle'></i> สภาพปกติ</span>";
+} elseif ($row['hreturn_Status'] == 2) {
+    echo "<span class='badge rounded-pill' style='font-size: 12px; background-color:hsl(14, 98.70%, 70.00%); color:rgb(59, 59, 59);'> 
+            <i class='bi bi-exclamation-triangle'></i> สภาพไม่สมบูรณ์
+          </span>";
+} elseif ($row['hreturn_Status'] == 3) {
+    echo "<span class='badge rounded-pill bg-info text-dark' style='font-size: 12px;'> 
+            <i class='bi bi-tools'></i> ผู้ยืมซ่อมแซม</span>";
+} elseif ($row['hreturn_Status'] == 4) {
+    echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
+            <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
+} elseif ($row['hreturn_Status'] == 7) {
+    echo "<a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
+            class='badge rounded-pill bg-danger text-decoration-none text-light' 
+            style='cursor: pointer; font-size: 12px;'>
+            <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย</a>";
+}
+
+echo "</td>";
+
+
             // ตรวจสอบการมีรูปภาพในฐานข้อมูล
             $money_Image = isset($row['money_Image']) ? $row['money_Image'] : ''; 
             $imagePath = '../connect/receipt/img/' . $money_Image;
-    
+
             if ($row['hreturn_Status'] == 7) {
                 if (!empty($money_Image) && file_exists($imagePath)) {
-                    // หากมีรูปภาพในฐานข้อมูลและไฟล์มีอยู่จริง แสดงปุ่มดูรูปภาพ
                     echo "<td><a href='#' class='btn btn-secondary btn-sm' data-bs-toggle='modal' data-bs-target='#imageModal' data-bs-image='" . htmlspecialchars($imagePath) . "' title='ดูรูปภาพ'>
                             <i class='bi bi-image-fill'></i> ดูรูปภาพ</a></td>";
                 } else {
-                    // หากไม่มีรูปภาพในฐานข้อมูลหรือไฟล์ไม่พบ
                     echo "<td style='background-color: #f8d7da; color: #721c24; font-weight: bold; text-align: center;'>ยังไม่แนบไฟล์</td>";
                 }
             }
-    
-            echo "</td>";
+
             echo "</tr>";
             $i++;
         }
     }
-    
-       
     ?>
-</tbody>
+    </tbody>
+</table>
+
 
 
 <!-- Modal สำหรับแสดงภาพ -->

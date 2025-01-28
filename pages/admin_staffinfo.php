@@ -39,19 +39,19 @@
                             <option value="">ทั้งหมด</option>
                             <option value="1">ฝ่ายคอมพิวเตอร์</option>
                             <option value="2">ฝ่ายวิทยาศาสตร์</option>
-                            <option value="3">ฝ่ายดนตรี</option>
+                            <option value="3">ฝ่ายดนตรี</option>ห
                             <option value="4">ฝ่ายพัสดุ</option>
                             <option value="5">แอดมิน</option>
                         </select>
                     </div>
 
                     <!-- ปุ่มเพิ่มอุปกรณ์ -->
-                    <div class="ms-3">
-    <button class="btn" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); background-color: #4CAF50; border-radius: 5px; padding: 9px 15px; font-size: 14px; font-weight: normal; border-color: #4CAF50; color: white;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';" onclick="window.location.href='adminstaff_details.php';">
-        <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
-    </button>
-</div>
-
+            
+<button class="btn text-white"
+                        style="background-color: #4CAF50; font-weight: normal; font-size: 14px;"
+                        onclick="window.location.href='adminstaff_details.php';">
+                        <i class="bi bi-person-plus"></i> เพิ่มรายชื่อเจ้าหน้าที่
+                    </button>
                 </div>
 
                 <!-- กล่องค้นหาพร้อมปุ่ม -->
@@ -122,8 +122,12 @@
                                 </tr>
                                 <?php
                                 $i++; // เพิ่มค่าของ $i ทีละ 1 ทุกครั้งที่แสดงผล
+                                
                             }
-                        }
+                        }else {
+                        echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
+                    }
+                     
                         ?>
                     </tbody>
                 </table>
