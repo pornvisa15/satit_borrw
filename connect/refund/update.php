@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "<img src='../connect/addqr/img/" . htmlspecialchars($finance_Image) . "' alt='Finance Image' class='img-fluid shadow rounded-3 border border-primary' style='width: 200px; height: auto; margin-top: 8px;'>";
                 echo "</td>";
             } else {
-                echo "<script>alert('ไม่มีข้อมูลรูปภาพสำหรับอุปกรณ์นี้');</script>";
+                // echo "<script>alert('ไม่มีข้อมูลรูปภาพสำหรับอุปกรณ์นี้');</script>";
             }
 
             $stmt2->close();

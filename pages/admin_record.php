@@ -60,7 +60,7 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
     <option value="" selected disabled>กรุณาเลือกสถานะ</option>
     <option value="all" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'all') ? 'selected' : '' ?>>ทั้งหมด</option> <!-- เพิ่มตัวเลือก "ทั้งหมด" -->
     <!-- history_Status_BRS options -->
-    <option value="history_0" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'history_0') ? 'selected' : '' ?>>รออนุมัติ</option>
+   
     <option value="history_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'history_1') ? 'selected' : '' ?>>รอคืน</option>
     <!-- hreturn_Status options -->
     <option value="hreturn_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_1') ? 'selected' : '' ?>>สภาพปกติ</option>
@@ -134,7 +134,7 @@ $result = $conn->query($sql);
     } elseif ($cottonFilter > 0) {
         $sql .= " AND history_brs.officer_Cotton = $cottonFilter";
     }
-
+    $sql = "SELECT * FROM borrow.history_brs WHERE hreturn_Status != 0";
     $sql .= " AND history_brs.history_Numder = (SELECT MAX(history_Numder) 
                             FROM borrow.history_brs h WHERE h.device_Id = history_brs.device_Id) 
                             ORDER BY history_brs.device_Id DESC";
@@ -177,11 +177,28 @@ if ($row['hreturn_Status'] == 1) {
 } elseif ($row['hreturn_Status'] == 4) {
     echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
             <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
-} elseif ($row['hreturn_Status'] == 7) {
-    echo "<a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
+}elseif ($row['hreturn_Status'] == 7) {
+    echo "<div class='d-flex justify-content-center align-items-center gap-2' style='height: 100%;'>
+            <a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
             class='badge rounded-pill bg-danger text-decoration-none text-light' 
             style='cursor: pointer; font-size: 12px;'>
-            <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย</a>";
+            <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย
+          </a>
+          <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
+          class='btn btn-success rounded-pill px-3 py-1 text-white shadow-sm' 
+          style='font-size: 12px;'>
+          <i class='bi bi-check-circle'></i> สถานะ
+          </button>
+        </div>";
+
+   
+    
+
+
+  
+    
+    
+    
 }
 
 echo "</td>";
@@ -225,7 +242,29 @@ echo "</td>";
         </div>
     </div>
 </div>
+<script>
+  function changeStatusToZero(deviceId) {
+    // ใช้ AJAX เพื่อส่งข้อมูลไปที่ PHP เพื่อเปลี่ยนสถานะ
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_status.php", true); // เปลี่ยน 'update_status.php' ให้เป็นไฟล์ที่คุณใช้ในการอัปเดตสถานะ
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
+    // ส่งข้อมูล deviceId ไปที่ PHP
+    xhr.send("device_Id=" + deviceId);
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            alert(xhr.responseText); // แสดงข้อความที่ส่งกลับมาจาก PHP
+            location.reload(); // รีโหลดหน้าเพื่อแสดงการเปลี่ยนแปลง
+        } else {
+            alert("เกิดข้อผิดพลาด: " + xhr.status);
+        }
+    };
+}
+
+
+
+</script>
 <script>
     // เมื่อเปิด modal, เปลี่ยนแหล่งที่มาของรูปภาพ
     document.addEventListener('DOMContentLoaded', function () {
@@ -239,7 +278,6 @@ echo "</td>";
         });
     });
 </script>
-
 
 <form action="../connect/receipt/insert.php" method="post" enctype="multipart/form-data">
     <!-- โมดอลสำหรับการอัปโหลดไฟล์ -->
