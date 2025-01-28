@@ -159,7 +159,7 @@ if ($result->num_rows > 0) {
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
                                             style="font-weight: 600; color: <?= ($hreturn_Status == '3') ? '#e63946' : '#6cbf42'; ?>;">
-                                            <?= ($hreturn_Status == '3') ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                            <?= ($hreturn_Status == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
 
