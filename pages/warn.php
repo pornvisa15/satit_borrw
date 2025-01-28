@@ -11,7 +11,7 @@ if (!$user_id) {
 // ตรวจสอบค่าของ user_Id
 
 // ใช้ Prepared Statement
-$sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status_BRS
+$sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status_BRS ,hb.history_Stop
         FROM borrow.device_information di
         INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
         WHERE hb.user_Id = ?";
@@ -63,17 +63,56 @@ $currentDate = date('Y-m-d H:i:s');
 
                             while ($row = $result->fetch_assoc()):
 
-                                $historyReturn = $row['history_Return'];
-                                $historyReturnTimestamp = strtotime($historyReturn);
-                                $currentDateTimestamp = strtotime($currentDate);
-
-                                $historyStatus = $row['history_Status_BRS'];
+                                $historyBorrow = $row['history_Borrow']; // วันที่ยืม
+                                $historyReturn = $row['history_Return']; // วันที่คืน
+                                $historyBorrowTimestamp = strtotime($historyBorrow); // แปลงเวลาเป็น timestamp
+                                $historyReturnTimestamp = strtotime($historyReturn); // แปลงเวลาคืนเป็น timestamp
+                                $currentDateTimestamp = strtotime($currentDate); // เวลาปัจจุบัน
+                                $historyStatus = $row['history_Status_BRS']; // สถานะการยืม
                                 $statusText = '';
                                 $statusClass = '';
                                 $statusIcon = '';
-
                                 $badgeText = '';  // กำหนดค่าเริ่มต้นให้กับตัวแปร $badgeText
+                                $durationText = ''; // ตัวแปรเก็บระยะเวลาในการยืม
                             
+                                // คำนวณระยะเวลาในการยืม (ระหว่าง history_Borrow และ history_Return)
+                                if ($historyBorrowTimestamp !== false && $historyReturnTimestamp !== false) {
+                                    $durationInSeconds = $historyReturnTimestamp - $historyBorrowTimestamp;
+
+                                    // คำนวณวัน
+                                    $days = floor($durationInSeconds / 86400); // 86400 วินาทีใน 1 วัน
+                                    // คำนวณชั่วโมง
+                                    $hours = floor(($durationInSeconds % 86400) / 3600); // 3600 วินาทีใน 1 ชั่วโมง
+                                    // คำนวณนาที
+                                    $minutes = floor(($durationInSeconds % 3600) / 60); // 60 วินาทีใน 1 นาที
+                            
+                                    // จัดรูปแบบการแสดงผล
+                                    if ($days > 0) {
+                                        $durationText .= "$days วัน ";
+                                    }
+                                    if ($hours > 0) {
+                                        $durationText .= "$hours ชั่วโมง ";
+                                    }
+                                    if ($minutes > 0) {
+                                        $durationText .= "$minutes นาที";
+                                    }
+                                } else {
+                                    $durationText = "ข้อมูลผิดพลาด"; // หากไม่สามารถคำนวณได้
+                                }
+
+                                // คำนวณเวลาที่เหลือ (หากสถานะเป็น "กำลังใช้งาน")
+                                if ($historyStatus == 1 && $historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
+                                    $timeLeftInSeconds = $historyReturnTimestamp - $currentDateTimestamp;
+
+                                    // คำนวณจำนวนชั่วโมงและนาทีที่เหลือ
+                                    $hoursLeft = floor($timeLeftInSeconds / 3600);
+                                    $minutesLeft = floor(($timeLeftInSeconds % 3600) / 60);
+
+                                    // รวมระยะเวลาการยืมและเวลาที่เหลือ
+                                    $durationText .= " กำลังใช้งาน $hoursLeft ชม. $minutesLeft นาที";
+                                }
+
+                                // ตรวจสอบสถานะตามที่มีอยู่
                                 if ($historyStatus == 0) {
                                     $statusText = "รอการอนุมัติ";
                                     $statusClass = "bg-warning text-dark";
@@ -83,42 +122,15 @@ $currentDate = date('Y-m-d H:i:s');
                                     $statusClass = "bg-danger";
                                     $statusIcon = "bi-x-circle-fill";
                                 } elseif ($historyStatus == 1) { // สถานะอนุมัติแล้ว
-                                    // คำนวณเวลาหากสถานะอนุมัติแล้ว
-                                    if ($historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
-                                        $timeLeft = ($historyReturnTimestamp - $currentDateTimestamp) / 3600; // คำนวณเป็นชั่วโมง
-                                        if ($timeLeft < 0) {
-                                            $timeLeft = abs($timeLeft); // ใช้ค่าแนบของเวลาที่เลยกำหนด
-                                            $hoursOverdue = floor($timeLeft);
-                                            $overdueMinutes = round(($timeLeft - $hoursOverdue) * 60);
-                                            $badgeClass = "bg-danger";
-                                            $badgeText = "เลยกำหนดมาแล้ว " . $hoursOverdue . " ชม. " . $overdueMinutes . " นาที";
-                                            $iconClass = "bi-x-circle-fill";
-                                        } elseif ($timeLeft <= 2) {
-                                            $badgeClass = "bg-warning text-dark";
-                                            $badgeText = "ใกล้ครบกำหนด";
-                                            $iconClass = "bi-exclamation-circle-fill";
-                                        } else {
-                                            $badgeClass = "bg-success";
-                                            $badgeText = "กำลังใช้งาน " . floor($timeLeft) . " ชม. " . round(($timeLeft - floor($timeLeft)) * 60) . " นาที";
-                                            $iconClass = "bi-check-circle-fill";
-                                        }
-                                    } else {
-                                        $badgeClass = "bg-secondary";
-                                        $badgeText = "ข้อมูลเวลาผิดพลาด";
-                                        $iconClass = "bi-question-circle-fill";
-                                    }
-
-                                    // อัพเดตสถานะเป็น "กำลังใช้งาน" หรือ "ใกล้ครบกำหนด" หรือ "เลยกำหนดมาแล้ว"
-                                    $statusText = $badgeText;
-                                    $statusClass = $badgeClass;
-                                    $statusIcon = $iconClass;
+                                    $statusText = $durationText; // ใช้ค่าที่คำนวณระยะเวลาและเวลาที่เหลือ
+                                    $statusClass = "bg-success"; // สถานะสำหรับกำลังใช้งาน
+                                    $statusIcon = "bi-check-circle-fill";
                                 } else {
                                     // หากสถานะไม่ใช่ 0, 1 หรือ 2 จะข้ามไป
                                     continue;
                                 }
-
-
                                 ?>
+
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
                                     onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
@@ -130,17 +142,17 @@ $currentDate = date('Y-m-d H:i:s');
                                         <div style="font-size: 12px; color: #6c757d;">
                                             วันที่ยืม: <?= htmlspecialchars($row['history_Borrow']); ?> - วันที่คืน:
                                             <?= htmlspecialchars($row['history_Return']); ?><br>
+                                            ระยะเวลาในการยืม: <?= $durationText; ?><br>
                                             <?= $badgeText; ?>
                                         </div>
                                     </div>
                                     <span class="badge <?= $statusClass; ?> d-flex align-items-center"
-                                        style="transition: background-color 0.3s ease; font-size: 12px;"
-                                        onmouseover="this.style.backgroundColor='#e0a800';"
-                                        onmouseout="this.style.backgroundColor='#ffc107';">
+                                        style="transition: background-color 0.3s ease; font-size: 12px;">
                                         <i class="bi <?= $statusIcon; ?> me-1"></i> <?= $statusText; ?>
                                     </span>
                                 </li>
                             <?php endwhile; ?>
+
 
                         </ul>
                     </form>

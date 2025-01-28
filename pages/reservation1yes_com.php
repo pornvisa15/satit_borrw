@@ -158,7 +158,7 @@ if ($result->num_rows > 0) {
                                     <p class="mb-2" style="font-size: 0.95rem; color: #555;">
                                         <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
                                         <span
-                                            style="font-weight: 600; color: <?= ($hreturn_Status == '3') ? '#e63946' : '#6cbf42'; ?>;">
+                                            style="font-weight: 600; color: <?= ($hreturn_Status == '7') ? '#e63946' : '#6cbf42'; ?>;">
                                             <?= ($hreturn_Status == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
@@ -317,7 +317,7 @@ if ($result->num_rows > 0) {
                 </div>
             <?php else: ?>
                 <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                    <h5 class="text-center" style="color: red;">อุปกรณ์ไม่พร้อมใช้งาน</h5>
+                    <h5 class="text-center text-muted">อุปกรณ์ไม่พร้อมใช้งาน</h5>
                 </div>
             <?php endif; ?>
 

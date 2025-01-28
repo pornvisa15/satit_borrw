@@ -102,12 +102,12 @@ WHERE 1
                                     </a>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h6 class="card-title mb-3"><?= htmlspecialchars($item['name']); ?></h6>
-                                    <p class="mb-2" style="font-size: 0.95rem; color: #555;">
-                                        <strong style="color: #000; font-weight: 600;">สถานะการใช้งาน:</strong>
-                                        <span
-                                            style="font-weight: 600; color: <?= ($item['hreturn_Status'] == '7') ? '#e63946' : '#6cbf42'; ?>;">
-                                            <?= ($item['hreturn_Status'] == '3') ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                    <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
+                                    <p class="card-text mb-0">
+                                        สถานะ:
+                                        <span class="fw-bold"
+                                            style="color:  <?= ($item['hreturn_Status'] == '7') ? '#e63946' : '#6cbf42'; ?>;">
+                                            <?= ($item['hreturn_Status'] == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
                                     </p>
                                 </div>

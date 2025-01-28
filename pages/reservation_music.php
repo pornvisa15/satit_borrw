@@ -25,23 +25,27 @@
     // รับค่าคำค้นหาจากฟอร์ม
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
 
+    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access,  hb.hreturn_Status
+        COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con 
+        FROM borrow.device_information di
+        LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+        WHERE di.officer_Cotton = 3";
 
-    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
-    COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con 
- FROM borrow.device_information di
- LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
- WHERE di.officer_Cotton = 3";
-
+    // ตรวจสอบสิทธิ์ของเจ้าหน้าที่และเพิ่มเงื่อนไขที่เกี่ยวข้อง
     if ($officerRight == 1) {
         $sql .= " AND di.device_Access = 1";
     } elseif ($officerRight == 2) {
         $sql .= " AND (di.device_Access = 1 OR di.device_Access = 2)";
     }
 
+    // เพิ่มเงื่อนไขการค้นหาหากมีการค้นหา
     if ($searchQuery != '') {
         $sql .= " AND di.device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
     }
 
+    // เลือกข้อมูลล่าสุดจากแต่ละ device_Id โดยใช้ GROUP BY และ MAX
+    $sql .= " GROUP BY di.device_Id ORDER BY MAX(di.device_Id) DESC";  // เลือกข้อมูลล่าสุดของแต่ละ device_Id
+    
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -51,7 +55,6 @@
                 'id' => $row['device_Id'],
                 'name' => $row['device_Name'],
                 'status' => isset($row['device_Con']) ? $row['device_Con'] : 'ไม่มีข้อมูล', // ให้ค่าเป็น 'ไม่มีข้อมูล' หากไม่มีค่าใน 'device_Con'
-    
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'], // เพิ่มข้อมูล device_Access
             ];
@@ -60,6 +63,7 @@
         $equipment = [];
     }
     ?>
+
 
     <div class="col-md-9 col-lg-10 mb-5">
         <div class="p-3 bg-light border rounded shadow-sm">
@@ -111,10 +115,9 @@
                                     <p class="card-text mb-0">
                                         สถานะ:
                                         <span class="fw-bold"
-                                            style="color: <?= $item['status'] == 1 ? '#FF090D' : '#78C756'; ?>;">
-                                            <?= $item['status'] == 1 ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                            style="color:  <?= ($item['hreturn_Status'] == '7') ? '#e63946' : '#6cbf42'; ?>;">
+                                            <?= ($item['hreturn_Status'] == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
                                         </span>
-
                                     </p>
                                 </div>
                             </div>

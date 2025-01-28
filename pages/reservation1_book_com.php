@@ -156,10 +156,6 @@
                                         style="padding: 10px; font-size: 16px;" required>
                                 </div>
 
-                                <script>
-                                    document.getElementById('history_Return').setAttribute('min', new Date().toISOString().split('T')[0]);
-                                </script>
-
                                 <div class="col-sm-4">
                                     <label for="history_Stop" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: rgba(0, 116, 72, 0.6);">เวลาคืน :</label>
