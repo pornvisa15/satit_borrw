@@ -46,36 +46,3 @@ if (isset($_POST['device_Id'])) {
 // ปิดการเชื่อมต่อ
 $conn->close();
 ?>
-
-if (isset($_POST['device_Id'])) {
-    $deviceId = $_POST['device_Id'];
-
-    // ตรวจสอบว่า deviceId ถูกส่งมาหรือไม่
-    if (empty($deviceId)) {
-        echo "device_Id ไม่ถูกส่งมา";
-        exit;
-    }
-
-    // คำสั่ง SQL เพื่ออัปเดตสถานะจาก 7 เป็น 0
-    $sql = "UPDATE borrow.history_brs SET hreturn_Status = 0 WHERE device_Id = ? AND hreturn_Status = 7";
-
-    // เตรียมคำสั่ง SQL
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $deviceId); // ใช้ s สำหรับ string ถ้า device_Id เป็นข้อความ
-
-        if ($stmt->execute()) {
-            echo "สถานะถูกเปลี่ยนเรียบร้อยแล้ว";
-        } else {
-            echo "เกิดข้อผิดพลาดในการเปลี่ยนสถานะ: " . $stmt->error;
-        }
-
-        // ปิดคำสั่ง SQL
-        $stmt->close();
-    } else {
-        echo "เตรียมคำสั่ง SQL ไม่สำเร็จ";
-    }
-}
-
-// ปิดการเชื่อมต่อ
-$conn->close();
-?>

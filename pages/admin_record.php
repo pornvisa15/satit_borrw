@@ -134,10 +134,16 @@ $result = $conn->query($sql);
     } elseif ($cottonFilter > 0) {
         $sql .= " AND history_brs.officer_Cotton = $cottonFilter";
     }
-    $sql = "SELECT * FROM borrow.history_brs WHERE hreturn_Status != 0";
-    $sql .= " AND history_brs.history_Numder = (SELECT MAX(history_Numder) 
-                            FROM borrow.history_brs h WHERE h.device_Id = history_brs.device_Id) 
-                            ORDER BY history_brs.device_Id DESC";
+
+    $sql .= " AND history_brs.history_Numder = (
+        SELECT MAX(history_Numder) 
+        FROM borrow.history_brs h 
+        WHERE h.device_Id = history_brs.device_Id
+    ) 
+    AND history_brs.history_Status_BRS != 2
+   
+    ORDER BY history_brs.device_Id DESC";
+
 
     $result = $conn->query($sql);
     $i = 1;
@@ -163,6 +169,14 @@ if ($row['history_Status_BRS'] == 0) {
           </span>";
 }
 
+elseif ($row['history_Status_BRS'] == 2) {
+    echo "<span class='badge rounded-pill bg-danger text-white' style='font-size: 12px;'> 
+        <i class='bi bi-x-circle'></i> ไม่อนุมัติ
+      </span>";
+
+
+}
+
 // แสดงสถานะสำหรับ hreturn_Status
 if ($row['hreturn_Status'] == 1) {
     echo "<span class='badge rounded-pill bg-success' style='font-size: 12px;'> 
@@ -177,19 +191,20 @@ if ($row['hreturn_Status'] == 1) {
 } elseif ($row['hreturn_Status'] == 4) {
     echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'> 
             <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
-}elseif ($row['hreturn_Status'] == 7) {
+}if ($row['hreturn_Status'] == 7) {
     echo "<div class='d-flex justify-content-center align-items-center gap-2' style='height: 100%;'>
             <a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 
-            class='badge rounded-pill bg-danger text-decoration-none text-light' 
-            style='cursor: pointer; font-size: 12px;'>
-            <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย
-          </a>
-          <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
-          class='btn btn-success rounded-pill px-3 py-1 text-white shadow-sm' 
-          style='font-size: 12px;'>
-          <i class='bi bi-check-circle'></i> สถานะ
-          </button>
-        </div>";
+               class='badge rounded-pill bg-danger text-decoration-none text-light' 
+               style='cursor: pointer; font-size: 12px;'>
+               <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย
+            </a>
+            
+            <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
+               class='btn btn-success rounded-pill px-3 py-1 text-white shadow-sm' 
+               style='font-size: 12px;'>
+               <i class='bi bi-check-circle'></i> สถานะ
+            </button>
+          </div>";
 
    
     
@@ -220,6 +235,8 @@ echo "</td>";
             echo "</tr>";
             $i++;
         }
+    } else {
+        echo "<tr><td colspan='9'>ไม่พบข้อมูล</td></tr>";
     }
     ?>
     </tbody>
@@ -243,21 +260,22 @@ echo "</td>";
     </div>
 </div>
 <script>
-  function changeStatusToZero(deviceId) {
-    // ใช้ AJAX เพื่อส่งข้อมูลไปที่ PHP เพื่อเปลี่ยนสถานะ
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "update_status.php", true); // เปลี่ยน 'update_status.php' ให้เป็นไฟล์ที่คุณใช้ในการอัปเดตสถานะ
+function changeStatusToZero(deviceId) {
+    // ส่งคำขอ AJAX เพื่อเปลี่ยนสถานะจาก 7 เป็น 0
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "update_status.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    // ส่งข้อมูล deviceId ไปที่ PHP
+    // ส่ง deviceId เพื่ออัปเดตสถานะ
     xhr.send("device_Id=" + deviceId);
 
+    // เมื่อการอัปเดตเสร็จสิ้น ให้เปลี่ยนสถานะในหน้าเว็บทันที
     xhr.onload = function() {
         if (xhr.status === 200) {
-            alert(xhr.responseText); // แสดงข้อความที่ส่งกลับมาจาก PHP
-            location.reload(); // รีโหลดหน้าเพื่อแสดงการเปลี่ยนแปลง
-        } else {
-            alert("เกิดข้อผิดพลาด: " + xhr.status);
+            // เปลี่ยนสถานะของปุ่มและการแสดงผลให้เป็น 0 (ถ้าการอัปเดตสำเร็จ)
+            alert("สถานะถูกเปลี่ยนเป็น 0");
+            // ปรับการแสดงผลในหน้าเว็บ (อาจจะซ่อนปุ่มหรือเปลี่ยนข้อความ)
+            // คุณสามารถใช้ JavaScript เพื่อปรับ DOM ตามต้องการ
         }
     };
 }
