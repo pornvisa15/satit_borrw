@@ -24,7 +24,7 @@
     COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con
     FROM borrow.device_information di
     LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
-    WHERE di.officer_Cotton = 1";  // เงื่อนไขพื้นฐาน
+    WHERE di.officer_Cotton = 4";  // เงื่อนไขพื้นฐาน
     
     // ตรวจสอบสิทธิ์ของเจ้าหน้าที่และเพิ่มเงื่อนไขที่เกี่ยวข้อง
     if ($officerRight == 1) {

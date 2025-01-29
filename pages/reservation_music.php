@@ -19,18 +19,14 @@
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
 
-    // ตรวจสอบสิทธิ์ของผู้ใช้งาน
     $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0; // ค่าเริ่มต้นเป็น 0 ถ้าไม่มีการตั้งค่า
-    
-    // รับค่าคำค้นหาจากฟอร์ม
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
-
-    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access,  hb.hreturn_Status
-        COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con 
-        FROM borrow.device_information di
-        LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
-        WHERE di.officer_Cotton = 3";
-
+    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, hb.hreturn_Status, 
+    COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con
+    FROM borrow.device_information di
+    LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+    WHERE di.officer_Cotton = 3";  // เงื่อนไขพื้นฐาน
+    
     // ตรวจสอบสิทธิ์ของเจ้าหน้าที่และเพิ่มเงื่อนไขที่เกี่ยวข้อง
     if ($officerRight == 1) {
         $sql .= " AND di.device_Access = 1";
@@ -43,9 +39,10 @@
         $sql .= " AND di.device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
     }
 
-    // เลือกข้อมูลล่าสุดจากแต่ละ device_Id โดยใช้ GROUP BY และ MAX
+    // เลือกตัวล่าสุดจากแต่ละ device_Id โดยใช้ GROUP BY และ MAX
     $sql .= " GROUP BY di.device_Id ORDER BY MAX(di.device_Id) DESC";  // เลือกข้อมูลล่าสุดของแต่ละ device_Id
     
+
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -54,15 +51,19 @@
             $equipment[] = [
                 'id' => $row['device_Id'],
                 'name' => $row['device_Name'],
-                'status' => isset($row['device_Con']) ? $row['device_Con'] : 'ไม่มีข้อมูล', // ให้ค่าเป็น 'ไม่มีข้อมูล' หากไม่มีค่าใน 'device_Con'
+                'status' => isset($row['device_Con']) ? $row['device_Con'] : 'ไม่มีข้อมูล',
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'], // เพิ่มข้อมูล device_Access
+                'hreturn_Status' => $row['hreturn_Status'],
             ];
         }
     } else {
         $equipment = [];
     }
+
     ?>
+
+
 
 
     <div class="col-md-9 col-lg-10 mb-5">

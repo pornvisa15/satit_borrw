@@ -38,7 +38,8 @@
                 END AS officer_Cotton_name
          FROM history_brs hb
          INNER JOIN device_information di ON hb.device_Id = di.device_Id 
-         WHERE hb.user_Id = ?"
+         WHERE hb.user_Id = ?
+          ORDER BY hb.history_Borrow DESC"
     );
     if (!$stmt) {
         die("ข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);

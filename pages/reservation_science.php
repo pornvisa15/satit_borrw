@@ -19,18 +19,14 @@
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
 
-    // ตรวจสอบสิทธิ์ของผู้ใช้งาน
     $officerRight = isset($_SESSION['officer_Right']) ? $_SESSION['officer_Right'] : 0; // ค่าเริ่มต้นเป็น 0 ถ้าไม่มีการตั้งค่า
-    
-    // รับค่าคำค้นหาจากฟอร์ม
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
-
-    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
-        COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con
-        FROM borrow.device_information di
-        LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
-        WHERE di.officer_Cotton = 2";
-
+    $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, hb.hreturn_Status, 
+    COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con
+    FROM borrow.device_information di
+    LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+    WHERE di.officer_Cotton = 2";  // เงื่อนไขพื้นฐาน
+    
     // ตรวจสอบสิทธิ์ของเจ้าหน้าที่และเพิ่มเงื่อนไขที่เกี่ยวข้อง
     if ($officerRight == 1) {
         $sql .= " AND di.device_Access = 1";
@@ -43,9 +39,10 @@
         $sql .= " AND di.device_Name LIKE '%" . $conn->real_escape_string($searchQuery) . "%'";
     }
 
-    // เลือกข้อมูลล่าสุดจากแต่ละ device_Id โดยใช้ GROUP BY และ ORDER BY
-    $sql .= " GROUP BY di.device_Id ORDER BY MAX(di.device_Id) DESC";  // จัดกลุ่มตาม device_Id และเลือกข้อมูลล่าสุด
+    // เลือกตัวล่าสุดจากแต่ละ device_Id โดยใช้ GROUP BY และ MAX
+    $sql .= " GROUP BY di.device_Id ORDER BY MAX(di.device_Id) DESC";  // เลือกข้อมูลล่าสุดของแต่ละ device_Id
     
+
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -54,16 +51,17 @@
             $equipment[] = [
                 'id' => $row['device_Id'],
                 'name' => $row['device_Name'],
-                'status' => isset($row['device_Con']) ? $row['device_Con'] : 'ไม่มีข้อมูล', // ให้ค่าเป็น 'ไม่มีข้อมูล' หากไม่มีค่าใน 'device_Con'
+                'status' => isset($row['device_Con']) ? $row['device_Con'] : 'ไม่มีข้อมูล',
                 'image' => '../connect/equipment/equipment/img/' . $row['device_Image'],
                 'device_Access' => $row['device_Access'], // เพิ่มข้อมูล device_Access
+                'hreturn_Status' => $row['hreturn_Status'],
             ];
         }
     } else {
         $equipment = [];
     }
-    ?>
 
+    ?>
 
     <div class="col-md-9 col-lg-10 mb-5">
         <div class="p-3 bg-light border rounded shadow-sm">
@@ -111,13 +109,13 @@
                                     </a>
                                 </div>
                                 <div class="card-body text-center">
-                                    <p class="card-text mb-0">
                                     <h6 class="card-title mb-3"><?= $item['name']; ?></h6>
-                                    สถานะ:
-                                    <span class="fw-bold"
-                                        style="color:  <?= (isset($item['hreturn_Status']) && $item['hreturn_Status'] == '7') ? '#e63946' : '#6cbf42'; ?>;">
-                                        <?= (isset($item['hreturn_Status']) && $item['hreturn_Status'] == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
-                                    </span>
+                                    <p class="card-text mb-0">
+                                        สถานะ:
+                                        <span class="fw-bold"
+                                            style="color:  <?= ($item['hreturn_Status'] == '7') ? '#e63946' : '#6cbf42'; ?>;">
+                                            <?= ($item['hreturn_Status'] == '7') ? 'ไม่ว่าง' : 'ว่าง'; ?>
+                                        </span>
                                     </p>
                                 </div>
                             </div>
