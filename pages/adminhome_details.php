@@ -65,18 +65,46 @@
         </div>
         <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 700px; margin-bottom: 60px;">
             <h5 class="text-center">รายละเอียดการทำรายการ</h5>
-            <input type="hidden" name="history_Status_BRS" value="">
-            <div class="d-flex justify-content-start mb-4"
-                style="max-width: 100%; margin: 0 auto; padding-top: 10px; margin-top: 40px; gap: 10px;">
-                <button class="btn btn-success px-3 py-2" data-bs-toggle="modal" data-bs-target="#approveModal"
-                    style="font-size: 12px; border-radius: 3px; width: auto;">
-                    <i class="bi bi-check-circle" style="font-size: 12px;"></i> อนุมัติ
-                </button>
-                <button class="btn btn-info text-white px-3 py-2" data-bs-toggle="modal" data-bs-target="#returnModal"
-                    style="font-size: 12px; border-radius: 3px; width: auto;">
-                    <i class="bi bi-arrow-repeat" style="font-size: 12px;"></i> รับคืน
-                </button>
-            </div>
+            <?php 
+if ($history_Status_BRS == 1) {
+    $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
+    $disableReturn = ''; // ปุ่มรับคืน กดได้
+} else if ($history_Status_BRS == 2) {
+    $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
+    $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
+}else if ($history_Status_BRS == 0) {
+        $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
+        $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
+} else {
+    $disableApprove = ''; // ปุ่มอนุมัติ กดได้
+    $disableReturn = ''; // ปุ่มรับคืน กดได้
+}
+
+// กำหนด CSS สำหรับปุ่มที่ถูกปิดการใช้งาน
+$disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
+?>
+
+<div class="d-flex justify-content-start mb-4"
+    style="max-width: 100%; margin: 0 auto; padding-top: 10px; margin-top: 40px; gap: 10px;">
+
+    <button class="btn btn-success px-3 py-2" data-bs-toggle="modal" data-bs-target="#approveModal"
+        style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableApprove ? $disabledStyle : ''; ?>" 
+        <?php echo $disableApprove; ?>>
+        <i class="bi bi-check-circle" style="font-size: 12px;"></i> อนุมัติ
+    </button>
+
+    <button class="btn btn-info text-white px-3 py-2" data-bs-toggle="modal" data-bs-target="#returnModal"
+        style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableReturn ? $disabledStyle : ''; ?>" 
+        <?php echo $disableReturn; ?>>
+        <i class="bi bi-arrow-repeat" style="font-size: 12px;"></i> รับคืน
+    </button>
+
+</div>
+
+
+
+
+
             <div class="form-group" style="margin-bottom: 10px; display: flex; align-items: center;">
                 <label for="deviceName" class="font-weight-bold text-success"
                     style="font-size: 16px; margin-right: 10px; white-space: nowrap; color: black !important;">
@@ -174,7 +202,7 @@
                 </div>
             </div>
         </div>
-
+        
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function () {
@@ -296,7 +324,7 @@
                     alert("กรุณากรอกราคาที่ต้องชดใช้!");
                     return;
                 }
-                alert("ข้อมูลถูกบันทึกเรียบร้อย");
+                alert("บันทึกข้อมูลสำเร็จ");
                 document.getElementById('returnForm').submit();
             }
 

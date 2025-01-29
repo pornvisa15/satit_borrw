@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $finance_Image = $row2['finance_Image'];  // เก็บข้อมูล finance_Image
 
                 // แสดงรูปภาพ
-                echo "<script>alert('บันทึกข้อมูลสำเร็จ');</script>";
+                // echo "<script>alert('บันทึกข้อมูลสำเร็จ');</script>";
                 echo "<td colspan='2' class='text-center' style='padding-top: 10px;'>";
                 echo "<img src='../connect/addqr/img/" . htmlspecialchars($finance_Image) . "' alt='Finance Image' class='img-fluid shadow rounded-3 border border-primary' style='width: 200px; height: auto; margin-top: 8px;'>";
                 echo "</td>";
