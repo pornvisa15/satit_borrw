@@ -8,11 +8,25 @@ if (!$user_id) {
 }
 
 date_default_timezone_set('Asia/Bangkok');
-echo "Current Timezone: " . date_default_timezone_get();
-$sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status_BRS ,hb.history_Stop
+$sql = "SELECT di.device_Name, 
+               hb.history_Borrow, 
+               hb.history_Return, 
+               hb.history_Status_BRS, 
+               hb.history_Stop,
+               hb.note_Other,
+              CASE 
+    WHEN hb.officer_Cotton = 1 THEN 'ฝ่ายคอมพิวเตอร์'
+    WHEN hb.officer_Cotton = 2 THEN 'ฝ่ายวิทยาศาสตร์'
+    WHEN hb.officer_Cotton = 3 THEN 'ฝ่ายดนตรี'
+    WHEN hb.officer_Cotton = 4 THEN 'ฝ่ายพัสดุ'
+    ELSE 'ไม่ทราบแผนก'
+END AS department_name
+
         FROM borrow.device_information di
         INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
         WHERE hb.user_Id = ?";
+
+
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("ข้อผิดพลาดในการเตรียมคำสั่ง SQL: " . $conn->error);
@@ -20,6 +34,7 @@ if (!$stmt) {
 $stmt->bind_param('s', $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
 if (!$result) {
     die("ข้อผิดพลาดในการดึงข้อมูล: " . $stmt->error);
 }
@@ -54,41 +69,62 @@ $currentDate = date('Y-m-d H:i:s');
                             while ($row = $result->fetch_assoc()):
                                 $historyBorrow = $row['history_Borrow'];
                                 $historyReturn = $row['history_Return'];
-                                $historyBorrowTimestamp = strtotime($historyBorrow);
-                                $historyReturnTimestamp = strtotime($historyReturn);
-                                $currentDateTimestamp = strtotime($currentDate);
                                 $historyStatus = $row['history_Status_BRS'];
+                                $historyStop = $row['history_Stop'];
+
+                                $historyBorrowTimestamp = strtotime($historyBorrow);
+                                $historyStopTimestamp = strtotime($historyStop);
+                                $currentDateTimestamp = time(); // เวลาปัจจุบัน
+                            
                                 $statusText = '';
                                 $statusClass = '';
                                 $statusIcon = '';
                                 $badgeText = '';
                                 $durationText = '';
-                                if ($historyBorrowTimestamp !== false && $historyReturnTimestamp !== false) {
-                                    $durationInSeconds = $historyReturnTimestamp - $historyBorrowTimestamp;
-                                    $days = floor($durationInSeconds / 86400);
-                                    $hours = floor(($durationInSeconds % 86400) / 3600);
-                                    $minutes = floor(($durationInSeconds % 3600) / 60);
-                                    if ($days > 0) {
-                                        $durationText .= "$days วัน ";
-                                    }
-                                    if ($hours > 0) {
-                                        $durationText .= "$hours ชั่วโมง ";
-                                    }
-                                    if ($minutes > 0) {
-                                        $durationText .= "$minutes นาที";
+
+                                // ตรวจสอบค่าของ $historyReturn ก่อน
+                                if ($historyBorrowTimestamp !== false && $historyReturn !== false) {
+                                    $historyReturnTimestamp = strtotime($historyReturn);
+                                    if ($historyReturnTimestamp !== false) {
+                                        $durationInSeconds = $historyReturnTimestamp - $historyBorrowTimestamp;
+                                        $days = floor($durationInSeconds / 86400);  // คำนวณเป็นวัน
+                                        $durationText = "$days วัน";
+                                    } else {
+                                        $durationText = "ข้อมูลวันที่คืนผิดพลาด";
                                     }
                                 } else {
-                                    $durationText = "ข้อมูลผิดพลาด";
+                                    $durationText = "ข้อมูลการยืมผิดพลาด";
                                 }
-                                if ($historyStatus == 1 && $historyReturnTimestamp !== false && $currentDateTimestamp !== false) {
-                                    $timeLeftInSeconds = $historyReturnTimestamp - $currentDateTimestamp;
-                                    $hoursLeft = floor($timeLeftInSeconds / 3600);
-                                    $minutesLeft = floor(($timeLeftInSeconds % 3600) / 60);
-                                    $durationText .= " กำลังใช้งาน $hoursLeft ชม. $minutesLeft นาที";
+
+                                // ตรวจสอบวันที่คืนและเวลาหมดอายุ
+                                $currentDateTime = new DateTime(); // เวลาปัจจุบัน
+                            
+                                // ดึงค่า history_Return (วันที่คืน) และ history_Stop (เวลาคืน) จากฐานข้อมูล
+                                $historyReturnDate = isset($row['history_Return']) ? $row['history_Return'] : null;
+                                $historyStopTime = isset($row['history_Stop']) ? $row['history_Stop'] : null;
+
+                                if ($historyReturnDate && $historyStopTime) {
+                                    // รวมวันที่คืน + เวลาคืน ให้เป็น DateTime ที่สมบูรณ์
+                                    $historyStopDateTime = new DateTime($historyReturnDate . " " . $historyStopTime);
+
+                                    // คำนวณเวลาที่เหลือ
+                                    $interval = $currentDateTime->diff($historyStopDateTime);
+
+                                    if ($currentDateTime < $historyStopDateTime) {
+                                        // ถ้าเวลายังไม่หมด
+                                        $timeRemaining = "" . $interval->h . " ชม. " . $interval->i . " นาที" . "";
+                                    } else {
+                                        // ถ้าเลยกำหนดคืนแล้ว
+                                        $timeRemaining = "หมดเวลาแล้ว";
+                                    }
+                                } else {
+                                    $timeRemaining = "ไม่มีข้อมูลเวลาคืนหรือเวลาหมดอายุ";
                                 }
+
+                                // ตั้งค่าสถานะการยืม
                                 if ($historyStatus == 0) {
                                     $statusText = "รอการอนุมัติ";
-                                    $statusClass = "bg-warning text-dark";
+                                    $statusClass = "bg-warning";
                                     $statusIcon = "bi-hourglass-split";
                                 } elseif ($historyStatus == 2) {
                                     $statusText = "ไม่อนุมัติ";
@@ -99,44 +135,63 @@ $currentDate = date('Y-m-d H:i:s');
                                     $statusClass = "bg-success";
                                     $statusIcon = "bi-check-circle-fill";
                                 } else {
-                                    continue;
+                                    continue; // ถ้าสถานะไม่ตรงกับเงื่อนไขใด ๆ ให้ข้ามไป
                                 }
                                 ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     style="transition: all 0.3s ease; background-color: #f8f9fa; border-radius: 10px;"
                                     onmouseover="this.style.backgroundColor='#e9f7ef'; this.style.transform='scale(1.02)';"
                                     onmouseout="this.style.backgroundColor='#f8f9fa'; this.style.transform='scale(1)';">
+
                                     <div>
                                         <span class="fw-bold" style="font-size: 14px; color: #007468;">
-                                            <?= htmlspecialchars($row['device_Name']); ?>
+                                            <?= htmlspecialchars($row['device_Name']) ?>
                                         </span>
                                         <div style="font-size: 12px; color: #6c757d;">
-                                            วันที่ยืม: <?= htmlspecialchars($row['history_Borrow']); ?> - วันที่คืน:
-                                            <?= htmlspecialchars($row['history_Return']); ?><br>
-                                            ระยะเวลาในการยืม: <?= $durationText; ?><br>
-                                            <?= $badgeText; ?>
+                                            วันที่ยืม: <?= date("d-m-Y", strtotime($row['history_Borrow'])); ?> - วันที่คืน:
+                                            <?= date("d-m-Y", strtotime($row['history_Return'])); ?><br>
+
+                                            <?php if ($historyStatus != 0): // ถ้าสถานะไม่ใช่ "รอการอนุมัติ" ?>
+                                                <?php if ($historyStatus != 2): // ถ้าสถานะไม่ใช่ "ไม่อนุมัติ" ?>
+                                                    <span>ระยะเวลาในการยืม: <?= $durationText; ?>             <?= $timeRemaining; ?></span><br>
+                                                    สถานะที่รับ: <?= htmlspecialchars($row['note_Other'] ?? 'ไม่มีข้อมูล'); ?>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <span class="badge <?= $statusClass; ?> d-flex align-items-center"
                                         style="transition: background-color 0.3s ease; font-size: 12px;">
-                                        <i class="bi <?= $statusIcon; ?> me-1"></i> <?= $statusText; ?>
+                                        <i class="bi <?= $statusIcon; ?> me-1"></i>
+                                        <?php if ($historyStatus == 0): ?>
+                                            รอการอนุมัติ
+                                        <?php elseif ($historyStatus == 2): ?>
+                                            <span class="fw-bold">ไม่อนุมัติ</span>
+                                            <!-- Display "ไม่อนุมัติ" when status is 2 -->
+                                        <?php else: ?>
+                                            <span class="fw-bold"><?= htmlspecialchars($row['department_name']); ?></span>
+                                        <?php endif; ?>
                                     </span>
+
                                 </li>
+
+
                             <?php endwhile; ?>
                         </ul>
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL"
+        crossorigin="anonymous"></script>
 </body>
 
-</html>
 <footer style="background-color: #495057;" class="text-light py-3 mt-4">
     <div class="container text-center">
         <p class="mb-0">&copy; 2024 S.TSU Application V 2.0 | พัฒนาโดย ทีมงาน S.TSU</p>
     </div>
 </footer>
-</body>
 
 </html>

@@ -96,7 +96,8 @@ if ($result->num_rows > 0) {
                 </div>
 
                 <div class="d-flex justify-content-center mt-5 mb-5">
-                    <div class="p-5 bg-light border rounded shadow-sm" style="max-width: 800px; width: 100%;">
+                    <div class="p-5 bg-white border rounded shadow-sm" style="max-width: 800px; width: 100%;">
+
                         <div class="d-flex align-items-center">
                             <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder"
                                 style="border-radius: 8px; max-width: 250px; height: 250px; object-fit: contain; transition: transform 0.3s ease; cursor: pointer;"
@@ -112,10 +113,11 @@ if ($result->num_rows > 0) {
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body text-center"
-                                            style="background-color:rgb(255, 255, 255); padding: 20px;">
+                                            style="background-color: rgb(255, 255, 255); padding: 20px; border-radius: 12px;">
                                             <img src="<?= $device_Image; ?>" class="img-fluid" alt="Zoomed Image"
                                                 style="max-width: 80%; max-height: 400px; height: auto; object-fit: contain; border-radius: 8px;">
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +172,7 @@ if ($result->num_rows > 0) {
                                             value="<?= htmlspecialchars($history_Status_BRS); ?>">
                                     <?php endif; ?>
                                     <div class="d-flex justify-content-end" style="width: 100%;">
-                                        <?php if ($hreturn_Status != '3'): ?>
+                                        <?php if ($hreturn_Status != '7'): ?>
                                             <button class="btn btn-sm"
                                                 style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
                                                 onmouseover="this.style.transform='scale(1.3)';"
@@ -281,53 +283,57 @@ if ($result->num_rows > 0) {
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1): ?>
-                <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
-                    <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
-                        ตารางจองล่วงหน้า
-                    </h5>
+                <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1): ?>
+                    <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
+                        <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
+                            ตารางจองล่วงหน้า
+                        </h5>
 
-                    <table class="table table-hover table-bordered">
-                        <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
-                            <tr>
-                                <th scope="col">ผู้ยืม</th>
-                                <th scope="col">วันที่ยืม</th>
-                                <th scope="col">วันที่คืน</th>
-                                <th scope="col">เวลาคืน</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-size: 0.8rem;">
-                            <?php
-                            mysqli_data_seek($result, 0); // คืน Pointer กลับไปที่แถวแรก
-                            while ($row = mysqli_fetch_assoc($result)): ?>
+                        <table class="table table-hover table-bordered">
+                            <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
                                 <tr>
-                                    <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
-                                    <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
-                                    </td>
-                                    <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
-                                    </td>
-                                    <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
-                                    </td>
+                                    <th scope="col">ผู้ยืม</th>
+                                    <th scope="col">วันที่ยืม</th>
+                                    <th scope="col">วันที่คืน</th>
+                                    <th scope="col">เวลาคืน</th>
                                 </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                    <h5 class="text-center text-muted">อุปกรณ์ไม่พร้อมใช้งาน</h5>
-                </div>
-            <?php endif; ?>
+                            </thead>
+                            <tbody style="font-size: 0.8rem;">
+                                <?php
+                                mysqli_data_seek($result, 0); // คืน Pointer กลับไปที่แถวแรก
+                                while ($row = mysqli_fetch_assoc($result)): ?>
+                                    <tr>
+                                        <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
+                                        <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
+                                        </td>
+                                        <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
+                                        </td>
+                                        <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
+                        <h5 class="text-center text-muted">อุปกรณ์ไม่พร้อมใช้งาน</h5>
+                    </div>
+                <?php endif; ?>
 
 
 
 
+            </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<footer style="background-color: #495057;" class="text-light py-3 mt-4">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2024 S.TSU Application V 2.0 | พัฒนาโดย ทีมงาน S.TSU</p>
+    </div>
+</footer>
 
 </html>

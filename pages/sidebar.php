@@ -7,49 +7,49 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
     ?>
     <div class="d-flex flex-column text-white p-4"
-    style="width: 250px; min-height: 100vh; background-color: #466da7; margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); flex-shrink: 0; overflow-y: auto;">
-    <?php
-    if ($_SESSION['officer_Right'] == 3) {
-        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Admin</h3>";
-    } elseif ($_SESSION['officer_Right'] == 4) {
-        echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Officer</h3>";
-    } else {
-        echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
-    }
-    ?>
-    <ul class="nav flex-column">
-        <li class="nav-item mb-3">
-            <a href="admin_homepages.php" class="nav-link text-white"
-                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                หน้าหลัก
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_equipment.php" class="nav-link text-white"
-                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                คลังอุปกรณ์
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_record.php" class="nav-link text-white"
-                style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ประวัติอุปกรณ์
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_finance.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ตั้งค่าการเงิน
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="../logout.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ออกจากระบบ
-            </a>
-        </li>
-    </ul>
-</div>
+        style="width: 250px; min-height: 100vh; background-color: #466da7; margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); flex-shrink: 0; overflow-y: auto;">
+        <?php
+        if ($_SESSION['officer_Right'] == 3) {
+            echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Admin</h3>";
+        } elseif ($_SESSION['officer_Right'] == 4) {
+            echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Officer</h3>";
+        } else {
+            echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
+        }
+        ?>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-3">
+                <a href="admin_homepages.php" class="nav-link text-white"
+                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    หน้าหลัก
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_equipment.php" class="nav-link text-white"
+                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    คลังอุปกรณ์
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_record.php" class="nav-link text-white"
+                    style="background-color:#406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ประวัติอุปกรณ์
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_finance.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ตั้งค่าการเงิน
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="../logout.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ออกจากระบบ
+                </a>
+            </li>
+        </ul>
+    </div>
 
     <?php
 
@@ -60,59 +60,59 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 } elseif ($_SESSION['officer_Right'] == 3) {
     ?>
     <div class="d-flex flex-column text-white p-4"
-    style="width: 250px; min-height: 100vh; background-color: #466da7; margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); flex-shrink: 0;">
-    <?php
-    if (isset($_SESSION['officer_Right'])) {
-        if ($_SESSION['officer_Right'] == 3) {
-            echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Admin</h3>";
-        } elseif ($_SESSION['officer_Right'] == 4) {
-            echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>เจ้าหน้าที่</h3>";
+        style="width: 250px; min-height: 100vh; background-color: #466da7; margin-left: auto; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); flex-shrink: 0;">
+        <?php
+        if (isset($_SESSION['officer_Right'])) {
+            if ($_SESSION['officer_Right'] == 3) {
+                echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>Admin</h3>";
+            } elseif ($_SESSION['officer_Right'] == 4) {
+                echo "<h3 class='mb-4 text-center' style='background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); color: white; padding: 18px 20px; border-radius: 13px;'>เจ้าหน้าที่</h3>";
+            } else {
+                echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
+            }
         } else {
-            echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
+            echo "<span class='text-light'>ไม่มีข้อมูลสิทธิ์</span>";
         }
-    } else {
-        echo "<span class='text-light'>ไม่มีข้อมูลสิทธิ์</span>";
-    }
-    ?>
-    <ul class="nav flex-column">
-        <li class="nav-item mb-3">
-            <a href="admin_homepages.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                หน้าหลัก
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_equipment.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                คลังอุปกรณ์
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_staffinfo.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ข้อมูลเจ้าหน้าที่
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_record.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ประวัติอุปกรณ์
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="admin_finance.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ตั้งค่าการเงิน
-            </a>
-        </li>
-        <li class="nav-item mb-3">
-            <a href="../logout.php" class="nav-link text-white"
-                style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                ออกจากระบบ
-            </a>
-        </li>
-    </ul>
-</div>
+        ?>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-3">
+                <a href="admin_homepages.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    หน้าหลัก
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_equipment.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    คลังอุปกรณ์
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_staffinfo.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ข้อมูลเจ้าหน้าที่
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_record.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ประวัติอุปกรณ์
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="admin_finance.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ตั้งค่าการเงิน
+                </a>
+            </li>
+            <li class="nav-item mb-3">
+                <a href="../logout.php" class="nav-link text-white"
+                    style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                    ออกจากระบบ
+                </a>
+            </li>
+        </ul>
+    </div>
 
     <?php
 } elseif ($_SESSION['officer_Right'] == 1) {
@@ -189,8 +189,8 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
                                                 class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์ดนตรี</a>
                                         </li>
                                         <li><a href="reservation_parcel.php"
-                                                        class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์พัสดุ</a>
-                                                </li>
+                                                class="btn btn-light btn-lg w-100 mb-1 text-start rounded-3 p-2 shadow-sm fs-6 text-success">อุปกรณ์พัสดุ</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

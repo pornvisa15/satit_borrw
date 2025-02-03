@@ -135,5 +135,10 @@
         integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL"
         crossorigin="anonymous"></script>
 </body>
+<footer style="background-color: #495057;" class="text-light py-3 mt-4">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2024 S.TSU Application V 2.0 | พัฒนาโดย ทีมงาน S.TSU</p>
+    </div>
+</footer>
 
 </html>
