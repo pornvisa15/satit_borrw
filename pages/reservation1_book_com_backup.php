@@ -10,6 +10,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.24/dist/sweetalert2.all.min.js"></script>
 
 </head>
 
@@ -25,56 +27,49 @@
     include "../connect/mysql_borrow.php";
     include '../connect/myspl_das_satit.php';
 
-    // รับข้อมูลที่ส่งมาจากหน้า homepages.php
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
-
-    // // ดึงข้อมูลจากฐานข้อมูล
     $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
-
-    //     $sql = "SELECT * FROM borrow.device_information 
-// INNER JOIN borrow.history_brs ON device_information.device_Id = history_brs.device_Id";
-    
     $result = $conn->query($sql);
+    date_default_timezone_set('Asia/Bangkok'); // ตั้งโซนเวลา
+    $currentDate = date('Y-m-d H:i:s');
 
     if ($result->num_rows > 0) {
-        // ถ้ามีข้อมูล
         $row = $result->fetch_assoc();
-
-        // ตรวจสอบและกำหนดค่าให้ตัวแปร
         $device_Name = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Status = isset($row['device_Con']) ? $row['device_Con'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Image = isset($row['device_Image']) ? '../connect/equipment/equipment/img/' . $row['device_Image'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Other = isset($row['device_Other']) ? $row['device_Other'] : 'ข้อมูลไม่ถูกส่ง';
-        $cotton_Id = isset($row['cotton_Id']) ? $row['cotton_Id'] : 'ข้อมูลไม่ถูกส่ง';
+        $officer_Cotton = isset($row['officer_Cotton']) ? $row['officer_Cotton'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Id = isset($row['device_Id']) ? $row['device_Id'] : 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
         $history_Id = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
         $history_device = isset($row['device_Name']) ? $row['device_Name'] : 'ข้อมูลไม่ถูกส่ง';
-        $history_Numder = isset($row['history_Numder']) ? $row['history_Numder'] : 'ข้อมูลไม่ถูกส่ง';
+        $parcel_Numder = isset($row['device_Numder']) ? $row['device_Numder'] : 'ข้อมูลไม่ถูกส่ง';
+        $history_Status = isset($row['history_Status']) ? $row['history_Status'] : 'ข้อมูลไม่ถูกส่ง';
     } else {
-        // ถ้าไม่มีข้อมูล
         $device_Name = 'ข้อมูลไม่ถูกส่ง';
         $device_Status = 'ข้อมูลไม่ถูกส่ง';
         $device_Image = 'ข้อมูลไม่ถูกส่ง';
         $device_Other = 'ข้อมูลไม่ถูกส่ง';
-        $cotton_Id = 'ข้อมูลไม่ถูกส่ง';
+        $officer_Cotton = 'ข้อมูลไม่ถูกส่ง';
         $device_Id = 'ข้อมูลไม่ถูกส่ง';
         $device_Numder = 'ข้อมูลไม่ถูกส่ง';
         $history_Id = 'ข้อมูลไม่ถูกส่ง';
         $history_device = 'ข้อมูลไม่ถูกส่ง';
-        $history_Numder = 'ข้อมูลไม่ถูกส่ง';
+        $parcel_Numder = 'ข้อมูลไม่ถูกส่ง';
+        $history_Status = 'ข้อมูลไม่ถูกส่ง';
     }
+
+
     ?>
 
-    <!-- กล่องทางขวา (เนื้อหา) -->
     <div class="col-md-9 col-lg-10">
         <div class="p-3 bg-light border rounded shadow-sm">
             <div class="row">
                 <div class="col-2 text-end mt-3">
                     <?php
-                    // ตรวจสอบค่า cotton_Id และกำหนดข้อความที่เหมาะสม
                     $department_Name = '';
-                    switch ($cotton_Id) {
+                    switch ($officer_Cotton) {
                         case 1:
                             $department_Name = 'อุปกรณ์คอมพิวเตอร์';
                             break;
@@ -84,6 +79,10 @@
                         case 3:
                             $department_Name = 'อุปกรณ์ดนตรี';
                             break;
+                        case 4:
+                            $department_Name = 'อุปกรณ์พัสดุ';
+                            break;
+
                         default:
                             $department_Name = 'ข้อมูลไม่ระบุ';
                     }
@@ -99,13 +98,14 @@
 
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto"
                 style="max-width: 800px; margin-bottom: 30px;">
-                <div class="container mt-">
+                <div class="container">
 
                     <h5 class="text-center text-success mb-4">รายละเอียดการทำรายการ</h5>
 
                     <form action="../connect/reservation/insert.php" method="post" enctype="multipart/form-data">
+
+                        <input type="text" name="history_Status_BRS" id="historyStatusBRS" hidden>
                         <div class="container mt-4">
-                            <!-- ชื่ออุปกรณ์ -->
                             <div class="form-group mb-4">
                                 <label for="device_Name" class="font-weight-bold text-success"
                                     style="font-size: 16px; color: #007468;">ชื่ออุปกรณ์ :</label>
@@ -113,19 +113,23 @@
                                     value="<?= htmlspecialchars($device_Name) ?>" readonly
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
 
-                                <input type="text" class="form-control" hidden
+                                <input type="text" class="form-control" hidden name="device_Id"
                                     value="<?= htmlspecialchars($device_Id) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-                                <input type="text" class="form-control" hidden name="history_device"
+                                <input type="text" class="form-control" hidden name="device_Name"
                                     value="<?= htmlspecialchars($history_device) ?>"
                                     style="padding: 10px; font-size: 16px; opacity: 0.6;">
-
-
+                                <input type="text" class="form-control" hidden name="device_Numder"
+                                    value="<?= htmlspecialchars($parcel_Numder) ?>"
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
+                                <input type="text" class="form-control" hidden name="officer_Cotton"
+                                    value="<?= htmlspecialchars($officer_Cotton) ?>"
+                                    style="padding: 10px; font-size: 16px; opacity: 0.6;">
 
                             </div>
 
-                            <!-- เพื่อไปใช้งาน และ สถานที่นำไปใช้ -->
                             <div class="form-group row mb-4">
+
                                 <div class="col-sm-6">
                                     <label for="history_Other" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: #007468;">เพื่อไปใช้งาน :</label>
@@ -140,18 +144,13 @@
                                 </div>
                             </div>
 
-                            <!-- วันที่ยืม, วันที่คืน และ เวลาคืน -->
                             <div class="form-group row mb-4">
                                 <div class="col-sm-4">
                                     <label for="history_Borrow" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: rgba(0, 116, 72, 0.6);">วันที่ยืม :</label>
                                     <input type="date" class="form-control" id="history_Borrow" name="history_Borrow"
-                                        style="padding: 10px; font-size: 16px;" readonly required>
-                                    <script>
-                                        // ตั้งค่าให้วันที่ยืมเป็นวันที่ปัจจุบัน
-                                        let today = new Date().toISOString().split('T')[0];
-                                        document.getElementById('history_Borrow').value = today;
-                                    </script>
+                                        style="padding: 10px; font-size: 16px;" required>
+
                                 </div>
 
                                 <div class="col-sm-4">
@@ -161,58 +160,204 @@
                                         style="padding: 10px; font-size: 16px;" required>
                                 </div>
 
-                                <script>
-                                    document.getElementById('history_Return').setAttribute('min', new Date().toISOString().split('T')[0]);
-                                </script>
-
                                 <div class="col-sm-4">
                                     <label for="history_Stop" class="font-weight-bold text-success"
                                         style="font-size: 16px; color: rgba(0, 116, 72, 0.6);">เวลาคืน :</label>
                                     <input type="time" class="form-control" id="history_Stop" name="history_Stop"
                                         style="padding: 10px; font-size: 16px;" required>
                                 </div>
-
-                                <div class="mb-2" style="font-size: 0.95rem; color: #555;">
-
-                                    <strong style="color: #000; font-weight: 600;">จำนวนครั้งที่ถูกยืม:</strong>
-                                    <?= $history_Numder; ?> รอบ
-
-                                </div>
-
                             </div>
 
-                            <!-- ปุ่มตกลง -->
-                            <div class="text-center d-flex justify-content-center gap-4">
+
+
+                            <div class="text-center d-flex justify-content-center gap-4" style="padding-top: 20px;">
                                 <!-- ปุ่มยกเลิก -->
                                 <button class="btn btn-danger"
                                     style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                                    onclick="window.history.back();">
+                                    id="cancelButton">
                                     <i class="bi bi-x-circle"></i> ยกเลิก
                                 </button>
 
                                 <!-- ปุ่มบันทึก -->
                                 <button class="btn btn-success"
                                     style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                                    data-bs-toggle="modal" data-bs-target="#confirmModal">
+                                    id="saveButton">
                                     <i class="bi bi-check-circle"></i> บันทึกข้อมูล
                                 </button>
                             </div>
+
+                            <script>
+                                // ฟังก์ชันให้ถามยืนยันก่อนการยกเลิก
+                                document.getElementById('cancelButton').addEventListener('click', async function (e) {
+                                    e.preventDefault(); // ป้องกันไม่ให้ลิงก์ทำงานทันที
+
+                                    // แสดง SweetAlert เพื่อยืนยันการยกเลิก
+                                    const result = await Swal.fire({
+                                        title: 'ต้องการยกเลิกรายการหรือไม่?',
+                                        icon: 'warning',
+                                        iconColor: '#d33', // เปลี่ยนสีไอคอนเป็นสีแดง
+                                        showCancelButton: true,
+                                        confirmButtonText: 'ยกเลิก',
+                                        cancelButtonText: 'ไม่ยกเลิก',
+                                        confirmButtonColor: '#d33', // เปลี่ยนสีของปุ่มยกเลิกให้ดูเด่น
+                                        cancelButtonColor: '#3085d6', // เปลี่ยนสีของปุ่มไม่ยกเลิก
+                                        background: '#f8f9fa', // เปลี่ยนพื้นหลังให้ดูสะอาด
+                                        backdrop: true
+                                    });
+
+                                    if (result.isConfirmed) {
+                                        // ถ้าผู้ใช้กด "ยกเลิก" ให้ไปยังหน้าหลัก
+                                        window.location.href = "../pages/homepages.php"; // เปลี่ยนเส้นทางตามต้องการ
+                                    }
+                                });
+
+
+
+                                // ฟังก์ชันการบันทึกข้อมูล
+                                document.getElementById('history_Other').addEventListener('input', function () {
+                                    if (this.value.trim() !== '') {
+                                        this.style.borderColor = ''; // คืนสีกรอบ
+                                    } else {
+                                        this.style.borderColor = 'red'; // เปลี่ยนสีกรอบเป็นสีแดง
+                                    }
+                                });
+
+                                document.getElementById('history_Another').addEventListener('input', function () {
+                                    if (this.value.trim() !== '') {
+                                        this.style.borderColor = ''; // คืนสีกรอบ
+                                    } else {
+                                        this.style.borderColor = 'red'; // เปลี่ยนสีกรอบเป็นสีแดง
+                                    }
+                                });
+
+                                document.getElementById('history_Borrow').addEventListener('input', function () {
+                                    if (this.value.trim() !== '') {
+                                        this.style.borderColor = ''; // คืนสีกรอบ
+                                    } else {
+                                        this.style.borderColor = 'red'; // เปลี่ยนสีกรอบเป็นสีแดง
+                                    }
+                                });
+
+                                document.getElementById('history_Return').addEventListener('input', function () {
+                                    if (this.value.trim() !== '') {
+                                        this.style.borderColor = ''; // คืนสีกรอบ
+                                    } else {
+                                        this.style.borderColor = 'red'; // เปลี่ยนสีกรอบเป็นสีแดง
+                                    }
+                                });
+
+                                document.getElementById('history_Stop').addEventListener('input', function () {
+                                    if (this.value.trim() !== '') {
+                                        this.style.borderColor = ''; // คืนสีกรอบ
+                                    } else {
+                                        this.style.borderColor = 'red'; // เปลี่ยนสีกรอบเป็นสีแดง
+                                    }
+                                });
+
+                                // ฟังก์ชันการบันทึกข้อมูล
+                                document.getElementById('saveButton').addEventListener('click', async function (e) {
+                                    e.preventDefault(); // ป้องกันไม่ให้ฟอร์มถูกส่งไปก่อน
+
+                                    // เลือกฟิลด์ที่ต้องการตรวจสอบ
+                                    const historyOther = document.getElementById('history_Other');
+                                    const historyAnother = document.getElementById('history_Another');
+                                    const historyBorrow = document.getElementById('history_Borrow');
+                                    const historyReturn = document.getElementById('history_Return');
+                                    const historyStop = document.getElementById('history_Stop');
+
+                                    // ฟังก์ชันตรวจสอบข้อมูล
+                                    let isValid = true;
+
+                                    // ตรวจสอบข้อมูลในแต่ละฟิลด์
+                                    if (historyOther.value.trim() === '') {
+                                        isValid = false;
+                                        historyOther.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ textarea
+                                    } else {
+                                        historyOther.style.borderColor = ''; // คืนสีกรอบของ textarea
+                                    }
+
+                                    if (historyAnother.value.trim() === '') {
+                                        isValid = false;
+                                        historyAnother.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ textarea
+                                    } else {
+                                        historyAnother.style.borderColor = ''; // คืนสีกรอบของ textarea
+                                    }
+
+                                    if (historyBorrow.value.trim() === '') {
+                                        isValid = false;
+                                        historyBorrow.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
+                                    } else {
+                                        historyBorrow.style.borderColor = ''; // คืนสีกรอบของ input
+                                    }
+
+                                    if (historyReturn.value.trim() === '') {
+                                        isValid = false;
+                                        historyReturn.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
+                                    } else {
+                                        historyReturn.style.borderColor = ''; // คืนสีกรอบของ input
+                                    }
+
+                                    if (historyStop.value.trim() === '') {
+                                        isValid = false;
+                                        historyStop.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
+                                    } else {
+                                        historyStop.style.borderColor = ''; // คืนสีกรอบของ input
+                                    }
+
+                                    // ถ้าข้อมูลไม่ครบ ให้แสดง SweetAlert แจ้งเตือน
+                                    if (!isValid) {
+                                        Swal.fire({
+                                            title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                                            text: 'คุณต้องกรอกข้อมูลทั้งหมดก่อนที่จะบันทึก',
+                                            icon: 'error',
+                                            iconColor: '#d33',
+                                            confirmButtonText: 'ตกลง',
+                                            confirmButtonColor: '#dc3545',
+                                            background: '#f8f9fa'
+                                        });
+                                        return; // ไม่ให้ทำการส่งฟอร์ม
+                                    }
+
+                                    // ถ้าผู้ใช้กรอกข้อมูลครบถ้วน แสดง SweetAlert เพื่อยืนยันการบันทึก
+                                    const result = await Swal.fire({
+                                        title: 'บันทึกข้อมูลสำเร็จ',
+                                        icon: 'success',
+                                        iconColor: '#68cc68',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'ตกลง',
+                                        cancelButtonText: 'ยกเลิก',
+                                        confirmButtonColor: '#28a745',
+                                        cancelButtonColor: '#dc3545',
+                                        background: '#f8f9fa',
+                                        backdrop: true
+                                    });
+
+                                    if (result.isConfirmed) {
+                                        // ถ้าผู้ใช้กด "ตกลง" ให้ส่งฟอร์ม
+                                        document.querySelector('form').submit(); // ส่งฟอร์ม
+                                    }
+                                });
+                            </script>
+
                         </div>
+
                     </form>
+                    <div class="mt-3"
+                        style="font-size: 11px; color: #555; padding-top: 20px; line-height: 1.5; text-align: left;">
+                        <strong style="color: red;">หมายเหตุ * </strong>
+                        AM (Ante Meridiem) หมายถึงช่วงเวลา ก่อนเที่ยง (12:00 AM - 11:59 AM), เช่น 6:00 AM คือ 6 โมงเช้า
+                        PM (Post Meridiem) หมายถึงช่วงเวลา หลังเที่ยง (12:00 PM - 11:59 PM), เช่น 6:00 PM คือ 6 โมงเย็น
+                    </div>
 
                 </div>
+
+
 
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 
-                <script>
-                    // เมื่อกดปุ่ม "ตกลง"
-                    document.getElementById('agreeButton').addEventListener('click', function () {
-                        // เปิด Modal
-                        var myModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                        myModal.show();
-                    });
-                </script>
+
+
             </div>
         </div>
     </div>

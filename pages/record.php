@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 
@@ -97,7 +97,10 @@ if (!$result) {
                 </div>
             </div>
         </div>
+        <br> <br> <br> <br> <br> <br> <br><br> <br>
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-zZ1AI1RrP2aSxvrA8mpzVUr3js6qTgnsC8RUV6hxX7t8hzl0TjtRktGhAKGwd5nL"
         crossorigin="anonymous"></script>

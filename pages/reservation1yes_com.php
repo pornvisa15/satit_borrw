@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include 'sidebar.php';
 include "../connect/mysql_borrow.php";
 
@@ -60,6 +60,8 @@ if ($result->num_rows > 0) {
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -96,14 +98,15 @@ if ($result->num_rows > 0) {
                 </div>
 
                 <div class="d-flex justify-content-center mt-5 mb-5">
-                    <div class="p-5 bg-white border rounded shadow-sm" style="max-width: 800px; width: 100%;">
-
+                    <div class="p-5 bg-white border rounded shadow-sm"
+                        style="max-width: 800px; width: 100%; position: relative;">
                         <div class="d-flex align-items-center">
                             <img src="<?= $device_Image; ?>" class="img-fluid me-3" alt="Image Placeholder"
-                                style="border-radius: 8px; max-width: 250px; height: 250px; object-fit: contain; transition: transform 0.3s ease; cursor: pointer;"
+                                style="border-radius: 5px; max-width: 250px; height: 180px; object-fit: cover; transition: transform 0.3s ease; cursor: pointer;"
                                 data-bs-toggle="modal" data-bs-target="#zoomModal"
                                 onmouseover="this.style.transform='scale(1.1)';"
                                 onmouseout="this.style.transform='scale(1)';">
+
                             <div class="modal fade" id="zoomModal" tabindex="-1" aria-labelledby="zoomModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -117,7 +120,6 @@ if ($result->num_rows > 0) {
                                             <img src="<?= $device_Image; ?>" class="img-fluid" alt="Zoomed Image"
                                                 style="max-width: 80%; max-height: 400px; height: auto; object-fit: contain; border-radius: 8px;">
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +167,14 @@ if ($result->num_rows > 0) {
                                         </span>
                                     </p>
 
-
-
                                     <?php if ($history_Status_BRS !== null): ?>
                                         <input type="hidden" name="history_Status_BRS"
                                             value="<?= htmlspecialchars($history_Status_BRS); ?>">
                                     <?php endif; ?>
-                                    <div class="d-flex justify-content-end" style="width: 100%;">
+
+                                    <!-- ปุ่ม "จอง" ที่อยู่มุมซ้ายล่าง -->
+                                    <div class="d-flex justify-content-end"
+                                        style="position: absolute; bottom: 20px; right: 20px;">
                                         <?php if ($hreturn_Status != '7'): ?>
                                             <button class="btn btn-sm"
                                                 style="background-color: #78C756; color: white; transition: transform 0.3s ease; border: none;"
@@ -182,8 +185,6 @@ if ($result->num_rows > 0) {
                                             </button>
                                         <?php endif; ?>
                                     </div>
-
-
                                     <div class="modal fade" id="termsModal" tabindex="-1"
                                         aria-labelledby="termsModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -282,9 +283,10 @@ if ($result->num_rows > 0) {
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1): ?>
+                <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1 || empty($history_Status_BRS)): ?>
                     <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
                         <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
                             ตารางจองล่วงหน้า
@@ -301,34 +303,46 @@ if ($result->num_rows > 0) {
                             </thead>
                             <tbody style="font-size: 0.8rem;">
                                 <?php
-                                mysqli_data_seek($result, 0); // คืน Pointer กลับไปที่แถวแรก
-                                while ($row = mysqli_fetch_assoc($result)): ?>
-                                    <tr>
-                                        <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
-                                        <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
-                                        </td>
-                                        <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
-                                        </td>
-                                        <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
-                                        </td>
-                                    </tr>
-                                <?php endwhile; ?>
+                                mysqli_data_seek($result, 0); // รีเซ็ต pointer ของ result
+                                while ($row = mysqli_fetch_assoc($result)):
+                                    // ตรวจสอบว่า hreturn_Status = 7 หรือไม่ (แสดงว่าอุปกรณ์ไม่พร้อมใช้งาน)
+                                    if (isset($row['hreturn_Status']) && $row['hreturn_Status'] == 7): ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center text-danger font-weight-bold">อุปกรณ์ไม่พร้อมใช้งาน
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        // ตรวจสอบว่า hreturn_Status เป็น 1, 2, 3 หรือ 4 และข้ามการแสดงผลรายการนั้น
+                                    elseif (isset($row['hreturn_Status']) && in_array($row['hreturn_Status'], [1, 2, 3, 4])):
+                                        continue;
+                                    else: ?>
+                                        <tr>
+                                            <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
+                                            <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
+                                            </td>
+                                            <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
+                                            </td>
+                                            <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endif;
+                                endwhile;
+                                ?>
+
                             </tbody>
                         </table>
                     </div>
                 <?php else: ?>
                     <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                        <h5 class="text-center text-muted">อุปกรณ์ไม่พร้อมใช้งาน</h5>
+                        <h5 class="text-center font-weight-bold">ตารางอุปกรณ์</h5>
                     </div>
                 <?php endif; ?>
 
-
-
-
             </div>
         </div>
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
 </body>
 <footer style="background-color: #495057;" class="text-light py-3 mt-4">
     <div class="container text-center">

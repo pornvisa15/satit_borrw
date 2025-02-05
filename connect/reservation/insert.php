@@ -42,12 +42,12 @@ if ($result_check) {
 }
 $stmt_check->close();
 
-$sql_date_check = "
-    SELECT COUNT(*) AS date_count 
+$sql_date_check = " SELECT COUNT(*) AS date_count 
     FROM history_brs 
     WHERE device_Id = ? 
     AND ((history_Borrow <= ? AND history_Return >= ?) 
     OR (history_Borrow <= ? AND history_Return >= ?))";
+
 $stmt_date_check = $conn->prepare($sql_date_check);
 $stmt_date_check->bind_param("sssss", $device_Id, $history_Borrow, $history_Borrow, $history_Return, $history_Return);
 $stmt_date_check->execute();
@@ -147,9 +147,9 @@ if ($stmt->execute()) {
 
     sendTelegramMessage($message);
 
-    echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/homepages.php';</script>";
+    header("Location: ../../pages/homepages.php"); // ไปยังหน้าหลัก
 } else {
-    echo "<script>alert('เกิดข้อผิดพลาด: " . $stmt->error . "'); location.href = '../../pages/reservation1_book_com.php';</script>";
+    header("Location: ../../pages/homepages.php"); // ไปยังหน้าที่เกิดข้อผิดพลาด
 }
 
 $stmt->close();

@@ -15,7 +15,7 @@
 <body class="d-flex flex-column min-vh-100">
 
     <?php
-    session_start();
+
     include 'sidebar.php';
     include "../connect/mysql_borrow.php";
 
