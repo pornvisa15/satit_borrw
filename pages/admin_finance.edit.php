@@ -13,7 +13,7 @@
 
 <body class="d-flex bg-light">
     <?php
-    session_start();
+   
     include 'sidebar.php';
     include '../connect/myspl_das_satit.php';
     include '../connect/mysql_borrow.php';
@@ -227,7 +227,7 @@ $(document).ready(function() {
 
     <script>
             <?php
-    session_start();
+  
     if (isset($_SESSION['message'])) {
         echo "<script>alert('" . $_SESSION['message'] . "');</script>";
         unset($_SESSION['message']); // ลบข้อความหลังจากแสดง

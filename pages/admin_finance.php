@@ -18,7 +18,7 @@
 
 <?php
 // Start session and include necessary files
-session_start();
+
 include 'sidebar.php'; // Sidebar inclusion
 include '../connect/myspl_das_satit.php';
 include '../connect/mysql_studentsatit.php';

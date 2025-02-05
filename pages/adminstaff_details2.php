@@ -15,7 +15,7 @@
 
 <body class="d-flex bg-light">
 <?php
-    session_start()
+ 
 ?>
 
 

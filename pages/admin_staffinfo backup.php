@@ -14,9 +14,7 @@
 </head>
 
 <body class="d-flex bg-light">
-<?php
-    session_start()
-?>
+
 
       <?php  include 'sidebar.php' ?>
 

@@ -1,9 +1,29 @@
-
 <?php
-// เรียกใช้ session_start() ก่อนใช้งาน $_SESSION
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+//กำหนดเวลาที่สามารถอยู่ในระบบ
+$sessionlifetime = 30; //กำหนดเป็นนาที
+if(isset($_SESSION["timeLasetdActive"])){
+	$seclogin = (time()-$_SESSION["timeLasetdActive"])/60;
+	//หากไม่ได้ Active ในเวลาที่กำหนด
+	if($seclogin>$sessionlifetime){
+		//goto logout page
+		
+		header("location:../connect/logout.php");
+		exit;
+	}else{
+		$_SESSION["timeLasetdActive"] = time();
+	}
+}else{
+	$_SESSION["timeLasetdActive"] = time();
 }
+session_start();
+if(($_SESSION['useripass']== ''  )) {
+    header("location:../logout.php");
+    exit;
+ } 
+
+?>
+<?php
+
 
 if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
     ?>

@@ -15,7 +15,7 @@
 
 <body class="d-flex bg-light">
     <?php
-    session_start();
+    
     include 'sidebar.php';
     include '../connect/myspl_das_satit.php';
     include '../connect/mysql_studentsatit.php';

@@ -16,7 +16,7 @@
 <body class="d-flex bg-light">
 
     <?php
-    session_start();
+   
     include 'sidebar.php';
     // เชื่อมต่อกับฐานข้อมูล
     include '../connect/mysql_borrow.php';
@@ -455,7 +455,7 @@ $result = $stmt->get_result();
             <?php
 // เรียกใช้ session_start() ก่อนใช้งาน $_SESSION
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  
 }
 
 include "../connect/mysql_borrow.php"; // เชื่อมต่อฐานข้อมูล borrow

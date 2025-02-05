@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include 'sidebar.php';
 include '../connect/myspl_das_satit.php';
 include '../connect/mysql_borrow.php';

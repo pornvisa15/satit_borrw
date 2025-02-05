@@ -16,7 +16,7 @@
 <body class="d-flex bg-light">
 
     <?php
-    session_start();
+ 
     include 'sidebar.php';
     // เชื่อมต่อกับฐานข้อมูล
     include '../connect/mysql_borrow.php';
@@ -314,8 +314,7 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
 
                     <p>กรุณาเลือกสถานะอุปกรณ์</p>
                     <select class="form-select" id="damageCondition" name="hreturn_Status" required onchange="togglePriceInput()">
-                        <option value="1">สภาพสมบูรณ์,ครบถ้วนสมบูรณ์</option>
-                        <option value="2">สภาพไม่สมบูรณ์,ไม่ครบถ้วนสมบูรณ์</option>
+                        <option value="1">สภาพสมบูรณ์</option>
                         <option value="3">ผู้ยืมซ่อมแซม</option>
                         <option value="4">ชดใช้เป็นพัสดุ</option>
                         <option value="7">ชดใช้ค่าเสียหาย</option>
@@ -327,15 +326,15 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
                         <input type="number" class="form-control" id="damagePrice" name="money"
                             placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
                     </div>
-
-                    <!-- หมายเหตุ -->
                     <div id="purpose-container" style="margin-top: 10px;">
-                        <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
-                            หมายเหตุ <span style="color: red;">*</span>
-                        </label>
-                        <textarea class="form-control" id="purpose" name="tool_Other"
-                            style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;" required></textarea>
-                    </div>
+    <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
+        หมายเหตุ
+    </label>
+    <textarea class="form-control" id="purpose" name="tool_Other"
+        style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+</div>
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
@@ -364,16 +363,18 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
                 });
             });
           
+          
             function handleConfirm() {
     const damageCondition = document.getElementById('damageCondition').value;
     const damagePrice = document.getElementById('damagePrice').value;
+    const purpose = document.getElementById('purpose').value;
 
     // Check if all required fields are filled before proceeding
-    if (damageCondition === "") {
+    if (damageCondition === "" || (damageCondition === "7" && !damagePrice)) {
         Swal.fire({
             icon: 'warning',
-            title: 'กรุณาเลือกสถานะ!',
-            text: 'กรุณาเลือกสถานะอุปกรณ์ก่อนที่จะดำเนินการต่อ',
+            title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+            text: 'กรุณากรอกข้อมูลในฟิลด์ที่จำเป็นทั้งหมดก่อนที่จะดำเนินการต่อ',
             confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6'
         });
@@ -392,6 +393,9 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
         return;
     }
 
+    // Remove the validation for purpose field (since it's not required anymore)
+    // If purpose is empty, no need to show warning anymore
+
     // Show SweetAlert2 success message
     Swal.fire({
         icon: 'success',
@@ -404,6 +408,7 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
     });
 }
 
+
 function showCompletionModal() {
     // Deselect other modals first
     const damageModal = bootstrap.Modal.getInstance(document.getElementById('returnModal'));
@@ -415,7 +420,6 @@ function showCompletionModal() {
     const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
     completionModal.show();
 }
-
 
         </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
