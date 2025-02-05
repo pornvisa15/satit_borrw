@@ -86,40 +86,41 @@
                                 $officer_cotton = htmlspecialchars($rowofficer['officer_Cotton']);
                                 $officer_id = urlencode($rowofficer['officerl_Id']);
                                 ?>
-                                <tr class="officerRow"
-                                    data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
-                                    data-department="<?php echo htmlspecialchars($rowofficer['officer_Cotton']); ?>">
-                                    <td><?php echo $i; ?></td>
-                                    <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
-                                   
-                                    <td>
-                                        <?php
-                                        if ($rowofficer['officer_Cotton'] == 1) {
-                                            echo "เจ้าหน้าที่ฝ่ายคอมพิวเตอร์";
-                                        } else if ($rowofficer['officer_Cotton'] == 2) {
-                                            echo "เจ้าหน้าที่ฝ่ายวิทยาศาสตร์";
-                                        } else if ($rowofficer['officer_Cotton'] == 3) {
-                                            echo "เจ้าหน้าที่ฝ่ายดนตรี";
-                                        } else if ($rowofficer['officer_Cotton'] == 4) {
-                                            echo "เจ้าหน้าที่ฝ่ายพัสดุ";
-                                        } else if ($rowofficer['officer_Cotton'] == 5) {
-                                            echo "แอดมิน";
-                                        } else {
-                                            echo "ไม่ทราบ";
-                                        }
-                                        ?>
-                                    </td> <!-- เจ้าหน้าที่ฝ่าย -->
-                                    <td>
-                                        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="../connect/officer/delete.php?officerl_Id=<?php echo $officer_id; ?>" class="btn btn-danger">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                              <tr class="officerRow"
+    data-name="<?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . ' ' . $rowofficer['surname']); ?>"
+    data-department="<?php echo htmlspecialchars($rowofficer['officer_Cotton']); ?>">
+    <td><?php echo $i; ?></td>
+    <td><?php echo htmlspecialchars($rowofficer['praname'] . $rowofficer['name'] . " " . $rowofficer['surname']); ?></td>
+    <td>
+        <?php
+        if ($rowofficer['officer_Cotton'] == 1) {
+            echo "เจ้าหน้าที่ฝ่ายคอมพิวเตอร์";
+        } else if ($rowofficer['officer_Cotton'] == 2) {
+            echo "เจ้าหน้าที่ฝ่ายวิทยาศาสตร์";
+        } else if ($rowofficer['officer_Cotton'] == 3) {
+            echo "เจ้าหน้าที่ฝ่ายดนตรี";
+        } else if ($rowofficer['officer_Cotton'] == 4) {
+            echo "เจ้าหน้าที่ฝ่ายพัสดุ";
+        } else if ($rowofficer['officer_Cotton'] == 5) {
+            echo "แอดมิน";
+        } else {
+            echo "ไม่ทราบ";
+        }
+        ?>
+    </td>
+    <td>
+        <a href="adminstaff_details_edit.php?officerl_Id=<?php echo urlencode($rowofficer['officerl_Id']); ?>" class="btn btn-warning">
+            <i class="fas fa-edit"></i>
+        </a>
+    </td>
+    <td>
+    <button class="btn btn-danger" data-officer-id="<?php echo urlencode($rowofficer['officerl_Id']); ?>" onclick="deleteDevice(this)">
+    <i class="fas fa-trash-alt"></i>
+</button>
+
+    </td>
+</tr>
+
                                 <?php
                                $i++;
                             }
@@ -133,6 +134,49 @@
                     </tbody>
                 </table>
             </div>
+ 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+function deleteDevice(buttonElement) {
+    var officerl_Id = buttonElement.getAttribute('data-officer-id');  // ดึงค่าจาก data-officer-id
+    $.ajax({
+        url: '../connect/officer/delete.php',
+        type: 'POST',
+        data: { officerl_Id: officerl_Id },
+        success: function(response) {
+            console.log("Response:", response); // Debugging
+            if (response.trim() === "success") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลบข้อมูลสำเร็จ',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload(); // รีโหลดหน้า
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: response
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error); // Debugging
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'
+            });
+        }
+    });
+}
+
+</script>
+
 
             <script>
                 function filterRows() {

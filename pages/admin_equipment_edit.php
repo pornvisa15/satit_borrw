@@ -60,7 +60,8 @@
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
                 <h5 class="text-center mb-4">แก้ไขข้อมูลอุปกรณ์</h5>
 
-                <form action="../connect/equipment/update.php" method="post" enctype="multipart/form-data" onsubmit="return submitForm()">
+                <form id="updateForm" action="../connect/equipment/update.php" method="post" enctype="multipart/form-data">
+
                     <input type="hidden" name="device_Id" value="<?php echo $device_Id; ?>">
 
                     <!-- ฟิลด์ข้อมูลต่างๆ -->
@@ -146,13 +147,72 @@
                             <option value="2" <?php echo ($device_Access == 2 ? 'selected' : ''); ?>>บุคลากร</option>
                         </select>
                     </div>
+                  
+ <div class="text-center d-flex justify-content-center gap-3">
+                    <button class="btn btn-success" type="submit">
+                        <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
+                    </button>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                    <div class="text-center d-flex justify-content-center gap-3">
-                        <!-- ปุ่มบันทึก -->
-                        <button class="btn btn-success" type="submit">
-                            <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
-                        </button>
-                    </div>
+<script>
+$(document).ready(function() {
+    $('#updateForm').submit(function(e) {
+        e.preventDefault(); // ป้องกันการรีโหลดหน้า
+
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: '../connect/equipment/update.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log("Response:", response.trim()); // ตรวจสอบค่าจาก PHP
+
+                try {
+                    // แปลง response เป็น JSON
+                    let responseObj = JSON.parse(response);
+
+                    if (responseObj.status === "success") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
+                            text: 'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว',
+                            confirmButtonText: 'ตกลง'
+                        }).then(() => {
+                            window.location.href = 'admin_equipment.php';
+                        });
+                    } 
+                } catch (e) {
+                    // กรณีที่ response ไม่สามารถแปลงเป็น JSON ได้
+                    console.error("Error parsing JSON:", e);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ข้อมูลที่ได้รับจากเซิร์ฟเวอร์ไม่ถูกต้อง'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'
+                });
+            }
+        });
+    });
+});
+
+
+
+</script>
+
+
                 </form>
             </div>
         </div>

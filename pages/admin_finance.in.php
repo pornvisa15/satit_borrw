@@ -118,12 +118,62 @@ function loadOfficerCotton(useripass) {
         <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 10px 20px; border-radius: 5px;">
             <i class="bi bi-check-circle"></i> บันทึกข้อมูล
         </button>
-    </div>
+    </div> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#equipmentForm').submit(function(e) {
+        e.preventDefault(); // ❌ ป้องกันการรีโหลดหน้า
+        
+        let formData = new FormData(this); // ✅ เก็บค่าฟอร์มทั้งหมดรวมถึงไฟล์
+
+        $.ajax({
+            url: '../connect/finance/insert.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.trim() === "success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = 'admin_finance.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'
+                });
+            }
+        });
+    });
+});
+</script>
+
 </form>
 
             </div>
         </div>
     </div>
+   
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

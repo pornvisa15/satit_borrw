@@ -17,7 +17,6 @@ $officer_Cotton = $conn->real_escape_string($_POST['officer_Cotton']);
 $sql_check = "SELECT * FROM device_information WHERE device_Numder = '$device_Numder'";
 $result_check = $conn->query($sql_check);
 
-
 // ตรวจสอบว่ามีไฟล์ที่อัปโหลดหรือไม่
 if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOAD_ERR_OK) {
     $device_Image = time() . "_" . basename($_FILES['device_Image']['name']);
@@ -38,15 +37,22 @@ if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOA
 
     // อัปโหลดไฟล์
     if (move_uploaded_file($_FILES['device_Image']['tmp_name'], $target_file)) {
-        // เพิ่มข้อมูลลงในฐานข้อมูล
-        $sql = "INSERT INTO device_information (device_Numder, device_Name, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, officer_Cotton)
-                VALUES ('$device_Numder', '$device_Name', '$device_Date', '$device_Price', '$device_Other', '$device_Image', '$device_Access', '$device_Con', '$officer_Cotton')";
+        // เตรียมคำสั่ง SQL ที่จะทำการแทรกข้อมูล
+        $stmt = $conn->prepare("INSERT INTO device_information (device_Numder, device_Name, device_Date, device_Price, device_Other, device_Image, device_Access, device_Con, officer_Cotton) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-        if ($conn->query($sql) === TRUE) {
-            echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
+        // ผูกค่าพารามิเตอร์
+        $stmt->bind_param("ssssssiii", $device_Numder, $device_Name, $device_Date, $device_Price, $device_Other, $device_Image, $device_Access, $device_Con, $officer_Cotton);
+
+        // execute คำสั่ง SQL
+        if ($stmt->execute()) {
+            echo "success";
         } else {
-            echo "<script>alert('เกิดข้อผิดพลาด: " . $conn->error . " คำสั่ง SQL: $sql'); location.href = '../../pages/admin_equipment.php';</script>";
+            echo "เกิดข้อผิดพลาด: " . $stmt->error;
         }
+
+        // ปิด statement
+        $stmt->close();
     } else {
         echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_equipment.php';</script>";
     }
@@ -55,4 +61,3 @@ if (isset($_FILES['device_Image']) && $_FILES['device_Image']['error'] === UPLOA
     exit;
 }
 ?>
-

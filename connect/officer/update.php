@@ -22,11 +22,12 @@ if (isset($_POST['officerl_Id']) && isset($_POST['officer_Right']) && isset($_PO
         $stmt->bind_param("ssi", $officer_Right, $officer_Cotton, $officerl_Id);
 
         // ดำเนินการอัปเดต
-        if ($stmt->execute()) {
-            echo "<script>alert('อัปเดตข้อมูลสำเร็จ'); location.href = '../../pages/admin_staffinfo.php';</script>";
-        } else {
-            echo "<script>alert('เกิดข้อผิดพลาดในการอัปเดตข้อมูล: {$stmt->error}'); window.history.back();</script>";
-        }
+       
+if ($stmt->execute()) {
+    echo "success"; // ส่งค่ากลับให้ AJAX
+} else {
+    echo "เกิดข้อผิดพลาด: " . $stmt->error;
+}
 
         // ปิดการเตรียมคำสั่ง
         $stmt->close();

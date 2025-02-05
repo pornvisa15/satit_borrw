@@ -1,33 +1,26 @@
 <?php
 include '../mysql_borrow.php';
 
-// รับค่า finance_Id อย่างปลอดภัย
-$finance_Id = isset($_GET['finance_Id']) ? intval($_GET['finance_Id']) : 0;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $finance_Id = isset($_POST['finance_Id']) ? intval($_POST['finance_Id']) : 0;
 
-if ($finance_Id > 0) {
-    // ใช้ Prepared Statement เพื่อป้องกัน SQL Injection
-    $stmt = $conn->prepare("DELETE FROM `finance` WHERE finance_Id = ?");
-    $stmt->bind_param("i", $finance_Id);
+    if ($finance_Id > 0) {
+        $stmt = $conn->prepare("DELETE FROM `finance` WHERE finance_Id = ?");
+        $stmt->bind_param("i", $finance_Id);
 
-    if ($stmt->execute()) {
-        echo "<script>
-            alert('ลบข้อมูลสำเร็จ');
-            window.location.href = '../../../satit_borrw/pages/admin_finance.php';
-        </script>";
+        if ($stmt->execute()) {
+            echo json_encode(["status" => "success", "message" => "ลบข้อมูลสำเร็จ"]);
+        } else {
+            echo json_encode(["status" => "error", "message" => "เกิดข้อผิดพลาดในการลบ"]);
+        }
+
+        $stmt->close();
     } else {
-        echo "<script>
-            alert('เกิดข้อผิดพลาด: " . $stmt->error . "');
-            window.location.href = '../../../satit_borrw/pages/admin_finance.php';
-        </script>";
+        echo json_encode(["status" => "error", "message" => "finance_Id ไม่ถูกต้อง"]);
     }
 
-    $stmt->close();
+    $conn->close();
 } else {
-    echo "<script>
-        alert('ไม่พบข้อมูล finance_Id ที่ต้องการลบ');
-        window.location.href = '../../../satit_borrw/pages/admin_finance.php';
-    </script>";
+    echo json_encode(["status" => "error", "message" => "Method ไม่ถูกต้อง"]);
 }
-
-$conn->close();
 ?>

@@ -53,7 +53,8 @@
 
         <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
             <h5 class="text-center mb-4">แก้ไขข้อมูลการเงิน</h5>
-            <form action="../connect/finance/update.php" method="post" enctype="multipart/form-data" onsubmit="return submitForm()">
+            <form action="../connect/finance/update.php" method="post" enctype="multipart/form-data" id="updateForm">
+
                 <input type="hidden" name="finance_Id" value="<?php echo htmlspecialchars($finance_Id); ?>">
 
                 <div class="mb-4">
@@ -105,7 +106,6 @@
         <option value="5" <?php echo ($officer_Cotton == 5 ? 'selected' : ''); ?>>แอดมิน</option>
     </select>
 </div>
-
 
 
 
@@ -161,6 +161,65 @@ function loadOfficerCotton(useripass) {
                         <i class="bi bi-check-circle"></i> บันทึกการแก้ไข
                     </button>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#updateForm').submit(function(e) {
+        e.preventDefault();  // ป้องกันการรีโหลดหน้า
+
+        let formData = new FormData(this); // เก็บข้อมูลจากฟอร์มทั้งหมด
+
+        // ตรวจสอบว่าไฟล์รูปภาพถูกเลือกหรือยัง
+        if ($('#finance_Image').val() === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: 'กรุณาเลือกภาพก่อน',
+                confirmButtonText: 'OK'
+            });
+            return; // หยุดการทำงานถ้ายังไม่ได้เลือกไฟล์
+        }
+
+        $.ajax({
+            url: '../connect/finance/update.php',  // URL ของไฟล์ PHP ที่จะทำงาน
+            type: 'POST',
+            data: formData,
+            contentType: false,  // เพื่อไม่ให้ส่งข้อมูล content-type
+            processData: false,  // ป้องกันการแปลงข้อมูลแบบ default ของ jQuery
+            success: function(response) {
+                if (response.trim() === "success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
+                        text: 'ข้อมูลถูกอัปเดตเรียบร้อยแล้ว',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = 'admin_finance.php';  // เปลี่ยนหน้าเมื่อเสร็จสิ้น
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'
+                });
+            }
+        });
+    });
+});
+
+
+</script>
+
+
             </form>
         </div>
     </div>

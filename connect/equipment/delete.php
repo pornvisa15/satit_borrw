@@ -1,26 +1,23 @@
 <?php
 include '../mysql_borrow.php';
 
-$device_Id = $_REQUEST['device_Id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['device_Id'])) {
+    $device_Id = $_POST['device_Id'];
 
-// SQL สำหรับลบข้อมูล
-$sql = "DELETE FROM `device_information` WHERE device_Id = '$device_Id'";
+    // ใช้ Prepared Statement เพื่อป้องกัน SQL Injection
+    $sql = "DELETE FROM `device_information` WHERE device_Id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $device_Id);
 
-// ตรวจสอบผลลัพธ์
-if ($conn->query($sql) === TRUE) {
-    // ใช้ JavaScript เพื่อเปลี่ยนเส้นทาง
-    echo "<script>
-        alert('ลบข้อมูลสำเร็จ');
-        window.location.href = '../../../satit_borrw/pages/admin_equipment.php';
-    </script>";
+    if ($stmt->execute()) {
+        echo "success"; // ส่งข้อความ 'success' กลับไปยัง JavaScript
+    } else {
+        echo "เกิดข้อผิดพลาด: " . addslashes($conn->error);
+    }
+
+    $stmt->close();
+    $conn->close();
 } else {
-    // แสดงข้อผิดพลาดในกรณีที่ลบไม่สำเร็จ
-    echo "<script>
-        alert('เกิดข้อผิดพลาด: " . $conn->error . "');
-        window.location.href = '../../../satit_borrw/pages/admin_equipment.php';
-    </script>";
+    echo "ไม่ได้รับค่า device_Id";
 }
-
-// ปิดการเชื่อมต่อ
-$conn->close();
 ?>

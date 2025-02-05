@@ -146,21 +146,30 @@ if ($result->num_rows > 0) {
 
         // เริ่มแสดงผลข้อมูล
         echo "<tr>
-                <td>{$i}</td>
-                <td>" . htmlspecialchars($row['device_Numder']) . "</td>
-                <td>" . htmlspecialchars($row['device_Name']) . "</td>
-                <td>" . (isset($departmentNames[$row['officer_Cotton']]) 
-                          ? $departmentNames[$row['officer_Cotton']] 
-                          : "ไม่ทราบข้อมูล") . "</td>
-                <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>
-                <td>{$formattedBorrowDate}</td>
-                <td>" . (floor($row['device_Price']) == $row['device_Price'] 
-                          ? number_format($row['device_Price'], 0) 
-                          : number_format($row['device_Price'], 2)) . " บาท</td>
-                <td>" . htmlspecialchars($row['device_Other']) . "</td>
-                <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-                <td><a href='../connect/equipment/delete.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-              </tr>";
+        <td>{$i}</td>
+        <td>" . htmlspecialchars($row['device_Numder']) . "</td>
+        <td>" . htmlspecialchars($row['device_Name']) . "</td>
+        <td>" . (isset($departmentNames[$row['officer_Cotton']]) 
+                  ? $departmentNames[$row['officer_Cotton']] 
+                  : "ไม่ทราบข้อมูล") . "</td>
+        <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>
+        <td>{$formattedBorrowDate}</td>
+        <td>" . (floor($row['device_Price']) == $row['device_Price'] 
+                  ? number_format($row['device_Price'], 0) 
+                  : number_format($row['device_Price'], 2)) . " บาท</td>
+        <td>" . htmlspecialchars($row['device_Other']) . "</td>
+        <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'>
+                <i class='fas fa-edit'></i>
+            </a>
+        </td>
+        <td>
+            <button class='btn btn-danger' onclick='deleteDevice(\"" . urlencode($row['device_Id']) . "\")'>
+                <i class='fas fa-trash-alt'></i>
+            </button>
+        </td>
+    </tr>";
+
+
 
         $i++; // เพิ่มลำดับ
     }
@@ -175,6 +184,47 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+function deleteDevice(deviceId) {
+    $.ajax({
+        url: '../connect/equipment/delete.php', // ระบุ path ของ delete.php ให้ถูกต้อง
+        type: 'POST',
+        data: { device_Id: deviceId },
+        success: function(response) {
+            console.log("Response:", response); // Debugging
+            if (response.trim() === "success") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลบข้อมูลสำเร็จ',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.reload(); // รีโหลดหน้า
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: response
+                });
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error); // Debugging
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'
+            });
+        }
+    });
+}
+</script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>

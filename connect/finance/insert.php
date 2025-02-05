@@ -41,10 +41,11 @@ if (isset($_FILES['finance_Image']) && $_FILES['finance_Image']['error'] === UPL
         $stmt->bind_param("sssi", $device_Image, $officer_Cotton, $useripass, $officerl_Id);
 
         if ($stmt->execute()) {
-            echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_finance.php';</script>";
+            echo "success";
         } else {
-            echo "<script>alert('เกิดข้อผิดพลาด: " . $stmt->error . "'); location.href = '../../pages/admin_finance.php';</script>";
+            echo "เกิดข้อผิดพลาด: " . $stmt->error;
         }
+        
     } else {
         echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_finance.php';</script>";
     }

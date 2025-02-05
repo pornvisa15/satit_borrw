@@ -1,5 +1,4 @@
 <?php
-
 include '../mysql_borrow.php';
 session_start();
 
@@ -10,31 +9,9 @@ if ($conn->connect_error) {
 
 // ตรวจสอบการอัปโหลดไฟล์
 if (isset($_FILES['money_Image']) && $_FILES['money_Image']['error'] === UPLOAD_ERR_OK) {
-    // ตั้งชื่อไฟล์ด้วยเวลาปัจจุบันเพื่อลดความซ้ำซ้อน
-    $money_Image = time() . "_" . basename($_FILES['money_Image']['name']);
-    $target_dir = "../receipt/img/"; // โฟลเดอร์สำหรับเก็บไฟล์
-    $target_file = $target_dir . $money_Image;
-
-    // กำหนดประเภทไฟล์ที่อนุญาต
-    $allowedTypes = ['image/jpeg', 'image/png'];
-
-    // ตรวจสอบว่าเป็นไฟล์ภาพที่ถูกต้อง
-    $imageSize = getimagesize($_FILES['money_Image']['tmp_name']);
-    if ($imageSize === false || !in_array($_FILES['money_Image']['type'], $allowedTypes)) {
-        echo "<script>alert('ประเภทไฟล์ไม่ถูกต้องหรือไม่ใช่ไฟล์ภาพ'); location.href = '../../pages/admin_record.php';</script>";
-        exit;
-    }
-
-    // ตรวจสอบขนาดไฟล์ (สูงสุด 5MB)
-    if ($_FILES['money_Image']['size'] > 5000000) {
-        echo "<script>alert('ขนาดไฟล์ใหญ่เกินไป'); location.href = '../../pages/admin_record.php';</script>";
-        exit;
-    }
-
-    // ตรวจสอบว่า device_Id ถูกส่งมาหรือไม่
-    $device_Id = isset($_POST['device_Id']) ? $_POST['device_Id'] : null;
+    $device_Id = $_POST['device_Id'] ?? null;
     if (!$device_Id) {
-        echo "<script>alert('ไม่พบ device_Id สำหรับการอัปเดต'); location.href = '../../pages/admin_record.php';</script>";
+        echo json_encode(["status" => "error", "message" => "ไม่พบ device_Id"]);
         exit;
     }
 
@@ -44,29 +21,43 @@ if (isset($_FILES['money_Image']) && $_FILES['money_Image']['error'] === UPLOAD_
     $stmt->bind_param("s", $device_Id);
     $stmt->execute();
     $result = $stmt->get_result();
-
     if ($result->num_rows === 0) {
-        echo "<script>alert('ไม่พบข้อมูลของ device_Id ที่ระบุ'); location.href = '../../pages/admin_record.php';</script>";
+        echo json_encode(["status" => "error", "message" => "ไม่พบข้อมูลของ device_Id"]);
         exit;
     }
 
-    // หากการตรวจสอบทั้งหมดผ่าน ทำการย้ายไฟล์ที่อัปโหลดไปยังตำแหน่งเป้าหมาย
+    // ตั้งชื่อไฟล์ใหม่
+    $money_Image = time() . "_" . basename($_FILES['money_Image']['name']);
+    $target_dir = "../receipt/img/";
+    $target_file = $target_dir . $money_Image;
+    $allowedTypes = ['image/jpeg', 'image/png'];
+
+    // ตรวจสอบประเภทไฟล์
+    $imageSize = getimagesize($_FILES['money_Image']['tmp_name']);
+    if ($imageSize === false || !in_array($_FILES['money_Image']['type'], $allowedTypes)) {
+        echo json_encode(["status" => "error", "message" => "ไฟล์ไม่ถูกต้อง"]);
+        exit;
+    }
+
+    // ตรวจสอบขนาดไฟล์ (สูงสุด 5MB)
+    if ($_FILES['money_Image']['size'] > 5000000) {
+        echo json_encode(["status" => "error", "message" => "ไฟล์ใหญ่เกินไป"]);
+        exit;
+    }
+
+    // ย้ายไฟล์และอัปเดตฐานข้อมูล
     if (move_uploaded_file($_FILES['money_Image']['tmp_name'], $target_file)) {
-        // อัปเดตข้อมูลในฐานข้อมูล
         $stmt = $conn->prepare("UPDATE borrow.history_brs SET money_Image = ? WHERE device_Id = ?");
         $stmt->bind_param("ss", $money_Image, $device_Id);
-
         if ($stmt->execute()) {
-            echo "<script>alert('บันทึกข้อมูลสำเร็จ'); location.href = '../../pages/admin_record.php';</script>";
+            echo json_encode(["status" => "success", "message" => "บันทึกข้อมูลสำเร็จ"]);
         } else {
-            echo "<script>alert('เกิดข้อผิดพลาดในการอัปเดตฐานข้อมูล: " . $stmt->error . "'); location.href = '../../pages/admin_record.php';</script>";
+            echo json_encode(["status" => "error", "message" => "เกิดข้อผิดพลาดในการอัปเดตฐานข้อมูล"]);
         }
     } else {
-        echo "<script>alert('อัปโหลดรูปภาพไม่สำเร็จ'); location.href = '../../pages/admin_record.php';</script>";
+        echo json_encode(["status" => "error", "message" => "อัปโหลดรูปภาพไม่สำเร็จ"]);
     }
-    exit;
-
 } else {
-    echo "<script>alert('ไม่พบไฟล์ที่อัปโหลด'); location.href = '../../pages/admin_record.php';</script>";
+    echo json_encode(["status" => "error", "message" => "ไม่พบไฟล์ที่อัปโหลด"]);
 }
 ?>

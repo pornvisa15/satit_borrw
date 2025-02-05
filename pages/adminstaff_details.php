@@ -40,7 +40,8 @@
                     <input type = "text" class="form-control" name="fullname" placeholder="กรอกชื่อ-นามสกุล" required
                         style="margin-top :5px; padding: 10px; font-size: 16px; height: 45px; resize: none; overflow: hidden; border: 1px solid #ced4da; border-radius: 5px;"></ร>
                 </div> -->
-                <form action="../connect/officer/insert.php" method="POST">
+                <form id="editForm" action="../connect/officer/insert.php" method="POST">
+
                     <div class="mb-4">
                         <label for="fullname" class="font-weight-bold"
                             style="font-size: 16px; color: black;">ชื่อ-นามสกุล:</label>
@@ -100,13 +101,61 @@
                             <i class="bi bi-x-circle"></i> ยกเลิก
                         </button>
 
-                        <!-- ปุ่มบันทึก -->
-                        <button class="btn btn-success"
-                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                            data-bs-toggle="modal" data-bs-target="#confirmModal">
-                            <i class="bi bi-check-circle"></i> บันทึกข้อมูล
-                        </button>
-                    </div>
+                 
+                    <!-- ปุ่มบันทึก -->
+                    <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 10px 20px; border-radius: 5px;">
+        <i class="bi bi-check-circle"></i> บันทึกข้อมูล
+    </button>
+   </div>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#editForm').submit(function(e) {
+        e.preventDefault(); // ป้องกันการโหลดหน้าใหม่
+
+        let formData = new FormData(this); // เก็บค่าทั้งหมดจากฟอร์ม
+
+        $.ajax({
+            url: '../connect/officer/insert.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log("Response:", response); // ตรวจสอบค่า response ใน Console
+                if (response.trim() === "success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
+              
+                        confirmButtonText: 'ตกลง'
+                    }).then(() => {
+                        window.location.href = 'admin_staffinfo.php'; // ไปยังหน้าหลังบันทึกสำเร็จ
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response // แสดงข้อความจาก PHP
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'
+                });
+            }
+        });
+    });
+});
+
+</script>
+
+
                 </form>
                 <script>
                     function submitForm() {

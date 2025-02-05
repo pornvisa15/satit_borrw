@@ -198,8 +198,7 @@ if ($row['hreturn_Status'] == 1) {
                style='cursor: pointer; font-size: 12px;'>
                <i class='bi bi-exclamation-circle'></i> แนบไฟล์ค่าเสียหาย
             </a>
-            
-            <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
+           <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
                class='btn btn-success rounded-pill px-3 py-1 text-white shadow-sm' 
                style='font-size: 12px;'>
                <i class='bi bi-check-circle'></i> สถานะ
@@ -259,6 +258,7 @@ echo "</td>";
         </div>
     </div>
 </div>
+
 <script>
 function changeStatusToZero(deviceId) {
     // ส่งคำขอ AJAX เพื่อเปลี่ยนสถานะจาก 7 เป็น 0
@@ -272,17 +272,29 @@ function changeStatusToZero(deviceId) {
     // เมื่อการอัปเดตเสร็จสิ้น ให้เปลี่ยนสถานะในหน้าเว็บทันที
     xhr.onload = function() {
         if (xhr.status === 200) {
-            // เปลี่ยนสถานะของปุ่มและการแสดงผลให้เป็น 0 (ถ้าการอัปเดตสำเร็จ)
-            alert("สถานะถูกเปลี่ยนเป็น 0");
-            // ปรับการแสดงผลในหน้าเว็บ (อาจจะซ่อนปุ่มหรือเปลี่ยนข้อความ)
-            // คุณสามารถใช้ JavaScript เพื่อปรับ DOM ตามต้องการ
+            // ใช้ SweetAlert2 แสดงข้อความ
+            Swal.fire({
+                icon: "success",
+                title: "เปลี่ยนสถานะสำเร็จ!",
+                text: "สถานะถูกอัปเดตเป็นว่างแล้ว",
+                confirmButtonText: "ตกลง"
+            }).then(() => {
+                // อาจจะทำการรีโหลดหน้าหรือทำการอื่นๆ หลังจากแสดงผลสำเร็จ
+                window.location.reload();
+            });
+        } else {
+            // ถ้ามีข้อผิดพลาดในการอัปเดต
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด!",
+                text: "ไม่สามารถเปลี่ยนสถานะได้",
+                confirmButtonText: "ตกลง"
+            });
         }
     };
 }
-
-
-
 </script>
+
 <script>
     // เมื่อเปิด modal, เปลี่ยนแหล่งที่มาของรูปภาพ
     document.addEventListener('DOMContentLoaded', function () {
@@ -297,54 +309,29 @@ function changeStatusToZero(deviceId) {
     });
 </script>
 
-<form action="../connect/receipt/insert.php" method="post" enctype="multipart/form-data">
-    <!-- โมดอลสำหรับการอัปโหลดไฟล์ -->
+<!-- รวม SweetAlert2 CSS และ JS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.9/dist/sweetalert2.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.9/dist/sweetalert2.min.js"></script>
+
+<form id="uploadForm" enctype="multipart/form-data">
     <div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadImageModalLabel">การอัปโหลดไฟล์</h5>
+                    <h5 class="modal-title">การอัปโหลดไฟล์</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                
-                <?php
-// ดึงข้อมูล user_Id จาก URL
-$device_Id = $_GET['device_Id'] ?? ''; // ใช้ข้อมูลจาก URL
-$money_Image = ''; // ค่าเริ่มต้น
-$imagePath = "../connect/receipt/img/"; // โฟลเดอร์เก็บรูปภาพ
 
-if ($device_Id) {
-    // ดึงชื่อไฟล์ money_Image จากฐานข้อมูล
-    $sql = "SELECT money_Image FROM borrow.history_brs WHERE device_Id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $device_Id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+                <div class="modal-body">
+                    <input type="hidden" id="device_Id" name="device_Id" value="<?php echo htmlspecialchars($_GET['device_Id'] ?? ''); ?>">
 
-    // ถ้าพบข้อมูล
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $money_Image = $row['money_Image'];
-    }
-}
-?>
-<div class="modal-body">
-    <!-- ชื่อคนทำชำรุด -->
-    <!-- เปลี่ยนจาก user_Id เป็น device_Id -->
-<div class="form-group mb-4" style="display: none;">
-    <label for="device_Id" style="font-size: 16px; color: black;">ไอดีอุปกรณ์:</label>
-    <input type="text" class="form-control" id="device_Id" name="device_Id" readonly value="<?php echo htmlspecialchars($device_Id); ?>"> 
-</div>
-
-
-    <!-- ฟอร์มการอัปโหลดไฟล์ -->
-    <div class="form-group mb-4">
-        <label for="money_Image" style="font-size: 16px; color: black;">เลือกไฟล์รูปภาพ:</label>
-        <input type="file" class="form-control" id="money_Image" name="money_Image" accept="image/jpeg, image/png">
-    </div>
-</div>
+                    <div class="form-group mb-4">
+                        <label for="money_Image">เลือกไฟล์รูปภาพ:</label>
+                        <input type="file" class="form-control" id="money_Image" name="money_Image" accept="image/jpeg, image/png" required>
+                    </div>
+                </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
@@ -354,6 +341,49 @@ if ($device_Id) {
         </div>
     </div>
 </form>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData(this);
+
+    fetch('../connect/receipt/insert.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'บันทึกข้อมูลสำเร็จ',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                window.location.href = 'admin_record.php';
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'ข้อผิดพลาด',
+                text: data.message
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'ข้อผิดพลาด',
+            text: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์'
+        });
+    });
+});
+</script>
+
+<!-- เรียกใช้ SweetAlert2 -->
+
+
 <!-- โหลดสคริปต์ Bootstrap และ jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

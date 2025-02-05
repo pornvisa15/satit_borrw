@@ -3,9 +3,6 @@
 include '../mysql_borrow.php';
 session_start();
 
-// Debugging: Print the POST data to ensure it is being received
-// var_dump($_POST);  // เพิ่มบรรทัดนี้เพื่อการดีบัก
-
 // รับค่าจากฟอร์ม
 $finance_Id = $_POST['finance_Id'] ?? null;  // ใช้ finance_Id ในการอัปเดตข้อมูล
 $useripass = $_POST['useripass'] ?? null;  // รับค่าจากฟอร์มที่เลือก useripass
@@ -25,7 +22,9 @@ if (isset($_FILES['finance_Image']) && $_FILES['finance_Image']['error'] === UPL
 
     // ตรวจสอบประเภทไฟล์
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!in_array($_FILES['finance_Image']['type'], $allowedTypes)) {
+    $fileType = mime_content_type($_FILES['finance_Image']['tmp_name']);
+    
+    if (!in_array($fileType, $allowedTypes)) {
         echo "<script>alert('ประเภทไฟล์ไม่ถูกต้อง'); location.href = '../../pages/admin_finance.php';</script>";
         exit;
     }
@@ -42,13 +41,12 @@ if (isset($_FILES['finance_Image']) && $_FILES['finance_Image']['error'] === UPL
         $stmt = $conn->prepare("UPDATE finance SET finance_Image = ?, officer_Cotton = ?, useripass = ? WHERE finance_Id = ?");
         $stmt->bind_param("ssss", $device_Image, $officer_Cotton, $useripass, $finance_Id);
 
-        // ตรวจสอบผลการอัปเดต
         if ($stmt->execute()) {
-            echo "<script>alert('อัปเดตข้อมูลสำเร็จ'); location.href = '../../pages/admin_finance.php';</script>";
+            echo "success"; // ส่งค่ากลับให้ AJAX
         } else {
-            echo "<script>alert('เกิดข้อผิดพลาด: " . $stmt->error . "'); location.href = '../../pages/admin_finance.php';</script>";
+            echo "เกิดข้อผิดพลาด: " . $stmt->error;
         }
-
+        
         // ปิดการเตรียมคำสั่ง
         $stmt->close();
     } else {

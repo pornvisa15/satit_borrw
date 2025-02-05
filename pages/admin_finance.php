@@ -32,11 +32,8 @@ $cottonFilter = isset($_GET['officer_Cotton']) ? intval($_GET['officer_Cotton'])
 
 // Header options based on department
 $headerOptions = [
-    1 => ["ตั้งค่าการเงินอุปกรณ์คอมพิวเตอร์", "#537bb7"],
-    2 => ["ตั้งค่าการเงินอุปกรณ์วิทยาศาสตร์", "#537bb7"],
-    3 => ["ตั้งค่าการเงินอุปกรณ์ดนตรี", "#537bb7"],
-    4 => ["ตั้งค่าการเงินอุปกรณ์พัสดุ", "#537bb7"],
-    5 => ["ตั้งค่าการเงินอุปกรณ์ทั้งหมด", "#537bb7"],
+  
+    5 => [" ตั้งค่าบัญชีธนาคาร", "#537bb7"],
 ];
 
 // Set the header text and background color based on department
@@ -56,35 +53,84 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
             <h5 class="mb-0"><?= htmlspecialchars($headerText) ?></h5>
         </div>
 
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <?php include 'admin2.php'; ?>
-
-          
-               
-                <div class="container">
-  <div class="d-flex justify-content-end align-items-start">
-    <button class="btn text-white me-2" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
-      <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
-    </button>
-    <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
-      <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
-    </button>
-  </div>
-</div>
-
-            </div>
-            
-
       
 
+<div class="card-body mt-3"> 
+<div class="container">
+ 
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <?php include 'admin2.php'; ?>
+
+
+<div class="d-flex justify-content-end">
+    <button class="btn text-white me-2" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
+        <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
+    </button>
+    <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
+        <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
+    </button>
+</div>
+
+          
+</div>               
+            
+
+  
+ 
+</div>
 <div class="input-group mb-3">
     <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
     <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
         ค้นหา
     </button>
 </div>
+<table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+                    <thead class="table-light">
+                <tr>
+                    <th>ธนาคาร</th>
+                    <th>หมายเลขบัญชี</th>
+                    <th>ชื่อบัญชี</th>
+                    <th>รายละเอียดเพิ่มเติม</th>
+                    <th>แก้ไข</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT * FROM borrow.bank";
+                $result = $conn->query($sql);
 
+                if (!$result) {
+                    die("Error in SQL: " . $conn->error);
+                }
+
+                if ($result->num_rows > 0) {
+                    $i = 1;
+                    while ($row = $result->fetch_assoc()) {
+                        $bank_Id = htmlspecialchars($row['bank_Id']); // ✅ กำหนดค่าตัวแปรก่อนใช้งาน
+                        
+                        echo "<tr>";
+                       
+                        echo "<td>" . htmlspecialchars($row['bank_Name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['account_Number']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['account_Name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['bank_Details']) . "</td>";
+                        echo "<td>
+                                <a href='edit_bank.php?bank_Id=" . $bank_Id . "' class='btn btn-warning'>
+                                    <i class='fas fa-edit'></i>
+                                </a>
+                              </td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6'>ไม่มีข้อมูล</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-body">
+            
 <script>
     function searchTable() {
         // Get the value from the search input
@@ -111,7 +157,6 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
 
 </script>
 
-<div class="table-responsive mt-3">
                 <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
                     <thead class="table-light">
                         <tr>
@@ -265,10 +310,19 @@ if ($result->num_rows > 0) {
                  
          echo "<td hidden>" . htmlspecialchars($row['officerl_Id']) . "</td>";       
 
-        $finance_Id = isset($row['finance_Id']) ? urlencode($row['finance_Id']) : '';
-        echo "<td><a href='admin_finance.edit.php?finance_Id=" . $finance_Id . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-              <td><a href='../connect/finance/delete.php?finance_Id=" . $finance_Id . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-              </tr>";
+        
+         $finance_Id = isset($row['finance_Id']) ? urlencode($row['finance_Id']) : '';
+         echo "<td>
+                 <a href='admin_finance.edit.php?finance_Id=" . $finance_Id . "' class='btn btn-warning'><i class='fas fa-edit'></i></a>
+               </td>
+               <td>
+                 <button class='btn btn-danger' onclick='deleteDevice(" . $finance_Id . ")'>
+                     <i class='fas fa-trash-alt'></i>
+                 </button>
+               </td>
+             </tr>";
+        
+         
 
         $i++;
     }
@@ -320,14 +374,62 @@ while ($row = $result->fetch_assoc()) {
             <td>" . htmlspecialchars($i) . "</td>
             <td>" . htmlspecialchars($fullname) . "</td>
             <td>" . htmlspecialchars($cotton_Name) . "</td>
-            
-            <td><a href='admin_finance.edit.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-warning'><i class='fas fa-edit'></i></a></td>
-            <td><a href='../connect/finance/delete.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-danger'><i class='fas fa-trash-alt'></i></a></td>
-          </tr>";
+            <td>
+                <a href='admin_finance.edit.php?finance_Id=" . urlencode($row['finance_Id']) . "' class='btn btn-warning'>
+                    <i class='fas fa-edit'></i>
+                </a>
+            </td>
+            <td>
+                <button class='btn btn-danger' onclick='deleteDevice(\"" . htmlspecialchars($row['finance_Id']) . "\")'>
+                    <i class='fas fa-trash-alt'></i>
+                </button>
+            </td>
+        </tr>";
 
     $i++;
 }
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+function deleteDevice(finance_Id) {
+    // ลบข้อมูลโดยไม่ต้องยืนยัน
+    $.ajax({
+        url: "../connect/finance/delete.php",
+        type: "POST",
+        data: { finance_Id: finance_Id },
+        dataType: "json",
+        success: function(response) {
+            if (response.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "ลบข้อมูลสำเร็จ",
+                    confirmButtonText: 'OK'
+                   
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                    text: response.message
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: "error",
+                title: "เกิดข้อผิดพลาด",
+                text: "ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้"
+            });
+        }
+    });
+}
+
+</script>
+
 <script>
 // เมื่อคลิกที่ปุ่ม ดูรูปภาพ ให้เปลี่ยนรูปภาพใน modal
 document.addEventListener('DOMContentLoaded', function () {

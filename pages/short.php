@@ -31,11 +31,7 @@ if (isset($_SESSION['useripass'])) {
     if ($result && mysqli_num_rows($result) > 0) {
         $showdata = mysqli_fetch_array($result);
         $full_name = $showdata['name'] . " " . $showdata['surname']; // รวมชื่อและนามสกุล
-    } else {
-        $full_name = "ไม่พบข้อมูลผู้ใช้"; // กรณีไม่มีข้อมูลในฐานข้อมูล
-    }
-} else {
-    $full_name = "ไม่มีข้อมูลผู้ใช้ในระบบ"; // กรณีไม่มีข้อมูลใน $_SESSION
+    } 
 }
 ?>
 

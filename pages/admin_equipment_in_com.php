@@ -28,88 +28,127 @@
             </div>
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">
                 <h5 class="text-center mb-4">เพิ่มข้อมูลอุปกรณ์</h5>
-                <form action="../connect/equipment/insert.php" method="post" enctype="multipart/form-data"
-                    id="equipmentForm">
-                    
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="device_Numder"
-                            style="margin-bottom: 7px; font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์ :</label>
-                        <input type="text" class="form-control" id="device_Numder" name="device_Numder"
-                            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required style="font-size: 14px;">
-                    </div>
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="device_Name" style="margin-bottom: 7px; font-size: 16px; color: black;">ชื่ออุปกรณ์
-                            :</label>
-                        <input type="text" class="form-control" id="device_Name" name="device_Name"
-                            placeholder="กรอกชื่ออุปกรณ์" required style="font-size: 14px;">
-                    </div>
+                <form action="../connect/equipment/insert.php" method="post" enctype="multipart/form-data" id="equipmentForm">
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="device_Numder" style="margin-bottom: 7px; font-size: 16px; color: black;">เลขพัสดุ/ครุภัณฑ์ :</label>
+        <input type="text" class="form-control" id="device_Numder" name="device_Numder"
+            placeholder="กรอกเลขพัสดุ/ครุภัณฑ์" required style="font-size: 14px;">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="device_Name" style="margin-bottom: 7px; font-size: 16px; color: black;">ชื่ออุปกรณ์ :</label>
+        <input type="text" class="form-control" id="device_Name" name="device_Name"
+            placeholder="กรอกชื่ออุปกรณ์" required style="font-size: 14px;">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="device_Date" style="margin-bottom: 7px; font-size: 16px; color: black;">วันที่ซื้อ :</label>
+        <input type="date" class="form-control" id="device_Date" name="device_Date" required style="font-size: 14px;">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="device_Price" style="margin-bottom: 7px; font-size: 16px; color: black;">ราคา :</label>
+        <input type="number" class="form-control" id="device_Price" name="device_Price"
+            placeholder="กรอกราคา (บาท)" min="0" step="1" required style="font-size: 14px;">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="officer_Cotton" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
+        <select class="form-select" name="officer_Cotton" required style="font-size: 14px;">
+            <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
+            <option value="1">ฝ่ายคอมพิวเตอร์</option>
+            <option value="2">ฝ่ายวิทยาศาสตร์</option>
+            <option value="3">ฝ่ายดนตรี</option>
+            <option value="4">ฝ่ายพัสดุ</option>
+            <option value="5">ฝ่ายแอดมิน</option>
+        </select>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด :</label>
+        <textarea class="form-control" id="device_Other" name="device_Other"
+            placeholder="กรอกรายละเอียดในอุปกรณ์" required style="font-size: 14px; height: 100px; resize: none;"></textarea>
+    </div>
+
+    <div class="form-group mb-4" style="margin-bottom: 15px;">
+        <label for="device_Image" style="margin-bottom: 7px; font-size: 16px; color: black;">รูปภาพ :</label>
+        <input type="file" class="form-control" id="device_Image" name="device_Image"
+            accept="image/jpeg, image/png, image/webp, image/gif" style="font-size: 14px;">
+    </div>
+
+    <div class="form-group mb-4" style="margin-bottom: 15px;">
+        <label for="device_Access" class="font-weight-bold" style="font-size: 16px; color: black;">ใช้สำหรับ :</label>
+        <select id="device_Access" name="device_Access" class="form-select" required style="font-size: 14px;">
+            <option value="" selected disabled>กรุณาเลือก</option>
+            <option value="1">นักเรียนและบุคลากร</option>
+            <option value="2">บุคลากร</option>
+        </select>
+    </div>
+
+    <div class="text-center d-flex justify-content-center gap-3">
+        <button type="button" class="btn btn-danger" style="font-size: 16px;" onclick="window.location.href='admin_equipment.php';">
+            <i class="bi bi-x-circle"></i> ยกเลิก
+        </button>
+
+        <button type="submit" class="btn btn-success" style="font-size: 16px;">
+            <i class="bi bi-check-circle"></i> บันทึกข้อมูล
+        </button>
+    </div>
+
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+$(document).ready(function() {
+    $('#equipmentForm').submit(function(e) {
+        e.preventDefault(); // ❌ ป้องกันการรีโหลดหน้า
+        
+        let formData = new FormData(this); // ✅ เก็บค่าฟอร์มทั้งหมดรวมถึงไฟล์
+
+        $.ajax({
+            url: '../connect/equipment/insert.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.trim() === "success") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        window.location.href = 'admin_equipment.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: response
+                    });
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้'
+                });
+            }
+        });
+    });
+});
+</script>
 
 
-<div class="form-group" style="margin-bottom: 15px;">
-    <label for="device_Date" style="margin-bottom: 7px; font-size: 16px; color: black;">วันที่ซื้อ :</label>
-    <input type="date" class="form-control" id="device_Date" name="device_Date" required style="font-size: 14px;" />
-</div>
+
+</form>
 
 
 
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="device_Price" style="margin-bottom: 7px; font-size: 16px; color: black;">ราคา:</label>
-                        <input type="number" class="form-control" id="device_Price" name="device_Price"
-                            placeholder="กรอกราคา (บาท)" min="0" step="1" required
-                            style="font-size: 14px; padding: 10px; border-radius: 5px; border: 1px solid #ced4da; -webkit-appearance: none; -moz-appearance: textfield;">
-                    </div>
 
-                    <div class="form-group" style="margin-bottom: 15px;">
-    <label for="officerl_Id" style="margin-bottom: 7px; font-size: 16px; color: black;">ผู้รับผิดชอบ :</label>
-    <select class="form-select" name="officer_Cotton" required
-        style="font-size: 14px; border-radius: 5px; padding: 10px; margin-top: 5px;">
-        <option value="" selected disabled>กรุณาเลือกผู้รับผิดชอบ</option>
-        <option value="1">ฝ่ายคอมพิวเตอร์</option>
-        <option value="2">ฝ่ายวิทยาศาสตร์</option>
-        <option value="3">ฝ่ายดนตรี</option>
-        <option value="4">ฝ่ายพัสดุ</option>
-        <option value="5">ฝ่ายแอดมิน</option>
-    </select>
-</div>
-
-
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="device_Other" style="margin-bottom: 7px; font-size: 16px; color: black;">รายละเอียด :</label>
-                        <textarea class="form-control" id="device_Other" name="device_Other"
-                            placeholder="กรอกรายละเอียดในอุปกรณ์" required
-                            style="font-size: 14px; height: 100px; resize: none;"></textarea>
-                    </div>
-
-                    <div class="form-group mb-4" style="margin-bottom: 15px;">
-                        <label for="device_Image" style="margin-bottom: 7px; font-size: 16px; color: black;">รูปภาพ :</label>
-                        <input type="file" class="form-control" id="device_Image" name="device_Image"
-                            accept="image/jpeg, image/png" style="font-size: 14px;">
-                    </div>
-
-                    <div class="form-group mb-4" style="margin-bottom: 15px;">
-                        <label for="device_Access" class="font-weight-bold" style="font-size: 16px; color: black;">ใช้สำหรับ :</label>
-                        <select id="device_Access" name="device_Access" class="form-select"
-                            style="font-size: 14px; margin-top: 5px;" required>
-                            <option value="" selected disabled>กรุณาเลือก</option>
-                            <option value="1">นักเรียนและบุคลากร</option>
-                            <option value="2">บุคลากร</option>
-                        </select>
-                    </div>
-
-                    <div class="text-center d-flex justify-content-center gap-3">
-                        <button class="btn btn-danger"
-                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                            onclick="window.history.back();">
-                            <i class="bi bi-x-circle"></i> ยกเลิก
-                        </button>
-
-                        <button class="btn btn-success"
-                            style="font-size: 16px; padding: 10px 20px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
-                            data-bs-toggle="modal" data-bs-target="#confirmModal">
-                            <i class="bi bi-check-circle"></i> บันทึกข้อมูล
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -121,7 +160,7 @@
         const errorElement = document.getElementById('deviceNumderError');
 
         // เรียกใช้ fetch เพื่อเช็คข้อมูลในฐานข้อมูล
-        fetch(`check_device_number.php?device_Numder=${deviceNumder}`)
+        fetch(`check_device_Numder.php?device_Numder=${deviceNumder}`)
             .then(response => response.json())  // คาดว่าจะได้รับข้อมูลเป็น JSON
             .then(data => {
                 if (data.exists) {
