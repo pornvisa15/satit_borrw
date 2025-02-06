@@ -254,87 +254,9 @@
                                     }
                                 });
 
-                                // ฟังก์ชันการบันทึกข้อมูล
-                                document.getElementById('saveButton').addEventListener('click', async function (e) {
-                                    e.preventDefault(); // ป้องกันไม่ให้ฟอร์มถูกส่งไปก่อน
-
-                                    // เลือกฟิลด์ที่ต้องการตรวจสอบ
-                                    const historyOther = document.getElementById('history_Other');
-                                    const historyAnother = document.getElementById('history_Another');
-                                    const historyBorrow = document.getElementById('history_Borrow');
-                                    const historyReturn = document.getElementById('history_Return');
-                                    const historyStop = document.getElementById('history_Stop');
-
-                                    // ฟังก์ชันตรวจสอบข้อมูล
-                                    let isValid = true;
-
-                                    // ตรวจสอบข้อมูลในแต่ละฟิลด์
-                                    if (historyOther.value.trim() === '') {
-                                        isValid = false;
-                                        historyOther.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ textarea
-                                    } else {
-                                        historyOther.style.borderColor = ''; // คืนสีกรอบของ textarea
-                                    }
-
-                                    if (historyAnother.value.trim() === '') {
-                                        isValid = false;
-                                        historyAnother.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ textarea
-                                    } else {
-                                        historyAnother.style.borderColor = ''; // คืนสีกรอบของ textarea
-                                    }
-
-                                    if (historyBorrow.value.trim() === '') {
-                                        isValid = false;
-                                        historyBorrow.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
-                                    } else {
-                                        historyBorrow.style.borderColor = ''; // คืนสีกรอบของ input
-                                    }
-
-                                    if (historyReturn.value.trim() === '') {
-                                        isValid = false;
-                                        historyReturn.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
-                                    } else {
-                                        historyReturn.style.borderColor = ''; // คืนสีกรอบของ input
-                                    }
-
-                                    if (historyStop.value.trim() === '') {
-                                        isValid = false;
-                                        historyStop.style.borderColor = 'red'; // เปลี่ยนสีกรอบของ input
-                                    } else {
-                                        historyStop.style.borderColor = ''; // คืนสีกรอบของ input
-                                    }
-
-                                    // ถ้าข้อมูลไม่ครบ ให้แสดง SweetAlert แจ้งเตือน
-                                    if (!isValid) {
-                                        Swal.fire({
-                                            title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                                            text: 'คุณต้องกรอกข้อมูลทั้งหมดก่อนที่จะบันทึก',
-                                            icon: 'error',
-                                            iconColor: '#d33',
-                                            confirmButtonText: 'ตกลง',
-                                            confirmButtonColor: '#dc3545',
-                                            background: '#f8f9fa'
-                                        });
-                                        return; // ไม่ให้ทำการส่งฟอร์ม
-                                    }
-
-                                    // ถ้าผู้ใช้กรอกข้อมูลครบถ้วน แสดง SweetAlert เพื่อยืนยันการบันทึก
-                                    const result = await Swal.fire({
-    title: 'จองเสร็จสิ้นแล้ว!',
-    icon: 'success',
-    iconColor: '#28a745', // สีของไอคอน (สีเขียว)
-    confirmButtonText: 'ตกลง',
-    confirmButtonColor: '#28a745', // สีของปุ่มตกลง
-    background: '#f8f9fa', // พื้นหลังสะอาด
-    backdrop: true,
-    showCancelButton: false, // ไม่แสดงปุ่มยกเลิก
-});
-
-                                    if (result.isConfirmed) {
-                                        // ถ้าผู้ใช้กด "ตกลง" ให้ส่งฟอร์ม
-                                        document.querySelector('form').submit(); // ส่งฟอร์ม
-                                    }
-                                });
+                               
+ 
+                            
                             </script>
 
                         </div>
