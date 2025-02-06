@@ -320,17 +320,15 @@
 
                                     // ถ้าผู้ใช้กรอกข้อมูลครบถ้วน แสดง SweetAlert เพื่อยืนยันการบันทึก
                                     const result = await Swal.fire({
-                                        title: 'บันทึกข้อมูลสำเร็จ',
-                                        icon: 'success',
-                                        iconColor: '#68cc68',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'ตกลง',
-                                        cancelButtonText: 'ยกเลิก',
-                                        confirmButtonColor: '#28a745',
-                                        cancelButtonColor: '#dc3545',
-                                        background: '#f8f9fa',
-                                        backdrop: true
-                                    });
+    title: 'จองเสร็จสิ้นแล้ว!',
+    icon: 'success',
+    iconColor: '#28a745', // สีของไอคอน (สีเขียว)
+    confirmButtonText: 'ตกลง',
+    confirmButtonColor: '#28a745', // สีของปุ่มตกลง
+    background: '#f8f9fa', // พื้นหลังสะอาด
+    backdrop: true,
+    showCancelButton: false, // ไม่แสดงปุ่มยกเลิก
+});
 
                                     if (result.isConfirmed) {
                                         // ถ้าผู้ใช้กด "ตกลง" ให้ส่งฟอร์ม

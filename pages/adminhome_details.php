@@ -168,113 +168,93 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
         </div>
 
 
-        <!-- ส่วนที่1 ของสถานะอนุมัติ -->
-        <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                        <form method="POST" action="../connect/examine/update.php" id="approveForm">
-                            <input type="text" name="history_Id" value="<?php echo $history_Id; ?>" hidden>
-                            <input type="radio" hidden id="approveRadio" name="device_Con" value="0" checked>
-                            <input type="radio" id="approveRadio2" name="device_Con" value="1" required> อนุมัติ
-                            <input type="radio" id="disapproveRadio" name="device_Con" value="2" required> ไม่อนุมัติ
-                            <input type="text" name="history_Status_BRS" id="historyStatusBRS" hidden>
+       <!-- โมดัลสำหรับอนุมัติ -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
+                <form method="POST" action="../connect/examine/update.php" id="approveForm">
+                    <input type="hidden" name="history_Id" value="<?php echo htmlspecialchars($history_Id); ?>">
 
-                            <div class="col-sm-6" style="padding-right: 5px; width: 100%">
-    <label for="purpose" class="font-weight-bold" style="margin-top: 5px; font-size: 16px;">
-        หมายเหตุ <span style="color: red;">*</span>
-    </label>
-    <textarea class="form-control" id="purpose" name="note_Other"
-        style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;" required></textarea>
-</div>
+                    <div>
+                        <input type="radio" id="approveRadio" name="device_Con" value="1" required>
+                        <label for="approveRadio">อนุมัติ</label>
 
-                        </form>
+                        <input type="radio" id="disapproveRadio" name="device_Con" value="2" required>
+                        <label for="disapproveRadio">ไม่อนุมัติ</label>
+                    </div>
 
+                    <input type="hidden" name="history_Status_BRS" id="historyStatusBRS">
+
+                    <div class="mt-3">
+                        <label for="purpose" class="fw-bold">
+                            หมายเหตุ <span class="text-danger">*</span> <span class="text-muted">(สถานที่รับ)</span>
+                        </label>
+                        <textarea class="form-control" id="purpose" name="note_Other" 
+                                  style="height: 50px; resize: none;" required></textarea>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
-                    </div>
-                </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
             </div>
         </div>
-        
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-    $(document).ready(function () {
-        // ตั้งค่าให้ "รออนุมัติ" เป็นค่าเริ่มต้น
-        $('#approveRadio').prop('checked', true);
+    </div>
+</div>
 
-        // เมื่อคลิกปุ่ม "ตกลง"
+<!-- ใช้งาน jQuery และ SweetAlert -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
         $('#confirmApproveBtn').click(function () {
             let statusValue = null;
+            let note = $('#purpose').val().trim();
 
-            // ตรวจสอบสถานะการอนุมัติ
+            // ตรวจสอบการเลือกสถานะ
             if ($('#approveRadio').is(':checked')) {
-                statusValue = '0'; // รออนุมัติ
-            } else if ($('#approveRadio2').is(':checked')) {
                 statusValue = '1'; // อนุมัติ
             } else if ($('#disapproveRadio').is(':checked')) {
                 statusValue = '2'; // ไม่อนุมัติ
             } else {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'เลือกสถานะการอนุมัติ',
-                    text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
-                    confirmButtonColor: '#6C5CE7',
-                    confirmButtonText: 'ตกลง',
-                    allowOutsideClick: false,
-                    focusConfirm: false,
-                    customClass: {
-                        title: 'custom-title',
-                        popup: 'custom-popup'
-                    }
+                    title: 'กรุณาเลือกสถานะ',
+                    text: 'คุณต้องเลือก อนุมัติ หรือ ไม่อนุมัติ ก่อนดำเนินการ',
+                    confirmButtonColor: '#ff5733',
                 });
                 return false;
             }
 
             // ตรวจสอบหมายเหตุ
-            let note = $('#purpose').val().trim();
             if (note === "") {
                 Swal.fire({
                     icon: 'warning',
                     title: 'กรุณากรอกหมายเหตุ',
-                    text: 'โปรดระบุหมายเหตุการดำเนินการ',
-                    confirmButtonColor: '#FF6347',
-                    confirmButtonText: 'ตกลง',
-                    allowOutsideClick: false,
-                    focusConfirm: false,
-                    customClass: {
-                        title: 'custom-title',
-                        popup: 'custom-popup'
-                    }
+                    text: 'โปรดระบุหมายเหตุเพื่อดำเนินการต่อ',
+                    confirmButtonColor: '#ff5733',
                 });
                 return false;
             }
 
-            // บันทึกข้อมูลสำเร็จ (ไม่มีการยืนยันก่อน)
+            // บันทึกค่าและปิดปุ่มกันกดซ้ำ
             $('#historyStatusBRS').val(statusValue);
+            $('#confirmApproveBtn').prop('disabled', true);
 
             Swal.fire({
                 icon: 'success',
                 title: 'บันทึกข้อมูลสำเร็จ',
                 confirmButtonColor: '#6C5CE7',
                 confirmButtonText: 'OK',
-                timerProgressBar: true,
-                allowOutsideClick: false,
-                focusConfirm: false,
-                customClass: {
-                    title: 'custom-title',
-                    popup: 'custom-popup'
-                }
             }).then(() => {
-                $('#approveForm').submit(); // ส่งฟอร์มเมื่อกด OK
+                $('#approveForm').submit();
             });
 
             return false;
@@ -348,80 +328,96 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
     </div>
 </div>
 
-        <script>
-            $(document).ready(function () {
-                // แสดง/ซ่อนฟิลด์วันที่ตามตัวเลือก
-                $('input[name="history_Status"]').on('change', function () {
-                    if ($(this).val() === 'borrow') {
-                        $('#borrowField').show();
-                        $('#returnField').hide();
-                        $('#htime_Return').val('');
-                    } else if ($(this).val() === 'return') {
-                        $('#borrowField').hide();
-                        $('#returnField').show();
-                    }
-                });
-            });
-          
-          
-            function handleConfirm() {
+<script>
+    $(document).ready(function () {
+        $('input[name="history_Status"]').on('change', function () {
+            if ($(this).val() === 'borrow') {
+                $('#borrowField').show();
+                $('#returnField').hide();
+                $('#htime_Return').val('');
+            } else if ($(this).val() === 'return') {
+                $('#borrowField').hide();
+                $('#returnField').show();
+            }
+        });
+    });
+
+        function handleConfirm() {
     const damageCondition = document.getElementById('damageCondition').value;
-    const damagePrice = document.getElementById('damagePrice').value;
-    const purpose = document.getElementById('purpose').value;
+    const damagePrice = document.getElementById('damagePrice').value.trim();
+    const returnDate = document.getElementById('returnDate').value;
+    const note = document.getElementById('purpose').value.trim();
 
-    // Check if all required fields are filled before proceeding
-    if (damageCondition === "" || (damageCondition === "7" && !damagePrice)) {
+    // ตรวจสอบวันที่คืน
+    if (!returnDate) {
         Swal.fire({
             icon: 'warning',
-            title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
-            text: 'กรุณากรอกข้อมูลในฟิลด์ที่จำเป็นทั้งหมดก่อนที่จะดำเนินการต่อ',
+            title: 'กรุณากรอกวันที่คืน!',
             confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6'
-        });
+        }).then(() => document.getElementById('returnDate').focus());
         return;
     }
 
-    // If damageCondition is 7 (for compensation), check if price is provided
-    if (damageCondition === "7" && !damagePrice) {
+    // ตรวจสอบสถานะอุปกรณ์
+    if (!damageCondition) {
         Swal.fire({
             icon: 'warning',
-            title: 'กรุณากรอกราคาที่ต้องชดใช้!',
-            text: 'กรุณากรอกจำนวนเงินที่ต้องการชดใช้ค่าเสียหาย',
+            title: 'กรุณาเลือกสถานะอุปกรณ์!',
             confirmButtonText: 'ตกลง',
             confirmButtonColor: '#3085d6'
-        });
+        }).then(() => document.getElementById('damageCondition').focus());
         return;
     }
 
-    // Remove the validation for purpose field (since it's not required anymore)
-    // If purpose is empty, no need to show warning anymore
+    // ตรวจสอบราคาชดใช้ ถ้าเลือก 'ชดใช้ค่าเสียหาย'
+    if (damageCondition === "7" && (!damagePrice || isNaN(damagePrice) || parseFloat(damagePrice) <= 0)) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'กรุณากรอกราคาที่ต้องชดใช้ให้ถูกต้อง!',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#3085d6'
+        }).then(() => document.getElementById('damagePrice').focus());
+        return;
+    }
 
-    // Show SweetAlert2 success message
+    // ไม่จำเป็นต้องกรอกหมายเหตุ (ลบการตรวจสอบหมายเหตุ)
+    /*if (!note) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'กรุณากรอกหมายเหตุ!',
+            confirmButtonText: 'ตกลง',
+            confirmButtonColor: '#3085d6'
+        }).then(() => document.getElementById('purpose').focus());
+        return;
+    }*/
+
     Swal.fire({
         icon: 'success',
         title: 'บันทึกข้อมูลสำเร็จ!',
         confirmButtonText: 'ตกลง',
         confirmButtonColor: '#3085d6'
     }).then(() => {
-        // Submit the form if everything is validated
         document.getElementById('returnForm').submit();
     });
 }
 
+    function togglePriceInput() {
+        const damageCondition = document.getElementById('damageCondition').value;
+        const priceInputContainer = document.getElementById('priceInputContainer');
+        const damagePrice = document.getElementById('damagePrice');
 
-function showCompletionModal() {
-    // Deselect other modals first
-    const damageModal = bootstrap.Modal.getInstance(document.getElementById('returnModal'));
-    if (damageModal) {
-        damageModal.hide();
+        if (damageCondition === "7") {
+            priceInputContainer.style.display = "block";
+            damagePrice.setAttribute("required", "true");
+        } else {
+            priceInputContainer.style.display = "none";
+            damagePrice.removeAttribute("required");
+            damagePrice.value = "";
+        }
     }
+</script>
 
-    // Show completion modal
-    const completionModal = new bootstrap.Modal(document.getElementById('completionModal'));
-    completionModal.show();
-}
-
-        </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Modal Completion -->

@@ -318,10 +318,14 @@ if ($result->num_rows > 0) {
                                     else: ?>
                                         <tr>
                                             <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
-                                            <td><?= isset($row['history_Borrow']) ? htmlspecialchars($row['history_Borrow']) : ''; ?>
-                                            </td>
-                                            <td><?= isset($row['history_Return']) ? htmlspecialchars($row['history_Return']) : ''; ?>
-                                            </td>
+                                            <td>
+    <?= isset($row['history_Borrow']) ? date('j/n/Y', strtotime($row['history_Borrow'])) : ''; ?>
+</td>
+<td>
+    <?= isset($row['history_Return']) ? date('j/n/Y', strtotime($row['history_Return'])) : ''; ?>
+</td>
+
+
                                             <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
                                             </td>
                                         </tr>

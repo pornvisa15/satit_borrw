@@ -191,9 +191,9 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
                             <?php
                             if (isset($_SESSION['officer_Right'])) {
                                 if ($_SESSION['officer_Right'] == 1) {  // ใช้ == แทน =
-                                    echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";
+                                    echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืม</a>";
                                 } elseif ($_SESSION['officer_Right'] == 2) {  // ใช้ == แทน =
-                                    echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";
+                                    echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืม</a>";
                                 } else {
                                     echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
                                 }
