@@ -84,7 +84,7 @@
                             <option value="2" <?php echo ($officer_Cotton == 2 ? 'selected' : ''); ?>>ฝ่ายวิทยาศาสตร์</option>
                             <option value="3" <?php echo ($officer_Cotton == 3 ? 'selected' : ''); ?>>ฝ่ายดนตรี</option>
                             <option value="4" <?php echo ($officer_Cotton == 4 ? 'selected' : ''); ?>>ฝ่ายพัสดุ</option>
-                            <option value="5" <?php echo ($officer_Cotton == 5 ? 'selected' : ''); ?>>ฝ่ายแอดมิน</option>
+                            
                         </select>
                     </div>
 

@@ -64,7 +64,6 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
     <option value="history_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'history_1') ? 'selected' : '' ?>>รอคืน</option>
     <!-- hreturn_Status options -->
     <option value="hreturn_1" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_1') ? 'selected' : '' ?>>สภาพปกติ</option>
-    <option value="hreturn_2" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_2') ? 'selected' : '' ?>>สภาพไม่สมบูรณ์</option>
     <option value="hreturn_3" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_3') ? 'selected' : '' ?>>ผู้ยืมซ่อมแซม</option>
     <option value="hreturn_4" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_4') ? 'selected' : '' ?>>ชดใช้เป็นพัสดุ</option>
     <option value="hreturn_7" <?= (isset($_GET['combined_status']) && $_GET['combined_status'] === 'hreturn_7') ? 'selected' : '' ?>>แนบไฟล์ค่าเสียหาย</option>
@@ -201,7 +200,7 @@ if ($row['hreturn_Status'] == 1) {
            <button onclick='changeStatusToZero(\"" . htmlspecialchars($row['device_Id']) . "\")' 
                class='btn btn-success rounded-pill px-3 py-1 text-white shadow-sm' 
                style='font-size: 12px;'>
-               <i class='bi bi-check-circle'></i> สถานะ
+               <i class='bi bi-check-circle'></i> คืนสถานะ
             </button>
           </div>";
 
@@ -252,8 +251,8 @@ echo "</td>";
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- แสดงภาพที่คลิก -->
-                <img src="" id="modalImage" class="img-fluid" alt="Image">
+            <img src="" id="modalImage" class="img-fluid w-50 mx-auto d-block" alt="Image">
+
             </div>
         </div>
     </div>
@@ -271,28 +270,36 @@ function changeStatusToZero(deviceId) {
 
     // เมื่อการอัปเดตเสร็จสิ้น ให้เปลี่ยนสถานะในหน้าเว็บทันที
     xhr.onload = function() {
-        if (xhr.status === 200) {
-            // ใช้ SweetAlert2 แสดงข้อความ
-            Swal.fire({
-                icon: "success",
-                title: "เปลี่ยนสถานะสำเร็จ!",
-                text: "สถานะถูกอัปเดตเป็นว่างแล้ว",
-                confirmButtonText: "ตกลง"
-            }).then(() => {
-                // อาจจะทำการรีโหลดหน้าหรือทำการอื่นๆ หลังจากแสดงผลสำเร็จ
-                window.location.reload();
-            });
-        } else {
-            // ถ้ามีข้อผิดพลาดในการอัปเดต
-            Swal.fire({
-                icon: "error",
-                title: "เกิดข้อผิดพลาด!",
-                text: "ไม่สามารถเปลี่ยนสถานะได้",
-                confirmButtonText: "ตกลง"
-            });
-        }
-    };
-}
+    if (xhr.status === 200) {
+        // แสดง SweetAlert2 เพื่อขอให้ผู้ใช้ยืนยัน
+        Swal.fire({
+            title: "คุณแน่ใจหรือไม่?",
+            text: "คุณต้องการเปลี่ยนสถานะหรือไม่?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ใช่, เปลี่ยนเลย!",
+            cancelButtonText: "ยกเลิก"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // ถ้าผู้ใช้กดยืนยัน ให้แสดงผลสำเร็จ
+                Swal.fire({
+                    icon: "success",
+                    title: "เปลี่ยนสถานะสำเร็จ!",
+                    text: "สถานะถูกอัปเดตเป็นว่างแล้ว",
+                    confirmButtonText: "ตกลง"
+                }).then(() => {
+                    // รีโหลดหน้าหลังจากแสดงผลสำเร็จ
+                    window.location.reload();
+                });
+            }
+        });
+    }
+};
+
+        } 
+
 </script>
 
 <script>

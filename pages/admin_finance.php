@@ -62,15 +62,16 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
 <div class="d-flex justify-content-between align-items-center mb-3">
     <?php include 'admin2.php'; ?>
 
-
-<div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end">
     <button class="btn text-white me-2" style="background-color: #4CAF50; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance.in.php';">
-        <i class="bi bi-person-plus"></i> เพิ่มคิวอาร์โค้ด
+        <i class="bi bi-qr-code"></i> เพิ่มคิวอาร์โค้ด
     </button>
     <button class="btn text-white" style="background-color:#ffc107; font-weight: normal; font-size: 14px;" onclick="window.location.href='admin_finance_qrcode.php';">
-        <i class="bi bi-person-plus"></i> สร้างคิวอาร์โค้ด
+        <i class="bi bi-qr-code"></i> สร้างคิวอาร์โค้ด
     </button>
 </div>
+
+
 
           
 </div>               
@@ -80,7 +81,7 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
  
 </div>
 <div class="input-group mb-3">
-    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหารายชื่อ" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
+    <input type="text" id="searchEquipment" class="form-control" placeholder="ค้นหา" aria-label="Search" aria-describedby="button-search" style="font-size: 14px; padding: 9px 12px;" onkeyup="searchTable()">
     <button class="btn text-light" type="button" id="button-search" style="background-color: #537bb7; border-color: #537bb7; font-size: 14px; padding: 9px 12px;">
         ค้นหา
     </button>

@@ -66,7 +66,7 @@
             <h5 class="text-center">รายละเอียดการทำรายการ</h5>
             <?php 
 if ($history_Status_BRS == 1) {
-    $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
+    $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
     $disableReturn = ''; // ปุ่มรับคืน กดได้  
 } else if ($history_Status_BRS == 2) {
     $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
@@ -294,7 +294,7 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
 
                     <p>กรุณาเลือกสถานะอุปกรณ์</p>
                     <select class="form-select" id="damageCondition" name="hreturn_Status" required onchange="togglePriceInput()">
-                        <option value="1">สภาพสมบูรณ์</option>
+                        <option value="1">สภาพปกติ</option>
                         <option value="3">ผู้ยืมซ่อมแซม</option>
                         <option value="4">ชดใช้เป็นพัสดุ</option>
                         <option value="7">ชดใช้ค่าเสียหาย</option>
@@ -474,7 +474,8 @@ if ($result->num_rows > 0) {
 // ใช้ while loop เพื่อแสดงผลข้อมูลจากฐานข้อมูล
 while ($row = $result->fetch_assoc()) {
     echo '<div class="container mt-4">';  // เพิ่ม margin เพื่อเว้นพื้นที่
-    echo '<h4 class="text-center text-info mb-4">ข้อมูลการโอนเงิน</h4>';  // ใช้ text-info เพื่อสีฟ้า
+    echo '<h4 class="text-center text-dark mb-4">ข้อมูลการโอนเงิน</h4>';
+
     echo '<ul class="list-group list-group-flush shadow-sm">';  // เพิ่ม shadow เพื่อให้ดูนุ่มนวล
 
     // แสดงข้อมูลจากฐานข้อมูล

@@ -53,14 +53,14 @@
 
             <div class="card-body">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <?php include 'admin1.php'; ?>
-                    <button class="btn text-white"
-                        style="background-color: #4CAF50; font-weight: normal; font-size: 14px;"
-                        onclick="window.location.href='admin_equipment_in_com.php';">
-                        <i class="bi bi-person-plus"></i> เพิ่มอุปกรณ์
-                    </button>
-                </div>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+    <?php include 'admin1.php'; ?>
+    <button class="btn text-white"
+        style="background-color: #4CAF50; font-weight: normal; font-size: 14px;"
+        onclick="window.location.href='admin_equipment_in_com.php';">
+        <i class="bi bi-tools"></i> เพิ่มอุปกรณ์
+    </button>
+</div>
 
 
                 <form method="GET" action="">
@@ -74,113 +74,99 @@
                 </form>
 
                 <div class="table-responsive mt-3">
-                    <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width: 1%;">ลำดับ</th>
-                                <th style="width: 7%;">เลขพัสดุ/ครุภัณฑ์</th>
-                                <th style="width: 7%;">ชื่ออุปกรณ์</th>
-                                <th style="width: 6%;">ผู้รับผิดชอบ</th>
-                                <th style="width: 8%;">สิทธิ์การเข้าถึง</th>
-                                <th style="width: 3%;">วันที่ซื้อ</th>
-                                <th style="width: 5%;">ราคา</th>
-                                <th style="width: 17%;">รายละเอียด</th>
-                                <th style="width: 1%;">แก้ไข</th>
-                                <th style="width: 1%;">ลบ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                           
-                            // สร้างคำสั่ง SQL สำหรับดึงข้อมูลจากฐานข้อมูล
-$sql = "SELECT * FROM borrow.device_information";
+    <table class="table table-bordered table-striped text-center" style="font-size: 14px;">
+        <thead class="table-light">
+            <tr>
+                <th style="width: 1%;">ลำดับ</th>
+                <th style="width: 7%;">เลขพัสดุ/ครุภัณฑ์</th>
+                <th style="width: 7%;">ชื่ออุปกรณ์</th>
+                <th style="width: 6%;">ผู้รับผิดชอบ</th>
+                <th style="width: 8%;">สิทธิ์การเข้าถึง</th>
+                <th style="width: 3%;">วันที่ซื้อ</th>
+                <th style="width: 5%;">ราคา</th>
+                <th style="width: 17%;">รายละเอียด</th>
+                <th style="width: 1%;">แก้ไข</th>
+                <th style="width: 1%;">ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // คำสั่ง SQL ดึงข้อมูลจากฐานข้อมูล
+            $sql = "SELECT * FROM borrow.device_information";
 
-// ตรวจสอบเงื่อนไขสำหรับการกรองข้อมูล
-if ($user_department_id != 5) {
-    // กรองข้อมูลตาม $user_department_id
-    $sql .= " WHERE officer_Cotton = $user_department_id";
-} elseif ($selectedCottonId > 0) {
-    // กรองข้อมูลตาม $selectedCottonId
-    $sql .= " WHERE officer_Cotton = $selectedCottonId";
-}
+            // กรองข้อมูลตามเงื่อนไข
+            if ($user_department_id != 5) {
+                $sql .= " WHERE officer_Cotton = $user_department_id";
+            } elseif ($selectedCottonId > 0) {
+                $sql .= " WHERE officer_Cotton = $selectedCottonId";
+            }
 
-// รันคำสั่ง SQL
-$result = $conn->query($sql);
+            // ค้นหาข้อมูลตามคำค้นหา
+            if (!empty($searchTerm)) {
+                $searchTerm = $conn->real_escape_string($searchTerm);  // ป้องกัน SQL Injection
+                $sql .= " AND (device_Name LIKE '%$searchTerm%' 
+                        OR device_Numder LIKE '%$searchTerm%' 
+                        OR cotton_Name LIKE '%$searchTerm%' 
+                        OR device_Other LIKE '%$searchTerm%')";
+            }
 
-// ตรวจสอบและแสดงผลลัพธ์
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-       
-    }
-} 
+            // เรียงข้อมูลจากล่าสุด (วันที่ซื้อ) ไปเก่าสุด
+            $sql .= " ORDER BY device_Date DESC";  
 
-                            // Apply search filter if search term exists
-                            if (!empty($searchTerm)) {
-                                $searchTerm = $conn->real_escape_string($searchTerm);  // Escape special characters
-                                $sql .= " AND (device_Name LIKE '%$searchTerm%' 
-        OR device_Numder LIKE '%$searchTerm%' 
-        OR cotton_Name LIKE '%$searchTerm%' 
-        OR device_Other LIKE '%$searchTerm%')";
-                            }
+            // รันคำสั่ง SQL
+            $result = $conn->query($sql);
 
-                            // Execute SQL query
-                            $result = $conn->query($sql);
+            // ตรวจสอบผลลัพธ์
+            if ($result->num_rows > 0) {
+                $i = 1;
+                while ($row = $result->fetch_assoc()) {
+                    // แปลง department ID เป็นชื่อแผนก
+                    $departmentNames = [
+                        1 => "ฝ่ายคอมพิวเตอร์",
+                        2 => "ฝ่ายวิทยาศาสตร์",
+                        3 => "ฝ่ายดนตรี",
+                        4 => "ฝ่ายพัสดุ",
+                        5 => "ฝ่ายแอดมิน"
+                    ];
 
-                          // ส่วนนี้เป็นเหมือนเดิม
-if ($result->num_rows > 0) {
-    $i = 1;
-    while ($row = $result->fetch_assoc()) {
+                    // แปลงวันที่
+                    $borrowDate = new DateTime($row['device_Date']);  
+                    $formattedBorrowDate = $borrowDate->format('d/m/Y'); 
 
-        // สร้างอาร์เรย์สำหรับแมปค่าของ officer_Cotton
-        $departmentNames = [
-            1 => "ฝ่ายคอมพิวเตอร์",
-            2 => "ฝ่ายวิทยาศาสตร์",
-            3 => "ฝ่ายดนตรี",
-            4 => "ฝ่ายพัสดุ",
-            5 => "ฝ่ายแอดมิน"
-        ];
+                    echo "<tr>
+                        <td>{$i}</td>
+                        <td>" . htmlspecialchars($row['device_Numder']) . "</td>
+                        <td>" . htmlspecialchars($row['device_Name']) . "</td>
+                        <td>" . (isset($departmentNames[$row['officer_Cotton']]) 
+                                ? $departmentNames[$row['officer_Cotton']] 
+                                : "ไม่ทราบข้อมูล") . "</td>
+                        <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>
+                        <td>{$formattedBorrowDate}</td>
+                        <td>" . (floor($row['device_Price']) == $row['device_Price'] 
+                                ? number_format($row['device_Price'], 0) 
+                                : number_format($row['device_Price'], 2)) . " บาท</td>
+                        <td>" . htmlspecialchars($row['device_Other']) . "</td>
+                        <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'>
+                                <i class='fas fa-edit'></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button class='btn btn-danger' onclick='deleteDevice(\"" . urlencode($row['device_Id']) . "\")'>
+                                <i class='fas fa-trash-alt'></i>
+                            </button>
+                        </td>
+                    </tr>";
 
-        // แปลงวันที่ยืม
-        $borrowDate = new DateTime($row['device_Date']);  // ตรวจสอบว่า device_Date มีค่าเป็นวันที่ที่ถูกต้อง
-        $formattedBorrowDate = $borrowDate->format('d/m/Y'); // แปลงวันที่ในรูปแบบ วัน/เดือน/ปี (เช่น 24/12/2024)
+                    $i++; // นับลำดับต่อไป
+                }
+            } else {
+                echo "<tr><td colspan='10'>ไม่มีข้อมูล</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
 
-        // เริ่มแสดงผลข้อมูล
-        echo "<tr>
-        <td>{$i}</td>
-        <td>" . htmlspecialchars($row['device_Numder']) . "</td>
-        <td>" . htmlspecialchars($row['device_Name']) . "</td>
-        <td>" . (isset($departmentNames[$row['officer_Cotton']]) 
-                  ? $departmentNames[$row['officer_Cotton']] 
-                  : "ไม่ทราบข้อมูล") . "</td>
-        <td>" . ($row['device_Access'] == 1 ? 'นักเรียนและบุคลากร' : 'บุคลากร') . "</td>
-        <td>{$formattedBorrowDate}</td>
-        <td>" . (floor($row['device_Price']) == $row['device_Price'] 
-                  ? number_format($row['device_Price'], 0) 
-                  : number_format($row['device_Price'], 2)) . " บาท</td>
-        <td>" . htmlspecialchars($row['device_Other']) . "</td>
-        <td><a href='admin_equipment_edit.php?device_Id=" . urlencode($row['device_Id']) . "' class='btn btn-warning'>
-                <i class='fas fa-edit'></i>
-            </a>
-        </td>
-        <td>
-            <button class='btn btn-danger' onclick='deleteDevice(\"" . urlencode($row['device_Id']) . "\")'>
-                <i class='fas fa-trash-alt'></i>
-            </button>
-        </td>
-    </tr>";
-
-
-
-        $i++; // เพิ่มลำดับ
-    }
-} else {
-    echo "<tr><td colspan='11'>ไม่มีข้อมูล</td></tr>";
-}
-
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>

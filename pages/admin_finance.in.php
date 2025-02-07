@@ -21,7 +21,7 @@
 
         <div class="card shadow-sm border-0" style="margin-top: 49px;">
             <div class="card-header text-white" style="background-color:#537bb7; color: white; padding-top: 10px; padding-bottom: 10px;">
-                <h4 class="mb-0" style="font-size: 22px;">ตั้งค่าการเงิน</h4>
+                <h4 class="mb-0" style="font-size: 22px;">ตั้งค่า</h4>
             </div>
 
             <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 650px; margin-bottom: 60px;">

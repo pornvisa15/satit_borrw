@@ -60,7 +60,7 @@
             <option value="2">ฝ่ายวิทยาศาสตร์</option>
             <option value="3">ฝ่ายดนตรี</option>
             <option value="4">ฝ่ายพัสดุ</option>
-            <option value="5">ฝ่ายแอดมิน</option>
+            
         </select>
     </div>
 

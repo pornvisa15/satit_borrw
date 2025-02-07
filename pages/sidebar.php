@@ -231,6 +231,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                         <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                         <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
+                        <li><a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
                         <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 
                     </ul>
@@ -377,6 +378,8 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                                 <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                                 <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
+                                <li><a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
+
                                 <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 
                             </ul>
