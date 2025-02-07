@@ -286,61 +286,51 @@ if ($result->num_rows > 0) {
 
                 </div>
 
-                <?php if ($history_Status_BRS == 0 || $history_Status_BRS == 1 || empty($history_Status_BRS)): ?>
-                    <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
-                        <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
-                            ตารางจองล่วงหน้า
-                        </h5>
+                <?php if (($history_Status_BRS == 0 || $history_Status_BRS == 1 || empty($history_Status_BRS)) && $history_Status_BRS != 2): ?>
+    <div class="p-5 bg-white border rounded shadow-sm mt-1 mx-auto" style="max-width: 800px;">
+        <h5 class="text-center mb-4 text-white p-2" style="background-color: #007468; border-radius: 4px;">
+            ตารางจองล่วงหน้า
+        </h5>
 
-                        <table class="table table-hover table-bordered">
-                            <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
-                                <tr>
-                                    <th scope="col">ผู้ยืม</th>
-                                    <th scope="col">วันที่ยืม</th>
-                                    <th scope="col">วันที่คืน</th>
-                                    <th scope="col">เวลาคืน</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 0.8rem;">
-                                <?php
-                                mysqli_data_seek($result, 0); // รีเซ็ต pointer ของ result
-                                while ($row = mysqli_fetch_assoc($result)):
-                                    // ตรวจสอบว่า hreturn_Status = 7 หรือไม่ (แสดงว่าอุปกรณ์ไม่พร้อมใช้งาน)
-                                    if (isset($row['hreturn_Status']) && $row['hreturn_Status'] == 7): ?>
-                                        <tr>
-                                            <td colspan="4" class="text-center text-danger font-weight-bold">อุปกรณ์ไม่พร้อมใช้งาน
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        // ตรวจสอบว่า hreturn_Status เป็น 1, 2, 3 หรือ 4 และข้ามการแสดงผลรายการนั้น
-                                    elseif (isset($row['hreturn_Status']) && in_array($row['hreturn_Status'], [1, 2, 3, 4])):
-                                        continue;
-                                    else: ?>
-                                        <tr>
-                                            <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
-                                            <td>
-    <?= isset($row['history_Borrow']) ? date('j/n/Y', strtotime($row['history_Borrow'])) : ''; ?>
-</td>
-<td>
-    <?= isset($row['history_Return']) ? date('j/n/Y', strtotime($row['history_Return'])) : ''; ?>
-</td>
+        <table class="table table-hover table-bordered">
+            <thead class="text-white" style="background-color: #007468; font-size: 0.85rem;">
+                <tr>
+                    <th scope="col">ผู้ยืม</th>
+                    <th scope="col">วันที่ยืม</th>
+                    <th scope="col">วันที่คืน</th>
+                    <th scope="col">เวลาคืน</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.8rem;">
+                <?php
+                mysqli_data_seek($result, 0); // รีเซ็ต pointer ของ result
+                while ($row = mysqli_fetch_assoc($result)):
+                    // ตรวจสอบว่า hreturn_Status = 7 หรือไม่ (แสดงว่าอุปกรณ์ไม่พร้อมใช้งาน)
+                    if (isset($row['hreturn_Status']) && $row['hreturn_Status'] == 7): ?>
+                        <tr>
+                            <td colspan="4" class="text-center text-danger font-weight-bold">อุปกรณ์ไม่พร้อมใช้งาน</td>
+                        </tr>
+                        <?php
+                        // ตรวจสอบว่า hreturn_Status เป็น 1, 2, 3 หรือ 4 และข้ามการแสดงผลรายการนั้น
+                    elseif (isset($row['hreturn_Status']) && in_array($row['hreturn_Status'], [1, 2, 3, 4])):
+                        continue;
+                    elseif (isset($row['history_Status_BRS']) && $row['history_Status_BRS'] == 2): // เช็คเงื่อนไขใหม่
+                        continue;
+                    else: ?>
+                        <tr>
+                            <td><?= isset($row['user_Id']) ? htmlspecialchars($row['user_Id']) : ''; ?></td>
+                            <td><?= isset($row['history_Borrow']) ? date('j/n/Y', strtotime($row['history_Borrow'])) : ''; ?></td>
+                            <td><?= isset($row['history_Return']) ? date('j/n/Y', strtotime($row['history_Return'])) : ''; ?></td>
+                            <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?></td>
+                        </tr>
+                    <?php endif;
+                endwhile;
+                ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
 
-
-                                            <td><?= isset($row['history_Stop']) ? htmlspecialchars($row['history_Stop']) : ''; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endif;
-                                endwhile;
-                                ?>
-
-                            </tbody>
-                        </table>
-                    </div>
-                <?php else: ?>
-                    <div class="p-5 bg-white border rounded shadow-sm mt-5 mx-auto" style="max-width: 800px;">
-                        <h5 class="text-center font-weight-bold">ตารางอุปกรณ์</h5>
-                    </div>
-                <?php endif; ?>
 
             </div>
         </div>
