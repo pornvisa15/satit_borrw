@@ -34,20 +34,27 @@ if (empty($history_device)) {
     exit;
 }
 
-// ตรวจสอบว่า device_id ซ้ำในฐานข้อมูลหรือไม่
-$sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE device_Id = ? AND history_Borrow = ? AND history_Return = ?";
+$sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs  
+    WHERE device_Id = ?  
+    AND ((history_Borrow <= ? AND history_Return >= ?)  
+    OR (history_Borrow <= ? AND history_Return >= ?)  
+    OR (? = history_Return))"; // ตรวจสอบว่าค่าวันยืมตรงกับวันที่คืนหรือไม่
+
 $stmt_check = $conn->prepare($sql_check);
-$stmt_check->bind_param("sss", $device_Id, $history_Borrow, $history_Return);
+$stmt_check->bind_param("ssssss", $device_Id, $history_Borrow, $history_Return, $history_Borrow, $history_Return, $history_Borrow);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 $row = $result_check->fetch_assoc();
 
 if ($row['borrow_count'] > 0) {
-    echo "<script>alert('ข้อผิดพลาด: อุปกรณ์นี้ถูกยืมไปแล้วในช่วงเวลาที่กำหนด'); history.back();</script>";
+    echo "<script>alert('ข้อผิดพลาด: อุปกรณ์นี้ถูกยืมหรือคืนในช่วงเวลาที่กำหนด หรือค่าคืนซ้ำ หรือวันที่ยืมตรงกับวันที่คืนเดิม'); history.back();</script>";
     exit;
 }
 
 $stmt_check->close();
+
+
+
 
 $sql = "SELECT COUNT(*) AS borrow_count FROM history_brs WHERE history_device = ?";
 $stmt_check = $conn->prepare($sql);
