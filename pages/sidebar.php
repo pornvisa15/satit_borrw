@@ -58,7 +58,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
             </a>
         </li>
         <li class="nav-item mb-3">
-    <a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-white"
+    <a href="/satit_borrw/img/คู่มือการใช้งานระบบของเจ้าหน้าที่.pdf" class="nav-link text-white"
         style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
         target="_blank">
         คู่มือการใช้งาน
@@ -128,7 +128,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
             </a>
         </li>
         <li class="nav-item mb-3">
-    <a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-white"
+    <a href="/satit_borrw/img/คู่มือการใช้งานระบบของแอดมิน.pdf" class="nav-link text-white"
         style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
         target="_blank">
         คู่มือการใช้งาน
@@ -231,7 +231,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                         <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                         <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                        <li><a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
+                        <li><a href="/satit_borrw/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
                         <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 
                     </ul>
@@ -336,9 +336,9 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
                                     <?php
                                     if (isset($_SESSION['officer_Right'])) {
                                         if ($_SESSION['officer_Right'] == 1) {  // ใช้ == แทน =
-                                            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมนักเรียน</a>";
+                                            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืม</a>";
                                         } elseif ($_SESSION['officer_Right'] == 2) {  // ใช้ == แทน =
-                                            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืมบุคลากร</a>";
+                                            echo "<a href='homepages.php' class='nav-link text-light'>สำหรับการยืม</a>";
                                         } else {
                                             echo "<span class='text-light'>ไม่มีสิทธิ์</span>";
                                         }
@@ -378,7 +378,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                                 <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                                 <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                                <li><a href="/satit_borrw/img/muaythai_research.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
+                                <li><a href="/satit_borrw/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
 
                                 <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 
