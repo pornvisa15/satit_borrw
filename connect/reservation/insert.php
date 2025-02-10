@@ -36,20 +36,21 @@ if (empty($history_device)) {
 
 $sql_check = "SELECT COUNT(*) AS borrow_count FROM history_brs  
     WHERE device_Id = ?  
-    AND ((history_Borrow <= ? AND history_Return >= ?)  
-    OR (history_Borrow <= ? AND history_Return >= ?)  
-    OR (? = history_Return))"; // ตรวจสอบว่าค่าวันยืมตรงกับวันที่คืนหรือไม่
-
+    AND (
+         STR_TO_DATE(CONCAT(?, ' 00:00:00'), '%Y-%m-%d %H:%i:%s') <= STR_TO_DATE(CONCAT(history_Return, ' ', history_Stop), '%Y-%m-%d %H:%i:%s')
+         AND STR_TO_DATE(history_Borrow, '%Y-%m-%d') <= STR_TO_DATE(CONCAT(?, ' ', ?), '%Y-%m-%d %H:%i:%s')
+    )";
 $stmt_check = $conn->prepare($sql_check);
-$stmt_check->bind_param("ssssss", $device_Id, $history_Borrow, $history_Return, $history_Borrow, $history_Return, $history_Borrow);
+$stmt_check->bind_param("isss", $device_Id, $history_Borrow, $history_Return, $history_Stop);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 $row = $result_check->fetch_assoc();
 
 if ($row['borrow_count'] > 0) {
-    echo "<script>alert('ข้อผิดพลาด: อุปกรณ์นี้ถูกยืมหรือคืนในช่วงเวลาที่กำหนด หรือค่าคืนซ้ำ หรือวันที่ยืมตรงกับวันที่คืนเดิม'); history.back();</script>";
+    echo "<script>alert('ข้อผิดพลาด: อุปกรณ์นี้ถูกยืมในช่วงเวลาที่ต้องการยืม'); history.back();</script>";
     exit;
 }
+
 
 $stmt_check->close();
 
@@ -88,7 +89,7 @@ if (!$stmt) {
 }
 
 $stmt->bind_param(
-    "ssssssssssisss", 
+    "ssssssssssisss",
     $device_Id,
     $history_Borrow,
     $history_Return,
@@ -110,8 +111,8 @@ if ($stmt->execute()) {
     // Function to send Telegram message
     function sendTelegramMessage($message)
     {
-        $token = "7099844724:AAFEtULObEjF_AbwXSPpkZvPZVJvD9Z3l9A"; 
-        $chatId = "-4655924019"; 
+        $token = "7099844724:AAFEtULObEjF_AbwXSPpkZvPZVJvD9Z3l9A";
+        $chatId = "-4655924019";
 
         $url = "https://api.telegram.org/bot$token/sendMessage?chat_id=$chatId&text=" . urlencode($message) . "&parse_mode=Markdown";
 
@@ -126,7 +127,7 @@ if ($stmt->execute()) {
 
     // Format message to send via Telegram
     $message = "รายละเอียดการยืมอุปกรณ์\n";
-    $message .= "ผู้ยืม: $user_Id\n"; 
+    $message .= "ผู้ยืม: $user_Id\n";
     $message .= "ชื่ออุปกรณ์: $history_device\n";
     $message .= "สถานที่นำไปใช้: $history_Other\n";
     $message .= "สถานที่: $history_Another\n";
@@ -148,6 +149,8 @@ if ($stmt->execute()) {
     exit;
 }
 
+// ปิดการเชื่อมต่อ
 $stmt->close();
 $conn->close();
+
 ?>

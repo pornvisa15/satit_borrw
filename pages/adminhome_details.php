@@ -16,7 +16,7 @@
 <body class="d-flex bg-light">
 
     <?php
- 
+
     include 'sidebar.php';
     // เชื่อมต่อกับฐานข้อมูล
     include '../connect/mysql_borrow.php';
@@ -64,41 +64,41 @@
         </div>
         <div class="p-5 bg-light border rounded shadow-sm mt-5 mx-auto" style="width: 700px; margin-bottom: 60px;">
             <h5 class="text-center">รายละเอียดการทำรายการ</h5>
-            <?php 
-if ($history_Status_BRS == 1) {
-    $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
-    $disableReturn = ''; // ปุ่มรับคืน กดได้  
-} else if ($history_Status_BRS == 2) {
-    $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
-    $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
-}else if ($history_Status_BRS == 0) {
-        $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
-        $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
-} else {
-    $disableApprove = ''; // ปุ่มอนุมัติ กดได้
-    $disableReturn = ''; // ปุ่มรับคืน กดได้
-}
+            <?php
+            if ($history_Status_BRS == 1) {
+                $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
+                $disableReturn = ''; // ปุ่มรับคืน กดได้  
+            } else if ($history_Status_BRS == 2) {
+                $disableApprove = 'disabled'; // ปุ่มอนุมัติ กดไม่ได้
+                $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
+            } else if ($history_Status_BRS == 0) {
+                $disableApprove = ''; // ปุ่มอนุมัติ กดไม่ได้
+                $disableReturn = 'disabled'; // ปุ่มรับคืน กดไม่ได้
+            } else {
+                $disableApprove = ''; // ปุ่มอนุมัติ กดได้
+                $disableReturn = ''; // ปุ่มรับคืน กดได้
+            }
 
-// กำหนด CSS สำหรับปุ่มที่ถูกปิดการใช้งาน
-$disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
-?>
+            // กำหนด CSS สำหรับปุ่มที่ถูกปิดการใช้งาน
+            $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
+            ?>
 
-<div class="d-flex justify-content-start mb-4"
-    style="max-width: 100%; margin: 0 auto; padding-top: 10px; margin-top: 40px; gap: 10px;">
+            <div class="d-flex justify-content-start mb-4"
+                style="max-width: 100%; margin: 0 auto; padding-top: 10px; margin-top: 40px; gap: 10px;">
 
-    <button class="btn btn-success px-3 py-2" data-bs-toggle="modal" data-bs-target="#approveModal"
-        style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableApprove ? $disabledStyle : ''; ?>" 
-        <?php echo $disableApprove; ?>>
-        <i class="bi bi-check-circle" style="font-size: 12px;"></i> อนุมัติ
-    </button>
+                <button class="btn btn-success px-3 py-2" data-bs-toggle="modal" data-bs-target="#approveModal"
+                    style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableApprove ? $disabledStyle : ''; ?>"
+                    <?php echo $disableApprove; ?>>
+                    <i class="bi bi-check-circle" style="font-size: 12px;"></i> อนุมัติ
+                </button>
 
-    <button class="btn btn-info text-white px-3 py-2" data-bs-toggle="modal" data-bs-target="#returnModal"
-        style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableReturn ? $disabledStyle : ''; ?>" 
-        <?php echo $disableReturn; ?>>
-        <i class="bi bi-arrow-repeat" style="font-size: 12px;"></i> รับคืน
-    </button>
+                <button class="btn btn-info text-white px-3 py-2" data-bs-toggle="modal" data-bs-target="#returnModal"
+                    style="font-size: 12px; border-radius: 3px; width: auto; <?php echo $disableReturn ? $disabledStyle : ''; ?>"
+                    <?php echo $disableReturn; ?>>
+                    <i class="bi bi-arrow-repeat" style="font-size: 12px;"></i> รับคืน
+                </button>
 
-</div>
+            </div>
 
 
 
@@ -140,7 +140,7 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
                             return 'อนุมัติ'; // ค่าเมื่ออนุมัติ
                         case '2':
                             return 'ไม่อนุมัติ'; // ค่าเมื่อไม่อนุมัติ
-                        
+                
                     }
                 }
                 ?>
@@ -168,349 +168,358 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
         </div>
 
 
-       <!-- โมดัลสำหรับอนุมัติ -->
-<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
-                <form method="POST" action="../connect/examine/update.php" id="approveForm">
-                    <input type="hidden" name="history_Id" value="<?php echo htmlspecialchars($history_Id); ?>">
+        <!-- โมดัลสำหรับอนุมัติ -->
+        <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approveModalLabel">สถานะการยืม</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>คุณต้องการอนุมัติการทำรายการนี้หรือไม่?</p>
+                        <form method="POST" action="../connect/examine/update.php" id="approveForm">
+                            <input type="hidden" name="history_Id" value="<?php echo htmlspecialchars($history_Id); ?>">
 
-                    <div>
-                        <input type="radio" id="approveRadio" name="device_Con" value="1" required>
-                        <label for="approveRadio">อนุมัติ</label>
+                            <div>
+                                <input type="radio" id="approveRadio" name="device_Con" value="1" required>
+                                <label for="approveRadio">อนุมัติ</label>
 
-                        <input type="radio" id="disapproveRadio" name="device_Con" value="2" required>
-                        <label for="disapproveRadio">ไม่อนุมัติ</label>
+                                <input type="radio" id="disapproveRadio" name="device_Con" value="2" required>
+                                <label for="disapproveRadio">ไม่อนุมัติ</label>
+                            </div>
+
+                            <input type="hidden" name="history_Status_BRS" id="historyStatusBRS">
+
+                            <div class="mt-3">
+                                <label for="purpose" class="fw-bold">
+                                    หมายเหตุ <span class="text-danger">*</span> <span
+                                        class="text-muted">(สถานที่รับ)</span>
+                                </label>
+                                <textarea class="form-control" id="purpose" name="note_Other"
+                                    style="height: 50px; resize: none;" required></textarea>
+                            </div>
+                        </form>
                     </div>
 
-                    <input type="hidden" name="history_Status_BRS" id="historyStatusBRS">
-
-                    <div class="mt-3">
-                        <label for="purpose" class="fw-bold">
-                            หมายเหตุ <span class="text-danger">*</span> <span class="text-muted">(สถานที่รับ)</span>
-                        </label>
-                        <textarea class="form-control" id="purpose" name="note_Other" 
-                                  style="height: 50px; resize: none;" required></textarea>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
                     </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
-                <button type="button" class="btn btn-success" id="confirmApproveBtn">ตกลง</button>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- ใช้งาน jQuery และ SweetAlert -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    $(document).ready(function () {
-        $('#confirmApproveBtn').click(function () {
-            let statusValue = null;
-            let note = $('#purpose').val().trim();
+        <!-- ใช้งาน jQuery และ SweetAlert -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready(function () {
+                $('#confirmApproveBtn').click(function () {
+                    let statusValue = null;
+                    let note = $('#purpose').val().trim();
 
-            // ตรวจสอบการเลือกสถานะ
-            if ($('#approveRadio').is(':checked')) {
-                statusValue = '1'; // อนุมัติ
-            } else if ($('#disapproveRadio').is(':checked')) {
-                statusValue = '2'; // ไม่อนุมัติ
-            } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'กรุณาเลือกสถานะ',
-                    text: 'คุณต้องเลือก อนุมัติ หรือ ไม่อนุมัติ ก่อนดำเนินการ',
-                    confirmButtonColor: '#ff5733',
+                    // ตรวจสอบการเลือกสถานะ
+                    if ($('#approveRadio').is(':checked')) {
+                        statusValue = '1'; // อนุมัติ
+                    } else if ($('#disapproveRadio').is(':checked')) {
+                        statusValue = '2'; // ไม่อนุมัติ
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            iconColor: '#ff5858',
+                            title: 'กรุณาเลือกสถานะ',
+                            text: 'คุณต้องเลือก อนุมัติ หรือ ไม่อนุมัติ ก่อนดำเนินการ',
+                            confirmButtonColor: '#d33',
+                        });
+                        return false;
+                    }
+
+                    // ตรวจสอบหมายเหตุ
+                    if (note === "") {
+                        Swal.fire({
+                            icon: 'warning',
+                            iconColor: '#ff5858',
+                            title: 'กรุณากรอกหมายเหตุ',
+                            text: 'โปรดระบุหมายเหตุเพื่อดำเนินการต่อ',
+                            confirmButtonColor: '#d33',
+                        });
+                        return false;
+                    }
+
+                    // บันทึกค่าและปิดปุ่มกันกดซ้ำ
+                    $('#historyStatusBRS').val(statusValue);
+                    $('#confirmApproveBtn').prop('disabled', true);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
+                        confirmButtonColor: '#6C5CE7',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        $('#approveForm').submit();
+                    });
+
+                    return false;
                 });
-                return false;
-            }
+            });
+        </script>
 
-            // ตรวจสอบหมายเหตุ
-            if (note === "") {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'กรุณากรอกหมายเหตุ',
-                    text: 'โปรดระบุหมายเหตุเพื่อดำเนินการต่อ',
-                    confirmButtonColor: '#ff5733',
+
+
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="margin-top: 15vh;"> <!-- ปรับ margin-top เพื่อขยับกล่องลง -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="returnModalLabel">สถานะการรับคืน</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>คุณต้องการรับคืนรายการนี้หรือไม่?</p>
+                        <form id="returnForm" action="../connect/refund/update.php" method="POST"
+                            enctype="multipart/form-data">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="history_Status" id="rStatus"
+                                    value="return" required>
+                                <label class="form-check-label" for="history_Status">คืน</label>
+                            </div>
+
+                            <div class="mb-2" id="returnField" style="display: none;">
+                                <label for="returnDate">วันที่คืน:</label>
+                                <input type="date" class="form-control" id="returnDate" name="htime_Return" lang="th">
+                            </div>
+
+                            <input type="hidden" name="history_Status" id="history_Status" value="2">
+                            <input type="hidden" name="history_Id" id="history_Id" value="<?php echo $history_Id ?>">
+
+                            <p>กรุณาเลือกสถานะอุปกรณ์</p>
+                            <select class="form-select" id="damageCondition" name="hreturn_Status" required
+                                onchange="togglePriceInput()">
+                                <option value="1">สภาพปกติ</option>
+                                <option value="3">ผู้ยืมซ่อมแซม</option>
+                                <option value="4">ชดใช้เป็นพัสดุ</option>
+                                <option value="7">ชดใช้ค่าเสียหาย</option>
+                            </select>
+
+                            <!-- ฟิลด์สำหรับกรอกราคา -->
+                            <div id="priceInputContainer" style="display: none; margin-top: 10px;">
+                                <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
+                                <input type="number" class="form-control" id="damagePrice" name="money"
+                                    placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
+                            </div>
+                            <div id="purpose-container" style="margin-top: 10px;">
+                                <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
+                                    หมายเหตุ
+                                </label>
+                                <textarea class="form-control" id="purpose" name="tool_Other"
+                                    style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
+                            </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
+                        <button type="button" id="confirmDamageButton" class="btn btn-success"
+                            onclick="handleConfirm()">ตกลง</button>
+                        <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
+                            onclick="showCompletionModal()">ถัดไป</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('input[name="history_Status"]').on('change', function () {
+                    if ($(this).val() === 'borrow') {
+                        $('#borrowField').show();
+                        $('#returnField').hide();
+                        $('#htime_Return').val('');
+                    } else if ($(this).val() === 'return') {
+                        $('#borrowField').hide();
+                        $('#returnField').show();
+                    }
                 });
-                return false;
-            }
-
-            // บันทึกค่าและปิดปุ่มกันกดซ้ำ
-            $('#historyStatusBRS').val(statusValue);
-            $('#confirmApproveBtn').prop('disabled', true);
-
-            Swal.fire({
-                icon: 'success',
-                title: 'บันทึกข้อมูลสำเร็จ',
-                confirmButtonColor: '#6C5CE7',
-                confirmButtonText: 'OK',
-            }).then(() => {
-                $('#approveForm').submit();
             });
 
-            return false;
-        });
-    });
-</script>
+            function handleConfirm() {
+                const damageCondition = document.getElementById('damageCondition').value;
+                const damagePrice = document.getElementById('damagePrice').value.trim();
+                const returnDate = document.getElementById('returnDate').value;
+                const note = document.getElementById('purpose').value.trim();
 
+                // ตรวจสอบวันที่คืน
+                if (!returnDate) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณากรอกวันที่คืน!',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => document.getElementById('returnDate').focus());
+                    return;
+                }
 
+                // ตรวจสอบสถานะอุปกรณ์
+                if (!damageCondition) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณาเลือกสถานะอุปกรณ์!',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => document.getElementById('damageCondition').focus());
+                    return;
+                }
 
+                // ตรวจสอบราคาชดใช้ ถ้าเลือก 'ชดใช้ค่าเสียหาย'
+                if (damageCondition === "7" && (!damagePrice || isNaN(damagePrice) || parseFloat(damagePrice) <= 0)) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณากรอกราคาที่ต้องชดใช้ให้ถูกต้อง!',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => document.getElementById('damagePrice').focus());
+                    return;
+                }
 
+                // ไม่จำเป็นต้องกรอกหมายเหตุ (ลบการตรวจสอบหมายเหตุ)
+                /*if (!note) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณากรอกหมายเหตุ!',
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#3085d6'
+                    }).then(() => document.getElementById('purpose').focus());
+                    return;
+                }*/
 
-
-
-<!-- Modal -->
-<div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="margin-top: 15vh;"> <!-- ปรับ margin-top เพื่อขยับกล่องลง -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="returnModalLabel">สถานะการรับคืน</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>คุณต้องการรับคืนรายการนี้หรือไม่?</p>
-                <form id="returnForm" action="../connect/refund/update.php" method="POST" enctype="multipart/form-data">
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="history_Status" id="rStatus" value="return" required>
-                        <label class="form-check-label" for="history_Status">คืน</label>
-                    </div>
-
-                    <div class="mb-2" id="returnField" style="display: none;">
-                        <label for="returnDate">วันที่คืน:</label>
-                        <input type="date" class="form-control" id="returnDate" name="htime_Return" lang="th">
-                    </div>
-
-                    <input type="hidden" name="history_Status" id="history_Status" value="2">
-                    <input type="hidden" name="history_Id" id="history_Id" value="<?php echo $history_Id ?>">
-
-                    <p>กรุณาเลือกสถานะอุปกรณ์</p>
-                    <select class="form-select" id="damageCondition" name="hreturn_Status" required onchange="togglePriceInput()">
-                        <option value="1">สภาพปกติ</option>
-                        <option value="3">ผู้ยืมซ่อมแซม</option>
-                        <option value="4">ชดใช้เป็นพัสดุ</option>
-                        <option value="7">ชดใช้ค่าเสียหาย</option>
-                    </select>
-
-                    <!-- ฟิลด์สำหรับกรอกราคา -->
-                    <div id="priceInputContainer" style="display: none; margin-top: 10px;">
-                        <label for="damagePrice" class="form-label">กรุณากรอกราคาที่ต้องชดใช้</label>
-                        <input type="number" class="form-control" id="damagePrice" name="money"
-                            placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
-                    </div>
-                    <div id="purpose-container" style="margin-top: 10px;">
-    <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
-        หมายเหตุ
-    </label>
-    <textarea class="form-control" id="purpose" name="tool_Other"
-        style="padding: 10px; font-size: 16px; height: 50px; resize: none; overflow-y: auto;"></textarea>
-</div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
-                <button type="button" id="confirmDamageButton" class="btn btn-success"
-                    onclick="handleConfirm()">ตกลง</button>
-                <button type="button" id="nextButton" class="btn btn-primary" style="display: none;"
-                    onclick="showCompletionModal()">ถัดไป</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        $('input[name="history_Status"]').on('change', function () {
-            if ($(this).val() === 'borrow') {
-                $('#borrowField').show();
-                $('#returnField').hide();
-                $('#htime_Return').val('');
-            } else if ($(this).val() === 'return') {
-                $('#borrowField').hide();
-                $('#returnField').show();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกข้อมูลสำเร็จ!',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#3085d6'
+                }).then(() => {
+                    document.getElementById('returnForm').submit();
+                });
             }
-        });
-    });
 
-        function handleConfirm() {
-    const damageCondition = document.getElementById('damageCondition').value;
-    const damagePrice = document.getElementById('damagePrice').value.trim();
-    const returnDate = document.getElementById('returnDate').value;
-    const note = document.getElementById('purpose').value.trim();
+            function togglePriceInput() {
+                const damageCondition = document.getElementById('damageCondition').value;
+                const priceInputContainer = document.getElementById('priceInputContainer');
+                const damagePrice = document.getElementById('damagePrice');
 
-    // ตรวจสอบวันที่คืน
-    if (!returnDate) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'กรุณากรอกวันที่คืน!',
-            confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#3085d6'
-        }).then(() => document.getElementById('returnDate').focus());
-        return;
-    }
+                if (damageCondition === "7") {
+                    priceInputContainer.style.display = "block";
+                    damagePrice.setAttribute("required", "true");
+                } else {
+                    priceInputContainer.style.display = "none";
+                    damagePrice.removeAttribute("required");
+                    damagePrice.value = "";
+                }
+            }
+        </script>
 
-    // ตรวจสอบสถานะอุปกรณ์
-    if (!damageCondition) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'กรุณาเลือกสถานะอุปกรณ์!',
-            confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#3085d6'
-        }).then(() => document.getElementById('damageCondition').focus());
-        return;
-    }
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    // ตรวจสอบราคาชดใช้ ถ้าเลือก 'ชดใช้ค่าเสียหาย'
-    if (damageCondition === "7" && (!damagePrice || isNaN(damagePrice) || parseFloat(damagePrice) <= 0)) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'กรุณากรอกราคาที่ต้องชดใช้ให้ถูกต้อง!',
-            confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#3085d6'
-        }).then(() => document.getElementById('damagePrice').focus());
-        return;
-    }
+        <!-- Modal Completion -->
+        <div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow rounded-4 border-0">
+                    <!-- Header -->
+                    <div class="modal-header text-white text-center rounded-top-9"
+                        style="background-color: #007bff; margin-top: -20px;">
+                        <h5 class="modal-title w-100 fw-bold" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
 
-    // ไม่จำเป็นต้องกรอกหมายเหตุ (ลบการตรวจสอบหมายเหตุ)
-    /*if (!note) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'กรุณากรอกหมายเหตุ!',
-            confirmButtonText: 'ตกลง',
-            confirmButtonColor: '#3085d6'
-        }).then(() => document.getElementById('purpose').focus());
-        return;
-    }*/
+                    <?php
+                    // สมมติว่ามีการเชื่อมต่อฐานข้อมูลแล้ว
+                    
+                    // ดึงข้อมูลจาก borrow.history_brs และ borrow.finance ที่มี officer_Cotton ตรงกัน
+                    $sql = "SELECT history_brs.history_device
+                    FROM borrow.history_brs
+                    LEFT JOIN borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
+                    WHERE history_brs.device_Id = ?"; // ใช้ device_Id ที่ต้องการ
+                    
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("s", $device_Id); // ใส่ค่าของ device_Id ที่ต้องการค้นหา
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
-    Swal.fire({
-        icon: 'success',
-        title: 'บันทึกข้อมูลสำเร็จ!',
-        confirmButtonText: 'ตกลง',
-        confirmButtonColor: '#3085d6'
-    }).then(() => {
-        document.getElementById('returnForm').submit();
-    });
-}
+                    ?>
 
-    function togglePriceInput() {
-        const damageCondition = document.getElementById('damageCondition').value;
-        const priceInputContainer = document.getElementById('priceInputContainer');
-        const damagePrice = document.getElementById('damagePrice');
+                    <div class="modal-body">
+                        <!-- Table for device details -->
+                        <table class="table table-hover table-bordered align-middle">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
+                                    <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td class="fw-semibold"><?php echo htmlspecialchars($history_device); ?></td>
+                                    <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-        if (damageCondition === "7") {
-            priceInputContainer.style.display = "block";
-            damagePrice.setAttribute("required", "true");
-        } else {
-            priceInputContainer.style.display = "none";
-            damagePrice.removeAttribute("required");
-            damagePrice.value = "";
-        }
-    }
-</script>
+                        <!-- Information for the payment transfer -->
+                        <?php
+                        // ดึงข้อมูลจากฐานข้อมูล borrow.bank
+                        $sql = "SELECT * FROM borrow.bank"; // หรือเพิ่ม WHERE clause ถ้าคุณต้องการดึงข้อมูลที่เจาะจง
+                        $result = $conn->query($sql);
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                        if ($result->num_rows > 0) {
+                            // ใช้ while loop เพื่อแสดงผลข้อมูลจากฐานข้อมูล
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<div class="container mt-4">';  // เพิ่ม margin เพื่อเว้นพื้นที่
+                                echo '<h4 class="text-center text-dark mb-4">ข้อมูลการโอนเงิน</h4>';
 
-<!-- Modal Completion -->
-<div class="modal fade" id="completionModal" tabindex="-1" aria-labelledby="completionModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow rounded-4 border-0">
-            <!-- Header -->
-            <div class="modal-header text-white text-center rounded-top-9" style="background-color: #007bff; margin-top: -20px;">
-<h5 class="modal-title w-100 fw-bold" id="completionModalLabel">บันทึกเสร็จสิ้น</h5>
-<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
+                                echo '<ul class="list-group list-group-flush shadow-sm">';  // เพิ่ม shadow เพื่อให้ดูนุ่มนวล
+                        
+                                // แสดงข้อมูลจากฐานข้อมูล
+                                echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
+                                echo '<strong>ธนาคาร:</strong> <span class="text-primary">' . htmlspecialchars($row['bank_Name']) . '</span>';
+                                echo '</li>';
+                                echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
+                                echo '<strong>หมายเลขบัญชี:</strong> <span class="text-secondary">' . htmlspecialchars($row['account_Number']) . '</span>';
+                                echo '</li>';
+                                echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
+                                echo '<strong>ชื่อ:</strong> <span class="text-dark">' . htmlspecialchars($row['account_Name']) . '</span>';
+                                echo '</li>';
+                                echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
+                                echo '<strong>รายละเอียด:</strong> <span class="text-muted">' . htmlspecialchars($row['bank_Details']) . '</span>';
+                                echo '</li>';
 
-            <?php
-// สมมติว่ามีการเชื่อมต่อฐานข้อมูลแล้ว
-
-// ดึงข้อมูลจาก borrow.history_brs และ borrow.finance ที่มี officer_Cotton ตรงกัน
-$sql = "SELECT history_brs.history_device
-FROM borrow.history_brs
-LEFT JOIN borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
-WHERE history_brs.device_Id = ?"; // ใช้ device_Id ที่ต้องการ
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $device_Id); // ใส่ค่าของ device_Id ที่ต้องการค้นหา
-$stmt->execute();
-$result = $stmt->get_result();
-
-?>
-
-<div class="modal-body">
-<!-- Table for device details -->
-<table class="table table-hover table-bordered align-middle">
-<thead class="table-primary">
-    <tr>
-        <th scope="col" class="text-center fw-semibold fs-6">ชื่ออุปกรณ์</th>
-        <th scope="col" class="text-center fw-semibold fs-6">ราคา</th>
-    </tr>
-</thead>
-<tbody>
-    <tr class="text-center">
-        <td class="fw-semibold"><?php echo htmlspecialchars($history_device); ?></td>
-        <td><span id="priceInModal" class="text-success fw-bold fs-6">0</span> บาท</td>
-    </tr>
-</tbody>
-</table>
-
-<!-- Information for the payment transfer -->
-<?php
-// ดึงข้อมูลจากฐานข้อมูล borrow.bank
-$sql = "SELECT * FROM borrow.bank"; // หรือเพิ่ม WHERE clause ถ้าคุณต้องการดึงข้อมูลที่เจาะจง
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-// ใช้ while loop เพื่อแสดงผลข้อมูลจากฐานข้อมูล
-while ($row = $result->fetch_assoc()) {
-    echo '<div class="container mt-4">';  // เพิ่ม margin เพื่อเว้นพื้นที่
-    echo '<h4 class="text-center text-dark mb-4">ข้อมูลการโอนเงิน</h4>';
-
-    echo '<ul class="list-group list-group-flush shadow-sm">';  // เพิ่ม shadow เพื่อให้ดูนุ่มนวล
-
-    // แสดงข้อมูลจากฐานข้อมูล
-    echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
-    echo '<strong>ธนาคาร:</strong> <span class="text-primary">' . htmlspecialchars($row['bank_Name']) . '</span>';
-    echo '</li>';
-    echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
-    echo '<strong>หมายเลขบัญชี:</strong> <span class="text-secondary">' . htmlspecialchars($row['account_Number']) . '</span>';
-    echo '</li>';
-    echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
-    echo '<strong>ชื่อ:</strong> <span class="text-dark">' . htmlspecialchars($row['account_Name']) . '</span>';
-    echo '</li>';
-    echo '<li class="list-group-item d-flex justify-content-between align-items-center py-3">';
-    echo '<strong>รายละเอียด:</strong> <span class="text-muted">' . htmlspecialchars($row['bank_Details']) . '</span>';
-    echo '</li>';
-
-    echo '</ul>';
-    echo '</div>';
-}
-} else {
-echo '<p class="text-center text-danger mt-3">ไม่พบข้อมูล</p>';  // ใช้ข้อความแจ้งเตือนในกรณีที่ไม่มีข้อมูล
-}
-?>
-</div>
+                                echo '</ul>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo '<p class="text-center text-danger mt-3">ไม่พบข้อมูล</p>';  // ใช้ข้อความแจ้งเตือนในกรณีที่ไม่มีข้อมูล
+                        }
+                        ?>
+                    </div>
 
 
 
-<!-- Modal Footer -->
-<div class="modal-footer d-flex justify-content-center">
-<button type="button" id="confirmDamageButton" class="btn btn-success" onclick="handleConfirm()">ตกลง</button>
-</div>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" id="confirmDamageButton" class="btn btn-success"
+                            onclick="handleConfirm()">ตกลง</button>
+                    </div>
 
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
         <script>
             function showCompletionModal() {
