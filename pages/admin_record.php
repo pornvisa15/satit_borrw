@@ -185,9 +185,11 @@
                                     echo "<span class='badge rounded-pill bg-info text-dark' style='font-size: 12px;'>   <i class='bi bi-tools'></i> ผู้ยืมซ่อมแซม</span>";
 
                                 } elseif ($row['hreturn_Status'] == 4) {
-                                    echo "<span class='badge rounded-pill bg-secondary' style='font-size: 12px;'>  <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ</span>";
-
+                                    echo "<span class='badge rounded-pill' style='font-size: 12px; background-color: #FF5733; color: white;'>
+                                              <i class='bi bi-box'></i> ชดใช้เป็นพัสดุ
+                                          </span>";
                                 }
+
                                 if ($row['hreturn_Status'] == 7) {
                                     echo "<div class='d-flex justify-content-center align-items-center gap-2' style='height: 100%;'> 
                                         <a href='#' onclick='showDamageDetails(\"" . htmlspecialchars($row['device_Id']) . "\")' 

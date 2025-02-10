@@ -155,10 +155,14 @@ $currentDate = date('Y-m-d H:i:s');
                                                 <?php if ($historyStatus != 2): // ถ้าสถานะไม่ใช่ "ไม่อนุมัติ" ?>
                                                     <span>ระยะเวลาในการยืม: <?= $durationText; ?>             <?= $timeRemaining; ?></span><br>
                                                     สถานะที่รับ: <?= htmlspecialchars($row['note_Other'] ?? 'ไม่มีข้อมูล'); ?>
+                                                <?php else: // เมื่อสถานะเป็น "ไม่อนุมัติ" ?>
+                                                    สถานะที่รับ: <?= htmlspecialchars($row['note_Other'] ?? 'ไม่มีข้อมูล'); ?>
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
+
+
                                     <span class="badge <?= $statusClass; ?> d-flex align-items-center"
                                         style="transition: background-color 0.3s ease; font-size: 12px;">
                                         <i class="bi <?= $statusIcon; ?> me-1"></i>

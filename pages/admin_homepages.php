@@ -15,7 +15,7 @@
 
 <body class="d-flex bg-light">
     <?php
-    
+
     include 'sidebar.php';
     include '../connect/myspl_das_satit.php';
     include '../connect/mysql_studentsatit.php';
@@ -42,27 +42,30 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between" style="gap: 20px; margin-top: 15px;">
                     <?php include 'admin1.php'; ?>
-                    
+
                     <div class="mb-3" style="display: inline-flex; justify-content: space-between; width: 100%;">
-                    <form method="get" action="" style="flex: 1;">
-                    <select id="history_Status_BRS" name="history_Status_BRS" class="form-select" style="width: 180px; font-size: 14px; font-weight: normal;" onchange="this.form.submit()">
-                    
-        <!-- ตัวเลือกที่ไม่เลือกสถานะ (กรุณาเลือกสถานะ) -->
-        <option value="" <?= (!isset($_GET['history_Status_BRS']) || $_GET['history_Status_BRS'] === '') ? 'selected' : '' ?> disabled>กรุณาเลือกสถานะ</option>
-        
-        <!-- ตัวเลือก "ทั้งหมด" -->
-        <option value="" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] === '') ? 'selected' : '' ?>>ทั้งหมด</option>
-        
-        <!-- ตัวเลือกสำหรับสถานะ -->
-        <option value="0" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '0') ? 'selected' : '' ?>>รออนุมัติ</option>
-        <option value="1" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '1') ? 'selected' : '' ?>>อนุมัติ</option>
-        <option value="2" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '2') ? 'selected' : '' ?>>ไม่อนุมัติ</option>
-    </select>
-</form>
+                        <form method="get" action="" style="flex: 1;">
+                            <select id="history_Status_BRS" name="history_Status_BRS" class="form-select"
+                                style="width: 180px; font-size: 14px; font-weight: normal;"
+                                onchange="this.form.submit()">
+
+                                <!-- ตัวเลือกที่ไม่เลือกสถานะ (กรุณาเลือกสถานะ) -->
+                                <option value="" <?= (!isset($_GET['history_Status_BRS']) || $_GET['history_Status_BRS'] === '') ? 'selected' : '' ?> disabled>กรุณาเลือกสถานะ
+                                </option>
+
+                                <!-- ตัวเลือก "ทั้งหมด" -->
+                                <option value="" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] === '') ? 'selected' : '' ?>>ทั้งหมด</option>
+
+                                <!-- ตัวเลือกสำหรับสถานะ -->
+                                <option value="0" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '0') ? 'selected' : '' ?>>รออนุมัติ</option>
+                                <option value="1" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '1') ? 'selected' : '' ?>>อนุมัติ</option>
+                                <option value="2" <?= (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] == '2') ? 'selected' : '' ?>>ไม่อนุมัติ</option>
+                            </select>
+                        </form>
 
                         </select>
-                    </form>
-                </div>
+                        </form>
+                    </div>
                 </div>
                 </form>
                 <div class="input-group mb-3" style="margin-top: 15px; margin-left: 1px; margin-right: 5px;">
@@ -97,20 +100,20 @@
                         $officer_Cotton = isset($_GET['officer_Cotton']) ? $_GET['officer_Cotton'] : '';
                         $sql = "SELECT * FROM borrow.history_brs WHERE 1=1 AND history_Status != 2";
 
-                   
+
                         // Query based on the selected cottonFilter value
-                      
+                        
                         if (isset($_GET['officer_Cotton']) && $_GET['officer_Cotton'] !== '0') {
                             $cottonFilter = $_GET['officer_Cotton'];
                             $sql .= " AND officer_Cotton = $officer_Cotton";
                         }
 
-// ตรวจสอบค่าจาก $_GET['history_Status_BRS']
-if (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] !== '') {
-    $historyStatusBRS = $_GET['history_Status_BRS'];
-    // เพิ่มเงื่อนไขในการกรองตามสถานะที่เลือก
-    $sql .= " AND history_Status_BRS = $historyStatusBRS";
-}
+                        // ตรวจสอบค่าจาก $_GET['history_Status_BRS']
+                        if (isset($_GET['history_Status_BRS']) && $_GET['history_Status_BRS'] !== '') {
+                            $historyStatusBRS = $_GET['history_Status_BRS'];
+                            // เพิ่มเงื่อนไขในการกรองตามสถานะที่เลือก
+                            $sql .= " AND history_Status_BRS = $historyStatusBRS";
+                        }
 
 
                         if ($user_department_id != 5) {
