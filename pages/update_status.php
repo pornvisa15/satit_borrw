@@ -13,7 +13,7 @@ if (isset($_POST['device_Id'])) {
     }
 
     // คำสั่ง SQL เพื่ออัปเดตสถานะจาก 7 เป็น 0
-    $sqlUpdate = "UPDATE borrow.history_brs SET hreturn_Status = 0 WHERE device_Id = ? AND hreturn_Status = 7";
+    $sqlUpdate = "UPDATE satit_borrow.history_brs SET hreturn_Status = 0 WHERE device_Id = ? AND hreturn_Status = 7";
 
     // เตรียมคำสั่ง SQL
     if ($stmt = $conn->prepare($sqlUpdate)) {
@@ -21,7 +21,7 @@ if (isset($_POST['device_Id'])) {
 
         if ($stmt->execute()) {
             // หากการอัปเดตสำเร็จ ให้ลบข้อมูลที่มี hreturn_Status = 0
-            $sqlDelete = "DELETE FROM borrow.history_brs WHERE device_Id = ? AND hreturn_Status = 0";
+            $sqlDelete = "DELETE FROM satit_borrow.history_brs WHERE device_Id = ? AND hreturn_Status = 0";
             if ($deleteStmt = $conn->prepare($sqlDelete)) {
                 $deleteStmt->bind_param("s", $deviceId);
 

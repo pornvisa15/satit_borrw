@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $new_status = $data['new_status'];
 
         // ตรวจสอบว่า device_Id มีอยู่ในฐานข้อมูล
-        $sql = "SELECT * FROM borrow.history_brs WHERE device_Id = ?";
+        $sql = "SELECT * FROM satit_borrow.history_brs WHERE device_Id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $device_Id);
         $stmt->execute();
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result->num_rows > 0) {
             // อัปเดตสถานะ
-            $update_sql = "UPDATE borrow.history_brs SET hreturn_Status = ? WHERE device_Id = ?";
+            $update_sql = "UPDATE satit_borrow.history_brs SET hreturn_Status = ? WHERE device_Id = ?";
             $update_stmt = $conn->prepare($update_sql);
             $update_stmt->bind_param("is", $new_status, $device_Id);
 

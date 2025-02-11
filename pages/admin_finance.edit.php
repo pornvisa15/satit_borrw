@@ -23,7 +23,7 @@
         $finance_Id = $_GET['finance_Id'];
 
         // ดึงข้อมูลอุปกรณ์ที่ต้องการแก้ไข
-        $sql = "SELECT * FROM borrow.finance 
+        $sql = "SELECT * FROM satit_borrow.finance 
                 WHERE finance.finance_Id = '$finance_Id'";  
         $result = $conn->query($sql);
 
@@ -67,10 +67,10 @@
         das_admin.praname, 
         das_admin.name, 
         das_admin.surname
-    FROM borrow.finance
-    INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+    FROM satit_borrow.finance
+    INNER JOIN satit_borrow.officer_staff ON satit_borrow.finance.useripass = officer_staff.useripass
     INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
-    WHERE borrow.finance.finance_Id = ?";
+    WHERE satit_borrow.finance.finance_Id = ?";
 
     // เตรียมคำสั่ง SQL
     $stmt_officer = $conn->prepare($sql_officer);

@@ -36,7 +36,7 @@ admin_record backup.php
 
                 // ดึงข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข
                 $sql = "SELECT * FROM das_satit.das_admin 
-            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
+            INNER JOIN satit_borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
             WHERE officer_staff.officerl_Id = '$officerl_Id'";
                 $result = $conn->query($sql);
 
@@ -240,7 +240,7 @@ $bgColor = $headerOptions[$user_department_id][1] ?? "#333333";
     $showAll = isset($_GET['show_all']) ? true : false;
     $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
 
-    $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
+    $sql = "SELECT * FROM satit_borrow.history_brs WHERE 1=1";
     
     if (isset($_GET['combined_status']) && $_GET['combined_status'] !== '') {
         $combinedStatus = $_GET['combined_status'];
@@ -270,7 +270,7 @@ $result = $conn->query($sql);
 
     $sql .= " AND history_brs.history_Numder = (
         SELECT MAX(history_Numder) 
-        FROM borrow.history_brs h 
+        FROM satit_borrow.history_brs h 
         WHERE h.device_Id = history_brs.device_Id
     ) 
     AND history_brs.history_Status_BRS != 2
@@ -437,7 +437,7 @@ $imagePath = "../connect/receipt/img/"; // โฟลเดอร์เก็บ�
 
 if ($device_Id) {
     // ดึงชื่อไฟล์ money_Image จากฐานข้อมูล
-    $sql = "SELECT money_Image FROM borrow.history_brs WHERE device_Id = ?";
+    $sql = "SELECT money_Image FROM satit_borrow.history_brs WHERE device_Id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $device_Id);
     $stmt->execute();

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // คำสั่ง SQL
-    $sql = "UPDATE borrow.history_brs 
+    $sql = "UPDATE satit_borrow.history_brs 
             SET device_Con = ?, 
                 note_Other = ?, 
                 history_Status_BRS = ?, 

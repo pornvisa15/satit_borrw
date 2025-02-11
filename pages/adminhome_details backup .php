@@ -28,7 +28,7 @@
         echo "ไม่พบข้อมูล ID";
         exit;
     }
-    $sql = "SELECT * FROM borrow.history_brs WHERE history_Id = ?";
+    $sql = "SELECT * FROM satit_borrow.history_brs WHERE history_Id = ?";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $history_Id);
@@ -426,8 +426,8 @@ $disabledStyle = 'opacity: 0.5; cursor: not-allowed;';
 
 // ดึงข้อมูลจาก borrow.history_brs และ borrow.finance ที่มี officer_Cotton ตรงกัน
 $sql = "SELECT history_brs.history_device
-        FROM borrow.history_brs
-        LEFT JOIN borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
+        FROM satit_borrow.history_brs
+        LEFT JOIN satit_borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
         WHERE history_brs.device_Id = ?"; // ใช้ device_Id ที่ต้องการ
 
 $stmt = $conn->prepare($sql);
@@ -473,7 +473,7 @@ if (isset($_SESSION['officer_Right'])) {
 }
 
 // ดึงข้อมูล device_Id ที่ไม่ซ้ำจาก borrow.history_brs
-$sql = "SELECT DISTINCT device_Id FROM borrow.history_brs";
+$sql = "SELECT DISTINCT device_Id FROM satit_borrow.history_brs";
 $result = $conn->query($sql);
 
 $deviceIds = [];
@@ -503,9 +503,9 @@ foreach ($deviceIds as $device_Id) {
             da.name, 
             da.surname 
         FROM 
-            borrow.finance f
+            satit_borrow.finance f
         JOIN 
-            borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
+            satit_borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
         LEFT JOIN 
             das_satit.das_admin da ON da.useripass = f.officer_Cotton
         WHERE 

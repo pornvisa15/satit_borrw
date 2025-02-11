@@ -82,13 +82,13 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
 
             $sql = "
     SELECT officer_staff.useripass, officer_staff.officerl_Id, das_admin.praname, das_admin.name, das_admin.surname
-    FROM borrow.officer_staff
+    FROM satit_borrow.officer_staff
     INNER JOIN das_satit.das_admin 
         ON officer_staff.useripass = das_admin.useripass
     WHERE das_admin.statuson = 1
     AND officer_staff.officerl_Id NOT IN (
         SELECT officerl_Id
-        FROM borrow.finance
+        FROM satit_borrow.finance
     )
 ";
 

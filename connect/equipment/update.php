@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // SQL อัปเดตข้อมูล
-    $sql = "UPDATE borrow.device_information SET 
+    $sql = "UPDATE satit_borrow.device_information SET 
             device_Name = ?, device_Date = ?, device_Price = ?, 
             device_Other = ?, device_Access = ?, device_Image = ?, officer_Cotton = ? 
             WHERE device_Id = ?";

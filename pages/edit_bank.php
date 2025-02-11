@@ -8,7 +8,7 @@ if (isset($_GET['bank_Id'])) {
     $bank_Id = $_GET['bank_Id'];
 
     // ดึงข้อมูลจากฐานข้อมูลสำหรับการแก้ไข
-    $sql = "SELECT * FROM borrow.bank WHERE bank_Id = ?";
+    $sql = "SELECT * FROM satit_borrow.bank WHERE bank_Id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $bank_Id); // ผูกค่าตัวแปร $bank_Id เป็นแบบ integer
     $stmt->execute();

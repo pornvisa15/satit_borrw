@@ -42,7 +42,7 @@ if ($conn->connect_error) {
     <select id="user_Id" class="form-select" name="user_Id" required>
         <option value="" selected disabled>กรุณาเลือกชื่อ-นามสกุล</option>
         <?php
-        $sql = "SELECT user_Id FROM borrow.history_brs;
+        $sql = "SELECT user_Id FROM satit_borrow.history_brs;
 ";
         $result = $conn->query($sql);
 

@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ตรวจสอบข้อมูลการเข้าสู่ระบบ
     $stmt3 = $conn->prepare(
         "SELECT * FROM das_satit.das_admin 
-     INNER JOIN borrow.officer_staff 
+     INNER JOIN satit_borrow.officer_staff 
      ON das_admin.useripass = officer_staff.useripass 
      WHERE das_admin.useripass = ? AND das_admin.md5 = ?"
     );

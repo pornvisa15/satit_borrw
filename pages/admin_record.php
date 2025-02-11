@@ -113,7 +113,7 @@
                         $showAll = isset($_GET['show_all']) ? true : false;
                         $cottonId = isset($_GET['cottonId']) ? $_GET['cottonId'] : '';
 
-                        $sql = "SELECT * FROM borrow.history_brs WHERE 1=1";
+                        $sql = "SELECT * FROM satit_borrow.history_brs WHERE 1=1";
 
                         if (isset($_GET['combined_status']) && $_GET['combined_status'] !== '') {
                             $combinedStatus = $_GET['combined_status'];
@@ -143,7 +143,7 @@
 
                         $sql .= " AND history_brs.history_Numder = (
                                  SELECT MAX(history_Numder) 
-                                 FROM borrow.history_brs h  
+                                 FROM satit_borrow.history_brs h  
                                  WHERE h.device_Id = history_brs.device_Id) 
                              ORDER BY history_brs.device_Id DESC";
                         $result = $conn->query($sql);

@@ -7,8 +7,8 @@ $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถ�
 
 $sql = "
 SELECT di.*, hb.device_Con, hb.history_Status_BRS, hb.hreturn_Status, hb.user_Id, hb.history_Borrow, hb.history_Return, hb.history_Stop
-FROM borrow.device_information di
-LEFT JOIN borrow.history_brs hb
+FROM satit_borrow.device_information di
+LEFT JOIN satit_borrow.history_brs hb
 ON di.device_Id = hb.device_Id
 WHERE di.device_Id = ?";
 $stmt = $conn->prepare($sql);

@@ -49,7 +49,7 @@ include '../connect/mysql_borrow.php';
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT * FROM borrow.bank";
+                $sql = "SELECT * FROM satit_borrow.bank";
                 $result = $conn->query($sql);
 
                 if (!$result) {

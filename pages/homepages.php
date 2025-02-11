@@ -24,10 +24,10 @@
 
     $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, 
        COALESCE(hb.device_Con, 0) AS device_Con, hb.hreturn_Status
-FROM borrow.device_information di
+FROM satit_borrow.device_information di
 LEFT JOIN (
     SELECT device_Id, MAX(htime_Return) AS latest_return, device_Con, hreturn_Status
-    FROM borrow.history_brs
+    FROM satit_borrow.history_brs
     GROUP BY device_Id
 ) hb ON di.device_Id = hb.device_Id
 WHERE 1

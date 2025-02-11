@@ -22,8 +22,8 @@ $sql = "SELECT di.device_Name,
     ELSE 'ไม่ทราบแผนก'
 END AS department_name
 
-        FROM borrow.device_information di
-        INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+        FROM satit_borrow.device_information di
+        INNER JOIN satit_borrow.history_brs hb ON di.device_Id = hb.device_Id
         WHERE hb.user_Id = ?";
 
 

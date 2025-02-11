@@ -22,8 +22,8 @@
     $searchQuery = isset($_POST['search']) ? $_POST['search'] : '';
     $sql = "SELECT di.device_Id, di.device_Name, di.device_Image, di.device_Access, hb.hreturn_Status, 
     COALESCE(hb.device_Con, 'ไม่มีข้อมูล') AS device_Con
-    FROM borrow.device_information di
-    LEFT JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+    FROM satit_borrow.device_information di
+    LEFT JOIN satit_borrow.history_brs hb ON di.device_Id = hb.device_Id
     WHERE di.officer_Cotton = 4";  // เงื่อนไขพื้นฐาน
     
     // ตรวจสอบสิทธิ์ของเจ้าหน้าที่และเพิ่มเงื่อนไขที่เกี่ยวข้อง

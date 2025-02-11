@@ -76,7 +76,7 @@
                         <?php
                         $i = 1; // เริ่มจาก 1
                         $sq_officer = "SELECT * FROM das_satit.das_admin 
-                            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
+                            INNER JOIN satit_borrow.officer_staff ON das_admin.useripass = officer_staff.useripass";
                         $result = $conn->query($sq_officer);
 
                         if ($result->num_rows > 0) {

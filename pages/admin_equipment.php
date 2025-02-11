@@ -92,7 +92,7 @@
         <tbody>
             <?php
             // คำสั่ง SQL ดึงข้อมูลจากฐานข้อมูล
-            $sql = "SELECT * FROM borrow.device_information";
+            $sql = "SELECT * FROM satit_borrow.device_information";
 
             // กรองข้อมูลตามเงื่อนไข
             if ($user_department_id != 5) {

@@ -4,7 +4,7 @@ include "../connect/myspl_das_satit.php";
 if (isset($_POST['useripass'])) {
     $useripass = $_POST['useripass'];
 
-    $sql = "SELECT officer_Cotton FROM borrow.officer_staff WHERE useripass = '$useripass'";
+    $sql = "SELECT officer_Cotton FROM satit_borrow.officer_staff WHERE useripass = '$useripass'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

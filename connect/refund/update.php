@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // สร้างคำสั่ง SQL
-    $sql = "UPDATE borrow.history_brs 
+    $sql = "UPDATE satit_borrow.history_brs 
             SET device_Con = ?, 
                 htime_Return = ?, 
                 history_Status = ?, 
@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // หลังจากการอัปเดตข้อมูลใน history_brs เรียบร้อยแล้ว
             // ดึงข้อมูล finance_Image จากฐานข้อมูลโดยใช้ officer_Cotton
             $sql2 = "SELECT f.finance_Image
-                     FROM borrow.finance f
-                     JOIN borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
+                     FROM satit_borrow.finance f
+                     JOIN satit_borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
                      WHERE h.history_Id = ?";
             $stmt2 = $conn->prepare($sql2);
             $stmt2->bind_param("i", $history_Id);  // เชื่อมโยง history_Id

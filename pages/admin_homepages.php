@@ -98,7 +98,7 @@
                         <?php
                         $showAll = isset($_GET['show_all']) ? true : false;
                         $officer_Cotton = isset($_GET['officer_Cotton']) ? $_GET['officer_Cotton'] : '';
-                        $sql = "SELECT * FROM borrow.history_brs WHERE 1=1 AND history_Status != 2";
+                        $sql = "SELECT * FROM satit_borrow.history_brs WHERE 1=1 AND history_Status != 2";
 
 
                         // Query based on the selected cottonFilter value

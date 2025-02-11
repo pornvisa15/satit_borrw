@@ -28,7 +28,7 @@
     include '../connect/myspl_das_satit.php';
 
     $device_Id = isset($_GET['id']) ? $_GET['id'] : 'ข้อมูลไม่ถูกส่ง';
-    $sql = "SELECT * FROM borrow.device_information WHERE device_Id= '$device_Id'";
+    $sql = "SELECT * FROM satit_borrow.device_information WHERE device_Id= '$device_Id'";
     $result = $conn->query($sql);
     date_default_timezone_set('Asia/Bangkok'); // ตั้งโซนเวลา
     $currentDate = date('Y-m-d H:i:s');

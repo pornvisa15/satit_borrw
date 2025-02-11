@@ -14,8 +14,8 @@ date_default_timezone_set('Asia/Bangkok');
 echo "Current Timezone: " . date_default_timezone_get();
 
 $sql = "SELECT di.device_Name, hb.history_Borrow, hb.history_Return, hb.history_Status_BRS ,hb.history_Stop
-        FROM borrow.device_information di
-        INNER JOIN borrow.history_brs hb ON di.device_Id = hb.device_Id
+        FROM satit_borrow.device_information di
+        INNER JOIN satit_borrow.history_brs hb ON di.device_Id = hb.device_Id
         WHERE hb.user_Id = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {

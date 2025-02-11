@@ -36,7 +36,7 @@
 
                 // ดึงข้อมูลเจ้าหน้าที่ที่ต้องการแก้ไข
                 $sql = "SELECT * FROM das_satit.das_admin 
-            INNER JOIN borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
+            INNER JOIN satit_borrow.officer_staff ON das_admin.useripass = officer_staff.useripass 
             WHERE officer_staff.officerl_Id = '$officerl_Id'";
                 $result = $conn->query($sql);
 

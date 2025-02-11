@@ -28,7 +28,7 @@
         echo "ไม่พบข้อมูล ID";
         exit;
     }
-    $sql = "SELECT * FROM borrow.history_brs WHERE history_Id = ?";
+    $sql = "SELECT * FROM satit_borrow.history_brs WHERE history_Id = ?";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $history_Id);
@@ -444,8 +444,8 @@
                     
                     // ดึงข้อมูลจาก borrow.history_brs และ borrow.finance ที่มี officer_Cotton ตรงกัน
                     $sql = "SELECT history_brs.history_device
-                    FROM borrow.history_brs
-                    LEFT JOIN borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
+                    FROM satit_borrow.history_brs
+                    LEFT JOIN satit_borrow.finance ON history_brs.officer_Cotton = finance.officer_Cotton
                     WHERE history_brs.device_Id = ?"; // ใช้ device_Id ที่ต้องการ
                     
                     $stmt = $conn->prepare($sql);
@@ -475,7 +475,7 @@
                         <!-- Information for the payment transfer -->
                         <?php
                         // ดึงข้อมูลจากฐานข้อมูล borrow.bank
-                        $sql = "SELECT * FROM borrow.bank"; // หรือเพิ่ม WHERE clause ถ้าคุณต้องการดึงข้อมูลที่เจาะจง
+                        $sql = "SELECT * FROM satit_borrow.bank"; // หรือเพิ่ม WHERE clause ถ้าคุณต้องการดึงข้อมูลที่เจาะจง
                         $result = $conn->query($sql);
 
                         if ($result->num_rows > 0) {

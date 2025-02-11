@@ -98,7 +98,7 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT * FROM borrow.bank";
+                $sql = "SELECT * FROM satit_borrow.bank";
                 $result = $conn->query($sql);
 
                 if (!$result) {
@@ -172,7 +172,7 @@ $selectedCottonId = $_GET['useripass'] ?? 0;
                     <tbody>
                     <?php
                     // SQL query setup
-                    $sql = "SELECT * FROM borrow.finance";
+                    $sql = "SELECT * FROM satit_borrow.finance";
 
              
 // Add conditions
@@ -218,8 +218,8 @@ if ($result->num_rows > 0) {
     // ลบข้อมูลที่ไม่มีใน das_admin ออกไป
     $sql_delete = "
         DELETE finance
-        FROM borrow.finance AS finance
-        LEFT JOIN borrow.officer_staff AS officer_staff ON finance.useripass = officer_staff.useripass
+        FROM satit_borrow.finance AS finance
+        LEFT JOIN satit_borrow.officer_staff AS officer_staff ON finance.useripass = officer_staff.useripass
         LEFT JOIN das_satit.das_admin AS das_admin ON officer_staff.useripass = das_admin.useripass
         WHERE das_admin.useripass IS NULL
     ";
@@ -236,14 +236,14 @@ if ($result->num_rows > 0) {
         das_admin.praname, 
         das_admin.name, 
         das_admin.surname,
-        borrow.finance.officerl_Id
-    FROM borrow.finance
-    INNER JOIN borrow.officer_staff ON borrow.finance.useripass = officer_staff.useripass
+        satit_borrow.finance.officerl_Id
+    FROM satit_borrow.finance
+    INNER JOIN satit_borrow.officer_staff ON satit_borrow.finance.useripass = officer_staff.useripass
     INNER JOIN das_satit.das_admin ON officer_staff.useripass = das_admin.useripass
     WHERE das_admin.statuson = 1
-    AND borrow.finance.officerl_Id IN (
+    AND satit_borrow.finance.officerl_Id IN (
         SELECT MAX(officerl_Id)
-        FROM borrow.finance
+        FROM satit_borrow.finance
         GROUP BY officerl_Id
     )
     ORDER BY das_admin.name ASC

@@ -23,7 +23,7 @@
         $device_Id = $_GET['device_Id'];
 
         // ดึงข้อมูลอุปกรณ์ที่ต้องการแก้ไข
-        $sql = "SELECT * FROM borrow.device_information 
+        $sql = "SELECT * FROM satit_borrow.device_information 
              
                 WHERE device_information.device_Id = '$device_Id'";  
         $result = $conn->query($sql);

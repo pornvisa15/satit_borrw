@@ -16,7 +16,7 @@ if (isset($_FILES['money_Image']) && $_FILES['money_Image']['error'] === UPLOAD_
     }
 
     // ตรวจสอบว่า device_Id มีอยู่ในฐานข้อมูลหรือไม่
-    $sql = "SELECT * FROM borrow.history_brs WHERE device_Id = ?";
+    $sql = "SELECT * FROM satit_borrow.history_brs WHERE device_Id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $device_Id);
     $stmt->execute();
@@ -47,7 +47,7 @@ if (isset($_FILES['money_Image']) && $_FILES['money_Image']['error'] === UPLOAD_
 
     // ย้ายไฟล์และอัปเดตฐานข้อมูล
     if (move_uploaded_file($_FILES['money_Image']['tmp_name'], $target_file)) {
-        $stmt = $conn->prepare("UPDATE borrow.history_brs SET money_Image = ? WHERE device_Id = ?");
+        $stmt = $conn->prepare("UPDATE satit_borrow.history_brs SET money_Image = ? WHERE device_Id = ?");
         $stmt->bind_param("ss", $money_Image, $device_Id);
         if ($stmt->execute()) {
             echo json_encode(["status" => "success", "message" => "บันทึกข้อมูลสำเร็จ"]);
