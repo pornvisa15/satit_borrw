@@ -58,7 +58,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
             </a>
         </li>
         <li class="nav-item mb-3">
-    <a href="/satit_borrw/img/คู่มือการใช้งานระบบของเจ้าหน้าที่.pdf" class="nav-link text-white"
+    <a href="https://satit.tsu.ac.th/mis/satit_borrow/img/คู่มือการใช้งานระบบของเจ้าหน้าที่.pdf" class="nav-link text-white"
         style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
         target="_blank">
         คู่มือการใช้งาน
@@ -128,7 +128,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
             </a>
         </li>
         <li class="nav-item mb-3">
-    <a href="/satit_borrw/img/คู่มือการใช้งานระบบของแอดมิน.pdf" class="nav-link text-white"
+    <a href="https://satit.tsu.ac.th/mis/satit_borrow/img/คู่มือการใช้งานระบบของแอดมิน.pdf" class="nav-link text-white"
         style="background-color: #406398; border-radius: 8px; padding: 12px 18px; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
         target="_blank">
         คู่มือการใช้งาน
@@ -153,7 +153,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
     ?>
     <!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
     <div class="position-relative">
-        <img src="/satit_borrw/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
+        <img src="https://satit.tsu.ac.th/mis/satit_borrow/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
         <div class="position-absolute top-50 start-0 translate-middle-y text-light"
             style="font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding-left: 60px;">
             ระบบ ยืม-คืน อุปกรณ์
@@ -231,7 +231,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                         <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                         <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                        <li><a href="/satit_borrw/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
+                        <li><a href="https://satit.tsu.ac.th/mis/satit_borrow/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
                         <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 
                     </ul>
@@ -286,7 +286,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
     ?>
             <!-- รูปภาพ with overlay text aligned to the left and moved slightly to the right -->
             <div class="position-relative">
-                <img src="/satit_borrw/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
+                <img src="https://satit.tsu.ac.th/mis/satit_borrow/img/3.jpg" alt="Image not found" class="img-fluid w-100 h-100 object-fit-cover">
                 <div class="position-absolute top-50 start-0 translate-middle-y text-light"
                     style="font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); padding-left: 60px;">
                     ระบบ ยืม-คืน อุปกรณ์
@@ -378,7 +378,7 @@ if (isset($_SESSION['officer_Right']) && $_SESSION['officer_Right'] == 4) {
 
                                 <li><a href="warn.php" class="nav-link text-light">แจ้งเตือน</a></li>
                                 <li><a href="record.php" class="nav-link text-light">ประวัติการยืม</a></li>
-                                <li><a href="/satit_borrw/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
+                                <li><a href="https://satit.tsu.ac.th/mis/satit_borrow/img/คู่มือการใช้งานระบบ.pdf" class="nav-link text-light" target="_blank">คู่มือการใช้งาน</a></li>
 
                                 <li><a href="../logout.php" class="nav-link text-white">ออกจากระบบ</a></li>
 

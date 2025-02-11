@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tool_Other = $_POST['tool_Other'] ?? null; // รายละเอียดสถานะการชำรุด
     $history_Status_BRS = $_POST['history_Status_BRS'] ?? null; // สถานภาพยืม/คืน
     $money = $_POST['money'] ?? null; // จำนวนเงิน
+    $money_time = $_POST[' money_time'] ?? null; // จำนวนเงิน
+   
     $hreturn_Status = $_POST['hreturn_Status'] ?? null; // สถานภาพคืน
 
     // ตรวจสอบข้อมูลที่จำเป็น
@@ -25,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 history_Status = ?, 
                 tool_Other = ?, 
                 history_Status_BRS = ?, 
-                money = ?, 
+                money = ?,
+                money_time = ?,
                 hreturn_Status = ? 
             WHERE history_Id = ?";
 
@@ -33,13 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt = $conn->prepare($sql)) {
         // ตรวจสอบชนิดของตัวแปรที่ส่งเข้าไป
         $stmt->bind_param(
-            "ssssiisi", 
+            "ssssiiisi", 
             $device_Con, 
             $htime_Return, 
             $history_Status, 
             $tool_Other, 
             $history_Status_BRS, 
-            $money, 
+            $money,
+            $money_time, 
             $hreturn_Status, 
             $history_Id
         );
@@ -71,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt2->close();
-            echo "<script>window.location.href = '/satit_borrw/pages/admin_homepages.php';</script>";
+            echo "<script>window.location.href = '../../pages/admin_homepages.php';</script>";
         } else {
             echo "<script>alert('เกิดข้อผิดพลาด: " . $stmt->error . "'); window.history.back();</script>";
         }

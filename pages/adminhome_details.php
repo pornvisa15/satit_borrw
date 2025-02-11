@@ -312,6 +312,11 @@
                                 <input type="number" class="form-control" id="damagePrice" name="money"
                                     placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
                             </div>
+                            <div id="priceInputContainer" style="display: none; margin-top: 10px;">
+                                <label for="damagePrice" class="form-label">กรุณากรอกราคาgเลยกำหนด</label>
+                                <input type="number" class="form-control" id="damagePrice" name="money_time"
+                                    placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
+                            </div>
                             <div id="purpose-container" style="margin-top: 10px;">
                                 <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
                                     หมายเหตุ

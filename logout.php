@@ -8,6 +8,6 @@ session_unset();
 session_destroy();
 
 // เปลี่ยนเส้นทางไปยังหน้า login
-header("Location:  ../satit_borrw/index.php"); // เปลี่ยนเส้นทางไปหน้า login
+header("Location:  ../satit_borrow/index.php"); // เปลี่ยนเส้นทางไปหน้า login
 exit(); // หยุดการทำงานของสคริปต์
 ?>

@@ -1,7 +1,10 @@
 <?php
+// $servername = "localhost";
+// $username = "skyline694";
+// $password = "29012540";
 $servername = "localhost";
-$username = "skyline694";
-$password = "29012540";
+$username = "root";
+$password = "";
 $dbname = "das_satit";
 // Create connection
 $conn = new mysqli($servername, $username, $password ,$dbname);

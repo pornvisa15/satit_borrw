@@ -1,7 +1,11 @@
 <?php
+// $servername = "localhost";
+// $username = "skyline694";
+// $password = "29012540";
+// $dbname = "satit_borrow";
 $servername = "localhost";
-$username = "skyline694";
-$password = "29012540";
+$username = "root";
+$password = "";
 $dbname = "satit_borrow";
 
 $conn = new mysqli($servername, $username, $password ,$dbname);
