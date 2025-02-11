@@ -312,11 +312,7 @@
                                 <input type="number" class="form-control" id="damagePrice" name="money"
                                     placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
                             </div>
-                            <div id="priceInputContainer" style="display: none; margin-top: 10px;">
-                                <label for="damagePrice" class="form-label">กรุณากรอกราคาgเลยกำหนด</label>
-                                <input type="number" class="form-control" id="damagePrice" name="money_time"
-                                    placeholder="กรอกจำนวนเงิน (บาท)" min="0" step="0.01" required>
-                            </div>
+                            
                             <div id="purpose-container" style="margin-top: 10px;">
                                 <label for="purpose" class="font-weight-bold" style="font-size: 16px;">
                                     หมายเหตุ
@@ -414,19 +410,27 @@
             }
 
             function togglePriceInput() {
-                const damageCondition = document.getElementById('damageCondition').value;
-                const priceInputContainer = document.getElementById('priceInputContainer');
-                const damagePrice = document.getElementById('damagePrice');
+    const damageCondition = document.getElementById('damageCondition').value;
+    
+    // ตรวจสอบค่าที่เลือก
+    console.log("Damage Condition Selected: ", damageCondition);
 
-                if (damageCondition === "7") {
-                    priceInputContainer.style.display = "block";
-                    damagePrice.setAttribute("required", "true");
-                } else {
-                    priceInputContainer.style.display = "none";
-                    damagePrice.removeAttribute("required");
-                    damagePrice.value = "";
-                }
-            }
+    // ใช้ `querySelectorAll` เพื่อเลือกทั้งสองช่องราคา
+    const priceContainers = document.querySelectorAll('[id^="priceInputContainer"]');
+    const priceInputs = document.querySelectorAll('[id^="damagePrice"]');
+
+    if (damageCondition === "7") {
+        priceContainers.forEach(container => container.style.display = "block");
+        priceInputs.forEach(input => input.setAttribute("required", "true"));
+    } else {
+        priceContainers.forEach(container => container.style.display = "none");
+        priceInputs.forEach(input => {
+            input.removeAttribute("required");
+            input.value = "";
+        });
+    }
+}
+
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
