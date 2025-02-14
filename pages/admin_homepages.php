@@ -157,19 +157,20 @@
 
 
 
-                           
 
-                                
-                                if($row['history_Status_BRS']==0){
-                                    echo" <td><span class='badge bg-warning text-light' style='border-radius: 12px; padding: 5px 10px;'><i class='bi-clock me-1'></i>รออนุมัติ</span></td>";
-                                 }elseif($row['history_Status_BRS']==1){
-                                     echo" <td><span class='badge bg-success text-light' style='border-radius: 12px; padding: 5px 10px;'><i class='bi-check-circle me-1'></i>อนุมัติ</span></td>";
-                                 }
-                                 elseif($row['history_Status_BRS']==2){
-                                    echo" <td><span class='badge bg-success text-light' style='border-radius: 12px; padding: 5px 10px;'><i class='bi-x-circle me-1'></i>ไม่อนุมัติ</span></td>";
+
+
+                                if ($row['history_Status_BRS'] == 0) {
+                                    echo " <td><span class='badge bg-warning text-light' style='border-radius: 12px; padding: 5px 10px;'><i class='bi-clock me-1'></i>รออนุมัติ</span></td>";
+                                } elseif ($row['history_Status_BRS'] == 1) {
+                                    echo " <td><span class='badge bg-success text-light' style='border-radius: 12px; padding: 5px 10px;'><i class='bi-check-circle me-1'></i>อนุมัติ</span></td>";
+                                } elseif ($row['history_Status_BRS'] == 2) {
+                                    echo "<td><span class='badge bg-danger text-light' style='border-radius: 12px; padding: 5px 10px;'>
+                                    <i class='bi-x-circle me-1'></i> ไม่อนุมัติ</span></td>";
+
                                 }
-                                 
- 
+
+
 
 
 
@@ -194,7 +195,7 @@
 
 
 
-                    
+
 
                 </table>
 

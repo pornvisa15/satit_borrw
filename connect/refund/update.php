@@ -9,9 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $history_Status = $_POST['history_Status'] ?? null; // สถานภาพคืน 1=ยืม 2=คืน
     $tool_Other = $_POST['tool_Other'] ?? null; // รายละเอียดสถานะการชำรุด
     $history_Status_BRS = $_POST['history_Status_BRS'] ?? null; // สถานภาพยืม/คืน
-    $money = $_POST['money'] ?? null; // จำนวนเงิน
-    $money_time = $_POST[' money_time'] ?? null; // จำนวนเงิน
-   
+    $money = $_POST['money'] ?? 0; // จำนวนเงิน
+    $money_time = $_POST['money_time'] ?? 0; // จำนวนเงินค่าปรับ
     $hreturn_Status = $_POST['hreturn_Status'] ?? null; // สถานภาพคืน
 
     // ตรวจสอบข้อมูลที่จำเป็น
@@ -27,51 +26,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 history_Status = ?, 
                 tool_Other = ?, 
                 history_Status_BRS = ?, 
-                money = ?,
-                money_time = ?,
+                money = ?, 
+                money_time = ?, 
                 hreturn_Status = ? 
             WHERE history_Id = ?";
 
     // เตรียมการดำเนินการ SQL
     if ($stmt = $conn->prepare($sql)) {
-        // ตรวจสอบชนิดของตัวแปรที่ส่งเข้าไป
         $stmt->bind_param(
-            "ssssiiisi", 
-            $device_Con, 
-            $htime_Return, 
-            $history_Status, 
-            $tool_Other, 
-            $history_Status_BRS, 
+            "sssiiissi",
+            $device_Con,
+            $htime_Return,
+            $history_Status,
+            $tool_Other,
+            $history_Status_BRS,
             $money,
-            $money_time, 
-            $hreturn_Status, 
+            $money_time,
+            $hreturn_Status,
             $history_Id
         );
 
-        // ดำเนินการคำสั่ง
         if ($stmt->execute()) {
-            // หลังจากการอัปเดตข้อมูลใน history_brs เรียบร้อยแล้ว
-            // ดึงข้อมูล finance_Image จากฐานข้อมูลโดยใช้ officer_Cotton
+            // ค้นหา finance_Image จาก officer_Cotton
             $sql2 = "SELECT f.finance_Image
                      FROM satit_borrow.finance f
                      JOIN satit_borrow.history_brs h ON f.officer_Cotton = h.officer_Cotton
                      WHERE h.history_Id = ?";
             $stmt2 = $conn->prepare($sql2);
-            $stmt2->bind_param("i", $history_Id);  // เชื่อมโยง history_Id
+            $stmt2->bind_param("i", $history_Id);
             $stmt2->execute();
             $result2 = $stmt2->get_result();
 
             if ($result2->num_rows > 0) {
                 $row2 = $result2->fetch_assoc();
-                $finance_Image = $row2['finance_Image'];  // เก็บข้อมูล finance_Image
+                $finance_Image = $row2['finance_Image'];
 
-                // แสดงรูปภาพ
-                // echo "<script>alert('บันทึกข้อมูลสำเร็จ');</script>";
                 echo "<td colspan='2' class='text-center' style='padding-top: 10px;'>";
-                echo "<img src='../connect/addqr/img/" . htmlspecialchars($finance_Image) . "' alt='Finance Image' class='img-fluid shadow rounded-3 border border-primary' style='width: 200px; height: auto; margin-top: 8px;'>";
+                echo "<img src='../connect/addqr/img/" . htmlspecialchars($finance_Image) . "' 
+                     alt='Finance Image' class='img-fluid shadow rounded-3 border border-primary' 
+                     style='width: 200px; height: auto; margin-top: 8px;'>";
                 echo "</td>";
-            } else {
-                // echo "<script>alert('ไม่มีข้อมูลรูปภาพสำหรับอุปกรณ์นี้');</script>";
             }
 
             $stmt2->close();

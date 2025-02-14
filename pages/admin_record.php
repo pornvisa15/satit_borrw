@@ -264,8 +264,8 @@
                     function changeStatusToZero(deviceId) {
                         // แสดง SweetAlert2 เพื่อขอให้ผู้ใช้ยืนยันก่อน
                         Swal.fire({
-                            title: "ต้องการเปลี่ยนสถานะหรือไม่?",
-                            text: "หากต้องการเปลี่ยนสถานะให้กด 'ตกลง'",
+                            title: "ยืนยันการเปลี่ยนสถานะอุปกรณ์",
+
                             icon: "warning",
                             iconColor: "#ff5858",
                             showCancelButton: true,
@@ -290,7 +290,7 @@
                                             Swal.fire({
                                                 icon: "success",
                                                 title: "เปลี่ยนสถานะสำเร็จ!",
-                                                text: "สถานะถูกอัปเดตเป็นสภาพปกติแล้ว",
+
                                                 confirmButtonText: "ตกลง"
                                             }).then(() => {
                                                 window.location.reload(); // รีโหลดหน้าใหม่
@@ -360,8 +360,7 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">ยกเลิก</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">ยกเลิก</button>
                                     <button type="submit" class="btn btn-primary">อัปโหลด</button>
                                 </div>
                             </div>
@@ -369,44 +368,65 @@
                     </div>
                 </form>
 
+                <!-- ✅ ตรวจสอบให้แน่ใจว่ามี Bootstrap JS -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                 <script>
                     document.getElementById('uploadForm').addEventListener('submit', function (event) {
-                        event.preventDefault();
+                        event.preventDefault(); // ป้องกันการ reload หน้าเว็บ
 
                         let formData = new FormData(this);
+                        let modalElement = document.getElementById("uploadImageModal"); // ค้นหาโมเดล
+                        let submitButton = document.querySelector("#uploadForm button[type='submit']");
 
-                        fetch('../connect/receipt/insert.php', {
-                            method: 'POST',
-                            body: formData
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'บันทึกข้อมูลสำเร็จ',
-                                        confirmButtonText: 'OK'
-                                    }).then(() => {
-                                        window.location.href = 'admin_record.php';
-                                    });
-                                } else {
+                        // ✅ ปิดโมเดลหลังจาก 300ms (0.3 วินาที)
+                        setTimeout(() => {
+                            let modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                            modalInstance.hide();
+                        }, 300);
+
+                        // ✅ เริ่มอัปโหลดหลังจาก 300ms
+                        setTimeout(() => {
+                            submitButton.disabled = true;
+                            submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> กำลังอัปโหลด...';
+
+                            fetch('../connect/receipt/insert.php', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'success') {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'บันทึกข้อมูลสำเร็จ',
+                                            confirmButtonText: 'OK'
+                                        }).then(() => {
+                                            window.location.href = 'admin_record.php';
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'ข้อผิดพลาด',
+                                            text: data.message
+                                        });
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'ข้อผิดพลาด',
-                                        text: data.message
+                                        text: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์'
                                     });
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'ข้อผิดพลาด',
-                                    text: 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์'
+                                })
+                                .finally(() => {
+                                    submitButton.disabled = false;
+                                    submitButton.innerHTML = 'อัปโหลด'; // ✅ คืนค่าปุ่ม
                                 });
-                            });
+                        }, 300);
                     });
                 </script>
+
 
 
 
