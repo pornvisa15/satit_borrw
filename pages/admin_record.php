@@ -245,7 +245,7 @@
                 <!-- Modal สำหรับแสดงภาพ -->
                 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog" style="margin-top: 15vh;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="imageModalLabel">รูปภาพของอุปกรณ์</h5>
@@ -339,7 +339,7 @@
                 <form id="uploadForm" enctype="multipart/form-data">
                     <div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog"
                         aria-labelledby="uploadImageModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" style="margin-top: 15vh;">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title">การอัปโหลดไฟล์</h5>
